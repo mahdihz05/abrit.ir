@@ -4,8 +4,8 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { OrganizationJsonLd } from "@/components/structured-data";
 import { ibmPlexArabic, inter, vazirmatn } from "../fonts";
-import { cms } from "@/lib/api";
 import { isLocale, localeMeta, locales } from "@/lib/locales";
+import { staticNavigation, staticSettings } from "@/lib/public-content";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -20,9 +20,9 @@ export function generateStaticParams() {
 export default async function InternalLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const [settings, header, footer] = await Promise.all([
-    cms.settings(locale), cms.navigation("header", locale), cms.navigation("footer", locale),
-  ]);
+  const settings = staticSettings(locale);
+  const header = staticNavigation(locale);
+  const footer = staticNavigation(locale);
   const meta = localeMeta[locale];
   return (
     <html lang={meta.lang} dir={meta.dir} className={`${vazirmatn.variable} ${inter.variable} ${ibmPlexArabic.variable}`}>

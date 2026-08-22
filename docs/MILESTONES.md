@@ -57,3 +57,14 @@
 - Persian, English and Arabic font families are now loaded and self-hosted through the shared locale layout rather than being merely named as unavailable CSS fallbacks.
 - Locale-aware typography tokens apply Vazirmatn, Inter and IBM Plex Sans Arabic to every internal route and future component automatically.
 - Buttons, inputs, selects, textareas, headings, placeholders and Latin operational labels now inherit the correct global font rules consistently.
+
+## 2026-08-22 — Frontend-first public content completion
+
+- Public presentation is now intentionally independent from CMS availability while CMS integration is deferred for the next phase.
+- Added a typed three-language source for all 10 approved services, all six approved solutions and the five supplied 1405 packages.
+- Service detail pages now include overview, capabilities, delivery model, technologies, related services, FAQ and assessment navigation; solution pages also link to their constituent services.
+- Pricing displays verified package prices, capacities and SLA values from the supplied Word document before the existing configurator.
+- About, Contact, Knowledge and News now have complete designed landing states without fabricated articles, news, email, social links or exact-address data.
+- Public search and sitemap use the same frontend source, so frontend review no longer depends on CMS publication state.
+- Evidence: ESLint and TypeScript pass; the production build generates 68 routes; representative FA/EN/AR-AE service, solution, pricing and information routes plus sitemap return HTTP 200 locally.
+- Open gate: browser visual QA at 1440px, 768px and 390px is still required before visual approval; CMS connection remains explicitly deferred.

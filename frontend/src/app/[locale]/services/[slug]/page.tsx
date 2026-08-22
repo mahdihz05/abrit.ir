@@ -1,24 +1,23 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ContentDetail } from "@/components/content-detail";
-import { CmsError, cms } from "@/lib/api";
-import { internalCopy } from "@/lib/internal-copy";
-import { isLocale } from "@/lib/locales";
-import { contentMetadata } from "@/lib/seo";
+import { PublicDetail } from "@/components/public-detail";
+import { isLocale, locales } from "@/lib/locales";
+import { getService, services } from "@/lib/public-content";
+import { routeMetadata } from "@/lib/seo";
+
+export function generateStaticParams() { return locales.flatMap((locale) => services.map(({ slug }) => ({ locale, slug }))); }
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/services/[slug]">): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!isLocale(locale)) return {};
-  try { return contentMetadata(await cms.content(locale, `services/${slug}`)); }
-  catch { return {}; }
+  const item = getService(slug);
+  return item ? routeMetadata(locale, `services/${slug}`, item.title[locale], item.excerpt[locale]) : {};
 }
 
 export default async function ServicePage({ params }: PageProps<"/[locale]/services/[slug]">) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
-  let content;
-  try { content = await cms.content(locale, `services/${slug}`); }
-  catch (error) { if (error instanceof CmsError && error.status === 404) notFound(); throw error; }
-  const copy = internalCopy[locale];
-  return <ContentDetail locale={locale} content={content} label={copy.service} backLabel={copy.back} assessmentLabel={copy.assessment} />;
+  const item = getService(slug);
+  if (!item) notFound();
+  return <PublicDetail locale={locale} item={item} kind="service" />;
 }

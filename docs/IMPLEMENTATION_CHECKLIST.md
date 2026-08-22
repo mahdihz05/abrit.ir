@@ -72,29 +72,42 @@ Checkboxes are marked complete only after the related code and verification pass
 - [x] Implement loading, empty, API error, 404 and 500 states.
 - [ ] Pass visual comparison at 1440px, 768px and 390px.
 
+### 4A. Frontend-first presentation phase (CMS connection deferred)
+
+- [x] Create a typed FA/EN/AR-AE public-content source from the approved specification.
+- [x] Keep the approved v5 Home presentation and route its navigation to dedicated pages.
+- [x] Make the public Header, Footer, Services, Solutions, Pricing, Search, About, Contact, Knowledge and News presentation independent from CMS availability.
+- [x] Build all 10 service detail routes with overview, capabilities, delivery model, technologies, related services, FAQ and assessment CTA.
+- [x] Build all six solution detail routes and link each solution to its constituent services.
+- [x] Preserve real phone and city data and omit unprovided email, social and precise-address data.
+- [x] Generate the public sitemap from the frontend source while CMS publication integration is deferred.
+- [x] Pass lint, TypeScript, production build and three-language HTTP route smoke checks for this phase.
+- [ ] Complete browser visual QA at 1440px, 768px and 390px before requesting visual approval.
+- [ ] Connect approved frontend content to CMS/API after the frontend presentation is approved.
+
 ## 5. Content domains
 
-- [ ] Implement Service list/detail with blocks, capability and technology relationships.
+- [x] Implement frontend Service list/detail presentation with overview, capabilities, delivery model, technology, related-service and FAQ sections.
 - [x] Seed all 10 approved services in three languages.
-- [x] Implement Solution list/detail and seed all six approved solutions.
+- [x] Implement frontend Solution list/detail and seed all six approved solutions.
 - [ ] Implement Knowledge categories, tags, list/detail and related services/articles.
 - [ ] Implement News & Media types, list/detail and related services.
 - [ ] Implement About, Contact, Terms, Privacy and Customer Portal CMS pages.
-- [ ] Hide unset email, social links and exact address fields.
-- [ ] Implement related-content internal linking.
+- [x] Hide unset email, social links and exact address fields on the public frontend.
+- [x] Implement solution-to-service internal linking on the public frontend.
 
 ## 6. Pricing and configurator
 
 - [x] Model packages, translations, capacities, features, rates and contract terms.
 - [x] Store all money as integer toman and all percentages as basis points.
-- [ ] Seed the five approved 1405 packages and complete comparison matrix.
+- [x] Present the five approved 1405 packages and their verified capacity/SLA comparison from the supplied Word document.
 - [x] Seed 3/6/12-month discounts and onboarding factors.
 - [x] Implement exact overage rules up to the next tier.
 - [x] Return Enterprise Custom when requests exceed the Enterprise boundary.
 - [x] Apply contract discount only to base package price.
 - [ ] Keep unpriced services outside totals and mark them quote-required.
 - [ ] Implement versioned server-side pricing calculations with line items.
-- [ ] Implement comparison and configurator UI without internal checkout.
+- [x] Implement capacity comparison and configurator UI without internal checkout.
 - [ ] Use an internal placeholder until a real external checkout URL is provided.
 - [ ] Verify every published total against the approved Word tables.
 

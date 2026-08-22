@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { cms } from "@/lib/api";
 import { isLocale } from "@/lib/locales";
+import { localizedServices, localizedSolutions } from "@/lib/public-content";
 import { routeMetadata } from "@/lib/seo";
 
 const copy = {
@@ -22,7 +22,9 @@ export default async function SearchPage({ params, searchParams }: PageProps<"/[
   if (!isLocale(locale)) notFound();
   const values = await searchParams;
   const query = typeof values.q === "string" ? values.q.trim() : "";
-  const results = query.length >= 2 ? await cms.search(locale, query) : [];
+  const haystack = [...localizedServices(locale), ...localizedSolutions(locale)];
+  const normalized = query.toLocaleLowerCase(locale);
+  const results = query.length >= 2 ? haystack.filter((item) => `${item.title} ${item.excerpt}`.toLocaleLowerCase(locale).includes(normalized)).map((item) => ({ kind: item.kind, title: item.title, summary: item.excerpt, url: item.url })) : [];
   const labels = copy[locale];
   return <main className="internal-main"><section className="internal-hero search-hero"><div className="container"><span className="internal-eyebrow">ABRIT · SEARCH</span><h1>{labels.title}</h1><form className="search-form" action={`/${locale}/search`}><input name="q" defaultValue={query} placeholder={labels.placeholder} minLength={2} required /><button className="reference-button primary">{labels.button}</button></form></div></section><section className="internal-section"><div className="container search-results">{query && results.length === 0 && <p className="search-empty">{labels.empty}</p>}{results.map((item) => <Link href={item.url} key={`${item.kind}-${item.url}`}><small>{item.kind}</small><h2>{item.title}</h2><p>{item.summary}</p></Link>)}</div></section></main>;
 }
