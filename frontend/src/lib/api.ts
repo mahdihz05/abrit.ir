@@ -10,7 +10,7 @@ export class CmsError extends Error {
 
 async function get<T>(path: string, tags: string[]): Promise<T> {
   const response = await fetch(`${API_URL}${path}`, {
-    headers: { Accept: "application/json" },
+    headers: { Accept: "application/json", "X-AbrIT-Contract-Version": "2" },
     next: { revalidate: 300, tags },
   });
   if (!response.ok) throw new CmsError(response.status, path);

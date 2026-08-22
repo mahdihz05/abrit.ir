@@ -4,8 +4,14 @@ import { PricingConfigurator } from "@/components/pricing-configurator";
 import { cms } from "@/lib/api";
 import { internalCopy } from "@/lib/internal-copy";
 import { isLocale } from "@/lib/locales";
+import { routeMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Managed IT Pricing" };
+export async function generateMetadata({ params }: PageProps<"/[locale]/pricing">): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const copy = internalCopy[locale];
+  return routeMetadata(locale, "pricing", copy.pricingTitle, copy.pricingIntro);
+}
 
 export default async function PricingPage({ params, searchParams }: PageProps<"/[locale]/pricing">) {
   const { locale } = await params;

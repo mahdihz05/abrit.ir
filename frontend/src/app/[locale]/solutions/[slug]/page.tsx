@@ -4,11 +4,12 @@ import { ContentDetail } from "@/components/content-detail";
 import { CmsError, cms } from "@/lib/api";
 import { internalCopy } from "@/lib/internal-copy";
 import { isLocale } from "@/lib/locales";
+import { contentMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/solutions/[slug]">): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!isLocale(locale)) return {};
-  try { const content = await cms.content(locale, `solutions/${slug}`); return { title: content.seo.title, description: content.seo.description }; }
+  try { return contentMetadata(await cms.content(locale, `solutions/${slug}`)); }
   catch { return {}; }
 }
 

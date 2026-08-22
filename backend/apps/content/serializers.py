@@ -26,9 +26,10 @@ class ContentSummarySerializer(serializers.ModelSerializer):
 class ContentDetailSerializer(ContentSummarySerializer):
     blocks = serializers.SerializerMethodField()
     seo = serializers.SerializerMethodField()
+    alternates = serializers.SerializerMethodField()
 
     class Meta(ContentSummarySerializer.Meta):
-        fields = ContentSummarySerializer.Meta.fields + ("blocks", "seo")
+        fields = ContentSummarySerializer.Meta.fields + ("blocks", "seo", "alternates")
 
     def get_blocks(self, obj) -> list[dict]:
         blocks = [block for block in obj.blocks.all() if block.is_active]
@@ -50,3 +51,10 @@ class ContentDetailSerializer(ContentSummarySerializer):
                 "image": image_url,
             },
         }
+
+    def get_alternates(self, obj) -> list[dict]:
+        translations = obj.item.translations.filter(
+            workflow_status=ContentTranslation.WorkflowStatus.PUBLISHED,
+            translation_status=ContentTranslation.TranslationStatus.REVIEWED,
+        ).order_by("locale")
+        return [{"locale": translation.locale, "url": translation.public_path} for translation in translations]

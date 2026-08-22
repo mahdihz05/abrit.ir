@@ -37,3 +37,11 @@
 - Added an idempotent retention command that deletes expired submissions and their private files and writes a purge audit record.
 - Public submission endpoints remain intentionally inactive until the Privacy Policy and consent gate receive human approval.
 - Evidence: 19 backend tests pass; Django system check and validated OpenAPI generation are clean.
+
+## 2026-08-22 — Localized SEO and resilient internal routes
+
+- CMS detail responses now expose only published and reviewed language alternates for the same content item.
+- Internal routes emit locale-aware canonical, hreflang, robots, OpenGraph and Twitter metadata without inventing missing translations.
+- Added conditional Organization, Breadcrumb, Service and Article structured data where the required source data exists.
+- Added v5-aligned loading, empty, localized 404 and recoverable runtime-error states for internal routes.
+- Evidence: 20 backend tests pass; ESLint, generated Next route types, TypeScript and the 20-route production build pass; canonical, language alternate, OpenGraph and JSON-LD output were HTTP-smoke-tested locally.

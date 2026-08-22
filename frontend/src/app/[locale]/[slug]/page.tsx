@@ -3,11 +3,12 @@ import { notFound } from "next/navigation";
 import { GenericPage } from "@/components/generic-page";
 import { CmsError, cms } from "@/lib/api";
 import { isLocale } from "@/lib/locales";
+import { contentMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/[slug]">): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!isLocale(locale)) return {};
-  try { const content = await cms.content(locale, slug); return { title: content.seo.title, description: content.seo.description }; }
+  try { return contentMetadata(await cms.content(locale, slug)); }
   catch { return {}; }
 }
 

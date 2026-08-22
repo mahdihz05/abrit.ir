@@ -3,14 +3,19 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cms } from "@/lib/api";
 import { isLocale } from "@/lib/locales";
-
-export const metadata: Metadata = { title: "Search" };
+import { routeMetadata } from "@/lib/seo";
 
 const copy = {
   fa: { title: "جست‌وجو در AbrIT", placeholder: "خدمت، راهکار یا موضوع موردنظر…", button: "جست‌وجو", empty: "نتیجه‌ای پیدا نشد." },
   en: { title: "Search AbrIT", placeholder: "Search services, solutions or topics…", button: "Search", empty: "No results found." },
   "ar-ae": { title: "البحث في AbrIT", placeholder: "ابحث عن خدمة أو حل أو موضوع…", button: "بحث", empty: "لم يتم العثور على نتائج." },
 } as const;
+
+export async function generateMetadata({ params }: PageProps<"/[locale]/search">): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  return routeMetadata(locale, "search", copy[locale].title, copy[locale].placeholder);
+}
 
 export default async function SearchPage({ params, searchParams }: PageProps<"/[locale]/search">) {
   const { locale } = await params;

@@ -210,7 +210,14 @@ components:
           type: object
           additionalProperties: {}
           readOnly: true
+        alternates:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+          readOnly: true
       required:
+      - alternates
       - blocks
       - id
       - key

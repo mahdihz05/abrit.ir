@@ -13,6 +13,12 @@ export function ContentListing({
       </section>
       <section className="internal-section">
         <div className="container content-card-grid">
+          {items.length === 0 && (
+            <div className="empty-publication" role="status">
+              <span>ABRIT CMS</span>
+              <p>{locale === "fa" ? "هنوز محتوایی برای این بخش منتشر نشده است." : locale === "en" ? "No content has been published in this section yet." : "لم يتم نشر أي محتوى في هذا القسم بعد."}</p>
+            </div>
+          )}
           {items.map((item, index) => (
             <article className="content-card" key={item.id}>
               <span className="content-card-number">{String(index + 1).padStart(2, "0")}</span>

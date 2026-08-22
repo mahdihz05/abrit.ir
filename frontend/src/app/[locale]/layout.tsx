@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { OrganizationJsonLd } from "@/components/structured-data";
 import { cms } from "@/lib/api";
 import { isLocale, localeMeta, locales } from "@/lib/locales";
 import "../globals.css";
@@ -25,6 +26,7 @@ export default async function InternalLayout({ children, params }: LayoutProps<"
   return (
     <html lang={meta.lang} dir={meta.dir}>
       <body className="internal-body">
+        <OrganizationJsonLd settings={settings} />
         <SiteHeader locale={locale} items={header} />
         {children}
         <SiteFooter locale={locale} items={footer} settings={settings} />

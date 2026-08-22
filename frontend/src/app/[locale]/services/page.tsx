@@ -4,8 +4,14 @@ import { ContentListing } from "@/components/content-listing";
 import { cms } from "@/lib/api";
 import { internalCopy } from "@/lib/internal-copy";
 import { isLocale } from "@/lib/locales";
+import { routeMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Managed IT Services" };
+export async function generateMetadata({ params }: PageProps<"/[locale]/services">): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const copy = internalCopy[locale];
+  return routeMetadata(locale, "services", copy.servicesTitle, copy.servicesIntro);
+}
 
 export default async function ServicesPage({ params }: PageProps<"/[locale]/services">) {
   const { locale } = await params;

@@ -43,6 +43,7 @@ export type ContentSummary = {
   slug: string;
   url: string;
   excerpt: string;
+  published_at?: string | null;
 };
 
 export type ContentDetail = ContentSummary & {
@@ -52,7 +53,9 @@ export type ContentDetail = ContentSummary & {
     description: string;
     canonical_url: string;
     robots: { index: boolean; follow: boolean };
+    open_graph: { title: string; description: string; image: string | null };
   };
+  alternates: { locale: Locale; url: string }[];
 };
 
 export type Package = {

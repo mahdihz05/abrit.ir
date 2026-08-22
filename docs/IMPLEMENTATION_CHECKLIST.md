@@ -68,7 +68,7 @@ Checkboxes are marked complete only after the related code and verification pass
 - [ ] Replace remote prototype imagery with CMS media or intentional CSS visuals.
 - [x] Seed the complete approved FA/EN/AR Home content.
 - [ ] Render Home entirely from the CMS API.
-- [ ] Implement loading, empty, API error, 404 and 500 states.
+- [x] Implement loading, empty, API error, 404 and 500 states.
 - [ ] Pass visual comparison at 1440px, 768px and 390px.
 
 ## 5. Content domains
@@ -119,9 +119,9 @@ Checkboxes are marked complete only after the related code and verification pass
 - [x] Build normalized Persian/Arabic SearchDocument records on publication.
 - [x] Search only published pages, services, solutions, knowledge and news.
 - [x] Exclude drafts, submissions, private files and Admin data.
-- [ ] Implement locale-aware metadata, canonical and OpenGraph tags.
+- [x] Implement locale-aware metadata, canonical and OpenGraph tags.
 - [x] Implement dynamic sitemap for public indexable translations.
-- [ ] Implement valid hreflang sets without missing translations.
+- [x] Implement valid hreflang sets without missing translations.
 - [x] Implement robots rules and keep Admin/private API paths unindexed.
 - [ ] Implement 301/302 redirect management and redirect loop validation.
 - [ ] Implement Organization, Breadcrumb, Service, Article and FAQ JSON-LD only when data exists.

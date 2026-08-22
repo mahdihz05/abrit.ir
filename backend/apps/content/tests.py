@@ -63,6 +63,27 @@ def test_missing_locale_never_falls_back():
 
 
 @pytest.mark.django_db
+def test_detail_alternates_only_include_published_reviewed_translations():
+    item = ContentItem.objects.create(key="alternates", kind=ContentItem.Kind.PAGE)
+    now = timezone.now()
+    ContentTranslation.objects.create(
+        item=item, locale="en", title="Alternates", slug="alternates", path="alternates",
+        workflow_status=ContentTranslation.WorkflowStatus.PUBLISHED,
+        translation_status=ContentTranslation.TranslationStatus.REVIEWED,
+        published_at=now,
+    )
+    ContentTranslation.objects.create(
+        item=item, locale="fa", title="Draft", slug="alternates-fa", path="alternates-fa",
+        workflow_status=ContentTranslation.WorkflowStatus.DRAFT,
+        translation_status=ContentTranslation.TranslationStatus.REVIEWED,
+    )
+
+    response = APIClient().get("/api/v1/content/en/alternates")
+    assert response.status_code == 200
+    assert response.json()["data"]["alternates"] == [{"locale": "en", "url": "/en/alternates"}]
+
+
+@pytest.mark.django_db
 def test_revision_can_be_restored_with_a_new_audit_revision():
     item = ContentItem.objects.create(key="restore", kind=ContentItem.Kind.PAGE)
     translation = ContentTranslation.objects.create(
