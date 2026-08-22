@@ -51,3 +51,9 @@
 - The approved v5 Home header now navigates to the dedicated Services, Solutions, Pricing, Knowledge, News and About routes instead of scrolling to Home sections.
 - Service and solution Mega Menu entries link directly to their matching detail pages in the active locale.
 - Desktop and mobile assessment actions now open the localized Contact page, and mobile navigation mirrors desktop routing.
+
+## 2026-08-22 — Global multilingual typography
+
+- Persian, English and Arabic font families are now loaded and self-hosted through the shared locale layout rather than being merely named as unavailable CSS fallbacks.
+- Locale-aware typography tokens apply Vazirmatn, Inter and IBM Plex Sans Arabic to every internal route and future component automatically.
+- Buttons, inputs, selects, textareas, headings, placeholders and Latin operational labels now inherit the correct global font rules consistently.

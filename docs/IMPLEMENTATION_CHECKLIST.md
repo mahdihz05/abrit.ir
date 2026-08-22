@@ -60,6 +60,7 @@ Checkboxes are marked complete only after the related code and verification pass
 - [x] Implement locale validation and `/fa`, `/en`, `/ar-ae` routing.
 - [x] Implement RTL for Persian/Arabic and LTR for English.
 - [x] Implement optimized Persian, English and Arabic fonts.
+- [x] Apply locale-aware typography and form-control inheritance globally across all public routes.
 - [x] Implement accessible Header, language switcher, search trigger and navigation.
 - [x] Implement desktop Mega Menu and mobile drawer/accordion.
 - [ ] Implement the validated component registry and safe unknown-block fallback.
