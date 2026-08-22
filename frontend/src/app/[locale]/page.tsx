@@ -26,15 +26,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 async function loadHome(locale: "fa" | "en" | "ar-ae") {
-  try {
-    return await Promise.all([
-      cms.settings(locale), cms.navigation("header", locale), cms.navigation("footer", locale),
-      cms.home(locale), cms.services(locale), cms.packages(locale),
-    ]);
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  return Promise.all([
+    cms.settings(locale), cms.navigation("header", locale), cms.navigation("footer", locale),
+    cms.home(locale), cms.services(locale), cms.packages(locale),
+  ]);
 }
 
 export default async function HomePage({ params }: PageProps) {
@@ -42,9 +37,6 @@ export default async function HomePage({ params }: PageProps) {
   if (!isLocale(locale)) notFound();
 
   const data = await loadHome(locale);
-  if (!data) {
-    return <main className="error-state"><h1>AbrIT</h1><p>{ui[locale].unavailable}</p></main>;
-  }
   const [settings, header, footer, home, services, packages] = data;
   return (
     <>
