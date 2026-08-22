@@ -59,15 +59,15 @@ Checkboxes are marked complete only after the related code and verification pass
 
 - [x] Implement locale validation and `/fa`, `/en`, `/ar-ae` routing.
 - [x] Implement RTL for Persian/Arabic and LTR for English.
-- [ ] Implement optimized Persian, English and Arabic fonts.
-- [ ] Implement accessible Header, language switcher, search trigger and navigation.
-- [ ] Implement desktop Mega Menu and mobile drawer/accordion.
-- [x] Implement the validated component registry and safe unknown-block fallback.
+- [x] Implement optimized Persian, English and Arabic fonts.
+- [x] Implement accessible Header, language switcher, search trigger and navigation.
+- [x] Implement desktop Mega Menu and mobile drawer/accordion.
+- [ ] Implement the validated component registry and safe unknown-block fallback.
 - [ ] Rebuild all approved v5 Home sections as reusable components.
 - [x] Preserve purposeful CSS/IntersectionObserver motion and reduced-motion behavior.
-- [x] Replace remote prototype imagery with CMS media or intentional CSS visuals.
+- [ ] Replace remote prototype imagery with CMS media or intentional CSS visuals.
 - [x] Seed the complete approved FA/EN/AR Home content.
-- [x] Render Home entirely from the CMS API.
+- [ ] Render Home entirely from the CMS API.
 - [ ] Implement loading, empty, API error, 404 and 500 states.
 - [ ] Pass visual comparison at 1440px, 768px and 390px.
 
