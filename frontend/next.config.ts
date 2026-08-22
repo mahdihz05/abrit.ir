@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "node:path";
 
 for (const [name, fallback] of [
   ["NEXT_PUBLIC_SITE_URL", "http://localhost:3000"],
@@ -10,6 +11,11 @@ for (const [name, fallback] of [
 }
 
 const nextConfig: NextConfig = {
+  output: "standalone",
+  outputFileTracingRoot: path.join(process.cwd(), ".."),
+  outputFileTracingIncludes: {
+    "/[locale]": ["../abrit-homepage-polished-v5.html"],
+  },
   poweredByHeader: false,
   reactStrictMode: true,
 };
