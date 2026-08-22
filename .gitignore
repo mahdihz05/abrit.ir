@@ -10,9 +10,11 @@ htmlcov/
 backend/staticfiles/
 backend/media/
 backend/private-media/
+backend/tmp/
 frontend/node_modules/
 frontend/.next/
 frontend/out/
+frontend/tmp/
 *.log
 .DS_Store
 Thumbs.db
