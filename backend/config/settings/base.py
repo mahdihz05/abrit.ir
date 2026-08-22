@@ -15,6 +15,8 @@ def env_list(name: str, default: str = "") -> list[str]:
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
 NEXT_REVALIDATION_URL = os.getenv("NEXT_REVALIDATION_URL", "http://localhost:3000/api/revalidate")
 NEXT_REVALIDATION_SECRET = os.getenv("NEXT_REVALIDATION_SECRET", "")
+SCRIPT_NAME = os.getenv("DJANGO_SCRIPT_NAME", "").rstrip("/")
+FORCE_SCRIPT_NAME = SCRIPT_NAME or None
 DEBUG = False
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS")
 
@@ -99,7 +101,7 @@ TIME_ZONE = "Asia/Tehran"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "/static/"
+STATIC_URL = f"{SCRIPT_NAME}/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
@@ -114,7 +116,7 @@ if not MEDIA_ROOT.is_absolute():
     MEDIA_ROOT = REPOSITORY_DIR / MEDIA_ROOT
 if not PRIVATE_MEDIA_ROOT.is_absolute():
     PRIVATE_MEDIA_ROOT = REPOSITORY_DIR / PRIVATE_MEDIA_ROOT
-MEDIA_URL = "/media/"
+MEDIA_URL = f"{SCRIPT_NAME}/media/"
 
 CORS_ALLOWED_ORIGINS = env_list("DJANGO_CORS_ALLOWED_ORIGINS")
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
