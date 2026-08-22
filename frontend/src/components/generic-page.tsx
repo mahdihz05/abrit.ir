@@ -1,0 +1,7 @@
+import Link from "next/link";
+import type { ContentDetail, Locale, SiteSettings } from "@/lib/types";
+
+export function GenericPage({ locale, content, settings }: { locale: Locale; content: ContentDetail; settings: SiteSettings }) {
+  const isContact = content.slug === "contact";
+  return <main className="internal-main"><section className="internal-hero"><div className="container"><span className="internal-eyebrow">ABRIT · {content.slug.toUpperCase()}</span><h1>{content.title}</h1><p>{content.excerpt}</p></div></section><section className="internal-section"><div className="container generic-layout"><aside><span>01</span><b>AbrIT</b></aside><article><h2>{content.title}</h2><p>{content.excerpt}</p>{isContact ? <div className="contact-cards"><a href={`tel:${settings.phone}`}><small>PHONE</small><b dir="ltr">{settings.phone}</b></a>{settings.email && <a href={`mailto:${settings.email}`}><small>EMAIL</small><b>{settings.email}</b></a>}<div><small>LOCATION</small><b>{settings.location}</b></div></div> : <div className="empty-publication"><span>ABRIT CMS</span><p>{locale === "fa" ? "محتوای این بخش از پنل مدیریت منتشر خواهد شد." : locale === "en" ? "Published content will appear here from the CMS." : "سيظهر المحتوى المنشور هنا من نظام إدارة المحتوى."}</p></div>}<Link className="reference-button primary" href={`/${locale}`}>{locale === "fa" ? "بازگشت به خانه" : locale === "en" ? "Back home" : "العودة للرئيسية"}</Link></article></div></section></main>;
+}

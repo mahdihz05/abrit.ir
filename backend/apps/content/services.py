@@ -67,6 +67,8 @@ def publish_translation(translation: ContentTranslation, *, actor=None, source=C
     translation.full_clean()
     translation.save(update_fields=("workflow_status", "published_at", "updated_at"))
     create_revision(translation, actor=actor, source=source)
+    from apps.search.indexing import index_translation
+    index_translation(translation)
     _audit_and_revalidate(translation, actor=actor, source=source, action="publish", before=before)
     return translation
 
@@ -77,6 +79,8 @@ def unpublish_translation(translation: ContentTranslation, *, actor=None, source
     before = translation_snapshot(translation)
     translation.workflow_status = ContentTranslation.WorkflowStatus.DRAFT
     translation.save(update_fields=("workflow_status", "updated_at"))
+    from apps.search.indexing import index_translation
+    index_translation(translation)
     create_revision(translation, actor=actor, source=source)
     _audit_and_revalidate(translation, actor=actor, source=source, action="unpublish", before=before)
     return translation
@@ -110,6 +114,8 @@ def restore_revision(revision: ContentRevision, *, actor=None, source=ContentRev
         block.save()
         restored_ids.append(block.id)
     translation.blocks.exclude(id__in=restored_ids).delete()
+    from apps.search.indexing import index_translation
+    index_translation(translation)
     create_revision(translation, actor=actor, source=source)
     _audit_and_revalidate(translation, actor=actor, source=source, action="restore", before=before)
     return translation

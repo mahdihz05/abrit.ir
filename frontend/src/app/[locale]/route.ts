@@ -22,6 +22,7 @@ export async function GET(_request: Request, context: RouteContext<"/[locale]">)
 
   const language = languageKeys[locale as keyof typeof languageKeys];
   const reference = await readReferenceHome();
+  const alternates = `<link rel="alternate" hreflang="fa" href="/fa"><link rel="alternate" hreflang="en" href="/en"><link rel="alternate" hreflang="ar-AE" href="/ar-ae"><link rel="alternate" hreflang="x-default" href="/fa">`;
   const localeNavigation = `<script>
 document.querySelectorAll('.langmenu button').forEach(function(button){
   button.addEventListener('click',function(){
@@ -33,6 +34,7 @@ document.querySelectorAll('.langmenu button').forEach(function(button){
 </script>`;
   const html = reference
     .replace('setLang("fa");', `setLang("${language}");`)
+    .replace("</head>", `${alternates}</head>`)
     .replace("</body>", `${localeNavigation}</body>`);
 
   return new Response(html, {

@@ -75,7 +75,7 @@ Checkboxes are marked complete only after the related code and verification pass
 
 - [ ] Implement Service list/detail with blocks, capability and technology relationships.
 - [x] Seed all 10 approved services in three languages.
-- [ ] Implement Solution list/detail and seed all six approved solutions.
+- [x] Implement Solution list/detail and seed all six approved solutions.
 - [ ] Implement Knowledge categories, tags, list/detail and related services/articles.
 - [ ] Implement News & Media types, list/detail and related services.
 - [ ] Implement About, Contact, Terms, Privacy and Customer Portal CMS pages.
@@ -116,13 +116,13 @@ Checkboxes are marked complete only after the related code and verification pass
 
 ## 8. Search and SEO
 
-- [ ] Build normalized Persian/Arabic SearchDocument records on publication.
-- [ ] Search only published pages, services, solutions, knowledge and news.
-- [ ] Exclude drafts, submissions, private files and Admin data.
-- [x] Implement locale-aware metadata, canonical and OpenGraph tags.
-- [ ] Implement dynamic sitemap for public indexable translations.
+- [x] Build normalized Persian/Arabic SearchDocument records on publication.
+- [x] Search only published pages, services, solutions, knowledge and news.
+- [x] Exclude drafts, submissions, private files and Admin data.
+- [ ] Implement locale-aware metadata, canonical and OpenGraph tags.
+- [x] Implement dynamic sitemap for public indexable translations.
 - [ ] Implement valid hreflang sets without missing translations.
-- [ ] Implement robots rules and keep Admin/private API paths unindexed.
+- [x] Implement robots rules and keep Admin/private API paths unindexed.
 - [ ] Implement 301/302 redirect management and redirect loop validation.
 - [ ] Implement Organization, Breadcrumb, Service, Article and FAQ JSON-LD only when data exists.
 - [ ] Implement localized image alt metadata.

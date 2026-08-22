@@ -19,3 +19,13 @@
 - The earlier four-block React interpretation is no longer served publicly.
 - CMS models and APIs remain intact; CMS-to-v5 DOM integration is deliberately reopened in the checklist and must be completed after visual approval.
 - Evidence: all three locale routes return 200 with the v5 reference header and complete page payload; ESLint, generated route types, TypeScript and production build pass.
+
+## 2026-08-22 — CMS-backed internal content, pricing and search
+
+- Added three-language service and solution listing/detail routes aligned with the approved v5 visual tokens.
+- Added CMS-backed About, Contact, Knowledge and News landing pages without activating unapproved public forms.
+- Added a server-backed pricing configurator through a same-origin frontend proxy; no internal checkout was introduced.
+- Added a normalized public search index with automatic publication/unpublication updates and an idempotent rebuild command.
+- Added three-language search UI, dynamic sitemap, robots rules and Home language alternates.
+- Seed now contains 21 content items and 63 reviewed translations; the public search index contains 63 documents.
+- Evidence: 16 backend tests pass; Django check, ESLint, generated route types, TypeScript and production build pass; representative pages, pricing calculations, 404 behavior, search, sitemap and robots were smoke-tested.

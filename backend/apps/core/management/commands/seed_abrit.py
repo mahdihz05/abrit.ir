@@ -114,6 +114,29 @@ HOME = {
     },
 }
 
+PAGES = [
+    ("about", (
+        ("درباره AbrIT", "AbrIT شریک عملیاتی سازمان‌ها برای مدیریت یکپارچه زیرساخت، امنیت، کاربران و سرویس‌های فناوری اطلاعات است."),
+        ("About AbrIT", "AbrIT is an operating partner for organizations that need integrated management of infrastructure, security, users and IT services."),
+        ("عن AbrIT", "AbrIT شريك تشغيلي للمؤسسات التي تحتاج إلى إدارة متكاملة للبنية التحتية والأمن والمستخدمين وخدمات تقنية المعلومات."),
+    )),
+    ("contact", (
+        ("تماس با AbrIT", "برای ارزیابی وضعیت موجود، انتخاب پکیج یا طراحی راهکار مناسب با تیم AbrIT در ارتباط باشید."),
+        ("Contact AbrIT", "Contact the AbrIT team to assess your current environment, choose a package or design the right solution."),
+        ("اتصل بـ AbrIT", "تواصل مع فريق AbrIT لتقييم بيئتك الحالية أو اختيار الباقة أو تصميم الحل المناسب."),
+    )),
+    ("knowledge", (
+        ("دانش و منابع", "راهنماها و محتوای فنی برای تصمیم‌گیری بهتر درباره زیرساخت، امنیت، بکاپ و مدیریت فناوری اطلاعات."),
+        ("Knowledge & Resources", "Technical guidance for better decisions about infrastructure, security, backup and IT management."),
+        ("المعرفة والموارد", "إرشادات تقنية لاتخاذ قرارات أفضل حول البنية التحتية والأمن والنسخ وإدارة تقنية المعلومات."),
+    )),
+    ("news", (
+        ("اخبار و رسانه", "خبرها، اطلاعیه‌ها و محتوای رسانه‌ای AbrIT در این بخش منتشر می‌شوند."),
+        ("News & Media", "AbrIT news, announcements and media content are published here."),
+        ("الأخبار والإعلام", "تُنشر هنا أخبار AbrIT وإعلاناتها ومحتواها الإعلامي."),
+    )),
+]
+
 
 class Command(BaseCommand):
     help = "Idempotently seed approved AbrIT settings, Home, services, solutions and package data."
@@ -124,6 +147,8 @@ class Command(BaseCommand):
         self._seed_content()
         self._seed_navigation()
         self._seed_packages()
+        from django.core.management import call_command
+        call_command("rebuild_search_index", verbosity=0)
         self.stdout.write(self.style.SUCCESS("AbrIT approved seed data is ready."))
 
     def _seed_site(self):
@@ -163,6 +188,23 @@ class Command(BaseCommand):
                 block, _ = ContentBlock.objects.update_or_create(translation=translation, order=order, defaults={"block_type": block_type, "variant": variant, "props": props, "is_active": True})
                 block.full_clean()
                 block.save()
+
+        for key, translations in PAGES:
+            item, _ = ContentItem.objects.update_or_create(
+                key=key, defaults={"kind": ContentItem.Kind.PAGE, "template_key": key, "is_active": True}
+            )
+            for index, locale in enumerate(LOCALES):
+                title, excerpt = translations[index]
+                ContentTranslation.objects.update_or_create(
+                    item=item,
+                    locale=locale,
+                    defaults={
+                        "title": title, "slug": key, "path": key, "excerpt": excerpt,
+                        "workflow_status": ContentTranslation.WorkflowStatus.PUBLISHED,
+                        "translation_status": ContentTranslation.TranslationStatus.REVIEWED,
+                        "published_at": now, "seo_title": title, "seo_description": excerpt,
+                    },
+                )
 
         for key, names, descriptions in SERVICES:
             item, _ = ContentItem.objects.update_or_create(key=f"service-{key}", defaults={"kind": ContentItem.Kind.SERVICE, "template_key": "service", "is_active": True})

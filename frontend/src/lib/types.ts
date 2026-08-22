@@ -71,3 +71,19 @@ export type Package = {
   addon_rates: Record<string, number>;
   is_featured: boolean;
 };
+
+export type PricingResult = {
+  currency: string;
+  package: string;
+  term_months: number;
+  users: number;
+  endpoints: number;
+  quote_required: boolean;
+  reason?: string;
+  monthly_recurring_toman: number | null;
+  contract_total_toman: number | null;
+  lines: { key: string; amount_toman: number; quantity: number }[];
+  recommended_upgrade: string | null;
+};
+
+export type SearchResult = { kind: string; title: string; summary: string; url: string };

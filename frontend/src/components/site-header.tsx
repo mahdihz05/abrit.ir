@@ -39,6 +39,7 @@ export function SiteHeader({ locale, items }: { locale: Locale; items: Navigatio
             </Link>
           ))}
         </nav>
+        <Link className="header-search" href={`/${locale}/search`} aria-label={locale === "fa" ? "جست‌وجو" : locale === "en" ? "Search" : "بحث"}>⌕</Link>
         <div className="language-switcher" aria-label="Language">
           {locales.map((item) => (
             <Link
