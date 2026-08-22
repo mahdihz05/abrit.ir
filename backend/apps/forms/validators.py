@@ -8,6 +8,14 @@ from django.core.exceptions import ValidationError
 
 MAX_FILE_SIZE = 10 * 1024 * 1024
 ALLOWED_EXTENSIONS = {".pdf", ".docx", ".xlsx", ".jpg", ".jpeg", ".png"}
+ALLOWED_MIME_TYPES = {
+    ".pdf": {"application/pdf", "application/octet-stream"},
+    ".docx": {"application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/octet-stream", "application/zip"},
+    ".xlsx": {"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/octet-stream", "application/zip"},
+    ".jpg": {"image/jpeg", "application/octet-stream"},
+    ".jpeg": {"image/jpeg", "application/octet-stream"},
+    ".png": {"image/png", "application/octet-stream"},
+}
 IMAGE_SIGNATURES = {
     ".jpg": (b"\xff\xd8\xff",),
     ".jpeg": (b"\xff\xd8\xff",),
@@ -21,6 +29,9 @@ def validate_submission_file(uploaded_file):
         raise ValidationError("This file type is not allowed.")
     if uploaded_file.size > MAX_FILE_SIZE:
         raise ValidationError("Each file must be 10MB or smaller.")
+    content_type = getattr(uploaded_file, "content_type", "application/octet-stream") or "application/octet-stream"
+    if content_type.lower() not in ALLOWED_MIME_TYPES[extension]:
+        raise ValidationError("The declared MIME type does not match the file extension.")
 
     position = uploaded_file.tell()
     try:

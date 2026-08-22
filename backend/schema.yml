@@ -4,29 +4,6 @@ info:
   version: 1.0.0
   description: Published multilingual content, navigation, forms and pricing for AbrIT.
 paths:
-  /api/v1/content/{kind}/{locale}:
-    get:
-      operationId: content_list
-      parameters:
-      - in: path
-        name: kind
-        schema:
-          type: string
-        required: true
-      - in: path
-        name: locale
-        schema:
-          type: string
-        required: true
-      tags:
-      - v1
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ContentSummary'
-          description: ''
   /api/v1/content/{locale}/{path}:
     get:
       operationId: content_detail
@@ -67,6 +44,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContentDetail'
+          description: ''
+  /api/v1/content/collections/{kind}/{locale}:
+    get:
+      operationId: content_list
+      parameters:
+      - in: path
+        name: kind
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: locale
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentSummary'
           description: ''
   /api/v1/navigation/{location}/{locale}:
     get:

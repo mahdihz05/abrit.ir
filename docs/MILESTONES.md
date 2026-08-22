@@ -29,3 +29,11 @@
 - Added three-language search UI, dynamic sitemap, robots rules and Home language alternates.
 - Seed now contains 21 content items and 63 reviewed translations; the public search index contains 63 documents.
 - Evidence: 16 backend tests pass; Django check, ESLint, generated route types, TypeScript and production build pass; representative pages, pricing calculations, 404 behavior, search, sitemap and robots were smoke-tested.
+
+## 2026-08-22 — Private form-file hardening and retention
+
+- Private form files now use a staff-only download route instead of a public media URL.
+- Upload validation cross-checks extension, declared MIME, binary signature and safe OOXML container structure.
+- Added an idempotent retention command that deletes expired submissions and their private files and writes a purge audit record.
+- Public submission endpoints remain intentionally inactive until the Privacy Policy and consent gate receive human approval.
+- Evidence: 19 backend tests pass; Django system check and validated OpenAPI generation are clean.

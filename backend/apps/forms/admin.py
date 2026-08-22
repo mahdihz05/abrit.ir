@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.urls import reverse
+from django.utils.html import format_html
 
 from .models import Form, FormField, FormFieldTranslation, FormSubmission, FormTranslation, SubmissionFile
 
@@ -39,7 +41,15 @@ class SubmissionFileInline(admin.TabularInline):
     model = SubmissionFile
     extra = 0
     can_delete = False
-    readonly_fields = ("original_name", "mime_type", "size", "checksum_sha256", "file", "created_at")
+    fields = ("original_name", "mime_type", "size", "checksum_sha256", "download_link", "created_at")
+    readonly_fields = ("original_name", "mime_type", "size", "checksum_sha256", "download_link", "created_at")
+
+    @admin.display(description="Private download")
+    def download_link(self, obj):
+        if not obj.pk:
+            return "—"
+        url = reverse("admin-submission-file-download", kwargs={"file_id": obj.pk})
+        return format_html('<a href="{}">Download {}</a>', url, obj.original_name)
 
 
 @admin.register(FormSubmission)

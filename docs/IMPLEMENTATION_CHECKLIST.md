@@ -106,13 +106,13 @@ Checkboxes are marked complete only after the related code and verification pass
 - [ ] Add honeypot, rate limiting and basic abuse protection.
 - [ ] Enforce five files per submission and 10MB per file.
 - [x] Allow only PDF, DOCX, XLSX, JPG/JPEG and PNG in version one.
-- [ ] Validate extension, signature, MIME and safe OOXML structure.
+- [x] Validate extension, signature, MIME and safe OOXML structure.
 - [x] Reject executables, malformed archives and macro-enabled Office files.
 - [x] Store submission files outside the public webroot.
-- [ ] Require authenticated Admin download for private files.
+- [x] Require authenticated Admin download for private files.
 - [ ] Prepare and translate a Privacy Policy draft for human approval.
 - [ ] **Gate:** do not activate public forms before Privacy consent approval.
-- [ ] Purge submissions and files after 12 months and audit the purge.
+- [x] Purge submissions and files after 12 months and audit the purge.
 
 ## 8. Search and SEO
 
