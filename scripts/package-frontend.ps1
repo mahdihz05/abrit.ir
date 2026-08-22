@@ -5,11 +5,20 @@ $frontendRoot = Join-Path $projectRoot "frontend"
 $standaloneRoot = Join-Path $frontendRoot ".next/standalone"
 $standaloneFrontend = Join-Path $standaloneRoot "frontend"
 $artifactsRoot = Join-Path $projectRoot "artifacts"
-$archivePath = Join-Path $artifactsRoot "abrit-frontend-standalone.zip"
+$archivePath = Join-Path $artifactsRoot "abrit-frontend-standalone.tar.gz"
 
 $env:NEXT_PUBLIC_SITE_URL = "https://abrit.cloud"
 $env:NEXT_PUBLIC_API_URL = "https://abrit.cloud/cms/api/v1"
 $env:BACKEND_API_URL = "https://abrit.cloud/cms/api/v1"
+
+$resolvedFrontendRoot = (Resolve-Path -LiteralPath $frontendRoot).Path
+$resolvedStandaloneRoot = [System.IO.Path]::GetFullPath($standaloneRoot)
+if (-not $resolvedStandaloneRoot.StartsWith("$resolvedFrontendRoot\", [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Refusing to clean a standalone path outside the frontend directory."
+}
+if (Test-Path -LiteralPath $resolvedStandaloneRoot) {
+    Remove-Item -Recurse -Force -LiteralPath $resolvedStandaloneRoot
+}
 
 Push-Location $frontendRoot
 try {
@@ -23,9 +32,12 @@ finally {
 Copy-Item -Recurse -Force (Join-Path $frontendRoot "public") (Join-Path $standaloneFrontend "public")
 Copy-Item -Recurse -Force (Join-Path $frontendRoot ".next/static") (Join-Path $standaloneFrontend ".next/static")
 Copy-Item -Force (Join-Path $projectRoot "abrit-homepage-polished-v5.html") $standaloneRoot
+Copy-Item -Force (Join-Path $PSScriptRoot "cpanel-standalone-server.js") (Join-Path $standaloneRoot "server.js")
+Copy-Item -Force (Join-Path $PSScriptRoot "cpanel-standalone-package.json") (Join-Path $standaloneRoot "package.json")
 
 New-Item -ItemType Directory -Force $artifactsRoot | Out-Null
 if (Test-Path -LiteralPath $archivePath) { Remove-Item -LiteralPath $archivePath }
-Compress-Archive -Path (Join-Path $standaloneRoot "*") -DestinationPath $archivePath -CompressionLevel Optimal
+& tar.exe -czf $archivePath -C $standaloneRoot .
+if ($LASTEXITCODE -ne 0) { throw "Creating the standalone archive failed." }
 
 Write-Output $archivePath
