@@ -45,3 +45,9 @@
 - Added conditional Organization, Breadcrumb, Service and Article structured data where the required source data exists.
 - Added v5-aligned loading, empty, localized 404 and recoverable runtime-error states for internal routes.
 - Evidence: 20 backend tests pass; ESLint, generated Next route types, TypeScript and the 20-route production build pass; canonical, language alternate, OpenGraph and JSON-LD output were HTTP-smoke-tested locally.
+
+## 2026-08-22 — Home header route integration
+
+- The approved v5 Home header now navigates to the dedicated Services, Solutions, Pricing, Knowledge, News and About routes instead of scrolling to Home sections.
+- Service and solution Mega Menu entries link directly to their matching detail pages in the active locale.
+- Desktop and mobile assessment actions now open the localized Contact page, and mobile navigation mirrors desktop routing.
