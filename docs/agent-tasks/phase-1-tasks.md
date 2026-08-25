@@ -48,7 +48,7 @@ Accordingly, implementation tasks R01–R18 remain `BLOCKED` and `UNASSIGNED`. T
 ### R00 — Repository baseline and verification environment
 
 - **Primary scope:** other
-- **Status:** CLAIMED
+- **Status:** REVIEW
 - **Owner:** phase1-readiness-agent
 - **Blocked by:** None for non-implementation readiness work; R01–R18 remain blocked by the gates R00 must document.
 - **Blocking reason:** None for R00. The coordinator explicitly authorized preparation and claiming of this readiness-only task; this does not authorize application implementation.
