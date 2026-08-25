@@ -6,10 +6,10 @@ export const internalCopy = {
     servicesIntro: "از پشتیبانی کاربران تا امنیت، شبکه، بکاپ و اتوماسیون؛ هر خدمت بخشی از یک مدل عملیاتی یکپارچه است.",
     solutionsEyebrow: "BUSINESS SOLUTIONS", solutionsTitle: "راهکارهایی بر اساس نیاز واقعی کسب‌وکار",
     solutionsIntro: "مسئله و ریسک را می‌سنجیم و سپس ترکیب مناسب خدمات و فناوری را طراحی می‌کنیم.",
-    pricingEyebrow: "MSP PACKAGES · 1405", pricingTitle: "پکیج مناسب ظرفیت و سطح خدمت خود را پیدا کنید",
-    pricingIntro: "محاسبه‌ی شفاف بر اساس پکیج پایه، تعداد کاربران، Endpointها و مدت قرارداد انجام می‌شود.",
+    pricingEyebrow: "پکیج‌های خدمات مدیریت‌شده · ۱۴۰۵", pricingTitle: "پکیج مناسب ظرفیت و سطح خدمت خود را پیدا کنید",
+    pricingIntro: "محاسبه شفاف بر اساس پکیج پایه، تعداد کاربران و مدت قرارداد انجام می‌شود.",
     service: "خدمت", solution: "راهکار", readMore: "مشاهده جزئیات", back: "بازگشت به فهرست",
-    assessment: "درخواست ارزیابی IT", included: "ظرفیت پایه", users: "کاربر", endpoints: "Endpoint",
+    assessment: "درخواست ارزیابی فناوری اطلاعات", included: "ظرفیت پایه", users: "کاربر", endpoints: "دستگاه",
     servers: "سرور", sites: "سایت", monthly: "تومان / ماه", configure: "تنظیم پکیج",
   },
   en: {

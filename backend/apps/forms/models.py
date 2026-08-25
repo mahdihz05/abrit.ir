@@ -99,17 +99,31 @@ class FormFieldTranslation(UUIDTimestampedModel):
 
 
 class FormSubmission(UUIDTimestampedModel):
+    class Status(models.TextChoices):
+        NEW = "new", "New"
+        CONTACTED = "contacted", "Contacted"
+        QUALIFIED = "qualified", "Qualified"
+        CLOSED = "closed", "Closed"
+
     form = models.ForeignKey(Form, on_delete=models.PROTECT, related_name="submissions")
     locale = models.CharField(max_length=10, choices=LOCALE_CHOICES)
     data = models.JSONField()
+    status = models.CharField(max_length=16, choices=Status.choices, default=Status.NEW, db_index=True)
+    source_url = models.URLField(max_length=500, blank=True)
+    referrer = models.URLField(max_length=500, blank=True)
     consent_given = models.BooleanField(default=False)
     consent_text = models.TextField(blank=True)
     user_agent = models.CharField(max_length=500, blank=True)
     ip_hash = models.CharField(max_length=64, blank=True, db_index=True)
     expires_at = models.DateTimeField(db_index=True)
+    internal_notes = models.TextField(blank=True)
 
     class Meta:
         ordering = ("-created_at",)
+        indexes = [
+            models.Index(fields=("form", "-created_at"), name="forms_sub_form_created_idx"),
+            models.Index(fields=("locale", "-created_at"), name="forms_sub_locale_created_idx"),
+        ]
 
     def clean(self):
         super().clean()

@@ -11,6 +11,7 @@ for (const [name, fallback] of [
 }
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ["localhost", "127.0.0.1"],
   output: "standalone",
   outputFileTracingRoot: path.join(process.cwd(), ".."),
   outputFileTracingIncludes: {

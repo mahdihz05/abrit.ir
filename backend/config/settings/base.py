@@ -137,6 +137,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
     "EXCEPTION_HANDLER": "config.api.exception_handler",
+    "DEFAULT_THROTTLE_RATES": {"form-submissions": "10/hour"},
 }
 
 SPECTACULAR_SETTINGS = {

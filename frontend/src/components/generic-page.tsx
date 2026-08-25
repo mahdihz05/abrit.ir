@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LeadForm } from "./lead-form";
 import type { Locale, SiteSettings } from "@/lib/types";
 
 const content = {
@@ -27,5 +28,5 @@ export function getPublicPage(locale: Locale, slug: string) { return content[loc
 
 export function GenericPage({ locale, slug, settings }: { locale: Locale; slug: PublicPageSlug; settings: SiteSettings }) {
   const [title, heading, intro, topics] = content[locale][slug];
-  return <main className="internal-main"><section className="internal-hero"><div className="container"><span className="internal-eyebrow">ABRIT · {slug.toUpperCase()}</span><h1>{title}</h1><p>{intro}</p></div></section><section className="internal-section"><div className="container generic-layout"><aside><span>01</span><b>AbrIT</b></aside><article><h2>{heading}</h2><p>{intro}</p>{slug === "contact" ? <div className="contact-cards"><a href={`tel:${settings.phone}`}><small>PHONE</small><b dir="ltr">{settings.phone}</b></a><div><small>LOCATION</small><b>{settings.location}</b></div></div> : <div className="topic-grid">{topics.map((topic, index) => <div key={topic}><span>{String(index + 1).padStart(2, "0")}</span><h3>{topic}</h3></div>)}</div>}<Link className="reference-button primary" href={slug === "contact" ? `tel:${settings.phone}` : `/${locale}/services`}>{slug === "contact" ? settings.phone : locale === "fa" ? "مشاهده خدمات" : locale === "en" ? "Explore services" : "عرض الخدمات"}</Link></article></div></section></main>;
+  return <main className="internal-main"><section className="internal-hero"><div className="container"><span className="internal-eyebrow">ABRIT · {slug.toUpperCase()}</span><h1>{title}</h1><p>{intro}</p></div></section><section className="internal-section"><div className="container generic-layout"><aside><span>01</span><b>AbrIT</b></aside><article><h2>{heading}</h2><p>{intro}</p>{slug === "contact" ? <><div className="contact-cards"><a href={`tel:${settings.phone}`}><small>PHONE</small><b dir="ltr">{settings.phone}</b></a><div><small>LOCATION</small><b>{settings.location}</b></div></div><LeadForm locale={locale} context="contact-page" /></> : <><div className="topic-grid">{topics.map((topic, index) => <div key={topic}><span>{String(index + 1).padStart(2, "0")}</span><h3>{topic}</h3></div>)}</div><Link className="reference-button primary" href={`/${locale}/services`}>{locale === "fa" ? "مشاهده خدمات" : locale === "en" ? "Explore services" : "عرض الخدمات"}</Link></>}</article></div></section></main>;
 }

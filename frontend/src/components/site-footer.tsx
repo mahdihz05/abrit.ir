@@ -1,14 +1,19 @@
+"use client";
+
 import Link from "next/link";
 import { Brand } from "./brand";
 import { ui } from "@/lib/locales";
 import type { Locale, NavigationItem, SiteSettings } from "@/lib/types";
 
 export function SiteFooter({ locale, items, settings }: { locale: Locale; items: NavigationItem[]; settings: SiteSettings }) {
+  const year = new Intl.NumberFormat(locale, { useGrouping: false }).format(new Date().getFullYear());
+  const brandName = locale === "fa" ? "ابریت" : "AbrIT";
+
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" id="contact">
       <div className="container footer-grid">
         <div className="footer-intro">
-          <Brand locale={locale} />
+          <Brand locale={locale} inverse />
           <p>{settings.seo.description}</p>
         </div>
         <nav className="footer-nav" aria-label={ui[locale].navigation}>
@@ -21,7 +26,7 @@ export function SiteFooter({ locale, items, settings }: { locale: Locale; items:
         </div>
       </div>
       <div className="container footer-bottom">
-        <span>© {new Date().getFullYear()} AbrIT. {ui[locale].rights}</span>
+        <span>© {year} {brandName}. {ui[locale].rights}</span>
       </div>
     </footer>
   );

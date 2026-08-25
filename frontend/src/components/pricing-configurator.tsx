@@ -1,61 +1,74 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
-import type { Locale, Package, PricingResult } from "@/lib/types";
+import Link from "next/link";
+import { useMemo, useState, type CSSProperties } from "react";
+import { buildManagedItWhmcsUrl, estimateManagedItPrice, managedItCycles, managedItPackages, type ManagedItCycle } from "@/lib/managed-it-packages";
+import type { Locale } from "@/lib/types";
 
 const labels = {
-  fa: { package: "پکیج", term: "مدت قرارداد", users: "تعداد کاربران", endpoints: "تعداد Endpointها", calculate: "محاسبه قیمت", months: "ماه", monthly: "هزینه ماهانه", total: "مجموع قرارداد", quote: "این ظرفیت نیازمند استعلام اختصاصی است.", upgrade: "پکیج پیشنهادی", details: "جزئیات محاسبه", error: "محاسبه انجام نشد؛ مقادیر را بررسی کنید." },
-  en: { package: "Package", term: "Contract term", users: "Users", endpoints: "Endpoints", calculate: "Calculate price", months: "months", monthly: "Monthly recurring", total: "Contract total", quote: "This capacity requires a custom quote.", upgrade: "Recommended package", details: "Calculation details", error: "Calculation failed. Please check the values." },
-  "ar-ae": { package: "الباقة", term: "مدة العقد", users: "المستخدمون", endpoints: "الأجهزة", calculate: "حساب السعر", months: "أشهر", monthly: "التكلفة الشهرية", total: "إجمالي العقد", quote: "تحتاج هذه السعة إلى عرض سعر مخصص.", upgrade: "الباقة المقترحة", details: "تفاصيل الحساب", error: "تعذر الحساب. يرجى مراجعة القيم." },
+  fa: { title: "پکیج‌تان را متناسب با تیم خود بسازید", eyebrow: "پیکربندی و خرید آنلاین", choose: "انتخاب پکیج", users: "کاربر", endpoints: "دستگاه", usersLabel: "تعداد کاربران", endpointsLabel: "تعداد دستگاه‌ها", included: "بازه کاربران این پکیج", to: "تا", contract: "دوره قرارداد", months: "ماهه", base: "قیمت پایه", extras: "ظرفیت اضافه", total: "برآورد کل قرارداد", toman: "تومان", continue: "ادامه فرایند خرید", contact: "درخواست راه‌اندازی این پکیج", finalPrice: "قیمت نهایی پس از تأیید سفارش محاسبه می‌شود.", extraUser: "کاربر اضافه", extraEndpoint: "دستگاه اضافه", noExtra: "بدون ظرفیت اضافه", setupPending: "امکان خرید مستقیم این پکیج هنوز فعال نشده است.", optionPending: "ظرفیت انتخابی در مرحله بعد تأیید می‌شود.", suggested: "پیشنهاد بهتر برای این ظرفیت", switchTo: "انتخاب", selected: "انتخاب‌شده", summaryLabel: "ابریت · خدمات مدیریت‌شده فناوری اطلاعات" },
+  en: { title: "Build a package around your team", eyebrow: "Configure and buy online", choose: "Choose package", users: "users", endpoints: "endpoints", usersLabel: "Users", endpointsLabel: "Endpoints", included: "Package user range", to: "to", contract: "Contract term", months: "months", base: "Base price", extras: "Additional capacity", total: "Estimated contract total", toman: "toman", continue: "Continue in WHMCS", contact: "Request package setup", finalPrice: "WHMCS calculates the authoritative checkout total.", extraUser: "extra users", extraEndpoint: "extra endpoints", noExtra: "No additional capacity", setupPending: "This package's WHMCS product ID is not configured yet.", optionPending: "Confirm the selected capacity in WHMCS on the next step.", suggested: "A better fit for this capacity", switchTo: "Choose", selected: "Selected", summaryLabel: "ABRIT · MANAGED IT" },
+  "ar-ae": { title: "أنشئ باقة تناسب فريقك", eyebrow: "الإعداد والشراء عبر الإنترنت", choose: "اختر الباقة", users: "مستخدم", endpoints: "جهاز", usersLabel: "المستخدمون", endpointsLabel: "الأجهزة", included: "نطاق مستخدمي الباقة", to: "إلى", contract: "مدة العقد", months: "أشهر", base: "السعر الأساسي", extras: "السعة الإضافية", total: "إجمالي العقد التقديري", toman: "تومان", continue: "المتابعة في WHMCS", contact: "طلب إعداد الباقة", finalPrice: "يحسب WHMCS السعر النهائي عند الدفع.", extraUser: "مستخدمون إضافيون", extraEndpoint: "أجهزة إضافية", noExtra: "دون سعة إضافية", setupPending: "لم يتم إعداد معرف منتج WHMCS لهذه الباقة بعد.", optionPending: "أكد السعة المختارة في WHMCS في الخطوة التالية.", suggested: "باقة أنسب لهذه السعة", switchTo: "اختيار", selected: "محددة", summaryLabel: "ABRIT · خدمات تقنية المعلومات المُدارة" },
 } as const;
 
-export function PricingConfigurator({ locale, packages, initialPackage }: { locale: Locale; packages: Package[]; initialPackage?: string }) {
-  const first = packages.find((item) => item.key === initialPackage) ?? packages[0];
-  const [packageKey, setPackageKey] = useState(first?.key ?? "");
-  const selected = useMemo(() => packages.find((item) => item.key === packageKey) ?? first, [first, packageKey, packages]);
-  const [term, setTerm] = useState(12);
-  const [users, setUsers] = useState(selected?.included_users ?? 0);
-  const [endpoints, setEndpoints] = useState(selected?.included_endpoints ?? 0);
-  const [result, setResult] = useState<PricingResult | null>(null);
-  const [error, setError] = useState("");
-  const [busy, setBusy] = useState(false);
+function RangeSelector({ label, value, minimum, maximum, formatValue, onChange }: { label: string; value: number; minimum: number; maximum: number; formatValue: (value: number) => string; onChange: (value: number) => void }) {
+  const steps = Array.from({ length: maximum - minimum + 1 }, (_, index) => minimum + index);
+  const progress = ((value - minimum) / (maximum - minimum)) * 100;
+  const rangeStyle = { "--range-progress": `${progress}%`, "--range-steps": steps.length } as CSSProperties;
+  return <div className="managed-range-field">
+    <div className="managed-range-heading"><span>{label}</span><output>{formatValue(value)}</output></div>
+    <div className="managed-range-control" dir="ltr">
+      <input className="managed-range" style={rangeStyle} aria-label={label} type="range" min={minimum} max={maximum} step="1" value={value} onChange={(event) => onChange(Number(event.target.value))} />
+      <div className="managed-range-ticks" aria-hidden="true">
+        {steps.map((step, index) => <i key={step} style={{ "--step-position": `${(index / (steps.length - 1)) * 100}%` } as CSSProperties} />)}
+      </div>
+    </div>
+    <div className="managed-range-scale" style={rangeStyle} dir="ltr">{steps.map((step) => <small key={step}>{formatValue(step)}</small>)}</div>
+  </div>;
+}
+
+export function PricingConfigurator({ locale, initialPackage }: { locale: Locale; initialPackage?: string }) {
+  const initial = managedItPackages.find((item) => item.key === initialPackage) ?? managedItPackages[0];
+  const [packageKey, setPackageKey] = useState(initial.key);
+  const selected = managedItPackages.find((item) => item.key === packageKey) ?? managedItPackages[0];
+  const [cycle, setCycle] = useState<ManagedItCycle>("quarterly");
+  const [users, setUsers] = useState(initial.includedUsers);
+  const endpoints = selected.includedEndpoints;
   const copy = labels[locale];
-  const number = new Intl.NumberFormat(locale);
+  const number = useMemo(() => new Intl.NumberFormat(locale), [locale]);
+  const stepNumber = useMemo(() => new Intl.NumberFormat(locale, { minimumIntegerDigits: 2, useGrouping: false }), [locale]);
+  const estimate = estimateManagedItPrice(selected, cycle, users, endpoints);
+  const checkoutUrl = buildManagedItWhmcsUrl(selected, cycle, estimate.extraUsers, estimate.extraEndpoints);
+  const whmcsOptionsReady = estimate.extraUsers === 0 || selected.whmcs.extraUserOptionId !== null;
+  const recommendation = managedItPackages.find((item) => item.order > selected.order && users <= item.includedUsers);
 
   function selectPackage(key: string) {
-    const next = packages.find((item) => item.key === key);
-    setPackageKey(key); setResult(null);
-    if (next) { setUsers(next.included_users); setEndpoints(next.included_endpoints); }
+    const next = managedItPackages.find((item) => item.key === key);
+    if (!next) return;
+    setPackageKey(next.key); setUsers(next.includedUsers);
   }
 
-  async function calculate(event: FormEvent) {
-    event.preventDefault(); setBusy(true); setError("");
-    try {
-      const response = await fetch("/api/pricing/calculate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ package: packageKey, term_months: term, users, endpoints }) });
-      const payload = await response.json();
-      if (!response.ok) throw new Error(payload?.error?.detail ?? copy.error);
-      setResult(payload.data as PricingResult);
-    } catch (reason) { setError(reason instanceof Error ? reason.message : copy.error); }
-    finally { setBusy(false); }
-  }
-
-  return (
-    <div className="configurator-grid">
-      <form className="configurator-panel" onSubmit={calculate}>
-        <label>{copy.package}<select value={packageKey} onChange={(event) => selectPackage(event.target.value)}>{packages.map((item) => <option key={item.key} value={item.key}>{item.name}</option>)}</select></label>
-        <div className="configurator-pair">
-          <label>{copy.users}<input type="number" min="0" max="10000" value={users} onChange={(event) => setUsers(Number(event.target.value))} /></label>
-          <label>{copy.endpoints}<input type="number" min="0" max="10000" value={endpoints} onChange={(event) => setEndpoints(Number(event.target.value))} /></label>
-        </div>
-        <fieldset><legend>{copy.term}</legend><div className="term-options">{[3, 6, 12].map((value) => <label key={value} className={term === value ? "active" : ""}><input type="radio" name="term" value={value} checked={term === value} onChange={() => setTerm(value)} />{value} {copy.months}</label>)}</div></fieldset>
-        <button className="reference-button primary" disabled={busy || !packageKey}>{busy ? "…" : copy.calculate}</button>
-        {error && <p className="form-error" role="alert">{error}</p>}
-      </form>
-      <section className="pricing-result" aria-live="polite">
-        {!result && selected && <><span>ABRIT · {selected.name}</span><h2>{number.format(selected.base_monthly_toman)}</h2><p>{selected.sla}</p><div className="result-placeholder"><i /><i /><i /></div></>}
-        {result?.quote_required && <><span>ABRIT · CUSTOM</span><h2>{copy.quote}</h2>{result.recommended_upgrade && <p>{copy.upgrade}: <b>{result.recommended_upgrade}</b></p>}</>}
-        {result && !result.quote_required && <><span>{copy.details}</span><div className="result-totals"><div><small>{copy.monthly}</small><b>{number.format(result.monthly_recurring_toman ?? 0)}</b></div><div><small>{copy.total}</small><b>{number.format(result.contract_total_toman ?? 0)}</b></div></div><ul>{result.lines.filter((line) => line.amount_toman !== 0).map((line) => <li key={line.key}><span>{line.key.replaceAll("_", " ")}{line.quantity > 1 ? ` × ${line.quantity}` : ""}</span><b>{number.format(line.amount_toman)}</b></li>)}</ul>{result.recommended_upgrade && <p>{copy.upgrade}: <b>{result.recommended_upgrade}</b></p>}</>}
-      </section>
+  return <div className="managed-configurator">
+    <header className="managed-configurator-heading"><div><span>{copy.eyebrow}</span><h2>{copy.title}</h2></div><i>{locale === "fa" ? `مرحله ${number.format(1)} از ${number.format(3)}` : `${stepNumber.format(1)} / ${stepNumber.format(3)}`}</i></header>
+    <div className="managed-package-picker" role="radiogroup" aria-label={copy.choose}>
+      {managedItPackages.map((item) => <button type="button" role="radio" aria-checked={item.key === selected.key} className={item.key === selected.key ? "active" : ""} key={item.key} onClick={() => selectPackage(item.key)}><small>{stepNumber.format(item.order)}</small><b>{item.name[locale]}</b><span>{number.format(item.includedUsers)} {copy.to} {number.format(item.includedUsers + item.maxExtraUsers)} {copy.users}</span><i>{item.key === selected.key ? copy.selected : copy.switchTo}</i></button>)}
     </div>
-  );
+    <div className="managed-builder-grid">
+      <section className="managed-controls">
+        <div className="managed-section-title"><span>{stepNumber.format(2)}</span><div><b>{selected.name[locale]}</b><small>{selected.caption[locale]}</small></div></div>
+        <div className="managed-capacity-note"><span>{copy.included}</span><b>{number.format(selected.includedUsers)} {copy.to} {number.format(selected.includedUsers + selected.maxExtraUsers)} {copy.users}</b></div>
+        <RangeSelector label={copy.usersLabel} value={users} minimum={selected.includedUsers} maximum={selected.includedUsers + selected.maxExtraUsers} formatValue={number.format} onChange={setUsers} />
+        <fieldset className="managed-cycle"><legend>{copy.contract}</legend><div>{managedItCycles.map((item) => <label className={cycle === item.key ? "active" : ""} key={item.key}><input type="radio" name="managed-cycle" checked={cycle === item.key} onChange={() => setCycle(item.key)} /><b>{number.format(item.months)}</b><span>{copy.months}</span></label>)}</div></fieldset>
+        {recommendation && users > selected.includedUsers && <button className="managed-recommendation" type="button" onClick={() => selectPackage(recommendation.key)}><span>{copy.suggested}</span><b>{recommendation.name[locale]} ←</b></button>}
+      </section>
+      <aside className="managed-order-summary">
+        <div className="managed-summary-top"><span>{copy.summaryLabel}</span><b>{stepNumber.format(3)}</b></div><h3>{selected.name[locale]}</h3><p>{selected.caption[locale]}</p>
+        <dl><div><dt>{copy.base}</dt><dd>{number.format(selected.pricing[cycle])} <small>{copy.toman}</small></dd></div><div><dt>{copy.extras}</dt><dd>{number.format(estimate.extras)} <small>{copy.toman}</small></dd></div></dl>
+        <div className="managed-extra-lines">{estimate.extraUsers === 0 ? <span>{copy.noExtra}</span> : <span>{number.format(estimate.extraUsers)} {copy.extraUser} × {number.format(estimate.months)}</span>}</div>
+        <div className="managed-total"><span>{copy.total}</span><b>{number.format(estimate.total)}</b><small>{copy.toman}</small></div><p className="managed-price-disclaimer">{copy.finalPrice}</p>
+        {checkoutUrl ? <a className="managed-checkout" href={checkoutUrl}>{copy.continue}<span aria-hidden="true">←</span></a> : <Link className="managed-checkout" href={`/${locale}/contact?package=${selected.key}`}>{copy.contact}<span aria-hidden="true">←</span></Link>}
+        {!checkoutUrl && <p className="managed-setup-note">{copy.setupPending}</p>}{checkoutUrl && !whmcsOptionsReady && estimate.extraUsers > 0 && <p className="managed-setup-note">{copy.optionPending}</p>}
+      </aside>
+    </div>
+  </div>;
 }

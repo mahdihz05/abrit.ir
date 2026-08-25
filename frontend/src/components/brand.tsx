@@ -1,11 +1,21 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Locale } from "@/lib/types";
 
-export function Brand({ locale }: { locale: Locale }) {
+export function Brand({ locale, inverse = false }: { locale: Locale; inverse?: boolean }) {
   return (
-    <Link href={`/${locale}`} className="brand" aria-label="AbrIT">
-      <span className="brand-css-mark" aria-hidden="true"><i /><i /></span>
-      <span className="brand-word">Abr<span>IT</span></span>
+    <Link href={`/${locale}`} className={`brand${inverse ? " brand--inverse" : ""}`} aria-label="AbrIT Infinite Cloud">
+      <span className="brand-logo-frame">
+        <Image
+          alt="AbrIT Infinite Cloud"
+          className="brand-logo-image"
+          height={1461}
+          priority={!inverse}
+          sizes={inverse ? "210px" : "148px"}
+          src="/abrit-logo-transparent.png"
+          width={3179}
+        />
+      </span>
     </Link>
   );
 }

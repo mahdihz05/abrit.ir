@@ -55,10 +55,24 @@ class SubmissionFileInline(admin.TabularInline):
 @admin.register(FormSubmission)
 class FormSubmissionAdmin(admin.ModelAdmin):
     inlines = (SubmissionFileInline,)
-    list_display = ("form", "locale", "consent_given", "created_at", "expires_at")
-    list_filter = ("form", "locale", "consent_given")
+    list_display = ("contact_name", "contact_phone", "form", "status", "locale", "created_at")
+    list_filter = ("status", "form", "locale", "consent_given")
     search_fields = ("data",)
-    readonly_fields = ("form", "locale", "data", "consent_given", "consent_text", "user_agent", "ip_hash", "expires_at", "created_at", "updated_at")
+    readonly_fields = ("form", "locale", "data", "source_url", "referrer", "consent_given", "consent_text", "user_agent", "ip_hash", "expires_at", "created_at", "updated_at")
+    fields = ("form", "status", "locale", "data", "source_url", "referrer", "consent_given", "consent_text", "user_agent", "ip_hash", "expires_at", "internal_notes", "created_at", "updated_at")
+    actions = ("mark_as_contacted",)
+
+    @admin.display(description="Name", ordering="created_at")
+    def contact_name(self, obj):
+        return obj.data.get("full_name", "—")
+
+    @admin.display(description="Phone")
+    def contact_phone(self, obj):
+        return obj.data.get("phone", "—")
+
+    @admin.action(description="Mark selected requests as contacted")
+    def mark_as_contacted(self, request, queryset):
+        queryset.update(status=FormSubmission.Status.CONTACTED)
 
     def has_add_permission(self, request):
         return False

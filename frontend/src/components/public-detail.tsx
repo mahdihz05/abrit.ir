@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LeadForm } from "./lead-form";
 import { getCapability, getService, pageCopy, services, type PublicService, type PublicSolution } from "@/lib/public-content";
 import type { Locale } from "@/lib/types";
 
@@ -32,6 +33,6 @@ export function PublicDetail({ locale, item, kind }: { locale: Locale; item: Pub
     <section className="public-process"><div className="container"><header className="public-section-heading light-heading"><span>02</span><div><small>{copy.process}</small><h2>{copy.process}</h2></div></header><ol>{copy.processSteps.map((step, index) => <li key={step}><b>{String(index + 1).padStart(2, "0")}</b><span>{step}</span></li>)}</ol></div></section>
     <section className="internal-section"><div className="container public-technology"><header className="public-section-heading"><span>03</span><div><small>{copy.technologies}</small><h2>{copy.technologies}</h2></div></header><div>{technologies.map((technology) => <span key={technology} dir="ltr">{technology}</span>)}</div>{related.length > 0 && <><header className="public-section-heading related-heading"><span>04</span><div><small>{copy.related}</small><h2>{copy.related}</h2></div></header><div className="related-grid">{related.map((entry) => <Link href={`/${locale}/services/${entry.slug}`} key={entry.slug}><small>{copy.service}</small><h3>{entry.title[locale]}</h3><p>{entry.excerpt[locale]}</p></Link>)}</div></>}</div></section>
     <section className="faq-section"><div className="container"><header className="public-section-heading"><span>05</span><div><small>FAQ</small><h2>{locale === "fa" ? "پرسش‌های متداول" : locale === "en" ? "Frequently asked questions" : "الأسئلة الشائعة"}</h2></div></header><div className="faq-grid">{faq.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>
-    <section className="internal-assessment"><div className="container"><div className="internal-cta"><div><span>ABRIT · IT ASSESSMENT</span><h2>{title}</h2></div><Link className="reference-button light" href={`/${locale}/contact`}>{copy.assessment}</Link></div></div></section>
+    <section className="lead-section"><div className="container"><LeadForm locale={locale} context={`${kind}:${item.slug}`} compact /></div></section>
   </main>;
 }

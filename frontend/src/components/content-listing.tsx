@@ -8,11 +8,17 @@ export function ContentListing({
 }) {
   return (
     <main className="internal-main">
-      <section className="internal-hero">
+      <section className="internal-hero" data-motion-reveal>
         <div className="container"><span className="internal-eyebrow">{eyebrow}</span><h1>{title}</h1><p>{intro}</p></div>
       </section>
       <section className="internal-section">
-        <div className="container content-card-grid">
+        <div className="container listing-layout">
+          <aside className="listing-rail" aria-label={itemLabel} data-motion-reveal>
+            <span>ABRIT / {eyebrow}</span>
+            <i aria-hidden="true" />
+            <b>{String(items.length).padStart(2, "0")}</b>
+          </aside>
+          <div className="content-card-grid">
           {items.length === 0 && (
             <div className="empty-publication" role="status">
               <span>ABRIT CMS</span>
@@ -20,12 +26,13 @@ export function ContentListing({
             </div>
           )}
           {items.map((item, index) => (
-            <article className="content-card" key={item.id}>
+            <article className="content-card" data-motion-reveal key={item.id}>
               <span className="content-card-number">{String(index + 1).padStart(2, "0")}</span>
               <small>{itemLabel}</small><h2>{item.title}</h2><p>{item.excerpt}</p>
               <Link href={item.url}>{readMore}<span aria-hidden="true"> ←</span></Link>
             </article>
           ))}
+          </div>
         </div>
       </section>
       <section className="internal-assessment"><div className="container"><div className="internal-cta"><div><span>ABRIT · IT ASSESSMENT</span><h2>{title}</h2></div><Link className="reference-button light" href={`/${locale}/contact`}>{locale === "en" ? "Start assessment" : locale === "fa" ? "شروع ارزیابی" : "ابدأ التقييم"}</Link></div></div></section>

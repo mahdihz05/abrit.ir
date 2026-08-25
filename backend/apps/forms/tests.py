@@ -12,7 +12,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from apps.core.models import AuditLog
-from .models import Form, FormSubmission
+from .models import Form, FormField, FormSubmission, FormTranslation
 from .validators import validate_submission_file
 
 
@@ -73,3 +73,85 @@ def test_retention_command_purges_only_expired_submissions():
     assert not FormSubmission.objects.filter(pk=expired.pk).exists()
     assert FormSubmission.objects.filter(pk=active.pk).exists()
     assert AuditLog.objects.filter(action="retention_purge", object_id=str(expired.pk)).exists()
+
+
+def consultation_form():
+    form, _ = Form.objects.get_or_create(key="test-consultation")
+    FormTranslation.objects.get_or_create(
+        form=form,
+        locale="fa",
+        defaults={"title": "مشاوره", "success_message": "ثبت شد", "consent_label": "موافقم"},
+    )
+    fields = [
+        ("full_name", FormField.FieldType.TEXT, True, 1),
+        ("phone", FormField.FieldType.PHONE, True, 2),
+        ("need_type", FormField.FieldType.SELECT, True, 3),
+        ("details", FormField.FieldType.TEXTAREA, True, 4),
+    ]
+    for key, field_type, required, order in fields:
+        FormField.objects.update_or_create(
+            form=form,
+            key=key,
+            defaults={
+                "field_type": field_type,
+                "required": required,
+                "order": order,
+                "options": ["assessment", "security"] if key == "need_type" else [],
+            },
+        )
+    return form
+
+
+@pytest.mark.django_db
+def test_public_form_submission_is_validated_and_saved(api_client):
+    form = consultation_form()
+    response = api_client.post(
+        reverse("form-submission-create", kwargs={"form_key": form.key}),
+        {
+            "locale": "fa",
+            "data": {
+                "full_name": "علی رضایی",
+                "phone": "09123456789",
+                "need_type": "assessment",
+                "details": "برای بررسی وضعیت شبکه و پشتیبان‌گیری نیاز به مشاوره داریم.",
+            },
+            "consent_given": True,
+            "source_url": "http://localhost:3000/fa/contact",
+        },
+        format="json",
+    )
+    assert response.status_code == 201
+    submission = FormSubmission.objects.get(pk=response.json()["data"]["id"])
+    assert submission.form == form
+    assert submission.status == FormSubmission.Status.NEW
+    assert submission.data["phone"] == "09123456789"
+    assert submission.ip_hash
+
+
+@pytest.mark.django_db
+def test_public_form_submission_rejects_missing_consent_and_unknown_fields(api_client):
+    form = consultation_form()
+    response = api_client.post(
+        reverse("form-submission-create", kwargs={"form_key": form.key}),
+        {
+            "locale": "fa",
+            "data": {
+                "full_name": "علی رضایی",
+                "phone": "09123456789",
+                "need_type": "assessment",
+                "details": "نیاز به مشاوره داریم.",
+                "is_admin": True,
+            },
+            "consent_given": False,
+        },
+        format="json",
+    )
+    assert response.status_code == 400
+    assert FormSubmission.objects.filter(form=form).count() == 0
+
+
+@pytest.fixture
+def api_client():
+    from rest_framework.test import APIClient
+
+    return APIClient()

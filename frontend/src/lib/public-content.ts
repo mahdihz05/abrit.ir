@@ -148,11 +148,11 @@ const packageNames: Record<string, Localized> = {
 };
 
 const packageRows = [
-  ["essential", 1, 12_950_000, 5, 6, 0, 1, 1_590_000, 790_000, "حداکثر ۸ ساعت کاری", "Up to 8 business hours", "حتى 8 ساعات عمل"],
-  ["standard", 2, 19_500_000, 10, 12, 1, 1, 1_990_000, 990_000, "حداکثر ۴ ساعت کاری", "Up to 4 business hours", "حتى 4 ساعات عمل"],
-  ["professional", 3, 32_900_000, 15, 20, 2, 2, 2_690_000, 1_290_000, "حداکثر ۲ ساعت کاری", "Up to 2 business hours", "حتى ساعتَي عمل"],
-  ["business", 4, 52_900_000, 25, 35, 4, 3, 3_790_000, 1_790_000, "حداکثر ۱ ساعت کاری", "Up to 1 business hour", "حتى ساعة عمل واحدة"],
-  ["enterprise", 5, 79_900_000, 40, 60, 8, 5, 4_990_000, 2_490_000, "P1 حداکثر ۳۰ دقیقه", "P1 up to 30 minutes", "P1 حتى 30 دقيقة"],
+  ["essential", 1, 12_950_000, 4, 6, 0, 1, 1_590_000, 790_000, "حداکثر ۳ ساعت کاری", "Up to 8 business hours", "حتى 8 ساعات عمل"],
+  ["standard", 2, 19_500_000, 7, 12, 1, 1, 1_990_000, 990_000, "حداکثر ۱ ساعت کاری", "Up to 4 business hours", "حتى 4 ساعات عمل"],
+  ["professional", 3, 32_900_000, 10, 20, 2, 2, 2_690_000, 1_290_000, "حداکثر ۳۰ دقیقه", "Up to 2 business hours", "حتى ساعتَي عمل"],
+  ["business", 4, 52_900_000, 20, 35, 4, 3, 3_790_000, 1_790_000, "حداکثر ۱۵ دقیقه", "Up to 1 business hour", "حتى ساعة عمل واحدة"],
+  ["enterprise", 5, 79_900_000, 30, 60, 8, 5, 4_990_000, 2_490_000, "به‌صورت لحظه‌ای", "P1 up to 30 minutes", "P1 حتى 30 دقيقة"],
 ] as const;
 
 export function localizedPackages(locale: Locale): Package[] {
@@ -166,11 +166,11 @@ export function localizedPackages(locale: Locale): Package[] {
 
 export function staticNavigation(locale: Locale): NavigationItem[] {
   const labels = {
-    fa: ["خانه", "خدمات", "راهکارها", "تعرفه‌ها", "دانش و منابع", "اخبار و رسانه", "درباره AbrIT", "تماس"],
-    en: ["Home", "Services", "Solutions", "Pricing", "Knowledge", "News & Media", "About AbrIT", "Contact"],
-    "ar-ae": ["الرئيسية", "الخدمات", "الحلول", "الأسعار", "المعرفة", "الأخبار والإعلام", "عن AbrIT", "اتصل بنا"],
+    fa: ["خانه", "خدمات", "راهکارها", "تعرفه‌ها", "وبلاگ", "درباره ما", "تماس با ما"],
+    en: ["Home", "Services", "Solutions", "Pricing", "Blog", "About Us", "Contact Us"],
+    "ar-ae": ["الرئيسية", "الخدمات", "الحلول", "الأسعار", "المدونة", "من نحن", "اتصل بنا"],
   }[locale];
-  const paths = ["", "services", "solutions", "pricing", "knowledge", "news", "about", "contact"];
+  const paths = ["", "products", "solutions", "pricing", "news", "about", "contact"];
   return paths.map((path, index) => ({ id: `static-${index}`, title: labels[index], description: "", url: `/${locale}${path ? `/${path}` : ""}`, icon: "", column: 1, open_in_new_tab: false, featured_image: null, children: [] }));
 }
 

@@ -22,7 +22,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from apps.content.api import ContentDetailView, ContentListView, RootContentDetailView
 from apps.core.api import SiteSettingsView, health
-from apps.forms.api import admin_submission_file_download
+from apps.forms.api import PublicFormSubmissionView, admin_submission_file_download
 from apps.navigation.api import NavigationView
 from apps.pricing.api import PackageListView, PricingCalculateView
 from apps.search.api import SearchView
@@ -40,6 +40,7 @@ urlpatterns = [
     path("api/v1/content/<str:locale>/<path:path>", ContentDetailView.as_view(), name="content-detail"),
     path("api/v1/pricing/packages", PackageListView.as_view(), name="package-list"),
     path("api/v1/pricing/calculate", PricingCalculateView.as_view(), name="pricing-calculate"),
+    path("api/v1/forms/<slug:form_key>/submissions", PublicFormSubmissionView.as_view(), name="form-submission-create"),
     path("api/v1/search", SearchView.as_view(), name="search"),
 ]
 
