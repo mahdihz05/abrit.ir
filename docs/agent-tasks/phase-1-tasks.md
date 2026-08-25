@@ -14,7 +14,7 @@ The filename supplied by the owner identifies the intended approved plan, but im
 - The plan says it is “planning only” and does not authorize implementation.
 - The plan lists five readiness gates without completion evidence.
 - The review verdict is “READY WITH CHANGES” and says not to start feature implementation until eight blocking issues are incorporated.
-- The requested `docs/agent-reports/phase-1-plan-v2.md` does not exist; `phase-1-plan-aprove.md` identifies itself internally as Version 2 and is used here as the plan source.
+- The approved plan file present in the repository is `docs/agent-reports/phase-1-plan-aprove.md`; it identifies itself internally as Version 2 and is used here as the plan source.
 
 Accordingly, implementation tasks R01–R18 remain `BLOCKED` and `UNASSIGNED`. This board incorporates the review corrections into the affected task definitions, but it does not itself approve implementation or satisfy the Wave 0 gates. R00 alone has been explicitly claimed as a non-implementation readiness task so it can record the missing evidence; no implementation task may be claimed until R00 is reviewed and marked `DONE`.
 
@@ -25,7 +25,7 @@ Accordingly, implementation tasks R01–R18 remain `BLOCKED` and `UNASSIGNED`. T
 - B03: Freeze a non-enumerating lockout response and a trusted client-IP/proxy rule.
 - B04: Make every user endpoint explicitly superuser-only, remove conditional response fields, and define nullable session roles.
 - B05: Correct migration ownership from stale T-identifiers to R02, R03, and R05.
-- B06: Run R00 in the current owner-controlled worktree rather than a feature worktree.
+- B06: Run R00 in the approved dedicated worktree `/mnt/c/projects/abrit-r00` on branch `feat/p1-r00-readiness`; use the primary repository `/mnt/c/projects/abrit.ir` only as reference and integration context, and do not modify `master` directly.
 - B07: Assign the initial protected Admin/auth URL include to R05 and let R13 extend it.
 - B08: Assign `content/services.py` to R02, publication Admin/forms/helpers to R03, and expand negative/security tests.
 - G01: Record approval for same-origin `/cms`, the React/Django Admin split, and the fixed-role/superuser-only model.
@@ -55,8 +55,9 @@ Accordingly, implementation tasks R01–R18 remain `BLOCKED` and `UNASSIGNED`. T
 - **Unlock condition:** Satisfied for R00 by the coordinator's explicit claim instruction. R00 must record B01–B08/G01 disposition before it can pass review.
 - **Required predecessor tasks:** None.
 - **Blocker category:** planning; architecture (cleared for R00 execution only).
-- **Dependencies:** None; owner decisions and B01–B08/G01 evidence are deliverables of R00, and B06 requires execution in the current worktree.
-- **Scope:** In the current owner-controlled worktree, preserve user changes, resolve or isolate the dirty baseline, record the baseline commit and approvals, establish a supported POSIX Python environment, and prove that all verification artifacts remain under a disposable root. Do not change application behavior.
+- **Dependencies:** None; owner decisions and B01–B08/G01 evidence are deliverables of R00, and B06 requires execution in the approved dedicated worktree.
+- **Execution context:** Branch `feat/p1-r00-readiness`; worktree `/mnt/c/projects/abrit-r00`; primary repository `/mnt/c/projects/abrit.ir` for reference and integration context only. All R00 application changes must happen only in the dedicated worktree, and R00 must not modify `master` directly.
+- **Scope:** In the approved dedicated worktree, preserve user changes, resolve or isolate the dirty baseline, record the baseline commit and approvals, establish a supported POSIX Python environment, and prove that all verification artifacts remain under a disposable root. Do not change application behavior.
 - **Relevant files:** `.gitignore`, `requirements.txt`, `frontend/package.json`, `scripts/`, `docs/agent-reports/`, repository status.
 - **Acceptance criteria:** Intended baseline is clean and recorded; all charter/topology/role approvals have evidence; existing backend and frontend checks are recorded; no current SQLite/media/cache/schema state is modified; verification wrapper rejects unset or unsafe paths and contains pytest, cache, media, schema, and migration artifacts.
 - **Verification commands:** `git status --short`; `test -x .runtime/phase1-venv/bin/python`; `scripts/check-phase1.sh --baseline`.
