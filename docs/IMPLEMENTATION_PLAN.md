@@ -6,7 +6,7 @@
 - Next.js owns the public presentation layer and renders only published API content.
 - Public routes are locale-prefixed (`fa`, `en`, `ar-ae`); missing translations return 404 without fallback.
 - The first production database is SQLite on persistent local storage. Money is stored as integer toman values, not floating point.
-- `abrit.ir` serves Next.js. `cms.abrit.ir` serves Django Admin and `/api/v1`.
+- `abrit.ir` serves Next.js and same-origin Django under `/cms`, including Django Admin and `/cms/api/v1`.
 - The approved v5 HTML is the visual reference, not production source code or production data.
 - The approved package document is the commercial source of truth.
 

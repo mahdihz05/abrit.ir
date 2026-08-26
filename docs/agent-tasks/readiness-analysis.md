@@ -8,7 +8,7 @@ Sources:
 
 ## Current Decision
 
-All R00–R18 tasks remain `BLOCKED` and `UNASSIGNED`. No implementation agent may claim a task yet.
+R00 is `DONE`. R01, R02, and R03 are `READY` and `UNASSIGNED`; R04–R18 remain `BLOCKED` and `UNASSIGNED`.
 
 The first blocker is outside the implementation dependency graph: B01–B08 must be incorporated into an explicitly approved plan revision, G01 architecture decisions must be recorded, and R00 must be authorized to run in the current owner-controlled worktree. This is a planning/owner action, not an implementation assignment.
 
@@ -52,13 +52,12 @@ Maximum safe parallelism is **3 agents**, one on each of R01, R02, and R03. If R
 
 ## Safety Conclusions
 
-- R00 is the only initial task, but it cannot be claimed until the planning/architecture closure is approved.
-- R01, R02, and R03 are the first tasks that can execute concurrently after readiness is complete.
+- R01, R02, and R03 are the first tasks that can execute concurrently now that readiness is complete.
 - R04 must wait for R01 even if its visual shell appears independent, because package/test/shared-contract ownership belongs to R01.
 - R05 must run after R02 and R03 and should integrate alone due to authentication, migration, settings, proxy, CSRF, and central URL risk.
 - R13 and R18 are single-agent integration gates.
 - Status changes must follow the task-board Execution Rules; this analysis assigns no owners and changes no task status.
 
-INITIAL_TASKS: R00
+INITIAL_TASKS: R01, R02, R03
 FIRST_EXECUTABLE_WAVE: R01, R02, R03
 MAX_SAFE_PARALLEL_AGENTS: 3
