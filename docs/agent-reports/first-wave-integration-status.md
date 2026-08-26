@@ -32,6 +32,8 @@ Coordinator verification on the integrated control branch used a disposable `/tm
 
 The task-board copies inside R01–R03 are stale because those dedicated worktrees began before control's R00 integration. Their code must not be interpreted as integrated state. Their owners must rebase/reconcile with control before a review handoff.
 
+R02's code-only review snapshot was committed as `00959e0` and merged into control for recheck as `368c7ed`; the R02 task remains `REVIEW`, not `DONE`. A new disposable clean migration run confirmed that `core.0002_auditlog_metadata` and `forms.0003_alter_submissionfile_file` both apply in the same integrated database. The requested focused R02 pytest command and post-R02 migration-drift command were started against this integrated branch, but neither yielded a completed exit status within the foreground execution window. They are missing evidence, not passing evidence, and must be rerun to completion before R02 can be accepted.
+
 ## Remediation and ownership decisions
 
 ### R01
