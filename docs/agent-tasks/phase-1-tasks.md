@@ -65,10 +65,10 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 ### R01 — API contract and frontend test foundation
 
 - **Primary scope:** tests
-- **Status:** READY
+- **Status:** IN_PROGRESS
 - **Owner:** berar-front
 - **Blocked by:** None.
-- **Blocking reason:** None; its R00 and B04 gates are satisfied.
+- **Blocking reason:** Remediation required: the test runner dependencies and synchronized `frontend/package-lock.json` are missing, so the declared test commands are not yet reproducible.
 - **Unlock condition:** Satisfied: R00 is DONE and the frozen contract makes user endpoints superuser-only, removes conditional fields, and permits nullable session roles.
 - **Required predecessor tasks:** R00.
 - **Blocker category:** none.
@@ -81,10 +81,10 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 ### R02 — Focused audit foundation
 
 - **Primary scope:** audit
-- **Status:** READY
+- **Status:** REVIEW
 - **Owner:** berar-audit
 - **Blocked by:** None.
-- **Blocking reason:** None; its R00, B05, and B08 gates are satisfied.
+- **Blocking reason:** New implementation work is on hold pending an R00-integrated recheck and explicit resolution of the R03 workflow-context overlap in `content/services.py`.
 - **Unlock condition:** Satisfied: R00 is DONE and the approved task contract assigns the next core migration and `content/services.py` to R02 using disposable clean/upgrade databases.
 - **Required predecessor tasks:** R00.
 - **Blocker category:** none.
@@ -100,7 +100,7 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 - **Status:** IN_PROGRESS
 - **Owner:** berar-auth
 - **Blocked by:** None.
-- **Blocking reason:** None; its R00, B01, B02, B05, and B08 gates are satisfied.
+- **Blocking reason:** Remediation required: trusted publication workflow changes must be reconciled with R02's audit-owned `content/services.py` and the shared content-test changes before review.
 - **Unlock condition:** Satisfied: R00 is DONE and the approved task contract freezes the full publication boundary, read-only Group policy, full-Group replacement rule, R03 migration ownership, and Admin/forms/helper ownership.
 - **Required predecessor tasks:** R00.
 - **Blocker category:** none.
@@ -352,4 +352,4 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 
 ## Claiming Gate
 
-R00 is `DONE` following coordinator review. Its historical lifecycle was `CLAIMED` → `IN_PROGRESS` → `REVIEW` → `DONE`; it is not currently `CLAIMED`. R01, R02, and R03 are `READY` and reserved respectively for `berar-front`, `berar-audit`, and `berar-auth`; each agent must change only its own task to `IN_PROGRESS` before implementation. R04–R18 remain `BLOCKED` and `UNASSIGNED` until their listed dependencies reach `DONE`.
+R00 is `DONE` following coordinator review and is integrated at control commit `a738c9a`. R01 (`berar-front`) and R03 (`berar-auth`) are `IN_PROGRESS` for remediation. R02 (`berar-audit`) is `REVIEW` and may not receive new implementation work until its R00-integrated recheck and the R03/R02 service overlap are resolved. R04–R18 remain `BLOCKED` and `UNASSIGNED` until their listed dependencies reach `DONE`; R04 and R05 must not start.
