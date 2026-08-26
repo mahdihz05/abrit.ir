@@ -7,7 +7,8 @@ from django.db.models import Max
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
-from apps.core.models import AuditLog, RevalidationEvent
+from apps.core.audit import AuditAction, write_audit_log
+from apps.core.models import RevalidationEvent
 
 from .models import ContentBlock, ContentRevision, ContentTranslation
 
@@ -122,10 +123,10 @@ def restore_revision(revision: ContentRevision, *, actor=None, source=ContentRev
 
 
 def _audit_and_revalidate(translation, *, actor, source, action, before):
-    AuditLog.objects.create(
+    write_audit_log(
         actor=actor,
         actor_type=source,
-        action=action,
+        action=AuditAction(action),
         object_type="content_translation",
         object_id=str(translation.id),
         before=before,

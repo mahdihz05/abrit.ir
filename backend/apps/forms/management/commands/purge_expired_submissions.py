@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.utils import timezone
 
-from apps.core.models import AuditLog
+from apps.core.audit import AuditAction, AuditActorType, write_audit_log
 from apps.forms.models import FormSubmission
 
 
@@ -20,8 +20,8 @@ class Command(BaseCommand):
                     if stored_file.file.name:
                         stored_file.file.storage.delete(stored_file.file.name)
                         deleted_files += 1
-                AuditLog.objects.create(
-                    actor_type="system", action="retention_purge", object_type="form_submission",
+                write_audit_log(
+                    actor_type=AuditActorType.SYSTEM, action=AuditAction.RETENTION_PURGE, object_type="form_submission",
                     object_id=str(submission.id), before={"form": submission.form.key, "files": len(files)}, after={},
                 )
                 submission.delete()

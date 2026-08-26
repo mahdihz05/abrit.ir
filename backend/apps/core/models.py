@@ -105,14 +105,37 @@ class DesignSettings(SingletonModel, UUIDTimestampedModel):
 
 
 class AuditLog(models.Model):
+    class ActorType(models.TextChoices):
+        ADMIN = "admin", "Admin"
+        API = "api", "API"
+        SYSTEM = "system", "System"
+        MCP = "mcp", "MCP"
+        AGENT = "agent", "Agent"
+
+    class Action(models.TextChoices):
+        CONTENT_PUBLISH = "publish", "Publish content"
+        CONTENT_UNPUBLISH = "unpublish", "Unpublish content"
+        CONTENT_RESTORE = "restore", "Restore content revision"
+        RETENTION_PURGE = "retention_purge", "Purge expired submission"
+        USER_CREATE = "user_create", "Create user"
+        USER_UPDATE = "user_update", "Update user"
+        USER_ACTIVATE = "user_activate", "Activate user"
+        USER_DEACTIVATE = "user_deactivate", "Deactivate user"
+        USER_PASSWORD_RESET = "user_password_reset", "Reset user password"
+        USER_ROLE_CHANGE = "user_role_change", "Change user role"
+        AUTH_LOGIN_SUCCESS = "auth_login_success", "Successful login"
+        AUTH_LOGIN_FAILURE = "auth_login_failure", "Failed login"
+        AUTH_LOGOUT = "auth_logout", "Logout"
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL)
-    actor_type = models.CharField(max_length=20, default="admin")
-    action = models.CharField(max_length=80)
+    actor_type = models.CharField(max_length=20, choices=ActorType.choices, default=ActorType.ADMIN)
+    action = models.CharField(max_length=80, choices=Action.choices)
     object_type = models.CharField(max_length=120)
     object_id = models.CharField(max_length=64)
     before = models.JSONField(default=dict, blank=True)
     after = models.JSONField(default=dict, blank=True)
+    metadata = models.JSONField(default=dict, blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
