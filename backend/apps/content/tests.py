@@ -37,6 +37,32 @@ def test_publish_creates_revision_and_revalidation_event():
 
 
 @pytest.mark.django_db
+def test_publish_rolls_back_when_its_required_audit_write_fails(monkeypatch):
+    item = ContentItem.objects.create(key="audit-rollback", kind=ContentItem.Kind.PAGE)
+    translation = ContentTranslation.objects.create(
+        item=item,
+        locale="fa",
+        title="بررسی‌شده",
+        slug="audit-rollback",
+        path="audit-rollback",
+        translation_status=ContentTranslation.TranslationStatus.REVIEWED,
+    )
+
+    def fail_audit(**kwargs):
+        raise RuntimeError("audit unavailable")
+
+    monkeypatch.setattr("apps.content.services.write_audit_log", fail_audit)
+    with pytest.raises(RuntimeError, match="audit unavailable"):
+        publish_translation(translation)
+
+    translation.refresh_from_db()
+    assert translation.workflow_status == ContentTranslation.WorkflowStatus.DRAFT
+    assert translation.published_at is None
+    assert not ContentRevision.objects.filter(translation=translation).exists()
+    assert not RevalidationEvent.objects.filter(paths=["/fa/audit-rollback"]).exists()
+
+
+@pytest.mark.django_db
 def test_block_props_are_schema_validated():
     item = ContentItem.objects.create(key="blocks", kind=ContentItem.Kind.PAGE)
     translation = ContentTranslation.objects.create(item=item, locale="fa", title="بلوک", slug="blocks", path="blocks")
