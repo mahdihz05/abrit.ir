@@ -2,156 +2,180 @@
 
 ## Decision
 
-R00 is ready for independent review, but Phase 1 implementation remains **BLOCKED**. The repository baseline is isolated and preserved, and a safe verification wrapper is available. Backend and frontend execution baselines could not run because the approved POSIX Python environment and frontend dependencies are absent, and dependency installation was not authorized. G01 owner approvals and the `docs/IMPLEMENTATION_PLAN.md` topology reconciliation also remain unresolved.
+R00 remediation is **READY FOR REVIEW** and must not be marked `DONE` by the implementer.
+
+The repository owner explicitly approved all three G01 decisions, the same-origin `/cms` topology reconciliation, installation of the pinned backend and locked frontend environments, and the narrow forward migration correction required by the executable baseline on 2026-08-26. The initial migration remains unchanged. Private submission storage now has a path-independent migration identity while retaining the configured runtime location, and the final complete baseline exits 0.
 
 No R01–R18 work was performed. Those tasks remain `BLOCKED` and `UNASSIGNED`.
 
 ## Execution Context
 
-- Recorded: `2026-08-25T12:48:20+03:30`
 - Branch: `feat/p1-r00-readiness`
 - Worktree: `/mnt/c/projects/abrit-r00`
-- Baseline commit: `54b691852c07a302b98ccf52a7157a19fdbb03a6`
-- Primary repository: `/mnt/c/projects/abrit.ir`, branch `master`, reference/integration context only
-- Initial R00 worktree status: clean; no modified or untracked paths
+- R00 remediation base commit: `8ffd528` (`docs: complete R00 readiness workflow`)
+- Application baseline commit shared with primary `master`: `54b691852c07a302b98ccf52a7157a19fdbb03a6`
+- Primary repository: `/mnt/c/projects/abrit.ir`, reference/integration context only
 - R00 owner: `phase1-readiness-agent`
+- Lifecycle: `REVIEW` from the first submission, returned to `IN_PROGRESS` for remediation, and returned to `REVIEW` after the final exit-0 baseline
 
-The execution branch and worktree match the committed R00 contract. No branch or worktree was created or switched, and the primary repository was not modified.
+No branch/worktree was created or switched. The primary repository was not modified.
 
 ## Referenced Documents
 
-The following R00 planning/report sources were read in full and exist at the recorded commit:
+The authoritative control review was read first from:
 
-- `docs/agent-reports/phase-1-plan-aprove.md`
-- `docs/agent-reports/phase-1-plan-v2-review.md`
+- `/mnt/c/projects/abrit-agent-control/docs/agent-reports/R00-readiness-review.md`
+
+The following local contract/planning sources were then read:
+
+- `docs/agent-tasks/R00.md`
 - `docs/agent-tasks/phase-1-tasks.md`
+- `docs/agent-reports/phase-1-readiness.md`
+- `docs/agent-reports/phase-1-plan-aprove.md`
 - `docs/agent-tasks/readiness-analysis.md`
 - `docs/IMPLEMENTATION_PLAN.md`
 
-The nonexistent `docs/agent-reports/phase-1-plan-v2.md` is not used. The owner-designated plan source is `docs/agent-reports/phase-1-plan-aprove.md`, which identifies itself internally as Version 2.
+## Existing Uncommitted-Change Review
 
-## Baseline Isolation and Line-Endings
+Git metadata cannot attribute an uncommitted edit to a particular person. The current R00 deltas match the independent review remediation and the owner's subsequent approvals:
 
-The dedicated R00 worktree began clean at the baseline commit. The separate primary `master` worktree has 35 modified tracked files and no untracked files. It includes application files and existing initial migrations. Read-only comparison produced:
-
-- `git diff --ignore-cr-at-eol --quiet`: success
-- Result: all 35 primary-worktree deltas are CRLF-only at the recorded baseline
-- `git diff --check`: reports the CR characters as trailing whitespace
-
-Owner disposition G02 is isolation: preserve the primary worktree byte-for-byte and perform R00 only in the clean dedicated worktree. R00 did not stage, normalize, commit, revert, move, or delete any primary-worktree path.
-
-## B01–B08 Dispositions
-
-The committed shared task board incorporates the Version 2 review corrections as follows:
-
-| ID | Disposition and evidence |
-|---|---|
-| B01 | Incorporated in R03 scope and acceptance criteria: forms, inlines, blocks, archive/deactivation, scheduling, published objects, direct workflow saves, and negative bypass tests. |
-| B02 | Incorporated in R03: all supported Group management is read-only; fixed-role assignment replaces the complete Group set and removes direct permissions. |
-| B03 | Incorporated in R05: wrong password, unknown username, inactive account, and locked account with an incorrect password are indistinguishable; trusted/spoofed proxy behavior is tested. |
-| B04 | Incorporated in R06/R07: all user endpoints are superuser-only, conditional fields are removed, and session roles may be null. |
-| B05 | Incorporated in task ownership: R02 owns the next core audit migration, R03 owns `accounts/0001` and the next content permission migration, and R05 owns the later lockout/security migration. The older plan prose still contains stale T-identifiers and must not override the task board. |
-| B06 | Incorporated in the R00 contract and board: execute on `feat/p1-r00-readiness` at `/mnt/c/projects/abrit-r00`; do not modify `master`. |
-| B07 | Incorporated in R05/R13: R05 owns the initial protected Admin/auth include; R13 extends it. |
-| B08 | Incorporated in R02/R03/R12: R02 owns `content/services.py`; R03 owns publication Admin/forms/helpers; negative/security coverage is expanded. |
-
-These are recorded dispositions in the committed task definitions. They do not authorize any implementation task while R00 or the owner gates remain incomplete.
-
-## Owner and Architecture Gates
-
-| Gate | Result | Evidence or blocker |
+| File | Classification | Disposition |
 |---|---|---|
-| G01: same-origin `/cms` | BLOCKED | The Version 2 plan recommends it, but no explicit owner approval is recorded. |
-| G01: React Admin supplements Django Admin | BLOCKED | The proposed charter is explicit, but no explicit owner approval is recorded. |
-| G01: fixed roles/superuser-only management | BLOCKED | The proposed role model is explicit, but no explicit owner approval is recorded. |
-| G02: dirty/line-ending baseline | PASS | The owner-authorized dedicated worktree isolates the clean R00 baseline from the preserved CRLF-only primary-worktree changes. |
-| G03: supported environment and untouched baseline | BLOCKED | The pinned POSIX environment and frontend dependencies are absent; installation was not authorized. |
-| `docs/IMPLEMENTATION_PLAN.md` topology reconciliation | BLOCKED | It still says `cms.abrit.ir`; no approved reconciliation decision is recorded. |
+| `.gitignore` | Post-review remediation; explicitly permitted by R00 and required before the documented runtime path may be used | Keep the narrow `.runtime/phase1-venv/` rule |
+| `scripts/check-phase1.sh` | Post-review fixes for the missing frontend input and whole-worktree guard | Keep, correct, and verify |
+| `docs/agent-reports/phase-1-readiness.md` | Post-review evidence update | Record exact resolution and verification status without claiming blocked checks passed |
+| `docs/IMPLEMENTATION_PLAN.md` | Owner-approved topology reconciliation | Replace the conflicting subdomain statement with same-origin `/cms` |
+| `backend/apps/forms/storage.py` | Owner-authorized baseline correction | Give private storage a path-independent deconstructible migration identity without changing its runtime location |
+| `backend/apps/forms/migrations/0003_alter_submissionfile_file.py` | Owner-authorized forward migration | Correct migration state without editing `0001_initial.py` |
 
-## Environment Evidence
+There is no evidence that any of these changes should be reverted as unrelated reviewer output.
 
-- Required interpreter `.runtime/phase1-venv/bin/python`: absent/not executable (`test` exit 1)
-- `.venv/bin/python`: absent/not executable
-- System interpreter: Python `3.14.4`, but importing Django/DRF fails with `ModuleNotFoundError`
-- Node: `v22.22.1`
-- npm: `9.2.0`
-- `frontend/node_modules`: absent
-- Existing backend test inventory: 22 `test_*` functions by static repository count; not executed
-- Frontend `test` and `test:e2e` scripts: not defined; R01 owns that test foundation
+R01–R18 remain `BLOCKED` and `UNASSIGNED`.
+The task contract and shared board were transitioned through `IN_PROGRESS` and restored to their committed `REVIEW` text, so they have no final content delta.
 
-No dependency installation was attempted. The repository Windows virtual environment was not used from WSL.
+## Baseline Isolation and Line Endings
 
-## Safe Verification Wrapper
+The dedicated R00 worktree began clean at the application baseline commit. At independent review, the separate primary `master` worktree had 35 modified tracked files, no untracked files, and only CRLF differences.
 
-R00 added `scripts/check-phase1.sh`. It:
+G02 disposition remains isolation: preserve the primary worktree byte-for-byte and perform R00 only in the dedicated worktree. No primary path was staged, normalized, committed, reverted, moved, or deleted.
 
-- requires exactly `--baseline` and a nonempty `ABRIT_VERIFY_DIR`;
-- resolves and accepts only a nonsymlink child below `/tmp`;
-- creates a unique `run.XXXXXXXX` directory below the approved root;
-- routes database, public/private media, caches, Python bytecode, pytest, generated schema, frontend build, migration, temporary, npm, and E2E artifacts below that run directory;
-- runs backend checks only with `.runtime/phase1-venv/bin/python`;
-- runs frontend checks from a disposable source copy only when existing dependencies are available;
-- snapshots protected repository data before and after verification and fails if it changes;
-- distinguishes pass, fail, blocked, and not-run outcomes.
+After the final contained run, a read-only recheck found concurrent primary-worktree drift: 40 modified tracked paths and 8 untracked files. Eight tracked paths now have substantive differences after ignoring CR-at-EOL (`frontend/src/app/[locale]/search/page.tsx`, `frontend/src/app/globals.css`, `frontend/src/app/sitemap.ts`, `frontend/src/components/homepage-runtime.tsx`, `frontend/src/components/reference-homepage.module.css`, `frontend/src/components/site-footer.tsx`, `frontend/src/components/site-header.tsx`, and `frontend/src/components/structured-data.tsx`). The untracked files are under `frontend/src/app/[locale]/independent-services/`, `frontend/src/app/api/forms/`, and related `frontend/src/components/` and `frontend/src/lib/` paths. R00 did not modify the primary worktree; the dedicated-worktree isolation prevented this concurrent activity from changing the R00 verification state.
 
-Containment checks:
+## G01 Approval Evidence
 
-| Check | Result |
-|---|---|
-| `bash -n scripts/check-phase1.sh` | PASS |
-| Unset `ABRIT_VERIFY_DIR` | PASS: refused, exit 64 |
-| Repository path as `ABRIT_VERIFY_DIR` | PASS: refused, exit 64 |
-| Approved root `/tmp/abrit-phase1-r00` | PASS: unique run `/tmp/abrit-phase1-r00/run.IXtRFWuu` created |
-| Artifact manifest paths | PASS: every recorded artifact is below the unique run directory |
-| `backend/data/abrit.sqlite3` | PASS: absent before and after |
-| `backend/schema.yml` | PASS: SHA-256 unchanged (`1f49486ae92b96f92a3d5fa0212bdd0de61cdcec439eec3020baf5c815314ecd`) |
+G01 means explicit repository-owner disposition for all three decisions below. Proposed plan text and implementer inference are not approval evidence.
+
+| Decision | Required evidence | Current state |
+|---|---|---|
+| Same-origin `/cms` topology | Owner records approve or reject | APPROVED by the repository owner on 2026-08-26 |
+| React Admin supplements Django Admin within the frozen Phase 1 charter | Owner records approve or reject | APPROVED by the repository owner on 2026-08-26 |
+| Fixed reserved roles with superuser-only user/role management | Owner records approve or reject | APPROVED by the repository owner on 2026-08-26 |
+
+R00-IMPLEMENTER recorded the owner's explicit disposition and did not infer or self-approve it.
+
+## Topology Reconciliation
+
+Repository/runtime evidence consistently implements or packages same-origin Django below `/cms`:
+
+- `.env.example` sets `DJANGO_SCRIPT_NAME=/cms`.
+- `.env.example` sets frontend/backend API URLs below the same origin at `/cms/api/v1`.
+- `backend/config/settings/base.py` maps `DJANGO_SCRIPT_NAME` to `FORCE_SCRIPT_NAME`.
+- `scripts/package-frontend.ps1` packages API URLs below `/cms/api/v1`.
+- The Version 2 plan proposes the same-origin `/cms` topology.
+
+The sole conflicting architecture statement is `docs/IMPLEMENTATION_PLAN.md`, which says `cms.abrit.ir` serves Django Admin and `/api/v1`.
+
+The owner approved the evidence-backed reconciliation on 2026-08-26. `docs/IMPLEMENTATION_PLAN.md` now states that `abrit.ir` serves Next.js and same-origin Django under `/cms`, including Django Admin and `/cms/api/v1`.
+
+## Environment Investigation
+
+The repository owner separately authorized the R00 dependency/bootstrap installation on 2026-08-26. No dependency manifest, lockfile, or pinned version was changed.
+
+### Backend
+
+- `.runtime/phase1-venv/bin/python` reports Python `3.14.4`.
+- The exact `requirements.txt` pins were installed into the ignored environment with owner authorization.
+- `pip check` passes and all pinned import names pass; Django reports `5.2.17`.
+- The Windows environment under the primary repository was not used from WSL.
+
+### Frontend
+
+- `npm ci` completed from the unchanged `frontend/package-lock.json`; npm reported 351 packages added, 0 vulnerabilities.
+- Linux-compatible Next SWC GNU and musl runtimes resolve from the ignored worktree dependency tree.
+- The wrapper copies the dependency tree below `/tmp` before running frontend commands.
+- Frontend lint, typecheck, and production build pass from the disposable copy when the build has outbound access to its declared Google Fonts.
+
+## Verification Wrapper Corrections
+
+`scripts/check-phase1.sh` now:
+
+- rejects unset, symlinked, and out-of-policy roots;
+- creates a unique run directory below an explicit `/tmp` root;
+- routes database, media, private media, caches, pytest, schema, frontend build, npm, migration, temporary, and E2E artifacts below it;
+- copies `abrit-homepage-polished-v5.html` to the required parent-relative disposable path and verifies it byte-for-byte;
+- snapshots `git status --porcelain=v1 -z` before and after, preserving and comparing the initial dirty state;
+- snapshots protected SQLite/schema state before and after;
+- blocks backend commands when pinned imports are incomplete;
+- validates lock/package compatibility before reusing primary frontend dependencies;
+- copies frontend dependencies below `/tmp` so Next cannot write into the primary repository;
+- blocks typecheck/build when an available tree lacks a Linux Next SWC runtime;
+- distinguishes pass, fail, blocked, and not-run results.
 
 ## Verification Results
 
-The contract commands were run or explicitly stopped at their mandated prerequisite:
+Final contained run with authorized outbound access for declared Google Fonts:
+
+```text
+ABRIT_VERIFY_DIR=/tmp/abrit-phase1-r00-final scripts/check-phase1.sh --baseline
+RUN_DIR=/tmp/abrit-phase1-r00-final/run.m7wulROk
+exit: 0
+```
 
 | Verification | Result |
 |---|---|
-| `git branch --show-current` | PASS: `feat/p1-r00-readiness` |
-| `git rev-parse HEAD` | PASS: `54b691852c07a302b98ccf52a7157a19fdbb03a6` |
-| Initial `git status --short` | PASS: clean |
-| Initial `git diff --check` | PASS |
-| Initial `git diff --name-only` | PASS: empty |
-| Initial untracked-file inventory | PASS: empty |
-| Supported Python executable check | BLOCKED: environment absent |
-| Pinned Django/DRF import | BLOCKED: supported interpreter absent |
-| `node --version`; `npm --version` | PASS |
-| `ABRIT_VERIFY_DIR=/tmp/abrit-phase1-r00 scripts/check-phase1.sh --baseline` | BLOCKED, exit 2 |
-| Django checks, migrations, drift check, backend tests, OpenAPI | NOT RUN: supported interpreter absent |
-| Frontend lint, typecheck, build | NOT RUN: `frontend/node_modules` absent |
-| Frontend unit/E2E | NOT RUN: scripts and dependencies absent; owned by R01 |
-| Post-run protected-data diff | PASS: empty |
+| Branch/worktree/commit evidence | PASS |
+| `bash -n scripts/check-phase1.sh` | PASS |
+| Unset verification root | PASS: refused, exit 64 |
+| Repository-owned verification root | PASS: refused, exit 64 |
+| Unique disposable run root | PASS |
+| Required parent-relative HTML input | PASS: present and byte-identical |
+| Python executable/version | PASS: Python 3.14.4 |
+| Pinned backend imports and `pip check` | PASS: Django 5.2.17; no broken requirements |
+| Django checks | PASS: no issues |
+| Disposable migrations | PASS: all migrations applied below `/tmp` |
+| Forward storage migration | PASS: `forms.0003_alter_submissionfile_file` applies after `0002` |
+| Migration drift | PASS: no changes detected across multiple disposable private-media roots |
+| Backend tests | PASS: 22 passed |
+| OpenAPI validation | PASS |
+| Locked Linux frontend installation | PASS: `npm ci`; 0 vulnerabilities |
+| Frontend dependency tree | PASS |
+| Frontend lint | PASS |
+| Frontend typecheck | PASS |
+| Frontend production build | PASS: 76 static pages generated |
+| Frontend unit/E2E | NOT RUN: scripts are not defined; R01 owns that foundation |
+| Protected SQLite/schema comparison | PASS: unchanged |
+| Whole-worktree before/after comparison | PASS: initial dirty state unchanged |
+| Primary `master` isolation | PASS: R00 made no primary-worktree write; final read-only evidence detected concurrent drift to 40 tracked modifications and 8 untracked files |
 
-No unavailable check is represented as passed.
+The final wrapper run passes every defined R00 backend and frontend baseline command. Frontend unit/E2E remain explicitly not run because those scripts do not exist and R01 owns their foundation.
 
 ## Acceptance-Criteria Mapping
 
-- PASS: exact branch, commit, initial clean status, and primary dirty/CRLF-only paths were recorded without alteration.
-- PASS: user-owned changes were preserved under the owner-authorized dedicated-worktree isolation strategy.
-- PASS: B01–B08 each have a disposition recorded in the committed task definitions.
-- BLOCKED: G01 lacks explicit owner approval evidence.
-- BLOCKED: the `docs/IMPLEMENTATION_PLAN.md` topology conflict lacks an approved reconciliation decision.
-- BLOCKED: no supported pinned POSIX Python environment exists; dependency installation was not authorized.
-- BLOCKED: backend execution baseline and Django checks could not run.
-- BLOCKED: frontend lint/typecheck/build could not run because dependencies are absent.
-- PASS: the verification wrapper requires and creates a unique disposable `/tmp` root and rejects unsafe roots.
-- PASS: every prepared artifact class is rooted below the disposable run directory.
-- PASS: repository SQLite data and checked-in schema were not changed.
-- PASS: no application code, behavior, existing migration, dependency manifest, or lockfile was changed.
-- PASS: evidence distinguishes pass, blocked, and not-run checks.
-- PASS: R01–R18 remained `BLOCKED` and `UNASSIGNED` throughout R00.
-- PASS: R00 is handed off at `REVIEW`, not `DONE`.
+- PASS: exact execution context and baseline state are recorded without altering user changes.
+- PASS: the dedicated-worktree isolation strategy insulated R00 from concurrent primary-worktree changes.
+- PASS: B01–B08 dispositions remain recorded in the committed task board.
+- PASS: all three G01 decisions have explicit owner approval.
+- PASS: the owner-approved same-origin `/cms` reconciliation is recorded in `docs/IMPLEMENTATION_PLAN.md`.
+- PASS: the pinned POSIX backend environment is complete and consistent.
+- PASS: the owner-authorized forward storage migration applies and migration drift is clean without editing the initial migration.
+- PASS: backend checks, disposable migrations, all 22 tests, and OpenAPI validation execute successfully.
+- PASS: locked Linux frontend dependencies, lint, typecheck, and production build execute successfully.
+- PASS: disposable-root validation and artifact routing are proven.
+- PASS: protected data and the complete initial worktree state remain unchanged.
+- PASS: no existing migration, dependency manifest, lockfile, or dependency version changed; the new storage class preserves the configured runtime path and a forward migration records its stable identity.
+- PASS: R01–R18 remain `BLOCKED` and `UNASSIGNED`.
+- PASS: R00 returns to `REVIEW`, not `DONE`.
 
-## Unresolved Risks
+## Remaining Blockers
 
-1. Explicit owner approval is still required for all three G01 architecture decisions.
-2. The `cms.abrit.ir` statement in `docs/IMPLEMENTATION_PLAN.md` conflicts with the proposed same-origin `/cms` topology.
-3. Dependency-installation authorization is required before creating `.runtime/phase1-venv` from `requirements.txt` and installing the locked frontend dependencies.
-4. Backend tests/checks/migrations/OpenAPI and frontend lint/typecheck/build have no executed baseline yet.
-5. The approved plan prose retains stale migration identifiers and the obsolete R00 worktree design; the committed task board/contract contain the corrected execution rules and ownership.
-6. The primary `master` worktree retains 35 user-owned CRLF-only tracked modifications, including initial migrations. They remain isolated but unresolved.
+None. Reviewer/integration flow still owns the decision to mark R00 `DONE`; R01–R18 remain blocked and unassigned until that occurs.
