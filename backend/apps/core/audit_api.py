@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.auth_api import admin_session_required, error
+from apps.accounts.roles import has_fixed_role_permission
 
 from .audit import redact_secrets
 from .models import AuditLog
@@ -91,7 +92,7 @@ AUDIT_PARAMETERS = [
 
 class AuditPermissionMixin:
     def _check_audit_permission(self, request):
-        if not request.user.has_perm("core.view_auditlog"):
+        if not has_fixed_role_permission(request.user, "core.view_auditlog"):
             return error("permission_denied", "You do not have permission to perform this action.", 403)
         return None
 

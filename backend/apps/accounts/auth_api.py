@@ -13,7 +13,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .roles import fixed_role_for_user
+from .roles import fixed_role_for_user, has_fixed_role_permission
 from .models import AccountSecurity
 from .security import (
     is_locked, record_failed_login, record_successful_login,
@@ -68,8 +68,8 @@ def admin_session_required(view):
         user = request.user
         if not user.is_authenticated or not user.is_active:
             return error("session_expired", "Your admin session has expired.", 401)
-        if not (user.is_superuser or user.has_perm("accounts.access_admin")):
-            return error("admin_access_denied", "You are not allowed to access the administration API.", 403)
+        if not has_fixed_role_permission(user, "accounts.access_admin"):
+            return error("permission_denied", "You are not allowed to access the administration API.", 403)
         return view(self, request, *args, **kwargs)
     return wrapped
 
@@ -105,7 +105,7 @@ class LoginView(APIView):
         if authenticated is None or not user.is_active:
             record_failed_login(user, request=request)
             return error("authentication_failed", "Invalid username or password.", 401)
-        if not (user.is_superuser or user.has_perm("accounts.access_admin")):
+        if not has_fixed_role_permission(user, "accounts.access_admin"):
             return error("admin_access_denied", "You are not allowed to access the administration API.", 403)
         record_successful_login(user, request=request)
         login(request, user)

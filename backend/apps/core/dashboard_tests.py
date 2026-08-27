@@ -11,15 +11,14 @@ from apps.forms.models import Form, FormSubmission
 
 from .models import RevalidationEvent
 from apps.content.workflow import workflow_transition
+from apps.accounts.roles import assign_fixed_role, provision_roles
 
 
 @pytest.fixture
 def dashboard_client():
+    provision_roles()
     user = User.objects.create_user("dashboard", password="password")
-    user.user_permissions.add(
-        Permission.objects.get(codename="access_admin", content_type__app_label="accounts"),
-        Permission.objects.get(codename="view_dashboard", content_type__app_label="accounts"),
-    )
+    assign_fixed_role(user, "editor")
     client = APIClient()
     client.force_authenticate(user=user)
     return client
@@ -78,7 +77,6 @@ def test_dashboard_requires_authenticated_admin_session():
 @pytest.mark.django_db
 def test_dashboard_requires_view_permission():
     user = User.objects.create_user("without-dashboard", password="password")
-    user.user_permissions.add(Permission.objects.get(codename="access_admin", content_type__app_label="accounts"))
     client = APIClient()
     client.force_authenticate(user=user)
 
@@ -86,7 +84,7 @@ def test_dashboard_requires_view_permission():
 
     assert response.status_code == 403
     assert response.json() == {
-        "error": {"status": 403, "code": "permission_denied", "detail": "You do not have permission to view the dashboard."}
+        "error": {"status": 403, "code": "permission_denied", "detail": "You are not allowed to access the administration API."}
     }
 
 

@@ -16,6 +16,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 
 from .models import Form, FormField, SubmissionFile
+from apps.accounts.roles import has_fixed_role_permission
 from .serializers import PublicFormSubmissionSerializer
 
 
@@ -85,7 +86,7 @@ def _private_file_access_required(view):
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated:
             return redirect_to_login(request.get_full_path(), str(reverse_lazy("admin:login")))
-        if not request.user.has_perm("forms.view_submissionfile"):
+        if not has_fixed_role_permission(request.user, "forms.view_submissionfile"):
             raise PermissionDenied
         return view(request, *args, **kwargs)
 
