@@ -1,4 +1,4 @@
-import type { AdminApiError, AdminApiSuccess, AdminSession } from "./types";
+import type { AdminApiError, AdminApiSuccess, AdminSession, PermissionDefinition, RoleDefinition } from "./types";
 
 const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1").replace(/\/$/, "");
 let csrfToken: string | null = null;
@@ -53,4 +53,16 @@ export async function loginAdmin(username: string, password: string) {
 export async function logoutAdmin() {
   await request<null>("/admin/auth/logout", { method: "POST", body: "{}" });
   csrfToken = null;
+}
+
+export async function getAdminRoles() {
+  return request<RoleDefinition[]>("/admin/roles");
+}
+
+export async function getAdminRole(key: RoleDefinition["key"]) {
+  return request<RoleDefinition>(`/admin/roles/${encodeURIComponent(key)}`);
+}
+
+export async function getAdminPermissions() {
+  return request<PermissionDefinition[]>("/admin/permissions");
 }
