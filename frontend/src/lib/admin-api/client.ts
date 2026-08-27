@@ -1,4 +1,4 @@
-import type { AdminApiError, AdminApiSuccess, AdminSession, DashboardData } from "./types";
+import type { AdminApiError, AdminApiSuccess, AdminSession, AdminUser, AdminUserList, DashboardData } from "./types";
 
 const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1").replace(/\/$/, "");
 let csrfToken: string | null = null;
@@ -57,4 +57,42 @@ export async function loginAdmin(username: string, password: string) {
 export async function logoutAdmin() {
   await request<null>("/admin/auth/logout", { method: "POST", body: "{}" });
   csrfToken = null;
+}
+
+export interface AdminUserQuery {
+  page?: number;
+  page_size?: number;
+  search?: string;
+  status?: "active" | "inactive";
+  role?: string;
+  ordering?: "username" | "-username" | "date_joined" | "-date_joined";
+}
+
+function queryString(query: AdminUserQuery) {
+  const params = new URLSearchParams();
+  Object.entries(query).forEach(([key, value]) => {
+    if (value !== undefined && value !== "") params.set(key, String(value));
+  });
+  const result = params.toString();
+  return result ? `?${result}` : "";
+}
+
+export function getAdminUsers(query: AdminUserQuery = {}) {
+  return request<AdminUserList>(`/admin/users${queryString(query)}`);
+}
+
+export function createAdminUser(input: Record<string, unknown>) {
+  return request<AdminUser>("/admin/users", { method: "POST", body: JSON.stringify(input) });
+}
+
+export function updateAdminUser(id: number, input: Record<string, unknown>) {
+  return request<AdminUser>(`/admin/users/${id}`, { method: "PATCH", body: JSON.stringify(input) });
+}
+
+export function changeAdminUserPassword(id: number, password: string) {
+  return request<{ changed: boolean }>(`/admin/users/${id}/password`, { method: "POST", body: JSON.stringify({ password }) });
+}
+
+export function setAdminUserActive(id: number, active: boolean) {
+  return request<AdminUser>(`/admin/users/${id}/${active ? "activate" : "deactivate"}`, { method: "POST", body: "{}" });
 }
