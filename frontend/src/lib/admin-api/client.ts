@@ -1,4 +1,4 @@
-import type { AdminApiError, AdminApiSuccess, AdminSession } from "./types";
+import type { AdminApiError, AdminApiSuccess, AdminSession, AuditDetail, AuditPage } from "./types";
 
 const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1").replace(/\/$/, "");
 let csrfToken: string | null = null;
@@ -53,4 +53,12 @@ export async function loginAdmin(username: string, password: string) {
 export async function logoutAdmin() {
   await request<null>("/admin/auth/logout", { method: "POST", body: "{}" });
   csrfToken = null;
+}
+
+export async function getAdminAudit(query: string) {
+  return request<AuditPage>(`/admin/audit${query ? `?${query}` : ""}`);
+}
+
+export async function getAdminAuditDetail(id: string) {
+  return request<AuditDetail>(`/admin/audit/${encodeURIComponent(id)}`);
 }
