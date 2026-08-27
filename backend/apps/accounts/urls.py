@@ -3,6 +3,7 @@ from django.urls import include, path
 from .auth_api import CsrfView, LoginView, LogoutView, SessionView
 
 urlpatterns = [
+    path("", include("apps.accounts.user_urls")),
     path("", include("apps.core.audit_urls")),
     path("", include("apps.core.dashboard_urls")),
     path("", include("apps.accounts.role_catalog_urls")),

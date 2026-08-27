@@ -6,10 +6,13 @@ from django.core.management import call_command
 from django.test import RequestFactory
 from django.test import Client, override_settings
 
+from apps.core.models import AuditLog
+
 from .admin import FixedRoleUserAdmin, FixedRoleUserForm, ReservedGroupAdmin
 from .roles import ROLE_BY_KEY, ROLE_DEFINITIONS, assign_fixed_role, fixed_role_for_user, provision_roles
 from .models import AccountSecurity
 from .security import client_ip, unlock_account
+from . import user_api
 
 
 @pytest.mark.django_db
@@ -234,3 +237,107 @@ def test_role_catalog_unknown_role_is_not_found():
     response = client.get("/api/v1/admin/roles/does-not-exist")
     assert response.status_code == 404
     assert response.json()["error"]["code"] == "not_found"
+
+
+@pytest.mark.django_db
+def test_user_management_is_superuser_only_for_reads_and_writes():
+    provision_roles()
+    ordinary = User.objects.create_user("ordinary", password="password")
+    ordinary.user_permissions.add(Permission.objects.get(codename="access_admin"))
+    client = Client()
+    client.force_login(ordinary)
+    for method, path in (
+        ("get", "/api/v1/admin/users"),
+        ("get", "/api/v1/admin/users/1"),
+        ("post", "/api/v1/admin/users"),
+    ):
+        response = getattr(client, method)(path, {}) if method == "post" else getattr(client, method)(path)
+        assert response.status_code == 403
+        assert response.json()["error"]["code"] == "permission_denied"
+
+
+@pytest.mark.django_db
+def test_superuser_creates_and_updates_fixed_role_with_staff_sync_and_audit():
+    provision_roles()
+    root = User.objects.create_superuser("root")
+    client = Client()
+    client.force_login(root)
+    response = client.post("/api/v1/admin/users", {
+        "username": "new-editor", "password": "A long, valid password 123!",
+        "email": "editor@example.com", "role": "editor",
+    }, content_type="application/json")
+    assert response.status_code == 201
+    created = User.objects.get(username="new-editor")
+    assert created.is_staff is True
+    assert response.json()["data"]["role"]["key"] == "editor"
+    assert not response.json()["data"].get("password")
+
+    response = client.patch(f"/api/v1/admin/users/{created.pk}", {"role": "auditor"}, content_type="application/json")
+    assert response.status_code == 200
+    created.refresh_from_db()
+    assert created.is_staff is False
+    assert response.json()["data"]["role"]["key"] == "auditor"
+    assert set(created.groups.values_list("name", flat=True)) == {"auditor"}
+    assert not created.user_permissions.exists()
+    assert AuditLog.objects.filter(object_id=str(created.pk), action="user_role_change").exists()
+
+
+@pytest.mark.django_db
+def test_user_management_protects_superusers_and_rejects_privileged_fields():
+    root = User.objects.create_superuser("root")
+    client = Client()
+    client.force_login(root)
+    response = client.get(f"/api/v1/admin/users/{root.pk}")
+    assert response.status_code == 200
+    response = client.patch(f"/api/v1/admin/users/{root.pk}", {"email": "changed@example.com"}, content_type="application/json")
+    assert response.status_code == 409
+    assert response.json()["error"]["code"] == "superuser_protected"
+    response = client.post(f"/api/v1/admin/users/{root.pk}/deactivate", {}, content_type="application/json")
+    assert response.status_code == 409
+    assert response.json()["error"]["code"] == "superuser_protected"
+
+    response = client.post("/api/v1/admin/users", {
+        "username": "unsafe", "password": "A long, valid password 123!", "is_superuser": True,
+    }, content_type="application/json")
+    assert response.status_code == 400
+    assert not User.objects.filter(username="unsafe").exists()
+
+
+@pytest.mark.django_db
+def test_user_password_validation_activation_and_pagination_contract():
+    provision_roles()
+    root = User.objects.create_superuser("root")
+    target = User.objects.create_user("target", password="old-password", is_active=False)
+    client = Client()
+    client.force_login(root)
+    response = client.post(f"/api/v1/admin/users/{target.pk}/password", {"password": "123"}, content_type="application/json")
+    assert response.status_code == 400
+    assert "password" in response.json()["error"]["fields"]
+    response = client.post(f"/api/v1/admin/users/{target.pk}/password", {"password": "A long, valid password 123!"}, content_type="application/json")
+    assert response.status_code == 200 and response.json() == {"data": {"changed": True}}
+    target.refresh_from_db()
+    assert target.check_password("old-password") is False
+    response = client.post(f"/api/v1/admin/users/{target.pk}/activate", {}, content_type="application/json")
+    assert response.status_code == 200
+    assert response.json()["data"]["is_active"] is True
+    response = client.get("/api/v1/admin/users?page=1&page_size=1&ordering=-username")
+    assert response.status_code == 200
+    assert response.json()["meta"] == {"page": 1, "page_size": 1, "total": 2, "total_pages": 2}
+
+
+@pytest.mark.django_db
+def test_user_mutation_and_audit_are_atomic(monkeypatch):
+    root = User.objects.create_superuser("root")
+    target = User.objects.create_user("target")
+    client = Client()
+    client.force_login(root)
+
+    def fail_audit(**kwargs):
+        raise RuntimeError("audit unavailable")
+
+    monkeypatch.setattr(user_api, "write_audit_log", fail_audit)
+    with pytest.raises(RuntimeError):
+        client.patch(f"/api/v1/admin/users/{target.pk}", {"email": "changed@example.com"}, content_type="application/json")
+    target.refresh_from_db()
+    assert target.email == ""
+    assert not AuditLog.objects.filter(object_id=str(target.pk)).exists()
