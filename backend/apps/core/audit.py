@@ -16,7 +16,8 @@ AuditAction = AuditLog.Action
 
 REDACTED_VALUE = "[REDACTED]"
 _SECRET_KEY_PARTS = frozenset(
-    {"password", "passwd", "secret", "token", "cookie", "authorization", "apikey", "credential"}
+    "".join(character for character in part.lower() if character.isalnum())
+    for part in {"password", "passwd", "secret", "token", "cookie", "authorization", "api_key", "credential"}
 )
 
 
@@ -62,9 +63,9 @@ def write_audit_log(
         action=action,
         object_type=object_type,
         object_id=str(object_id),
-        before=redact_secrets(before or {}),
-        after=redact_secrets(after or {}),
-        metadata=redact_secrets(metadata or {}),
+        before=redact_secrets({} if before is None else before),
+        after=redact_secrets({} if after is None else after),
+        metadata=redact_secrets({} if metadata is None else metadata),
     )
 
 
