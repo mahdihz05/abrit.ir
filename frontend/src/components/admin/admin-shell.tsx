@@ -6,12 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import type { SessionUser } from "@/lib/admin-api/types";
 import { adminNavigationRegistry, filterAdminNavigation } from "./navigation";
 
-export type AdminShellState = "ready" | "loading" | "denied";
+export type AdminShellState = "ready" | "loading" | "expired" | "denied";
 
 export interface AdminShellProps {
   state?: AdminShellState;
   user?: SessionUser;
   children?: React.ReactNode;
+  onLogout?: () => void;
 }
 
 const mockUser: SessionUser = {
@@ -19,7 +20,7 @@ const mockUser: SessionUser = {
   is_superuser: true, role: null, permissions: [],
 };
 
-export function AdminShell({ state = "ready", user = mockUser, children }: AdminShellProps) {
+export function AdminShell({ state = "ready", user = mockUser, children, onLogout }: AdminShellProps) {
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -52,15 +53,16 @@ export function AdminShell({ state = "ready", user = mockUser, children }: Admin
       </aside>
       {drawerOpen && <button className="admin-overlay" aria-label="بستن منوی مدیریت" onClick={() => setDrawerOpen(false)} />}
       <div className="admin-main">
-        <header className="admin-header"><div className="admin-header-actions"><button ref={menuButtonRef} className="admin-menu-button" type="button" aria-label="باز کردن منوی مدیریت" aria-expanded={drawerOpen} onClick={() => setDrawerOpen(true)}>☰</button><span className="admin-header-title">مدیریت امن و یکپارچه</span></div><div className="admin-user"><span>{user.first_name} {user.last_name}</span><span className="admin-avatar" aria-hidden="true">{initials}</span></div></header>
+        <header className="admin-header"><div className="admin-header-actions"><button ref={menuButtonRef} className="admin-menu-button" type="button" aria-label="باز کردن منوی مدیریت" aria-expanded={drawerOpen} onClick={() => setDrawerOpen(true)}>☰</button><span className="admin-header-title">مدیریت امن و یکپارچه</span></div><div className="admin-user"><span>{user.first_name} {user.last_name}</span>{onLogout && <button type="button" className="admin-logout" onClick={onLogout}>خروج</button>}<span className="admin-avatar" aria-hidden="true">{initials}</span></div></header>
         <main id="admin-main" className="admin-content" tabIndex={-1}>
-          {state === "loading" ? <AdminState kind="loading" /> : state === "denied" ? <AdminState kind="denied" /> : children}
+          {state === "loading" ? <AdminState kind="loading" /> : state === "expired" ? <AdminState kind="expired" /> : state === "denied" ? <AdminState kind="denied" /> : children}
         </main>
       </div>
     </div>
   );
 }
 
-export function AdminState({ kind }: { kind: "loading" | "denied" }) {
-  return <section className="admin-section admin-state" aria-live={kind === "loading" ? "polite" : undefined} role={kind === "denied" ? "alert" : undefined}><span className="admin-state-badge">{kind === "loading" ? "در حال بارگذاری" : "دسترسی محدود"}</span><h1>{kind === "loading" ? "در حال آماده‌سازی پنل" : "دسترسی به این بخش ممکن نیست"}</h1><p>{kind === "loading" ? "اطلاعات فضای کاری شما به‌زودی نمایش داده می‌شود." : "نقش فعلی شما اجازه مشاهده این بخش را ندارد."}</p></section>;
+export function AdminState({ kind }: { kind: "loading" | "expired" | "denied" }) {
+  const copy = { loading: ["در حال بارگذاری", "در حال آماده‌سازی پنل", "اطلاعات فضای کاری شما به‌زودی نمایش داده می‌شود."], expired: ["نشست منقضی شده", "نشست مدیریت شما منقضی شده است", "برای ادامه دوباره وارد شوید."], denied: ["دسترسی محدود", "دسترسی به این بخش ممکن نیست", "نقش فعلی شما اجازه مشاهده این بخش را ندارد."] }[kind];
+  return <section className="admin-section admin-state" aria-live={kind === "loading" ? "polite" : undefined} role={kind === "loading" ? undefined : "alert"}><span className="admin-state-badge">{copy[0]}</span><h1>{copy[1]}</h1><p>{copy[2]}</p></section>;
 }

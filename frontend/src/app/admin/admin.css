@@ -20,6 +20,7 @@
 .admin-header-actions { display: flex; align-items: center; gap: 16px; }
 .admin-menu-button { display: none; width: 42px; height: 42px; color: #172033; background: #fff; border: 1px solid #e1e6ef; border-radius: 10px; cursor: pointer; }
 .admin-user { display: flex; align-items: center; gap: 10px; color: #172033; font-size: 11px; }
+.admin-logout { padding: 7px 10px; color: #285be0; background: transparent; border: 1px solid #d8e2fb; border-radius: 8px; cursor: pointer; font: inherit; }
 .admin-avatar { display: grid; width: 34px; height: 34px; place-items: center; color: #285be0; background: #e8efff; border-radius: 50%; font-weight: 800; }
 .admin-content { width: min(1180px, calc(100% - 68px)); margin: 0 auto; padding: 44px 0 64px; }
 .admin-eyebrow { color: #3974ff; font: 800 10px/1 var(--font-inter), Arial, sans-serif; letter-spacing: .08em; }
@@ -37,6 +38,16 @@
 .admin-state p { max-width: 430px; margin-top: 12px; color: #71809b; font-size: 13px; }
 .admin-state-badge { display: inline-flex; padding: 8px 12px; color: #3974ff; background: #edf3ff; border-radius: 999px; font-size: 11px; font-weight: 700; }
 .admin-overlay { position: fixed; z-index: 10; inset: 0; background: rgba(8,15,34,.48); }
+.admin-login { display: grid; min-height: 100vh; place-items: center; padding: 24px; background: #f5f7fb; }
+.admin-login-card { width: min(100%, 430px); padding: 36px; background: #fff; border: 1px solid #e5e9f1; border-radius: 16px; box-shadow: 0 24px 60px -45px #172033; }
+.admin-login-card h1 { margin-top: 14px; font-size: 26px; }
+.admin-login-card > p { margin-top: 10px; color: #71809b; font-size: 13px; }
+.admin-login-card form { display: grid; gap: 8px; margin-top: 28px; }
+.admin-login-card label { margin-top: 8px; font-size: 12px; font-weight: 700; }
+.admin-login-card input { min-height: 44px; padding: 0 12px; border: 1px solid #dce2ed; border-radius: 9px; font: inherit; }
+.admin-login-card button[type="submit"] { min-height: 44px; margin-top: 12px; color: #fff; background: #3974ff; border: 0; border-radius: 9px; cursor: pointer; font: inherit; font-weight: 700; }
+.admin-login-card button:disabled { cursor: wait; opacity: .65; }
+.admin-form-error { color: #b42318; font-size: 12px; }
 @media (max-width: 900px) {
   .admin-shell { display: block; }
   .admin-sidebar { position: fixed; inset-block: 0; inset-inline-end: 0; width: min(290px, 82vw); min-height: 0; transform: translateX(105%); transition: transform .2s ease; }
