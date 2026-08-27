@@ -1,4 +1,4 @@
-import type { AdminApiError, AdminApiSuccess, AdminSession, AdminUser, AdminUserList, DashboardData, PermissionDefinition, RoleDefinition } from "./types";
+import type { AdminApiError, AdminApiSuccess, AdminSession, AdminUser, AdminUserList, DashboardData, PermissionDefinition, RoleDefinition, AuditDetail, AuditPage } from "./types";
 
 const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1").replace(/\/$/, "");
 let csrfToken: string | null = null;
