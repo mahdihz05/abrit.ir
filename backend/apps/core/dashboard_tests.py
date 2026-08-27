@@ -10,6 +10,7 @@ from apps.content.models import ContentItem, ContentTranslation
 from apps.forms.models import Form, FormSubmission
 
 from .models import RevalidationEvent
+from apps.content.workflow import workflow_transition
 
 
 @pytest.fixture
@@ -33,17 +34,18 @@ def test_dashboard_returns_fixed_aggregate(dashboard_client):
 
     for index, status in enumerate(ContentTranslation.WorkflowStatus.values):
         item = ContentItem.objects.create(key=f"dashboard-page-{index}", kind=ContentItem.Kind.PAGE)
-        ContentTranslation.objects.create(
-            item=item,
-            locale=("fa" if index == 0 else "en" if index == 1 else "ar-ae"),
-            title=f"Status {status}",
-            slug=f"dashboard-{status}",
-            path=f"dashboard-{status}-{index}",
-            workflow_status=status,
-            translation_status=ContentTranslation.TranslationStatus.REVIEWED if status == "published" else ContentTranslation.TranslationStatus.DRAFT,
-            published_at=timezone.now() if status == "published" else None,
-            publish_at=timezone.now() if status == "scheduled" else None,
-        )
+        with workflow_transition():
+            ContentTranslation.objects.create(
+                item=item,
+                locale=("fa" if index == 0 else "en" if index == 1 else "ar-ae"),
+                title=f"Status {status}",
+                slug=f"dashboard-{status}",
+                path=f"dashboard-{status}-{index}",
+                workflow_status=status,
+                translation_status=ContentTranslation.TranslationStatus.REVIEWED if status == "published" else ContentTranslation.TranslationStatus.DRAFT,
+                published_at=timezone.now() if status == "published" else None,
+                publish_at=timezone.now() if status == "scheduled" else None,
+            )
     form = Form.objects.create(key="dashboard-form")
     FormSubmission.objects.create(
         form=form, locale="fa", data={}, consent_given=True,
