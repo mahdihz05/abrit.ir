@@ -1,4 +1,4 @@
-import type { AdminApiError, AdminApiSuccess, AdminSession, AdminUser, AdminUserList, DashboardData, PermissionDefinition, RoleDefinition, AuditDetail, AuditPage } from "./types";
+import type { AdminApiError, AdminApiSuccess, AdminSession, AdminUser, AdminUserList, DashboardData, PermissionDefinition, RoleDefinition } from "./types";
 
 const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1").replace(/\/$/, "");
 let csrfToken: string | null = null;
@@ -59,7 +59,6 @@ export async function logoutAdmin() {
   csrfToken = null;
 }
 
-<<<<<<< HEAD
 export interface AdminUserQuery {
   page?: number;
   page_size?: number;
@@ -108,12 +107,12 @@ export async function getAdminRole(key: RoleDefinition["key"]) {
 
 export async function getAdminPermissions() {
   return request<PermissionDefinition[]>("/admin/permissions");
-=======
+}
+
 export async function getAdminAudit(query: string) {
   return request<AuditPage>(`/admin/audit${query ? `?${query}` : ""}`);
 }
 
 export async function getAdminAuditDetail(id: string) {
   return request<AuditDetail>(`/admin/audit/${encodeURIComponent(id)}`);
->>>>>>> feat/p1-r17-audit-screen
 }
