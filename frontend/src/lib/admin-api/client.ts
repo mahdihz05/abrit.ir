@@ -1,4 +1,4 @@
-import type { AdminApiError, AdminApiSuccess, AdminSession } from "./types";
+import type { AdminApiError, AdminApiSuccess, AdminSession, DashboardData } from "./types";
 
 const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1").replace(/\/$/, "");
 let csrfToken: string | null = null;
@@ -42,6 +42,10 @@ export function getCsrfTokenForTesting() { return csrfToken; }
 
 export async function getAdminSession() {
   return request<AdminSession>("/admin/auth/session");
+}
+
+export async function getAdminDashboard() {
+  return request<DashboardData>("/admin/dashboard");
 }
 
 export async function loginAdmin(username: string, password: string) {
