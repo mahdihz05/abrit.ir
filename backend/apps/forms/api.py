@@ -1,8 +1,14 @@
-from django.contrib.admin.views.decorators import staff_member_required
+import posixpath
+from functools import wraps
+from pathlib import Path
+
+from django.contrib.auth.views import redirect_to_login
+from django.core.exceptions import PermissionDenied, SuspiciousFileOperation
 from django.db import transaction
 from django.db.models import Prefetch
-from django.http import FileResponse
+from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny
@@ -52,11 +58,45 @@ class PublicFormSubmissionView(GenericAPIView):
         )
 
 
-@staff_member_required
+def _open_private_submission_file(submission_file):
+    """Open a stored file only after proving it stays in private storage."""
+    name = submission_file.file.name
+    if (
+        not isinstance(name, str)
+        or not name
+        or "\\" in name
+        or name.startswith("/")
+        or posixpath.normpath(name) != name
+    ):
+        raise Http404
+
+    storage = submission_file.file.storage
+    try:
+        resolved_file = Path(storage.path(name)).resolve()
+        storage_root = Path(storage.location).resolve()
+        resolved_file.relative_to(storage_root)
+        return storage.open(name, "rb")
+    except (FileNotFoundError, OSError, SuspiciousFileOperation, ValueError):
+        raise Http404
+
+
+def _private_file_access_required(view):
+    @wraps(view)
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect_to_login(request.get_full_path(), str(reverse_lazy("admin:login")))
+        if not request.user.has_perm("forms.view_submissionfile"):
+            raise PermissionDenied
+        return view(request, *args, **kwargs)
+
+    return wrapper
+
+
+@_private_file_access_required
 def admin_submission_file_download(request, file_id):
     submission_file = get_object_or_404(SubmissionFile.objects.select_related("submission"), pk=file_id)
     return FileResponse(
-        submission_file.file.open("rb"),
+        _open_private_submission_file(submission_file),
         as_attachment=True,
         filename=submission_file.original_name,
         content_type=submission_file.mime_type or "application/octet-stream",

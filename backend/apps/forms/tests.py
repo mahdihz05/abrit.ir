@@ -5,6 +5,7 @@ import zipfile
 import pytest
 from datetime import timedelta
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Permission
 from django.core.management import call_command
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -12,7 +13,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from apps.core.models import AuditLog
-from .models import Form, FormField, FormSubmission, FormTranslation
+from .models import Form, FormField, FormSubmission, FormTranslation, SubmissionFile
 from .validators import validate_submission_file
 
 
@@ -47,15 +48,66 @@ def test_rejects_mismatched_declared_mime_type():
 
 
 @pytest.mark.django_db
-def test_private_download_requires_staff(client):
+def test_private_download_anonymous_denial_does_not_enumerate_files(client):
     url = reverse("admin-submission-file-download", kwargs={"file_id": uuid.uuid4()})
     response = client.get(url)
     assert response.status_code == 302
     assert response.url.startswith(reverse("admin:login"))
 
-    staff = get_user_model().objects.create_user(username="form-reviewer", password="secret", is_staff=True)
-    client.force_login(staff)
-    assert client.get(url).status_code == 404
+
+@pytest.mark.django_db
+def test_private_download_requires_explicit_permission_before_lookup(client):
+    reviewer = get_user_model().objects.create_user(username="form-reviewer", password="secret", is_staff=True)
+    client.force_login(reviewer)
+    response = client.get(reverse("admin-submission-file-download", kwargs={"file_id": uuid.uuid4()}))
+    assert response.status_code == 403
+    assert "private-media" not in response.content.decode().lower()
+
+
+@pytest.mark.django_db
+def test_private_download_allows_permission_and_superuser(client, tmp_path, settings):
+    settings.PRIVATE_MEDIA_ROOT = tmp_path
+    form = Form.objects.create(key="download")
+    submission = FormSubmission.objects.create(
+        form=form, locale="en", data={}, consent_given=True,
+        expires_at=timezone.now() + timedelta(days=1),
+    )
+    stored = submission.files.create(
+        file=SimpleUploadedFile("report.txt", b"private report"),
+        original_name="report.txt", mime_type="text/plain", size=14,
+        checksum_sha256="0" * 64,
+    )
+    reviewer = get_user_model().objects.create_user(username="form-reviewer", password="secret", is_staff=True)
+    reviewer.user_permissions.add(Permission.objects.get(content_type__app_label="forms", codename="view_submissionfile"))
+    client.force_login(reviewer)
+    response = client.get(reverse("admin-submission-file-download", kwargs={"file_id": stored.pk}))
+    assert response.status_code == 200
+    assert b"".join(response.streaming_content) == b"private report"
+
+    superuser = get_user_model().objects.create_superuser(username="form-admin", password="secret", email="admin@example.com")
+    client.force_login(superuser)
+    assert client.get(reverse("admin-submission-file-download", kwargs={"file_id": stored.pk})).status_code == 200
+
+
+@pytest.mark.django_db
+def test_private_download_rejects_unsafe_storage_name(client, settings, tmp_path):
+    settings.PRIVATE_MEDIA_ROOT = tmp_path
+    form = Form.objects.create(key="download-safety")
+    submission = FormSubmission.objects.create(
+        form=form, locale="en", data={}, consent_given=True,
+        expires_at=timezone.now() + timedelta(days=1),
+    )
+    stored = SubmissionFile.objects.create(
+        submission=submission, file="../outside.txt", original_name="outside.txt",
+        mime_type="text/plain", size=1, checksum_sha256="0" * 64,
+    )
+    reviewer = get_user_model().objects.create_user(username="safe-reviewer", password="secret", is_staff=True)
+    reviewer.user_permissions.add(Permission.objects.get(content_type__app_label="forms", codename="view_submissionfile"))
+    client.force_login(reviewer)
+    response = client.get(reverse("admin-submission-file-download", kwargs={"file_id": stored.pk}))
+    assert response.status_code == 404
+    assert b"outside.txt" not in response.content
+    assert str(tmp_path).encode() not in response.content
 
 
 @pytest.mark.django_db
