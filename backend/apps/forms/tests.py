@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from apps.core.models import AuditLog
+from apps.accounts.roles import assign_fixed_role, provision_roles
 from .models import Form, FormField, FormSubmission, FormTranslation, SubmissionFile
 from .validators import validate_submission_file
 
@@ -67,6 +68,7 @@ def test_private_download_requires_explicit_permission_before_lookup(client):
 @pytest.mark.django_db
 def test_private_download_allows_permission_and_superuser(client, tmp_path, settings):
     settings.PRIVATE_MEDIA_ROOT = tmp_path
+    provision_roles()
     form = Form.objects.create(key="download")
     submission = FormSubmission.objects.create(
         form=form, locale="en", data={}, consent_given=True,
@@ -78,7 +80,7 @@ def test_private_download_allows_permission_and_superuser(client, tmp_path, sett
         checksum_sha256="0" * 64,
     )
     reviewer = get_user_model().objects.create_user(username="form-reviewer", password="secret", is_staff=True)
-    reviewer.user_permissions.add(Permission.objects.get(content_type__app_label="forms", codename="view_submissionfile"))
+    assign_fixed_role(reviewer, "submission-reviewer")
     client.force_login(reviewer)
     response = client.get(reverse("admin-submission-file-download", kwargs={"file_id": stored.pk}))
     assert response.status_code == 200
@@ -92,6 +94,7 @@ def test_private_download_allows_permission_and_superuser(client, tmp_path, sett
 @pytest.mark.django_db
 def test_private_download_rejects_unsafe_storage_name(client, settings, tmp_path):
     settings.PRIVATE_MEDIA_ROOT = tmp_path
+    provision_roles()
     form = Form.objects.create(key="download-safety")
     submission = FormSubmission.objects.create(
         form=form, locale="en", data={}, consent_given=True,
@@ -102,7 +105,7 @@ def test_private_download_rejects_unsafe_storage_name(client, settings, tmp_path
         mime_type="text/plain", size=1, checksum_sha256="0" * 64,
     )
     reviewer = get_user_model().objects.create_user(username="safe-reviewer", password="secret", is_staff=True)
-    reviewer.user_permissions.add(Permission.objects.get(content_type__app_label="forms", codename="view_submissionfile"))
+    assign_fixed_role(reviewer, "submission-reviewer")
     client.force_login(reviewer)
     response = client.get(reverse("admin-submission-file-download", kwargs={"file_id": stored.pk}))
     assert response.status_code == 404

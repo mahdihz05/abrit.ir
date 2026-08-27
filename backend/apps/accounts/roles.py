@@ -88,3 +88,17 @@ def fixed_role_for_user(user) -> RoleDefinition | None:
     role_names = set(user.groups.values_list("name", flat=True))
     matching = role_names.intersection(ROLE_BY_KEY)
     return ROLE_BY_KEY[next(iter(matching))] if len(matching) == 1 and len(role_names) == 1 else None
+
+
+def has_fixed_role_permission(user, permission: str) -> bool:
+    """Return whether a user has *declared* permission for a protected API.
+
+    Fixed-role authorization is intentionally independent of Django's
+    effective permission union: arbitrary extra Groups and direct grants must
+    invalidate the fixed-role identity. Superusers remain the break-glass
+    exception.
+    """
+    if user.is_superuser:
+        return True
+    role = fixed_role_for_user(user)
+    return role is not None and permission in role.permissions

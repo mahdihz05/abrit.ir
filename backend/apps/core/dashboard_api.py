@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.accounts.auth_api import admin_session_required, error
+from apps.accounts.roles import has_fixed_role_permission
 
 from .dashboard import dashboard_summary
 
@@ -49,6 +50,6 @@ class DashboardView(APIView):
     @extend_schema(operation_id="admin_dashboard", responses=DashboardResponseSerializer)
     @admin_session_required
     def get(self, request):
-        if not (request.user.is_superuser or request.user.has_perm("accounts.view_dashboard")):
+        if not has_fixed_role_permission(request.user, "accounts.view_dashboard"):
             return error("permission_denied", "You do not have permission to view the dashboard.", 403)
         return Response({"data": DashboardDataSerializer(dashboard_summary()).data})

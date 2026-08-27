@@ -14,7 +14,7 @@ from .role_catalog_serializers import (
     RoleListResponseSerializer,
     RoleResponseSerializer,
 )
-from .roles import ROLE_DEFINITIONS, ROLE_BY_KEY
+from .roles import ROLE_DEFINITIONS, ROLE_BY_KEY, has_fixed_role_permission
 
 
 ROLE_DESCRIPTIONS = {
@@ -35,7 +35,7 @@ CUSTOM_PERMISSION_KEYS = {
 
 
 def _catalog_permission(user) -> bool:
-    return user.is_superuser or user.has_perm("accounts.view_role_catalog")
+    return has_fixed_role_permission(user, "accounts.view_role_catalog")
 
 
 def role_catalog_required(view):

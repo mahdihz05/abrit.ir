@@ -1,7 +1,7 @@
 from django.contrib import admin, messages
 from django.core.exceptions import PermissionDenied, ValidationError
 
-from apps.accounts.roles import fixed_role_for_user
+from apps.accounts.roles import has_fixed_role_permission
 
 from .models import (
     ArticleProfile,
@@ -133,10 +133,7 @@ class ContentTranslationAdmin(admin.ModelAdmin):
 
     @staticmethod
     def _can_publish(user):
-        if user.is_active and user.is_superuser:
-            return True
-        role = fixed_role_for_user(user) if user.is_active else None
-        return role is not None and role.key == "publisher"
+        return user.is_active and has_fixed_role_permission(user, "content.publish_contenttranslation")
 
 
 @admin.register(ContentRevision)
