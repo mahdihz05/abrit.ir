@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "apps.pricing.apps.PricingConfig",
     "apps.forms.apps.FormsConfig",
     "apps.search.apps.SearchConfig",
+    "apps.accounts.apps.AccountsConfig",
 ]
 
 MIDDLEWARE = [

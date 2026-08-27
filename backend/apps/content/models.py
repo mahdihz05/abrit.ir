@@ -7,6 +7,7 @@ from django.db import models
 from apps.core.models import LOCALE_CHOICES, UUIDTimestampedModel
 
 from .block_schemas import BLOCK_SCHEMAS, validate_block_props
+from .workflow import workflow_transition_allowed
 
 
 class ContentItem(UUIDTimestampedModel):
@@ -31,6 +32,15 @@ class ContentItem(UUIDTimestampedModel):
         super().clean()
         if self.parent_id and self.parent_id == self.id:
             raise ValidationError({"parent": "An item cannot be its own parent."})
+
+    def save(self, *args, **kwargs):
+        if self.pk and not self._state.adding and not workflow_transition_allowed():
+            was_active = type(self).objects.filter(pk=self.pk).values_list("is_active", flat=True).first()
+            if was_active and not self.is_active and self.translations.filter(
+                workflow_status=ContentTranslation.WorkflowStatus.PUBLISHED
+            ).exists():
+                raise ValidationError("Published content can only be deactivated by a workflow service.")
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.get_kind_display()}: {self.key}"
@@ -73,6 +83,7 @@ class ContentTranslation(UUIDTimestampedModel):
 
     class Meta:
         ordering = ("item", "locale")
+        permissions = (("publish_contenttranslation", "Can publish and archive content translations"),)
         constraints = [
             models.UniqueConstraint(fields=("item", "locale"), name="unique_content_item_locale"),
             models.UniqueConstraint(fields=("locale", "path"), name="unique_public_locale_path"),
@@ -94,6 +105,17 @@ class ContentTranslation(UUIDTimestampedModel):
                 raise ValidationError({"published_at": "Published content requires a publication timestamp."})
         if self.workflow_status == self.WorkflowStatus.SCHEDULED and not self.publish_at:
             raise ValidationError({"publish_at": "Scheduled content requires publish_at."})
+
+    def save(self, *args, **kwargs):
+        """Only a workflow service may enter or leave the published state."""
+        if not workflow_transition_allowed():
+            previous = None
+            if self.pk and not self._state.adding:
+                previous = type(self).objects.filter(pk=self.pk).values_list("workflow_status", flat=True).first()
+            published = self.WorkflowStatus.PUBLISHED
+            if self.workflow_status == published or previous == published:
+                raise ValidationError("Published workflow state is controlled by the publication service.")
+        return super().save(*args, **kwargs)
 
     @property
     def public_path(self):
@@ -123,6 +145,20 @@ class ContentBlock(UUIDTimestampedModel):
         errors = validate_block_props(self.block_type, self.props)
         if errors:
             raise ValidationError({"props": errors})
+
+    def save(self, *args, **kwargs):
+        if not workflow_transition_allowed() and self.translation_id:
+            status = ContentTranslation.objects.filter(pk=self.translation_id).values_list("workflow_status", flat=True).first()
+            if status == ContentTranslation.WorkflowStatus.PUBLISHED:
+                raise ValidationError("Blocks of published translations are controlled by the publication service.")
+        return super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        if not workflow_transition_allowed() and self.translation_id:
+            status = ContentTranslation.objects.filter(pk=self.translation_id).values_list("workflow_status", flat=True).first()
+            if status == ContentTranslation.WorkflowStatus.PUBLISHED:
+                raise ValidationError("Blocks of published translations are controlled by the publication service.")
+        return super().delete(*args, **kwargs)
 
     def __str__(self):
         return f"{self.translation}: {self.block_type} #{self.order}"
