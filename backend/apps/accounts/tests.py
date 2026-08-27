@@ -180,3 +180,57 @@ def test_client_ip_uses_forwarded_header_only_from_trusted_peer():
     assert client_ip(request) == "198.51.100.8"
     request.META["REMOTE_ADDR"] = "10.0.0.1"
     assert client_ip(request) == "203.0.113.9"
+
+
+@pytest.mark.django_db
+def test_role_catalog_is_read_only_deterministic_and_matches_fixed_matrix():
+    provision_roles()
+    admin_user = User.objects.create_superuser("catalog-admin")
+    client = Client()
+    client.force_login(admin_user)
+
+    response = client.get("/api/v1/admin/roles")
+    assert response.status_code == 200
+    roles = response.json()["data"]
+    assert [role["key"] for role in roles] == [role.key for role in ROLE_DEFINITIONS]
+    for role, definition in zip(roles, ROLE_DEFINITIONS):
+        assert set(role) == {
+            "key", "name", "description", "reserved", "requires_django_staff", "permissions",
+        }
+        assert role["reserved"] is True
+        assert role["permissions"] == sorted(definition.permissions)
+
+    permissions = client.get("/api/v1/admin/permissions").json()["data"]
+    assert permissions == sorted(permissions, key=lambda item: (item["category"], item["key"]))
+    assert {item["key"] for item in permissions} == {
+        permission for role in ROLE_DEFINITIONS for permission in role.permissions
+    }
+    assert {item["source"] for item in permissions} == {"custom", "django"}
+
+    assert client.get("/api/v1/admin/roles/editor").json()["data"]["key"] == "editor"
+    assert client.post("/api/v1/admin/roles", {}).status_code == 405
+    assert client.patch("/api/v1/admin/roles/editor", {}).status_code == 405
+    assert client.delete("/api/v1/admin/permissions").status_code == 405
+
+
+@pytest.mark.django_db
+def test_role_catalog_requires_session_and_catalog_permission():
+    client = Client()
+    assert client.get("/api/v1/admin/roles").status_code == 401
+
+    user = User.objects.create_user("catalog-denied", password="password")
+    user.user_permissions.add(Permission.objects.get(codename="access_admin"))
+    client.force_login(user)
+    response = client.get("/api/v1/admin/roles")
+    assert response.status_code == 403
+    assert response.json()["error"]["code"] == "permission_denied"
+
+
+@pytest.mark.django_db
+def test_role_catalog_unknown_role_is_not_found():
+    user = User.objects.create_superuser("catalog-not-found")
+    client = Client()
+    client.force_login(user)
+    response = client.get("/api/v1/admin/roles/does-not-exist")
+    assert response.status_code == 404
+    assert response.json()["error"]["code"] == "not_found"
