@@ -65,8 +65,9 @@ Accordingly, implementation tasks R01–R18 remain `BLOCKED` and `UNASSIGNED`. T
 ### R01 — API contract and frontend test foundation
 
 - **Primary scope:** tests
-- **Status:** BLOCKED
-- **Owner:** UNASSIGNED
+- **Status:** IN_PROGRESS
+- **Owner:** berar-front
+- **Board consistency note (R01, 2026-08-27):** The readiness paragraph above still says R01–R18 remain `BLOCKED` and `UNASSIGNED` until R00 is `DONE`, while this task is recorded as `IN_PROGRESS` and owned by `berar-front`. This note records the inconsistency for reviewer/integration flow; no unrelated task status is changed here.
 - **Blocked by:** R00 and the unresolved frozen-contract correction in B04.
 - **Blocking reason:** Test fixtures and shared types cannot be reliable until the baseline is reproducible and the user/session contracts are unambiguous.
 - **Unlock condition:** R00 is DONE and the approved contract explicitly makes user endpoints superuser-only, removes conditional fields, and permits nullable session roles.

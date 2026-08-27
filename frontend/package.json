@@ -6,8 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "node app.js",
-    "lint": "eslint",
+    "lint": "eslint src e2e playwright.config.ts vitest.config.ts next.config.ts",
     "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "check": "npm run lint && npm run typecheck && npm run build"
   },
   "dependencies": {
@@ -16,11 +19,20 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest-axe": "^3.5.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.2",
-    "typescript": "^5"
+    "jest-axe": "^10.0.0",
+    "jsdom": "^26.1.0",
+    "msw": "^2.10.5",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   }
 }
