@@ -1,4 +1,4 @@
-import type { AdminApiError, AdminApiSuccess, AdminSession, AdminUserList } from "@/lib/admin-api/types";
+import type { AdminApiError, AdminApiSuccess, AdminSession, AdminUserList, AuditPage, DashboardData, PermissionDefinition, RoleDefinition } from "@/lib/admin-api/types";
 
 export const adminSessionSuccess: AdminApiSuccess<AdminSession> = {
   data: {
@@ -17,8 +17,8 @@ export const adminSessionSuccess: AdminApiSuccess<AdminSession> = {
 
 export const adminUsersSuccess: AdminApiSuccess<AdminUserList> = {
   data: {
-    count: 1,
-    results: [
+    meta: { page: 1, page_size: 20, total: 1, total_pages: 1 },
+    data: [
       {
         id: 1,
         username: "site-admin",
@@ -35,6 +35,22 @@ export const adminUsersSuccess: AdminApiSuccess<AdminUserList> = {
       },
     ],
   },
+};
+
+export const adminDashboardSuccess: AdminApiSuccess<DashboardData> = {
+  data: {
+    generated_at: "2026-08-26T08:00:00Z",
+    users: { total: 1, active: 1, locked: 0 },
+    content: { draft: 0, review: 0, scheduled: 0, published: 0, archived: 0 },
+    submissions: { new: 0 },
+    revalidation: { pending: 0, failed: 0 },
+  },
+};
+
+export const adminRolesSuccess: AdminApiSuccess<RoleDefinition[]> = { data: [] };
+export const adminPermissionsSuccess: AdminApiSuccess<PermissionDefinition[]> = { data: [] };
+export const adminAuditSuccess: AdminApiSuccess<AuditPage> = {
+  data: { data: [], meta: { page: 1, page_size: 20, total: 0, total_pages: 0 } },
 };
 
 export const adminApiErrors = {

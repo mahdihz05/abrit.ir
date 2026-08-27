@@ -4,6 +4,434 @@ info:
   version: 1.0.0
   description: Published multilingual content, navigation, forms and pricing for AbrIT.
 paths:
+  /api/v1/admin/audit:
+    get:
+      operationId: admin_audit_list
+      parameters:
+      - in: query
+        name: action
+        schema:
+          type: string
+          enum:
+          - auth_login_failure
+          - auth_login_success
+          - auth_logout
+          - publish
+          - restore
+          - retention_purge
+          - unpublish
+          - user_activate
+          - user_create
+          - user_deactivate
+          - user_password_reset
+          - user_role_change
+          - user_update
+      - in: query
+        name: actor_id
+        schema:
+          type: integer
+      - in: query
+        name: actor_type
+        schema:
+          type: string
+          enum:
+          - admin
+          - agent
+          - api
+          - mcp
+          - system
+      - in: query
+        name: from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: object_id
+        schema:
+          type: string
+      - in: query
+        name: object_type
+        schema:
+          type: string
+      - in: query
+        name: ordering
+        schema:
+          type: string
+          enum:
+          - -timestamp
+          - timestamp
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: 1-based page number.
+      - in: query
+        name: page_size
+        schema:
+          type: integer
+        description: Results per page (1-100).
+      - in: query
+        name: to
+        schema:
+          type: string
+          format: date-time
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAudit'
+          description: ''
+  /api/v1/admin/audit/{audit_id}:
+    get:
+      operationId: admin_audit_detail
+      parameters:
+      - in: path
+        name: audit_id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditDetailResponse'
+          description: ''
+  /api/v1/admin/auth/csrf:
+    get:
+      operationId: admin_auth_csrf
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CsrfResponse'
+          description: ''
+  /api/v1/admin/auth/login:
+    post:
+      operationId: admin_auth_login
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+          description: ''
+  /api/v1/admin/auth/logout:
+    post:
+      operationId: admin_auth_logout
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyResponse'
+          description: ''
+  /api/v1/admin/auth/session:
+    get:
+      operationId: admin_auth_session
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+          description: ''
+  /api/v1/admin/dashboard:
+    get:
+      operationId: admin_dashboard
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardResponse'
+          description: ''
+  /api/v1/admin/permissions:
+    get:
+      operationId: admin_permission_catalog_list
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionListResponse'
+          description: ''
+  /api/v1/admin/roles:
+    get:
+      operationId: admin_role_catalog_list
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleListResponse'
+          description: ''
+  /api/v1/admin/roles/{key}:
+    get:
+      operationId: admin_role_catalog_detail
+      parameters:
+      - in: path
+        name: key
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+          description: ''
+  /api/v1/admin/users:
+    get:
+      operationId: admin_user_list
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUser'
+          description: ''
+    post:
+      operationId: admin_user_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+  /api/v1/admin/users/{user_id}:
+    get:
+      operationId: admin_user_detail
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+    patch:
+      operationId: admin_user_update
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserPatch'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserPatch'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserPatch'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+  /api/v1/admin/users/{user_id}/activate:
+    post:
+      operationId: admin_user_activate
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+  /api/v1/admin/users/{user_id}/deactivate:
+    post:
+      operationId: admin_user_deactivate
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: ''
+  /api/v1/admin/users/{user_id}/password:
+    post:
+      operationId: admin_user_password
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Password'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Password'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Password'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangedResponse'
+          description: ''
   /api/v1/content/{locale}/{path}:
     get:
       operationId: content_detail
@@ -67,6 +495,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContentSummary'
+          description: ''
+  /api/v1/forms/{form_key}/submissions:
+    post:
+      operationId: v1_forms_submissions_create
+      parameters:
+      - in: path
+        name: form_key
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicFormSubmission'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PublicFormSubmission'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PublicFormSubmission'
+        required: true
+      security:
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicFormSubmission'
           description: ''
   /api/v1/navigation/{location}/{locale}:
     get:
@@ -172,6 +632,112 @@ paths:
           description: ''
 components:
   schemas:
+    AuditActor:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+      required:
+      - id
+      - username
+    AuditDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        actor:
+          allOf:
+          - $ref: '#/components/schemas/AuditActor'
+          nullable: true
+        actor_type:
+          type: string
+        action:
+          type: string
+        object_type:
+          type: string
+        object_id:
+          type: string
+        before: {}
+        after: {}
+        metadata: {}
+      required:
+      - action
+      - actor
+      - actor_type
+      - after
+      - before
+      - id
+      - metadata
+      - object_id
+      - object_type
+      - timestamp
+    AuditDetailResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/AuditDetail'
+      required:
+      - data
+    AuditPageMeta:
+      type: object
+      properties:
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+        total_pages:
+          type: integer
+      required:
+      - page
+      - page_size
+      - total
+      - total_pages
+    AuditSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        actor:
+          allOf:
+          - $ref: '#/components/schemas/AuditActor'
+          nullable: true
+        actor_type:
+          type: string
+        action:
+          type: string
+        object_type:
+          type: string
+        object_id:
+          type: string
+      required:
+      - action
+      - actor
+      - actor_type
+      - id
+      - object_id
+      - object_type
+      - timestamp
+    ChangedResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties:
+            type: boolean
+      required:
+      - data
     ContentDetail:
       type: object
       properties:
@@ -263,6 +829,103 @@ components:
       - slug
       - title
       - url
+    CsrfData:
+      type: object
+      properties:
+        csrf_token:
+          type: string
+      required:
+      - csrf_token
+    CsrfResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CsrfData'
+      required:
+      - data
+    DashboardContent:
+      type: object
+      properties:
+        draft:
+          type: integer
+        review:
+          type: integer
+        scheduled:
+          type: integer
+        published:
+          type: integer
+        archived:
+          type: integer
+      required:
+      - archived
+      - draft
+      - published
+      - review
+      - scheduled
+    DashboardData:
+      type: object
+      properties:
+        generated_at:
+          type: string
+          format: date-time
+        users:
+          $ref: '#/components/schemas/DashboardUsers'
+        content:
+          $ref: '#/components/schemas/DashboardContent'
+        submissions:
+          $ref: '#/components/schemas/DashboardSubmissions'
+        revalidation:
+          $ref: '#/components/schemas/DashboardRevalidation'
+      required:
+      - content
+      - generated_at
+      - revalidation
+      - submissions
+      - users
+    DashboardResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/DashboardData'
+      required:
+      - data
+    DashboardRevalidation:
+      type: object
+      properties:
+        pending:
+          type: integer
+        failed:
+          type: integer
+      required:
+      - failed
+      - pending
+    DashboardSubmissions:
+      type: object
+      properties:
+        new:
+          type: integer
+      required:
+      - new
+    DashboardUsers:
+      type: object
+      properties:
+        total:
+          type: integer
+        active:
+          type: integer
+        locked:
+          type: integer
+      required:
+      - active
+      - locked
+      - total
+    EmptyResponse:
+      type: object
+      properties:
+        data:
+          nullable: true
+      required:
+      - data
     LocaleEnum:
       enum:
       - fa
@@ -273,6 +936,17 @@ components:
         * `fa` - فارسی
         * `en` - English
         * `ar-ae` - العربية
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
     NavigationItem:
       type: object
       properties:
@@ -380,6 +1054,84 @@ components:
       - name
       - order
       - sla
+    PaginatedAudit:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditSummary'
+        meta:
+          $ref: '#/components/schemas/AuditPageMeta'
+      required:
+      - data
+      - meta
+    PaginatedUser:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSummary'
+        meta:
+          $ref: '#/components/schemas/UserPageMeta'
+      required:
+      - data
+      - meta
+    Password:
+      type: object
+      properties:
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+    PatchedUserPatch:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        email:
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        role:
+          type: string
+          nullable: true
+    PermissionDefinition:
+      type: object
+      properties:
+        key:
+          type: string
+        label:
+          type: string
+        category:
+          type: string
+        source:
+          $ref: '#/components/schemas/SourceEnum'
+      required:
+      - category
+      - key
+      - label
+      - source
+    PermissionListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionDefinition'
+      required:
+      - data
     PricingRequest:
       type: object
       properties:
@@ -401,6 +1153,87 @@ components:
       - package
       - term_months
       - users
+    PublicFormSubmission:
+      type: object
+      properties:
+        locale:
+          $ref: '#/components/schemas/PublicFormSubmissionLocaleEnum'
+        data:
+          type: object
+          additionalProperties: {}
+        consent_given:
+          type: boolean
+        source_url:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 500
+          - type: string
+            maxLength: 0
+        referrer:
+          oneOf:
+          - type: string
+            format: uri
+            maxLength: 500
+          - type: string
+            maxLength: 0
+        website:
+          type: string
+          writeOnly: true
+      required:
+      - consent_given
+      - data
+      - locale
+    PublicFormSubmissionLocaleEnum:
+      enum:
+      - fa
+      - en
+      - ar-ae
+      type: string
+      description: |-
+        * `fa` - fa
+        * `en` - en
+        * `ar-ae` - ar-ae
+    RoleDefinition:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        reserved:
+          type: boolean
+        requires_django_staff:
+          type: boolean
+        permissions:
+          type: array
+          items:
+            type: string
+      required:
+      - description
+      - key
+      - name
+      - permissions
+      - requires_django_staff
+      - reserved
+    RoleListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDefinition'
+      required:
+      - data
+    RoleResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/RoleDefinition'
+      required:
+      - data
     SearchResult:
       type: object
       properties:
@@ -417,6 +1250,19 @@ components:
       - summary
       - title
       - url
+    SessionData:
+      type: object
+      properties:
+        user: {}
+      required:
+      - user
+    SessionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/SessionData'
+      required:
+      - data
     SiteSettings:
       type: object
       properties:
@@ -480,6 +1326,14 @@ components:
       - location
       - logo_url
       - seo
+    SourceEnum:
+      enum:
+      - custom
+      - django
+      type: string
+      description: |-
+        * `custom` - custom
+        * `django` - django
     TermMonthsEnum:
       enum:
       - 3
@@ -490,3 +1344,179 @@ components:
         * `3` - 3
         * `6` - 6
         * `12` - 12
+    UserCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        email:
+          oneOf:
+          - type: string
+            format: email
+            default: ''
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+          default: ''
+          maxLength: 150
+        last_name:
+          type: string
+          default: ''
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+        role:
+          type: string
+          nullable: true
+        is_active:
+          type: boolean
+          default: true
+      required:
+      - password
+      - username
+    UserDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+        last_name:
+          type: string
+        is_active:
+          type: boolean
+        is_superuser:
+          type: boolean
+        role:
+          allOf:
+          - $ref: '#/components/schemas/UserRole'
+          nullable: true
+        is_locked:
+          type: boolean
+        locked_until:
+          type: string
+          format: date-time
+          nullable: true
+        last_login:
+          type: string
+          format: date-time
+          nullable: true
+        date_joined:
+          type: string
+          format: date-time
+      required:
+      - date_joined
+      - email
+      - first_name
+      - id
+      - is_active
+      - is_locked
+      - is_superuser
+      - last_login
+      - last_name
+      - locked_until
+      - role
+      - username
+    UserPageMeta:
+      type: object
+      properties:
+        page:
+          type: integer
+        page_size:
+          type: integer
+        total:
+          type: integer
+        total_pages:
+          type: integer
+      required:
+      - page
+      - page_size
+      - total
+      - total_pages
+    UserResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserDetail'
+      required:
+      - data
+    UserRole:
+      type: object
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+      required:
+      - key
+      - name
+    UserSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          oneOf:
+          - type: string
+            format: email
+          - type: string
+            maxLength: 0
+        first_name:
+          type: string
+        last_name:
+          type: string
+        is_active:
+          type: boolean
+        is_superuser:
+          type: boolean
+        role:
+          allOf:
+          - $ref: '#/components/schemas/UserRole'
+          nullable: true
+        is_locked:
+          type: boolean
+        locked_until:
+          type: string
+          format: date-time
+          nullable: true
+        last_login:
+          type: string
+          format: date-time
+          nullable: true
+        date_joined:
+          type: string
+          format: date-time
+      required:
+      - date_joined
+      - email
+      - first_name
+      - id
+      - is_active
+      - is_locked
+      - is_superuser
+      - last_login
+      - last_name
+      - locked_until
+      - role
+      - username
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: abrit_session

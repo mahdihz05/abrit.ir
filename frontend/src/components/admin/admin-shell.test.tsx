@@ -9,7 +9,7 @@ vi.mock("next/navigation", () => ({ usePathname: () => "/admin" }));
 beforeEach(() => { vi.restoreAllMocks(); });
 
 test("renders an accessible isolated shell with filtered navigation", async () => {
-  const { container } = render(<AdminShell user={{ id: 2, username: "editor", email: "", first_name: "کاربر", last_name: "آزمایشی", is_superuser: false, role: null, permissions: ["content.view"] }}><h1>داشبورد</h1></AdminShell>);
+  const { container } = render(<AdminShell user={{ id: 2, username: "editor", email: "", first_name: "کاربر", last_name: "آزمایشی", is_superuser: false, role: null, permissions: ["accounts.view_dashboard", "content.view_contentitem"] }}><h1>داشبورد</h1></AdminShell>);
   expect(screen.getByRole("main")).toBeInTheDocument();
   expect(screen.getByRole("navigation", { name: "فضای کاری" }).querySelector('a[href="/admin/content"]')).toBeInTheDocument();
   expect(screen.queryByRole("link", { name: /کاربران/ })).not.toBeInTheDocument();
