@@ -5,6 +5,8 @@ from django.contrib.auth.models import Group, User
 from django.core.exceptions import PermissionDenied
 
 from .roles import ROLE_BY_KEY, assign_fixed_role, fixed_role_for_user
+from .models import AccountSecurity
+from .security import unlock_account
 
 
 class ReservedGroupAdmin(GroupAdmin):
@@ -81,3 +83,30 @@ admin.site.unregister(Group)
 admin.site.unregister(User)
 admin.site.register(Group, ReservedGroupAdmin)
 admin.site.register(User, FixedRoleUserAdmin)
+
+
+@admin.register(AccountSecurity)
+class AccountSecurityAdmin(admin.ModelAdmin):
+    list_display = ("user", "failed_attempts", "locked_until")
+    readonly_fields = ("user", "failed_attempts", "locked_until", "updated_at")
+    actions = ("unlock_selected",)
+
+    def has_module_permission(self, request):
+        return request.user.is_active and request.user.is_superuser
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_active and request.user.is_superuser
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    @admin.action(description="Unlock selected accounts")
+    def unlock_selected(self, request, queryset):
+        for security in queryset.select_related("user"):
+            unlock_account(security.user, actor=request.user)
