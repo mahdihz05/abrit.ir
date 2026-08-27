@@ -1,0 +1,56 @@
+import type { AdminApiError, AdminApiSuccess, AdminSession } from "./types";
+
+const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1").replace(/\/$/, "");
+let csrfToken: string | null = null;
+
+export class AdminApiRequestError extends Error {
+  status: number;
+  code: string;
+  detail: AdminApiError["error"]["detail"];
+
+  constructor(error: AdminApiError["error"]) {
+    super(typeof error.detail === "string" ? error.detail : "Request failed.");
+    this.name = "AdminApiRequestError";
+    this.status = error.status;
+    this.code = error.code;
+    this.detail = error.detail;
+  }
+}
+
+async function request<T>(path: string, init: RequestInit = {}) {
+  const method = (init.method ?? "GET").toUpperCase();
+  const headers = new Headers(init.headers);
+  headers.set("Accept", "application/json");
+  if (init.body && !headers.has("Content-Type")) headers.set("Content-Type", "application/json");
+  if (method !== "GET" && method !== "HEAD" && csrfToken) headers.set("X-CSRFToken", csrfToken);
+
+  const response = await fetch(`${apiBase}${path}`, { ...init, credentials: "include", headers });
+  const body = (await response.json()) as AdminApiSuccess<T> | AdminApiError;
+  if (!response.ok || "error" in body) {
+    throw new AdminApiRequestError((body as AdminApiError).error ?? { status: response.status, code: "request_error", detail: "Request failed." });
+  }
+  return body.data;
+}
+
+export async function bootstrapCsrf() {
+  const data = await request<{ csrf_token: string }>("/admin/auth/csrf");
+  csrfToken = data.csrf_token;
+  return data.csrf_token;
+}
+
+export function getCsrfTokenForTesting() { return csrfToken; }
+
+export async function getAdminSession() {
+  return request<AdminSession>("/admin/auth/session");
+}
+
+export async function loginAdmin(username: string, password: string) {
+  const data = await request<AdminSession>("/admin/auth/login", { method: "POST", body: JSON.stringify({ username, password }) });
+  await bootstrapCsrf();
+  return data;
+}
+
+export async function logoutAdmin() {
+  await request<null>("/admin/auth/logout", { method: "POST", body: "{}" });
+  csrfToken = null;
+}
