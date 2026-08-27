@@ -1,5 +1,7 @@
 from django.contrib import admin, messages
-from django.core.exceptions import ValidationError
+from django.core.exceptions import PermissionDenied, ValidationError
+
+from apps.accounts.roles import fixed_role_for_user
 
 from .models import (
     ArticleProfile,
@@ -15,11 +17,13 @@ from .models import (
     TaxonomyTranslation,
     Technology,
 )
+from .forms import ContentBlockAdminForm, ContentTranslationAdminForm
 from .services import publish_translation, unpublish_translation
 
 
 class ContentTranslationInline(admin.StackedInline):
     model = ContentTranslation
+    form = ContentTranslationAdminForm
     extra = 0
     show_change_link = True
     fields = ("locale", "title", "slug", "path", "workflow_status", "translation_status", "publish_at")
@@ -39,12 +43,12 @@ class ContentItemAdmin(admin.ModelAdmin):
     list_filter = ("kind", "is_active", "template_key")
     search_fields = ("key", "translations__title", "translations__path")
     autocomplete_fields = ("parent",)
-    actions = ("archive_items",)
+    actions = ()
 
-    @admin.action(description="Archive/deactivate selected content")
-    def archive_items(self, request, queryset):
-        updated = queryset.update(is_active=False)
-        self.message_user(request, f"{updated} content items deactivated.", messages.SUCCESS)
+    def has_change_permission(self, request, obj=None):
+        if obj and obj.translations.filter(workflow_status=ContentTranslation.WorkflowStatus.PUBLISHED).exists():
+            return False
+        return super().has_change_permission(request, obj)
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -52,12 +56,33 @@ class ContentItemAdmin(admin.ModelAdmin):
 
 class ContentBlockInline(admin.StackedInline):
     model = ContentBlock
+    form = ContentBlockAdminForm
     extra = 0
     ordering = ("order",)
+
+    @staticmethod
+    def _is_published(obj):
+        return bool(obj and obj.workflow_status == ContentTranslation.WorkflowStatus.PUBLISHED)
+
+    def has_add_permission(self, request, obj):
+        if self._is_published(obj):
+            return False
+        return super().has_add_permission(request, obj)
+
+    def has_change_permission(self, request, obj=None):
+        if self._is_published(obj):
+            return False
+        return super().has_change_permission(request, obj)
+
+    def has_delete_permission(self, request, obj=None):
+        if self._is_published(obj):
+            return False
+        return super().has_delete_permission(request, obj)
 
 
 @admin.register(ContentTranslation)
 class ContentTranslationAdmin(admin.ModelAdmin):
+    form = ContentTranslationAdminForm
     inlines = (ContentBlockInline,)
     list_display = ("title", "locale", "item", "workflow_status", "translation_status", "publish_at", "published_at")
     list_filter = ("locale", "workflow_status", "translation_status", "item__kind")
@@ -72,6 +97,8 @@ class ContentTranslationAdmin(admin.ModelAdmin):
 
     @admin.action(description="Publish selected reviewed translations")
     def publish_selected(self, request, queryset):
+        if not self._can_publish(request.user):
+            raise PermissionDenied
         success = 0
         for translation in queryset:
             try:
@@ -84,9 +111,32 @@ class ContentTranslationAdmin(admin.ModelAdmin):
 
     @admin.action(description="Unpublish selected translations")
     def unpublish_selected(self, request, queryset):
+        if not self._can_publish(request.user):
+            raise PermissionDenied
         for translation in queryset:
             unpublish_translation(translation, actor=request.user)
         self.message_user(request, f"Unpublished {queryset.count()} translations.", messages.SUCCESS)
+
+    def get_readonly_fields(self, request, obj=None):
+        readonly = ("workflow_status", "publish_at", "published_at", "source_revision")
+        if obj and obj.workflow_status == ContentTranslation.WorkflowStatus.PUBLISHED:
+            return tuple(field.name for field in self.model._meta.fields)
+        return readonly
+
+    def has_change_permission(self, request, obj=None):
+        if obj and obj.workflow_status == ContentTranslation.WorkflowStatus.PUBLISHED:
+            return False
+        return super().has_change_permission(request, obj)
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    @staticmethod
+    def _can_publish(user):
+        if user.is_active and user.is_superuser:
+            return True
+        role = fixed_role_for_user(user) if user.is_active else None
+        return role is not None and role.key == "publisher"
 
 
 @admin.register(ContentRevision)
