@@ -81,3 +81,40 @@ class SiteSettingsSerializer(serializers.ModelSerializer):
             "section_spacing": design.section_spacing,
             "motion_enabled": design.motion_enabled,
         }
+
+
+class AuditActorSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    username = serializers.CharField()
+
+
+class AuditSummarySerializer(serializers.Serializer):
+    id = serializers.UUIDField()
+    timestamp = serializers.DateTimeField()
+    actor = AuditActorSerializer(allow_null=True)
+    actor_type = serializers.CharField()
+    action = serializers.CharField()
+    object_type = serializers.CharField()
+    object_id = serializers.CharField()
+
+
+class AuditDetailSerializer(AuditSummarySerializer):
+    before = serializers.JSONField()
+    after = serializers.JSONField()
+    metadata = serializers.JSONField()
+
+
+class AuditPageMetaSerializer(serializers.Serializer):
+    page = serializers.IntegerField()
+    page_size = serializers.IntegerField()
+    total = serializers.IntegerField()
+    total_pages = serializers.IntegerField()
+
+
+class PaginatedAuditSerializer(serializers.Serializer):
+    data = AuditSummarySerializer(many=True)
+    meta = AuditPageMetaSerializer()
+
+
+class AuditDetailResponseSerializer(serializers.Serializer):
+    data = AuditDetailSerializer()
