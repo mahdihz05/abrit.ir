@@ -1,7 +1,7 @@
 import { axe } from "jest-axe";
 import { render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, expect, test, vi } from "vitest";
-import { AdminApiRequestError, getAdminDashboard } from "@/lib/admin-api/client";
+import { getAdminDashboard } from "@/lib/admin-api/client";
 import { adminDashboardSuccess } from "@/test/fixtures/admin-api";
 import { AdminDashboard } from "./dashboard";
 
@@ -14,10 +14,15 @@ const dashboard = vi.mocked(getAdminDashboard);
 
 beforeEach(() => dashboard.mockReset());
 
-test("announces the loading state while the dashboard request is pending", () => {
-  dashboard.mockReturnValue(new Promise<Awaited<ReturnType<typeof getAdminDashboard>>>(() => undefined));
+test("announces the loading state while the dashboard request is pending", async () => {
+  let resolvePending!: (data: Awaited<ReturnType<typeof getAdminDashboard>>) => void;
+  const pending = new Promise<Awaited<ReturnType<typeof getAdminDashboard>>>((resolve) => { resolvePending = resolve; });
+  dashboard.mockReturnValue(pending);
   render(<AdminDashboard />);
   expect(screen.getByText("در حال آماده‌سازی داشبورد")).toBeInTheDocument();
+  await waitFor(() => expect(dashboard).toHaveBeenCalledTimes(1));
+  resolvePending(adminDashboardSuccess.data);
+  await waitFor(() => expect(screen.getByText(/آخرین به‌روزرسانی/)).toBeInTheDocument());
 });
 
 test("renders every fixed dashboard field without calculating totals", async () => {
@@ -30,7 +35,7 @@ test("renders every fixed dashboard field without calculating totals", async () 
   });
   const { container } = render(<AdminDashboard />);
   await waitFor(() => expect(screen.getByRole("heading", { name: "داشبورد مدیریت" })).toBeInTheDocument());
-  expect(screen.getByText("۱۲")).not.toBeInTheDocument();
+  expect(screen.queryByText("۱۲")).not.toBeInTheDocument();
   for (const value of ["12", "10", "2", "1", "3", "4", "5", "6", "7", "8"]) expect(screen.getAllByText(value).length).toBeGreaterThan(0);
   expect((await axe(container)).violations).toHaveLength(0);
 });
@@ -49,7 +54,7 @@ test.each([
   [403, "دسترسی محدود"],
   [500, "خطا در دریافت اطلاعات"],
 ] as const)("renders the %s API state", async (status, message) => {
-  dashboard.mockRejectedValue(new AdminApiRequestError({ status, code: "request_error", detail: "failed" }));
+  dashboard.mockRejectedValue({ name: "AdminApiRequestError", status, code: "request_error", detail: "failed" });
   render(<AdminDashboard />);
   expect(await screen.findByText(message)).toBeInTheDocument();
 });

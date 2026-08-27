@@ -1,10 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AdminApiRequestError, getAdminDashboard } from "@/lib/admin-api/client";
+import { getAdminDashboard } from "@/lib/admin-api/client";
 import type { DashboardData } from "@/lib/admin-api/types";
 
 type DashboardStatus = "loading" | "ready" | "empty" | "denied" | "expired" | "error";
+
+function hasApiStatus(error: unknown, status: number): boolean {
+  return typeof error === "object" && error !== null && "status" in error
+    && (error as { status?: unknown }).status === status;
+}
 
 function isEmptyDashboard(data: DashboardData) {
   return data.users.total === 0 && data.users.active === 0 && data.users.locked === 0
@@ -65,8 +70,8 @@ export function AdminDashboard() {
       setData(result);
       setStatus(isEmptyDashboard(result) ? "empty" : "ready");
     } catch (error) {
-      if (error instanceof AdminApiRequestError && error.status === 403) setStatus("denied");
-      else if (error instanceof AdminApiRequestError && error.status === 401) setStatus("expired");
+      if (hasApiStatus(error, 403)) setStatus("denied");
+      else if (hasApiStatus(error, 401)) setStatus("expired");
       else setStatus("error");
     }
   }
