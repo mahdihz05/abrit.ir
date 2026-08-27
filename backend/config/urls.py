@@ -17,7 +17,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from apps.content.api import ContentDetailView, ContentListView, RootContentDetailView
@@ -28,6 +28,7 @@ from apps.pricing.api import PackageListView, PricingCalculateView
 from apps.search.api import SearchView
 
 urlpatterns = [
+    path("api/v1/admin/", include("apps.accounts.urls")),
     path("admin/forms/submission-file/<uuid:file_id>/download/", admin_submission_file_download, name="admin-submission-file-download"),
     path("admin/", admin.site.urls),
     path("health/", health, name="health"),

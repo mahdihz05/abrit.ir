@@ -4,9 +4,12 @@ from django.contrib.auth.admin import GroupAdmin
 from django.contrib.auth.models import Group, Permission, User
 from django.core.management import call_command
 from django.test import RequestFactory
+from django.test import Client, override_settings
 
 from .admin import FixedRoleUserAdmin, FixedRoleUserForm, ReservedGroupAdmin
 from .roles import ROLE_BY_KEY, ROLE_DEFINITIONS, assign_fixed_role, fixed_role_for_user, provision_roles
+from .models import AccountSecurity
+from .security import client_ip, unlock_account
 
 
 @pytest.mark.django_db
@@ -127,3 +130,53 @@ def test_group_admin_rejects_all_supported_mutations():
     assert group_admin.has_change_permission(request, Group(name="editor")) is False
     assert group_admin.has_delete_permission(request, Group(name="editor")) is False
     assert isinstance(group_admin, GroupAdmin)
+
+
+@pytest.mark.django_db
+def test_auth_csrf_login_session_and_logout_contract():
+    provision_roles()
+    user = User.objects.create_superuser("root", password="correct horse battery staple")
+    client = Client(enforce_csrf_checks=True)
+    csrf_response = client.get("/api/v1/admin/auth/csrf")
+    assert csrf_response.status_code == 200
+    token = csrf_response.json()["data"]["csrf_token"]
+    csrf_failure = client.post("/api/v1/admin/auth/login", {"username": user.username, "password": "wrong"})
+    assert csrf_failure.status_code == 403 and csrf_failure.json()["error"]["code"] == "csrf_failed"
+    login_response = client.post(
+        "/api/v1/admin/auth/login", {"username": user.username, "password": "correct horse battery staple"},
+        HTTP_X_CSRFTOKEN=token,
+    )
+    assert login_response.status_code == 200
+    assert login_response.json()["data"]["user"]["role"] is None
+    assert client.get("/api/v1/admin/auth/session").status_code == 200
+    rotated_token = client.cookies["abrit_csrf"].value
+    assert client.post("/api/v1/admin/auth/logout", {}, HTTP_X_CSRFTOKEN=rotated_token).json() == {"data": None}
+
+
+@pytest.mark.django_db
+def test_login_lockout_is_persistent_and_correct_password_is_non_enumerating():
+    user = User.objects.create_user("editor", password="right-password")
+    client = Client(enforce_csrf_checks=True)
+    token = client.get("/api/v1/admin/auth/csrf").json()["data"]["csrf_token"]
+    for _ in range(4):
+        response = client.post("/api/v1/admin/auth/login", {"username": "editor", "password": "wrong"}, HTTP_X_CSRFTOKEN=token)
+        assert response.status_code == 401
+    response = client.post("/api/v1/admin/auth/login", {"username": "editor", "password": "wrong"}, HTTP_X_CSRFTOKEN=token)
+    assert response.status_code == 401
+    security = AccountSecurity.objects.get(user=user)
+    assert security.failed_attempts == 5 and security.locked_until is not None
+    response = client.post("/api/v1/admin/auth/login", {"username": "editor", "password": "right-password"}, HTTP_X_CSRFTOKEN=token)
+    assert response.status_code == 403 and response.json()["error"]["code"] == "account_locked"
+    unknown = client.post("/api/v1/admin/auth/login", {"username": "nobody", "password": "wrong"}, HTTP_X_CSRFTOKEN=token)
+    assert unknown.status_code == 401 and unknown.json()["error"]["code"] == "authentication_failed"
+    unlock_account(user)
+    assert AccountSecurity.objects.get(user=user).locked_until is None
+
+
+@override_settings(TRUSTED_PROXY_IPS=("10.0.0.1",))
+def test_client_ip_uses_forwarded_header_only_from_trusted_peer():
+    request = RequestFactory().get("/", HTTP_X_FORWARDED_FOR="203.0.113.9, 10.0.0.2")
+    request.META["REMOTE_ADDR"] = "198.51.100.8"
+    assert client_ip(request) == "198.51.100.8"
+    request.META["REMOTE_ADDR"] = "10.0.0.1"
+    assert client_ip(request) == "203.0.113.9"

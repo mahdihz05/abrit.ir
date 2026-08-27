@@ -7,10 +7,15 @@ def exception_handler(exc, context):
         return None
 
     detail = response.data
+    code = getattr(exc, "default_code", "request_error")
+    request = context.get("request")
+    if request is not None and request.path.startswith("/api/v1/admin/") and code == "permission_denied" and "csrf" in str(detail).lower():
+        code = "csrf_failed"
+        detail = "CSRF verification failed."
     response.data = {
         "error": {
             "status": response.status_code,
-            "code": getattr(exc, "default_code", "request_error"),
+            "code": code,
             "detail": detail,
         }
     }
