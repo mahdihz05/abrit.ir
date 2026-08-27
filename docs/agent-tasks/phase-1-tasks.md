@@ -7,7 +7,7 @@ Sources:
 
 ## Readiness Verification
 
-Overall Status: **FIRST WAVE READY**
+Overall Status: **BLOCKED**
 
 The filename supplied by the owner identifies the intended approved plan, but implementation is not cleared by the documents themselves:
 
@@ -16,7 +16,7 @@ The filename supplied by the owner identifies the intended approved plan, but im
 - The review verdict is “READY WITH CHANGES” and says not to start feature implementation until eight blocking issues are incorporated.
 - The approved plan file present in the repository is `docs/agent-reports/phase-1-plan-aprove.md`; it identifies itself internally as Version 2 and is used here as the plan source.
 
-The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the Wave 0 gates. R00 is `DONE`; only R01, R02, and R03 are `READY` and all three remain `UNASSIGNED`. R04–R18 remain `BLOCKED` and `UNASSIGNED` pending their listed predecessor tasks. This board authorizes claiming an eligible task only; it does not assign an owner or start implementation.
+Accordingly, implementation tasks R01–R18 remain `BLOCKED` and `UNASSIGNED`. This board incorporates the review corrections into the affected task definitions, but it does not itself approve implementation or satisfy the Wave 0 gates. R00 alone has been explicitly claimed as a non-implementation readiness task so it can record the missing evidence; no implementation task may be claimed until R00 is reviewed and marked `DONE`.
 
 ## Blocking Conditions
 
@@ -28,9 +28,9 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 - B06: Run R00 in the approved dedicated worktree `/mnt/c/projects/abrit-r00` on branch `feat/p1-r00-readiness`; use the primary repository `/mnt/c/projects/abrit.ir` only as reference and integration context, and do not modify `master` directly.
 - B07: Assign the initial protected Admin/auth URL include to R05 and let R13 extend it.
 - B08: Assign `content/services.py` to R02, publication Admin/forms/helpers to R03, and expand negative/security tests.
-- G01: SATISFIED — owner approved same-origin `/cms`, React Admin supplementing Django Admin, and the fixed-role/superuser-only model on 2026-08-26.
+- G01: Record approval for same-origin `/cms`, the React/Django Admin split, and the fixed-role/superuser-only model.
 - G02: Resolve or isolate the dirty/line-ending baseline without discarding user-owned changes.
-- G03: SATISFIED — the recorded contained baseline passed Django checks, disposable migrations, drift, 22 backend tests, OpenAPI validation, frontend lint/typecheck/build, and protected-data/whole-worktree comparisons.
+- G03: Establish a supported Python environment and record the untouched baseline using fully disposable paths.
 
 ## Execution Rules
 
@@ -48,16 +48,16 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 ### R00 — Repository baseline and verification environment
 
 - **Primary scope:** other
-- **Status:** DONE
+- **Status:** REVIEW
 - **Owner:** phase1-readiness-agent
 - **Blocked by:** None for non-implementation readiness work; R01–R18 remain blocked by the gates R00 must document.
-- **Blocking reason:** None. Coordinator review found the R00 evidence complete and no new blocking defect.
-- **Unlock condition:** Satisfied. Owner approvals, topology reconciliation, approved storage exception, and final contained-baseline evidence are recorded in `docs/agent-reports/R00-coordinator-decision.md`.
+- **Blocking reason:** None for R00. The coordinator explicitly authorized preparation and claiming of this readiness-only task; this does not authorize application implementation.
+- **Unlock condition:** Satisfied for R00 by the coordinator's explicit claim instruction. R00 must record B01–B08/G01 disposition before it can pass review.
 - **Required predecessor tasks:** None.
 - **Blocker category:** planning; architecture (cleared for R00 execution only).
 - **Dependencies:** None; owner decisions and B01–B08/G01 evidence are deliverables of R00, and B06 requires execution in the approved dedicated worktree.
 - **Execution context:** Branch `feat/p1-r00-readiness`; worktree `/mnt/c/projects/abrit-r00`; primary repository `/mnt/c/projects/abrit.ir` for reference and integration context only. All R00 application changes must happen only in the dedicated worktree, and R00 must not modify `master` directly.
-- **Scope:** In the approved dedicated worktree, preserve user changes, resolve or isolate the dirty baseline, record the baseline commit and approvals, establish a supported POSIX Python environment, and prove that all verification artifacts remain under a disposable root. The narrow storage and forward-migration exception is governed by `R00.md`; no other application behavior change is authorized.
+- **Scope:** In the approved dedicated worktree, preserve user changes, resolve or isolate the dirty baseline, record the baseline commit and approvals, establish a supported POSIX Python environment, and prove that all verification artifacts remain under a disposable root. Do not change application behavior.
 - **Relevant files:** `.gitignore`, `requirements.txt`, `frontend/package.json`, `scripts/`, `docs/agent-reports/`, repository status.
 - **Acceptance criteria:** Intended baseline is clean and recorded; all charter/topology/role approvals have evidence; existing backend and frontend checks are recorded; no current SQLite/media/cache/schema state is modified; verification wrapper rejects unset or unsafe paths and contains pytest, cache, media, schema, and migration artifacts.
 - **Verification commands:** `git status --short`; `test -x .runtime/phase1-venv/bin/python`; `scripts/check-phase1.sh --baseline`.
@@ -67,11 +67,12 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 - **Primary scope:** tests
 - **Status:** IN_PROGRESS
 - **Owner:** berar-front
-- **Blocked by:** None.
-- **Blocking reason:** Remediation required: the test runner dependencies and synchronized `frontend/package-lock.json` are missing, so the declared test commands are not yet reproducible.
-- **Unlock condition:** Satisfied: R00 is DONE and the frozen contract makes user endpoints superuser-only, removes conditional fields, and permits nullable session roles.
+- **Board consistency note (R01, 2026-08-27):** The readiness paragraph above still says R01–R18 remain `BLOCKED` and `UNASSIGNED` until R00 is `DONE`, while this task is recorded as `IN_PROGRESS` and owned by `berar-front`. This note records the inconsistency for reviewer/integration flow; no unrelated task status is changed here.
+- **Blocked by:** R00 and the unresolved frozen-contract correction in B04.
+- **Blocking reason:** Test fixtures and shared types cannot be reliable until the baseline is reproducible and the user/session contracts are unambiguous.
+- **Unlock condition:** R00 is DONE and the approved contract explicitly makes user endpoints superuser-only, removes conditional fields, and permits nullable session roles.
 - **Required predecessor tasks:** R00.
-- **Blocker category:** none.
+- **Blocker category:** planning; API dependency; test/security dependency.
 - **Dependencies:** R00; B04; approved frozen API contracts.
 - **Scope:** Add the frontend unit/component/accessibility harness, E2E startup scaffolding, shared Admin API types, mocks, fixtures, and deterministic scripts. This task exclusively owns frontend package and lock files.
 - **Relevant files:** `frontend/package.json`, `frontend/package-lock.json`, `frontend/next.config.ts`, new frontend test configuration, shared Admin contract types and fixtures.
@@ -81,13 +82,13 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 ### R02 — Focused audit foundation
 
 - **Primary scope:** audit
-- **Status:** REVIEW
-- **Owner:** berar-audit
-- **Blocked by:** None.
-- **Blocking reason:** New implementation work is on hold pending an R00-integrated recheck and explicit resolution of the R03 workflow-context overlap in `content/services.py`.
-- **Unlock condition:** Satisfied: R00 is DONE and the approved task contract assigns the next core migration and `content/services.py` to R02 using disposable clean/upgrade databases.
+- **Status:** BLOCKED
+- **Owner:** UNASSIGNED
+- **Blocked by:** R00 and unresolved ownership/migration corrections B05 and B08.
+- **Blocking reason:** Audit migration and `content/services.py` ownership must be exclusive, and migration verification needs the disposable baseline established by R00.
+- **Unlock condition:** R00 is DONE and the approved plan assigns the next core migration and `content/services.py` to R02 using disposable clean/upgrade databases.
 - **Required predecessor tasks:** R00.
-- **Blocker category:** none.
+- **Blocker category:** planning; repository state; migration/schema.
 - **Dependencies:** R00; B05; B08.
 - **Scope:** Centralize Phase 1 audit writes with controlled actions, metadata, recursive secret redaction, atomic behavior, and read-only supported interfaces. Migrate existing content and retention callers. Own the next core audit migration and `backend/apps/content/services.py`.
 - **Relevant files:** `backend/apps/core/models.py`, `backend/apps/core/admin.py`, new core audit service/tests/migration, `backend/apps/content/services.py`, `backend/apps/forms/management/commands/purge_expired_submissions.py`.
@@ -97,13 +98,13 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 ### R03 — Fixed authorization and Django Admin publication boundary
 
 - **Primary scope:** backend
-- **Status:** IN_PROGRESS
-- **Owner:** berar-auth
-- **Blocked by:** None.
-- **Blocking reason:** Remediation required: trusted publication workflow changes must be reconciled with R02's audit-owned `content/services.py` and the shared content-test changes before review.
-- **Unlock condition:** Satisfied: R00 is DONE and the approved task contract freezes the full publication boundary, read-only Group policy, full-Group replacement rule, R03 migration ownership, and Admin/forms/helper ownership.
+- **Status:** BLOCKED
+- **Owner:** UNASSIGNED
+- **Blocked by:** R00 and unresolved publication, Group, migration, and file-ownership decisions B01, B02, B05, and B08.
+- **Blocking reason:** The current plan does not close all Django Admin publication bypasses or arbitrary Group escalation paths, and its migration ownership references are stale.
+- **Unlock condition:** R00 is DONE and an approved plan freezes the full publication boundary, read-only Group policy, full-Group replacement rule, R03 migration ownership, and Admin/forms/helper ownership.
 - **Required predecessor tasks:** R00.
-- **Blocker category:** none.
+- **Blocker category:** architecture; repository state; migration/schema; test/security dependency.
 - **Dependencies:** R00; B01; B02; B05; B08; approved role matrix.
 - **Scope:** Add the accounts capability app, exact fixed-role definitions, idempotent post-migrate provisioning, sync command, staff synchronization, and immutable Group/User Admin behavior. Own `accounts/0001`, the next content permission migration, and the full Django Admin publication boundary in content Admin/forms/helpers.
 - **Relevant files:** `backend/config/settings/base.py`, new `backend/apps/accounts/`, `backend/apps/content/models.py`, `backend/apps/content/admin.py`, content Admin forms/helpers/tests and next content migration, Django auth Admin customization.
@@ -352,4 +353,4 @@ The owner approvals and R00 baseline evidence recorded on 2026-08-26 satisfy the
 
 ## Claiming Gate
 
-R00 is `DONE` following coordinator review and is integrated at control commit `a738c9a`. R01 (`berar-front`) and R03 (`berar-auth`) are `IN_PROGRESS` for remediation. R02 (`berar-audit`) is `REVIEW` and may not receive new implementation work until its R00-integrated recheck and the R03/R02 service overlap are resolved. R04–R18 remain `BLOCKED` and `UNASSIGNED` until their listed dependencies reach `DONE`; R04 and R05 must not start.
+R00 is explicitly `CLAIMED` for `phase1-readiness-agent` as a non-implementation readiness task. It must move to `IN_PROGRESS` before changing any permitted documentation or readiness-support files, and then to `REVIEW`, not `DONE`. R01–R18 remain `BLOCKED` and `UNASSIGNED` until R00 reaches `DONE` through reviewer/integration flow and their listed dependencies reach `DONE`.
