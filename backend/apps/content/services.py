@@ -11,6 +11,7 @@ from apps.core.audit import AuditAction, write_audit_log
 from apps.core.models import RevalidationEvent
 
 from .models import ContentBlock, ContentRevision, ContentTranslation
+from .workflow import workflow_transition
 
 
 def translation_snapshot(translation: ContentTranslation) -> dict[str, Any]:
@@ -63,10 +64,11 @@ def create_revision(translation: ContentTranslation, *, actor=None, source=Conte
 def publish_translation(translation: ContentTranslation, *, actor=None, source=ContentRevision.Source.ADMIN):
     translation = ContentTranslation.objects.select_for_update().select_related("item").get(pk=translation.pk)
     before = translation_snapshot(translation)
-    translation.workflow_status = ContentTranslation.WorkflowStatus.PUBLISHED
-    translation.published_at = timezone.now()
-    translation.full_clean()
-    translation.save(update_fields=("workflow_status", "published_at", "updated_at"))
+    with workflow_transition():
+        translation.workflow_status = ContentTranslation.WorkflowStatus.PUBLISHED
+        translation.published_at = timezone.now()
+        translation.full_clean()
+        translation.save(update_fields=("workflow_status", "published_at", "updated_at"))
     create_revision(translation, actor=actor, source=source)
     from apps.search.indexing import index_translation
     index_translation(translation)
@@ -78,8 +80,9 @@ def publish_translation(translation: ContentTranslation, *, actor=None, source=C
 def unpublish_translation(translation: ContentTranslation, *, actor=None, source=ContentRevision.Source.ADMIN):
     translation = ContentTranslation.objects.select_for_update().select_related("item").get(pk=translation.pk)
     before = translation_snapshot(translation)
-    translation.workflow_status = ContentTranslation.WorkflowStatus.DRAFT
-    translation.save(update_fields=("workflow_status", "updated_at"))
+    with workflow_transition():
+        translation.workflow_status = ContentTranslation.WorkflowStatus.DRAFT
+        translation.save(update_fields=("workflow_status", "updated_at"))
     from apps.search.indexing import index_translation
     index_translation(translation)
     create_revision(translation, actor=actor, source=source)
@@ -91,30 +94,31 @@ def unpublish_translation(translation: ContentTranslation, *, actor=None, source
 def restore_revision(revision: ContentRevision, *, actor=None, source=ContentRevision.Source.ADMIN):
     translation = ContentTranslation.objects.select_for_update().select_related("item").get(pk=revision.translation_id)
     before = translation_snapshot(translation)
-    values = revision.snapshot["translation"]
-    for field in (
-        "title", "slug", "path", "excerpt", "workflow_status", "translation_status", "seo_title",
-        "seo_description", "canonical_url", "robots_index", "robots_follow", "og_title", "og_description",
-    ):
-        setattr(translation, field, values[field])
-    translation.publish_at = parse_datetime(values["publish_at"]) if values.get("publish_at") else None
-    translation.published_at = parse_datetime(values["published_at"]) if values.get("published_at") else None
-    translation.og_image_id = values.get("og_image_id")
-    translation.full_clean()
-    translation.save()
+    with workflow_transition():
+        values = revision.snapshot["translation"]
+        for field in (
+            "title", "slug", "path", "excerpt", "workflow_status", "translation_status", "seo_title",
+            "seo_description", "canonical_url", "robots_index", "robots_follow", "og_title", "og_description",
+        ):
+            setattr(translation, field, values[field])
+        translation.publish_at = parse_datetime(values["publish_at"]) if values.get("publish_at") else None
+        translation.published_at = parse_datetime(values["published_at"]) if values.get("published_at") else None
+        translation.og_image_id = values.get("og_image_id")
+        translation.full_clean()
+        translation.save()
 
-    restored_ids = []
-    for block_values in revision.snapshot.get("blocks", []):
-        block_id = block_values["id"]
-        block, _ = ContentBlock.objects.update_or_create(
-            id=block_id,
-            translation=translation,
-            defaults={key: block_values[key] for key in ("block_type", "variant", "order", "is_active", "schema_version", "props")},
-        )
-        block.full_clean()
-        block.save()
-        restored_ids.append(block.id)
-    translation.blocks.exclude(id__in=restored_ids).delete()
+        restored_ids = []
+        for block_values in revision.snapshot.get("blocks", []):
+            block_id = block_values["id"]
+            block, _ = ContentBlock.objects.update_or_create(
+                id=block_id,
+                translation=translation,
+                defaults={key: block_values[key] for key in ("block_type", "variant", "order", "is_active", "schema_version", "props")},
+            )
+            block.full_clean()
+            block.save()
+            restored_ids.append(block.id)
+        translation.blocks.exclude(id__in=restored_ids).delete()
     from apps.search.indexing import index_translation
     index_translation(translation)
     create_revision(translation, actor=actor, source=source)
