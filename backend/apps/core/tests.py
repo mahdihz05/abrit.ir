@@ -43,6 +43,11 @@ def test_recursive_secret_redaction_does_not_mutate_the_source():
     assert payload["profile"]["api_token"] == "abc"
 
 
+def test_secret_redaction_normalizes_separators_and_preserves_empty_lists():
+    assert redact_secrets({"api_key": "never-store"}) == {"api_key": REDACTED_VALUE}
+    assert redact_secrets([]) == []
+
+
 @pytest.mark.django_db
 def test_audit_writer_stores_only_redacted_json_and_metadata():
     audit = write_audit_log(
@@ -58,6 +63,22 @@ def test_audit_writer_stores_only_redacted_json_and_metadata():
     assert audit.before["nested"]["password"] == REDACTED_VALUE
     assert audit.after["access_token"] == REDACTED_VALUE
     assert audit.metadata["request"]["authorization"] == REDACTED_VALUE
+
+
+@pytest.mark.django_db
+def test_audit_writer_preserves_empty_list_payloads():
+    audit = write_audit_log(
+        action=AuditAction.USER_UPDATE,
+        object_type="user",
+        object_id="42",
+        before=[],
+        after=[],
+        metadata=[],
+    )
+
+    assert audit.before == []
+    assert audit.after == []
+    assert audit.metadata == []
 
 
 @pytest.mark.django_db
