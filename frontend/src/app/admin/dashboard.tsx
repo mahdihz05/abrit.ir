@@ -18,7 +18,7 @@ function isEmptyDashboard(data: DashboardData) {
     && data.submissions.new === 0 && data.revalidation.pending === 0 && data.revalidation.failed === 0;
 }
 
-function StateMessage({ status, onRetry }: { status: Exclude<DashboardStatus, "ready" | "loading">; onRetry?: () => void }) {
+export function StateMessage({ status, onRetry }: { status: Exclude<DashboardStatus, "ready" | "loading">; onRetry?: () => void }) {
   const copy = {
     denied: ["دسترسی محدود", "دسترسی به داده‌های داشبورد ممکن نیست.", "نقش فعلی شما اجازه مشاهده این اطلاعات را ندارد."],
     expired: ["نشست منقضی شده", "نشست مدیریت شما منقضی شده است.", "برای ادامه دوباره وارد شوید."],
@@ -77,9 +77,9 @@ export function AdminDashboard() {
   }
 
   useEffect(() => {
-    void loadDashboard();
+    const timer = window.setTimeout(() => { void loadDashboard(); }, 0);
     // The dashboard is intentionally loaded once; live updates are out of scope.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => window.clearTimeout(timer);
   }, []);
 
   return <section aria-labelledby="dashboard-title">
