@@ -22,7 +22,7 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], channel: undefined, launchOptions: { executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH } },
     },
   ],
 });
