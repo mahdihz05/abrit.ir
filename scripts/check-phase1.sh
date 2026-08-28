@@ -3,10 +3,11 @@
 set -u
 
 usage() {
-    echo "Usage: ABRIT_VERIFY_DIR=/tmp/<name> scripts/check-phase1.sh --baseline" >&2
+    echo "Usage: ABRIT_VERIFY_DIR=/tmp/<name> scripts/check-phase1.sh --baseline|--all" >&2
 }
 
-if [[ ${1:-} != "--baseline" || $# -ne 1 ]]; then
+mode=${1:-}
+if [[ $mode != "--baseline" && $mode != "--all" || $# -ne 1 ]]; then
     usage
     exit 64
 fi
@@ -148,6 +149,13 @@ fi
 
 frontend_modules="$repo_root/frontend/node_modules"
 primary_frontend="$repo_root/../abrit.ir/frontend"
+frontend_run() {
+    if [[ $mode == "--all" ]]; then
+        timeout "${ABRIT_FRONTEND_TIMEOUT:-90}s" "$@"
+    else
+        "$@"
+    fi
+}
 if [[ ! -x $frontend_modules/.bin/next || ! -x $frontend_modules/.bin/eslint ]]; then
     primary_modules="$primary_frontend/node_modules"
     if [[ -x $primary_modules/.bin/next && -x $primary_modules/.bin/eslint ]] \
@@ -168,26 +176,26 @@ if [[ -x $frontend_modules/.bin/next && -x $frontend_modules/.bin/eslint ]]; the
         --exclude='./tmp' \
         -cf - . | tar -C "$frontend_copy" -xf -
     disposable_modules="$frontend_build_root/node_modules"
-    echo "RUN: Copy frontend dependencies into the disposable root"
-    if cp -a --reflink=auto -- "$frontend_modules" "$disposable_modules"; then
-        echo "PASS: frontend dependencies copied below the disposable root."
+    echo "RUN: Mount frontend dependencies read-only from the lock-compatible reference"
+    if ln -s -- "$frontend_modules" "$disposable_modules"; then
+        echo "PASS: frontend dependencies mounted read-only; generated artifacts remain below the disposable root."
         ln -s -- "$disposable_modules" "$frontend_copy/node_modules"
-        run_check "Frontend dependency tree" npm --prefix "$frontend_copy" ls --depth=0
-        run_check "Frontend lint" npm --prefix "$frontend_copy" run lint
+        run_check "Frontend dependency tree" frontend_run npm --prefix "$frontend_copy" ls --depth=0
+        run_check "Frontend lint" frontend_run npm --prefix "$frontend_copy" run lint
         if (cd -- "$frontend_copy" && node -e 'for (const name of ["@next/swc-linux-x64-gnu", "@next/swc-linux-x64-musl", "@next/swc-wasm-nodejs", "@next/swc-wasm-web"]) { try { require.resolve(name); process.exit(0); } catch {} } process.exit(1)'); then
-            run_check "Frontend typecheck" npm --prefix "$frontend_copy" run typecheck
-            run_check "Frontend build" npm --prefix "$frontend_copy" run build
+            run_check "Frontend typecheck" frontend_run npm --prefix "$frontend_copy" run typecheck
+            run_check "Frontend build" frontend_run npm --prefix "$frontend_copy" run build
         else
             echo "BLOCKED: the existing frontend dependency tree has no Linux-compatible Next SWC runtime; typecheck and build were not run."
             blocked=1
         fi
         if npm --prefix "$frontend_copy" run | grep -q '^  test$'; then
-            run_check "Frontend unit tests" npm --prefix "$frontend_copy" run test
+            run_check "Frontend unit tests" frontend_run npm --prefix "$frontend_copy" run test
         else
             echo "NOT_RUN: frontend test script is not defined; R01 owns the test foundation."
         fi
         if npm --prefix "$frontend_copy" run | grep -q '^  test:e2e$'; then
-            run_check "Frontend E2E" npm --prefix "$frontend_copy" run test:e2e
+            run_check "Frontend E2E" frontend_run npm --prefix "$frontend_copy" run test:e2e
         else
             echo "NOT_RUN: frontend test:e2e script is not defined; R01 owns the test foundation."
         fi
@@ -198,6 +206,27 @@ if [[ -x $frontend_modules/.bin/next && -x $frontend_modules/.bin/eslint ]]; the
 else
     echo "BLOCKED: no lock-compatible existing frontend dependency tree is available."
     blocked=1
+fi
+
+if [[ $mode == "--all" ]]; then
+    upgrade_database="$run_dir/migrations/upgrade.sqlite3"
+    export DJANGO_DATABASE_PATH="$upgrade_database"
+    run_check "Clean migration" "$python_path" "$repo_root/backend/manage.py" migrate --noinput
+    run_check "Upgrade migration" "$python_path" "$repo_root/backend/manage.py" migrate --noinput
+    run_check "Deterministic Phase 1 role setup" "$python_path" "$repo_root/backend/manage.py" sync_phase1_roles
+    run_check "Deterministic verification users" "$python_path" "$repo_root/backend/manage.py" shell -c "from django.contrib.auth.models import User; from apps.accounts.roles import assign_fixed_role; users=[('r18-superuser',None,True),('r18-editor','editor',False),('r18-publisher','publisher',False),('r18-submission-reviewer','submission-reviewer',False),('r18-auditor','auditor',False)]; [(lambda user: (assign_fixed_role(user, r) if r else None))(User.objects.create_superuser(u, password='R18-correct-password') if su else User.objects.create_user(u, password='R18-correct-password')) for u,r,su in users if not User.objects.filter(username=u).exists()]"
+    run_check "Same-origin /cms topology" env DJANGO_SCRIPT_NAME=/cms "$python_path" "$repo_root/backend/manage.py" shell -c "from django.test import Client; c=Client(); assert c.get('/health/').status_code == 200; assert c.get('/api/v1/admin/roles').status_code == 401"
+    run_check "Public API regression" "$python_path" "$repo_root/backend/manage.py" shell -c "from django.test import Client; c=Client(); assert c.get('/health/').status_code == 200; assert c.get('/api/v1/navigation/header/en').status_code == 200; assert c.get('/api/v1/content/collections/page/en').status_code == 200; assert c.get('/api/v1/pricing/packages?locale=en').status_code == 200; assert c.get('/api/v1/search?locale=en&q=ab').status_code == 200"
+    export DJANGO_DATABASE_PATH="$run_dir/backend/abrit.sqlite3"
+    expected_roots=("$run_dir/backend/media" "$run_dir/backend/private-media" "$run_dir/cache" "$run_dir/e2e" "$run_dir/migrations" "$run_dir/pytest-cache" "$run_dir/pytest-tmp" "$run_dir/schema" "$run_dir/tmp")
+    for artifact_root in "${expected_roots[@]}"; do
+        if [[ -d $artifact_root && $(realpath -m -- "$artifact_root") == "$run_dir"/* ]]; then
+            echo "PASS: disposable artifact root is contained: $artifact_root"
+        else
+            echo "FAIL: disposable artifact root is missing or escapes run root: $artifact_root" >&2
+            failed=1
+        fi
+    done
 fi
 
 snapshot_protected protected-after.sha256
