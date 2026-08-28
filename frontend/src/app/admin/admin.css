@@ -54,6 +54,7 @@
 .admin-state p { max-width: 430px; margin-top: 12px; color: #71809b; font-size: 13px; }
 .admin-state-badge { display: inline-flex; padding: 8px 12px; color: #3974ff; background: #edf3ff; border-radius: 999px; font-size: 11px; font-weight: 700; }
 .admin-overlay { position: fixed; z-index: 10; inset: 0; background: rgba(8,15,34,.48); }
+.admin-login, .admin-login-card, .admin-login-card input, .admin-login-card button { box-sizing: border-box; }
 .admin-login { display: grid; min-height: 100vh; place-items: center; padding: 24px; background: #f5f7fb; }
 .admin-login-card { width: min(100%, 430px); padding: 36px; background: #fff; border: 1px solid #e5e9f1; border-radius: 16px; box-shadow: 0 24px 60px -45px #172033; }
 .admin-login-card h1 { margin-top: 14px; font-size: 26px; }
@@ -162,8 +163,8 @@
 
 @media (max-width: 900px) {
   .admin-shell { display: block; }
-  .admin-sidebar { position: fixed; inset-block: 0; inset-inline-end: 0; width: min(290px, 82vw); min-height: 0; transform: translateX(105%); transition: transform .2s ease; }
-  .admin-sidebar[data-open="true"] { transform: none; }
+  .admin-sidebar { position: fixed; inset-block: 0; inset-inline-end: 0; width: min(290px, 82vw); min-height: 0; pointer-events: none; transform: translateX(105%); transition: transform .2s ease; }
+  .admin-sidebar[data-open="true"] { pointer-events: auto; transform: none; }
   .admin-menu-button { display: inline-grid; place-items: center; }
   .admin-header { padding: 0 24px; }
   .admin-content { width: min(100% - 48px, 700px); }
