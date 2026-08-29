@@ -1,7 +1,10 @@
 import pytest
 from django.contrib import admin
 from django.core.exceptions import ValidationError
+from django.core.management import call_command
 from django.db import transaction
+
+from apps.content.models import ContentItem, ContentTranslation
 
 from .admin import AuditLogAdmin
 from .audit import AuditAction, REDACTED_VALUE, redact_secrets, write_audit_log
@@ -101,3 +104,30 @@ def test_audit_log_admin_is_read_only():
     assert audit_admin.has_add_permission(None) is False
     assert audit_admin.has_change_permission(None) is False
     assert audit_admin.has_delete_permission(None) is False
+
+
+@pytest.mark.django_db
+def test_page_translation_allows_a_locale_root_path():
+    item = ContentItem.objects.create(key="home", kind=ContentItem.Kind.PAGE, template_key="home")
+    translation = ContentTranslation(
+        item=item,
+        locale="fa",
+        title="Home",
+        slug="home",
+        path="",
+        workflow_status=ContentTranslation.WorkflowStatus.DRAFT,
+        translation_status=ContentTranslation.TranslationStatus.REVIEWED,
+    )
+
+    translation.full_clean()
+
+
+@pytest.mark.django_db
+def test_seed_abrit_publishes_seeded_translations_through_the_workflow():
+    call_command("seed_abrit", verbosity=0)
+    call_command("seed_abrit", verbosity=0)
+
+    assert ContentTranslation.objects.filter(
+        workflow_status=ContentTranslation.WorkflowStatus.PUBLISHED,
+        translation_status=ContentTranslation.TranslationStatus.REVIEWED,
+    ).exists()

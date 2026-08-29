@@ -4,7 +4,8 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.utils import timezone
 
-from apps.content.models import ContentBlock, ContentItem, ContentTranslation, ServiceProfile
+from apps.content.models import ContentBlock, ContentItem, ContentRevision, ContentTranslation, ServiceProfile
+from apps.content.services import publish_translation, unpublish_translation
 from apps.core.models import DesignSettings, SiteSettings, SiteSettingsTranslation
 from apps.navigation.models import Menu, MenuItem, MenuItemTranslation
 from apps.pricing.models import AddonRate, ContractTerm, Package, PackageTranslation
@@ -151,6 +152,28 @@ class Command(BaseCommand):
         call_command("rebuild_search_index", verbosity=0)
         self.stdout.write(self.style.SUCCESS("AbrIT approved seed data is ready."))
 
+    def _seed_translation(self, *, item, locale, defaults):
+        translation = ContentTranslation.objects.filter(item=item, locale=locale).first()
+        if translation and translation.workflow_status == ContentTranslation.WorkflowStatus.PUBLISHED:
+            unpublish_translation(translation, source=ContentRevision.Source.SYSTEM)
+
+        draft_defaults = {
+            **defaults,
+            "workflow_status": ContentTranslation.WorkflowStatus.DRAFT,
+            "translation_status": ContentTranslation.TranslationStatus.REVIEWED,
+            "published_at": None,
+        }
+        translation, _ = ContentTranslation.objects.update_or_create(
+            item=item,
+            locale=locale,
+            defaults=draft_defaults,
+        )
+        return translation
+
+    def _publish_seed_translation(self, translation):
+        if translation.workflow_status != ContentTranslation.WorkflowStatus.PUBLISHED:
+            publish_translation(translation, source=ContentRevision.Source.SYSTEM)
+
     def _seed_site(self):
         site, _ = SiteSettings.objects.update_or_create(
             singleton_key=1,
@@ -173,10 +196,10 @@ class Command(BaseCommand):
         now = timezone.now()
         home, _ = ContentItem.objects.update_or_create(key="home", defaults={"kind": ContentItem.Kind.PAGE, "template_key": "home", "is_active": True})
         for locale, data in HOME.items():
-            translation, _ = ContentTranslation.objects.update_or_create(
+            translation = self._seed_translation(
                 item=home,
                 locale=locale,
-                defaults={"title": data["title"], "slug": "home", "path": "", "excerpt": data["excerpt"], "workflow_status": ContentTranslation.WorkflowStatus.PUBLISHED, "translation_status": ContentTranslation.TranslationStatus.REVIEWED, "published_at": now, "seo_title": data["title"], "seo_description": data["excerpt"]},
+                defaults={"title": data["title"], "slug": "home", "path": "", "excerpt": data["excerpt"], "seo_title": data["title"], "seo_description": data["excerpt"]},
             )
             blocks = [
                 (0, "hero", "dashboard", data["hero"]),
@@ -188,6 +211,7 @@ class Command(BaseCommand):
                 block, _ = ContentBlock.objects.update_or_create(translation=translation, order=order, defaults={"block_type": block_type, "variant": variant, "props": props, "is_active": True})
                 block.full_clean()
                 block.save()
+            self._publish_seed_translation(translation)
 
         for key, translations in PAGES:
             item, _ = ContentItem.objects.update_or_create(
@@ -195,27 +219,36 @@ class Command(BaseCommand):
             )
             for index, locale in enumerate(LOCALES):
                 title, excerpt = translations[index]
-                ContentTranslation.objects.update_or_create(
+                translation = self._seed_translation(
                     item=item,
                     locale=locale,
                     defaults={
                         "title": title, "slug": key, "path": key, "excerpt": excerpt,
-                        "workflow_status": ContentTranslation.WorkflowStatus.PUBLISHED,
-                        "translation_status": ContentTranslation.TranslationStatus.REVIEWED,
-                        "published_at": now, "seo_title": title, "seo_description": excerpt,
+                        "seo_title": title, "seo_description": excerpt,
                     },
                 )
+                self._publish_seed_translation(translation)
 
         for key, names, descriptions in SERVICES:
             item, _ = ContentItem.objects.update_or_create(key=f"service-{key}", defaults={"kind": ContentItem.Kind.SERVICE, "template_key": "service", "is_active": True})
             ServiceProfile.objects.get_or_create(item=item)
             for index, locale in enumerate(LOCALES):
-                ContentTranslation.objects.update_or_create(item=item, locale=locale, defaults={"title": names[index], "slug": key, "path": f"services/{key}", "excerpt": descriptions[index], "workflow_status": ContentTranslation.WorkflowStatus.PUBLISHED, "translation_status": ContentTranslation.TranslationStatus.REVIEWED, "published_at": now, "seo_title": names[index], "seo_description": descriptions[index][:170]})
+                translation = self._seed_translation(
+                    item=item,
+                    locale=locale,
+                    defaults={"title": names[index], "slug": key, "path": f"services/{key}", "excerpt": descriptions[index], "seo_title": names[index], "seo_description": descriptions[index][:170]},
+                )
+                self._publish_seed_translation(translation)
 
         for key, names in SOLUTIONS:
             item, _ = ContentItem.objects.update_or_create(key=f"solution-{key}", defaults={"kind": ContentItem.Kind.SOLUTION, "template_key": "solution", "is_active": True})
             for index, locale in enumerate(LOCALES):
-                ContentTranslation.objects.update_or_create(item=item, locale=locale, defaults={"title": names[index], "slug": key, "path": f"solutions/{key}", "workflow_status": ContentTranslation.WorkflowStatus.PUBLISHED, "translation_status": ContentTranslation.TranslationStatus.REVIEWED, "published_at": now, "seo_title": names[index]})
+                translation = self._seed_translation(
+                    item=item,
+                    locale=locale,
+                    defaults={"title": names[index], "slug": key, "path": f"solutions/{key}", "seo_title": names[index]},
+                )
+                self._publish_seed_translation(translation)
 
     def _seed_packages(self):
         for months, discount_bps, onboarding_bps in ((3, 300, 5000), (6, 500, 2500), (12, 800, 0)):

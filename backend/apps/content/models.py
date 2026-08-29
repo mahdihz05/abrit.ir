@@ -65,7 +65,7 @@ class ContentTranslation(UUIDTimestampedModel):
     locale = models.CharField(max_length=10, choices=LOCALE_CHOICES)
     title = models.CharField(max_length=180)
     slug = models.SlugField(max_length=180, allow_unicode=True)
-    path = models.CharField(max_length=500, help_text="Locale-relative public path without a leading slash.")
+    path = models.CharField(max_length=500, blank=True, help_text="Locale-relative public path without a leading slash.")
     excerpt = models.TextField(blank=True)
     workflow_status = models.CharField(max_length=16, choices=WorkflowStatus.choices, default=WorkflowStatus.DRAFT)
     translation_status = models.CharField(max_length=16, choices=TranslationStatus.choices, default=TranslationStatus.DRAFT)
