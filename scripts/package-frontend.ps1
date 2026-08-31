@@ -8,8 +8,8 @@ $artifactsRoot = Join-Path $projectRoot "artifacts"
 $archivePath = Join-Path $artifactsRoot "abrit-frontend-standalone.tar.gz"
 
 $env:NEXT_PUBLIC_SITE_URL = "https://abrit.cloud"
-$env:NEXT_PUBLIC_API_URL = "https://abrit.cloud/cms/api/v1"
-$env:BACKEND_API_URL = "https://abrit.cloud/cms/api/v1"
+if (-not $env:DATABASE_URI) { throw "DATABASE_URI must point to the production PostgreSQL database." }
+if (-not $env:PAYLOAD_SECRET) { throw "PAYLOAD_SECRET is required." }
 
 $resolvedFrontendRoot = (Resolve-Path -LiteralPath $frontendRoot).Path
 $resolvedStandaloneRoot = [System.IO.Path]::GetFullPath($standaloneRoot)
@@ -31,7 +31,6 @@ finally {
 
 Copy-Item -Recurse -Force (Join-Path $frontendRoot "public") (Join-Path $standaloneFrontend "public")
 Copy-Item -Recurse -Force (Join-Path $frontendRoot ".next/static") (Join-Path $standaloneFrontend ".next/static")
-Copy-Item -Force (Join-Path $projectRoot "abrit-homepage-polished-v5.html") $standaloneRoot
 Copy-Item -Force (Join-Path $PSScriptRoot "cpanel-standalone-server.js") (Join-Path $standaloneRoot "server.js")
 Copy-Item -Force (Join-Path $PSScriptRoot "cpanel-standalone-package.json") (Join-Path $standaloneRoot "package.json")
 
