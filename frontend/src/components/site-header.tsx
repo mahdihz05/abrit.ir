@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Brand } from "./brand";
 import { localeMeta, locales, ui } from "@/lib/locales";
-import { localizedSolutions } from "@/lib/public-content";
 import type { Locale, NavigationItem } from "@/lib/types";
 
 type ProductMenuEntry = { id: string; title: string; description: string; path: string };
@@ -121,7 +120,7 @@ export function SiteHeader({ locale, items }: { locale: Locale; items: Navigatio
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const labels = ui[locale];
-  const solutionItems = localizedSolutions(locale);
+  const solutionItems = items.find((item) => item.url.endsWith("/solutions"))?.children ?? [];
   const products = productMenu[locale];
   const editorial = editorialMenu[locale];
   const localeFlags: Record<Locale, string> = { fa: "🇮🇷", en: "🇬🇧", "ar-ae": "🇦🇪" };
@@ -233,7 +232,7 @@ export function SiteHeader({ locale, items }: { locale: Locale; items: Navigatio
             const renderLinks = (entries: typeof submenu) => entries.map((entry) => (
               <Link key={entry.id} href={entry.url} onClick={() => setOpen(false)}>
                 <b>{entry.title}</b>
-                <small>{entry.excerpt}</small>
+                <small>{entry.description}</small>
               </Link>
             ));
 

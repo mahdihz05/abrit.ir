@@ -7,8 +7,6 @@ import type { Locale } from "@/lib/types";
 type LeadFormKind = "consultation" | "quote-request";
 type SubmitState = { type: "idle" | "pending" | "success" | "error"; message: string };
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api/v1").replace(/\/$/, "");
-
 const copy = {
   fa: {
     eyebrow: "ABRIT · شروع همکاری",
@@ -79,7 +77,7 @@ export function LeadForm({ locale, kind = "consultation", context = "", defaultP
     }
     setState({ type: "pending", message: text.pending });
     try {
-      const response = await fetch(`${API_URL}/forms/${kind}/submissions`, {
+      const response = await fetch(`/api/forms/${kind}/submissions`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({

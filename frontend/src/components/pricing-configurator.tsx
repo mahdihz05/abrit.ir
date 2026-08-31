@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState, type CSSProperties } from "react";
-import { buildManagedItWhmcsUrl, estimateManagedItPrice, managedItCycles, managedItPackages, type ManagedItCycle } from "@/lib/managed-it-packages";
+import { buildManagedItWhmcsUrl, estimateManagedItPrice, managedItCycles, type ManagedItCycle, type ManagedItPackage } from "@/lib/managed-it-packages";
 import type { Locale } from "@/lib/types";
 
 const labels = {
@@ -27,10 +27,10 @@ function RangeSelector({ label, value, minimum, maximum, formatValue, onChange }
   </div>;
 }
 
-export function PricingConfigurator({ locale, initialPackage }: { locale: Locale; initialPackage?: string }) {
-  const initial = managedItPackages.find((item) => item.key === initialPackage) ?? managedItPackages[0];
+export function PricingConfigurator({ locale, initialPackage, packages }: { locale: Locale; initialPackage?: string; packages: readonly ManagedItPackage[] }) {
+  const initial = packages.find((item) => item.key === initialPackage) ?? packages[0];
   const [packageKey, setPackageKey] = useState(initial.key);
-  const selected = managedItPackages.find((item) => item.key === packageKey) ?? managedItPackages[0];
+  const selected = packages.find((item) => item.key === packageKey) ?? packages[0];
   const [cycle, setCycle] = useState<ManagedItCycle>("quarterly");
   const [users, setUsers] = useState(initial.includedUsers);
   const endpoints = selected.includedEndpoints;
@@ -40,10 +40,10 @@ export function PricingConfigurator({ locale, initialPackage }: { locale: Locale
   const estimate = estimateManagedItPrice(selected, cycle, users, endpoints);
   const checkoutUrl = buildManagedItWhmcsUrl(selected, cycle, estimate.extraUsers, estimate.extraEndpoints);
   const whmcsOptionsReady = estimate.extraUsers === 0 || selected.whmcs.extraUserOptionId !== null;
-  const recommendation = managedItPackages.find((item) => item.order > selected.order && users <= item.includedUsers);
+  const recommendation = packages.find((item) => item.order > selected.order && users <= item.includedUsers);
 
   function selectPackage(key: string) {
-    const next = managedItPackages.find((item) => item.key === key);
+    const next = packages.find((item) => item.key === key);
     if (!next) return;
     setPackageKey(next.key); setUsers(next.includedUsers);
   }
@@ -51,7 +51,7 @@ export function PricingConfigurator({ locale, initialPackage }: { locale: Locale
   return <div className="managed-configurator">
     <header className="managed-configurator-heading"><div><span>{copy.eyebrow}</span><h2>{copy.title}</h2></div><i>{locale === "fa" ? `مرحله ${number.format(1)} از ${number.format(3)}` : `${stepNumber.format(1)} / ${stepNumber.format(3)}`}</i></header>
     <div className="managed-package-picker" role="radiogroup" aria-label={copy.choose}>
-      {managedItPackages.map((item) => <button type="button" role="radio" aria-checked={item.key === selected.key} className={item.key === selected.key ? "active" : ""} key={item.key} onClick={() => selectPackage(item.key)}><small>{stepNumber.format(item.order)}</small><b>{item.name[locale]}</b><span>{number.format(item.includedUsers)} {copy.to} {number.format(item.includedUsers + item.maxExtraUsers)} {copy.users}</span><i>{item.key === selected.key ? copy.selected : copy.switchTo}</i></button>)}
+      {packages.map((item) => <button type="button" role="radio" aria-checked={item.key === selected.key} className={item.key === selected.key ? "active" : ""} key={item.key} onClick={() => selectPackage(item.key)}><small>{stepNumber.format(item.order)}</small><b>{item.name[locale]}</b><span>{number.format(item.includedUsers)} {copy.to} {number.format(item.includedUsers + item.maxExtraUsers)} {copy.users}</span><i>{item.key === selected.key ? copy.selected : copy.switchTo}</i></button>)}
     </div>
     <div className="managed-builder-grid">
       <section className="managed-controls">
