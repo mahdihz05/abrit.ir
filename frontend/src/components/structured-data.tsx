@@ -31,3 +31,18 @@ export function ContentJsonLd({ locale, content }: { locale: Locale; content: Co
       : null;
   return <>{entity && <JsonLd data={entity} />}<JsonLd data={breadcrumb} /></>;
 }
+
+export function IndependentServiceJsonLd({ locale, slug, title, description }: { locale: Locale; slug: string; title: string; description: string }) {
+  const url = `${SITE_URL}/${locale}/independent-services/${slug}`;
+  const service = { "@context": "https://schema.org", "@type": "Service", name: title, description, url, provider: { "@type": "Organization", name: "AbrIT", url: SITE_URL } };
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "AbrIT", item: `${SITE_URL}/${locale}` },
+      { "@type": "ListItem", position: 2, name: "Independent services", item: `${SITE_URL}/${locale}/independent-services` },
+      { "@type": "ListItem", position: 3, name: title, item: url },
+    ],
+  };
+  return <><JsonLd data={service} /><JsonLd data={breadcrumb} /></>;
+}

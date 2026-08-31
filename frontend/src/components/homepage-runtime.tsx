@@ -22,6 +22,66 @@ export function HomepageRuntime() {
     let pointerFrame = 0;
     const cleanup: Array<() => void> = [];
 
+    const installIndependentLinks = () => {
+      if (root.querySelector("[data-abrit-independent-link]")) return;
+      const locale = root.dataset.homepageLocale === "ar-ae" ? "ar-ae" : root.dataset.homepageLocale === "en" ? "en" : "fa";
+      const labels = {
+        fa: [
+          ["ابریت Backup", "پشتیبان‌گیری و بازیابی مدیریت‌شده", "backup"],
+          ["ابریت Cloud Storage", "فضای فایل سازمانی امن", "cloud-storage"],
+          ["ابریت Workspace", "فایل، اسناد و همکاری تیمی", "workspace"],
+          ["ابریت Voice", "تلفن سازمانی و ارتباط شعب", "voice"],
+        ],
+        en: [
+          ["AbrIT Backup", "Managed backup and recovery", "backup"],
+          ["AbrIT Cloud Storage", "Secure organizational file space", "cloud-storage"],
+          ["AbrIT Workspace", "Files, documents and collaboration", "workspace"],
+          ["AbrIT Voice", "Business telephony and branches", "voice"],
+        ],
+        "ar-ae": [
+          ["AbrIT Backup", "نسخ واستعادة مُداران", "backup"],
+          ["AbrIT Cloud Storage", "مساحة ملفات مؤسسية آمنة", "cloud-storage"],
+          ["AbrIT Workspace", "ملفات ومستندات وتعاون", "workspace"],
+          ["AbrIT Voice", "اتصالات مؤسسية وربط الفروع", "voice"],
+        ],
+      } as const;
+      const desktop = root.querySelector<HTMLElement>("#nav .navitem:first-child .mega-list");
+      const mobile = root.querySelector<HTMLElement>("#mobileNavBody .mobile-group:first-child .mobile-sub");
+      const footer = root.querySelector<HTMLElement>("#fl1");
+      const created: HTMLElement[] = [];
+      labels[locale].forEach(([title, description, slug]) => {
+        if (desktop) {
+          const link = document.createElement("a");
+          link.href = `/${locale}/independent-services/${slug}`;
+          link.dataset.abritIndependentLink = "true";
+          const name = document.createElement("b");
+          const summary = document.createElement("small");
+          name.textContent = title;
+          summary.textContent = description;
+          link.append(name, summary);
+          desktop.appendChild(link);
+          created.push(link);
+        }
+        if (mobile) {
+          const link = document.createElement("a");
+          link.href = `/${locale}/independent-services/${slug}`;
+          link.textContent = title;
+          link.dataset.abritIndependentLink = "true";
+          mobile.appendChild(link);
+          created.push(link);
+        }
+        if (footer) {
+          const link = document.createElement("a");
+          link.href = `/${locale}/independent-services/${slug}`;
+          link.textContent = title;
+          link.dataset.abritIndependentLink = "true";
+          footer.appendChild(link);
+          created.push(link);
+        }
+      });
+      cleanup.push(() => created.forEach((element) => element.remove()));
+    };
+
     const initializeMotion = () => {
       if (disposed || root.dataset.motionReady === "true") return;
       root.dataset.motionReady = "true";
@@ -203,12 +263,15 @@ export function HomepageRuntime() {
     const runtime = document.querySelector<HTMLScriptElement>("script[data-abrit-homepage-runtime]");
     const contentReady = () => root.dataset.contentReady === "true" || Boolean(root.querySelector("#servicegrid > *, #packages > *"));
     const onRuntimeReady = () => {
-      if (contentReady()) initializeMotion();
+      if (contentReady()) {
+        installIndependentLinks();
+        initializeMotion();
+      }
     };
     window.addEventListener("abrit:homepage-ready", onRuntimeReady, { once: true });
     runtime?.addEventListener("load", onRuntimeReady, { once: true });
 
-    if (contentReady()) queueMicrotask(initializeMotion);
+    if (contentReady()) queueMicrotask(() => { installIndependentLinks(); initializeMotion(); });
     else {
       fallbackTimer = window.setTimeout(() => {
         if (disposed || contentReady()) return;

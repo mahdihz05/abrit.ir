@@ -5,6 +5,30 @@
   display: none !important;
 }
 
+/* The legacy reference used a 1480px frame for the whole page. The shared
+   site layout uses full-bleed section surfaces with a restrained content
+   column, so only the inner container should carry a maximum width. */
+.homepage,
+.homepage :global(.page) {
+  width: 100%;
+  max-width: none;
+}
+
+.homepage :global(.page) {
+  --c: min(1240px, calc(100% - 72px));
+  margin-inline: 0;
+  background: #fff;
+}
+
+/* Header and footer are siblings of the reference homepage. On this route
+   their surfaces should also reach the viewport edges while their existing
+   `.container` elements keep navigation and footer content aligned. */
+:global(body:has(> .reference-homepage) > .site-header),
+:global(body:has(> .reference-homepage) > .site-footer) {
+  width: 100%;
+  max-width: none;
+}
+
 :global(body > .site-footer) {
   padding: 70px 0 0;
 }
@@ -33,7 +57,11 @@
   gap: 0;
   padding-inline: clamp(24px, 2.4vw, 38px);
   padding-bottom: 0;
-  background: #fff;
+  background: transparent;
+}
+
+.homepage :global(.hero-shell) {
+  background-color: #fff;
 }
 
 .homepage :global(.herocopy) {
@@ -866,6 +894,10 @@
 }
 
 @media (max-width: 760px) {
+  .homepage :global(.page) {
+    --c: calc(100% - 28px);
+  }
+
   .homepage :global(.network-pattern) { opacity: .13; }
   .homepage :global(.network-pattern--hero) { inset-inline: -220px; opacity: .14; }
   .homepage :global(.network-pattern--topology) { opacity: .14; mask-image: linear-gradient(90deg, rgba(0,0,0,.6), #000 30%, #000); }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { localizedIndependentServices } from "@/lib/independent-services";
 import { isLocale } from "@/lib/locales";
 import { localizedServices, localizedSolutions } from "@/lib/public-content";
 import { routeMetadata } from "@/lib/seo";
@@ -22,7 +23,7 @@ export default async function SearchPage({ params, searchParams }: PageProps<"/[
   if (!isLocale(locale)) notFound();
   const values = await searchParams;
   const query = typeof values.q === "string" ? values.q.trim() : "";
-  const haystack = [...localizedServices(locale), ...localizedSolutions(locale)];
+  const haystack = [...localizedServices(locale), ...localizedSolutions(locale), ...localizedIndependentServices(locale)];
   const normalized = query.toLocaleLowerCase(locale);
   const results = query.length >= 2 ? haystack.filter((item) => `${item.title} ${item.excerpt}`.toLocaleLowerCase(locale).includes(normalized)).map((item) => ({ kind: item.kind, title: item.title, summary: item.excerpt, url: item.url })) : [];
   const labels = copy[locale];
