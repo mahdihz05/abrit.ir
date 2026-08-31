@@ -37,13 +37,40 @@ async function detail(document: Content, locale: Locale): Promise<ContentDetail>
   }));
   return {
     ...summary(document, locale),
-    blocks: (document.layout ?? []).filter((block) => block.enabled !== false).map((block, order) => ({
-      id: block.id ?? `${document.id}-${order}`,
-      type: block.sectionType,
-      variant: block.variant ?? "default",
-      order,
-      props: typeof block.content === "object" && block.content && !Array.isArray(block.content) ? block.content : { value: block.content },
-    })),
+    blocks: (document.layout ?? []).filter((block) => block.enabled !== false).map((block, order) => {
+      const value = block as unknown as Record<string, unknown>;
+      const blockType = typeof value.blockType === "string" ? value.blockType : "contentSection";
+      const id = typeof value.id === "string" ? value.id : `${document.id}-${order}`;
+      const variant = typeof value.variant === "string" ? value.variant : "default";
+
+      if (blockType === "contentSection") {
+        const content = value.content;
+        return {
+          id,
+          type: typeof value.sectionType === "string" ? value.sectionType : "rich_text",
+          variant,
+          order,
+          props: typeof content === "object" && content && !Array.isArray(content) ? content as Record<string, unknown> : { value: content },
+        };
+      }
+
+      const props: Record<string, unknown> = { ...value };
+      delete props.id;
+      delete props.blockName;
+      delete props.blockType;
+      delete props.enabled;
+      delete props.variant;
+      if (blockType === "hero" || blockType === "cta") {
+        props.primary_cta = value.primaryCTA;
+        props.secondary_cta = value.secondaryCTA;
+        props.points = Array.isArray(value.points)
+          ? value.points.map((point) => typeof point === "object" && point ? (point as { text?: unknown }).text : "").filter(Boolean)
+          : [];
+      }
+
+      const typeMap: Record<string, string> = { richText: "rich_text", featureGrid: "feature_grid" };
+      return { id, type: typeMap[blockType] ?? blockType, variant, order, props };
+    }),
     seo: {
       title: document.seo?.title ?? document.title,
       description: document.seo?.description ?? document.excerpt ?? "",
@@ -72,11 +99,13 @@ async function collection(kind: Content["kind"], locale: Locale) {
   return result.docs.map((document) => summary(document, locale));
 }
 
-async function contentByPath(locale: Locale, path: string) {
+async function contentByPath(locale: Locale, path: string, draft = false) {
   const payload = await payloadClient();
   const result = await payload.find({
-    collection: "content", locale, fallbackLocale: false, depth: 1, limit: 1, overrideAccess: true,
-    where: publishedWhere({ path: { equals: path.replace(/^\/+|\/+$/g, "") } }),
+    collection: "content", locale, fallbackLocale: false, depth: 1, limit: 1, overrideAccess: true, draft,
+    where: draft
+      ? { and: [{ isActive: { equals: true } }, { path: { equals: path.replace(/^\/+|\/+$/g, "") } }] }
+      : publishedWhere({ path: { equals: path.replace(/^\/+|\/+$/g, "") } }),
   });
   return result.docs[0] ? detail(result.docs[0], locale) : null;
 }
@@ -122,7 +151,7 @@ function mapPackage(document: PayloadPackage): Package {
 }
 
 export const cms = {
-  home: (locale: Locale) => contentByPath(locale, ""),
+  home: (locale: Locale, draft = false) => contentByPath(locale, "", draft),
   content: contentByPath,
   services: (locale: Locale) => collection("service", locale),
   solutions: (locale: Locale) => collection("solution", locale),

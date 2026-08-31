@@ -1,9 +1,11 @@
 import type { CollectionConfig } from "payload";
 import { authenticated } from "../access";
+import { populateSubmissionSummary } from "../hooks/submission-summary";
 
 export const Forms: CollectionConfig = {
   slug: "forms",
-  admin: { group: "Forms", useAsTitle: "key" },
+  labels: { singular: "Form", plural: "Forms" },
+  admin: { group: "Forms", useAsTitle: "title", defaultColumns: ["title", "key", "isActive", "updatedAt"], listSearchableFields: ["title", "key"] },
   access: { create: authenticated, delete: authenticated, read: authenticated, update: authenticated },
   fields: [
     { name: "key", type: "text", unique: true, required: true, index: true },
@@ -40,14 +42,31 @@ export const Forms: CollectionConfig = {
 
 export const FormSubmissions: CollectionConfig = {
   slug: "form-submissions",
-  admin: { group: "Forms", useAsTitle: "id", defaultColumns: ["form", "status", "locale", "createdAt"] },
+  labels: { singular: "Submission", plural: "Submissions" },
+  admin: {
+    group: "Forms",
+    useAsTitle: "contactName",
+    defaultColumns: ["contactName", "contactPhone", "company", "form", "status", "priority", "createdAt"],
+    listSearchableFields: ["contactName", "contactPhone", "contactEmail", "company"],
+    enableListViewSelectAPI: true,
+    description: "صندوق ورودی درخواست‌های سایت؛ دادهٔ خام نیز برای حفظ کامل پاسخ‌ها نگهداری می‌شود.",
+  },
   access: { create: () => false, delete: authenticated, read: authenticated, update: authenticated },
+  hooks: { beforeValidate: [populateSubmissionSummary] },
   fields: [
     { name: "legacyID", type: "text", unique: true, index: true, admin: { hidden: true } },
     { name: "form", type: "relationship", relationTo: "forms", required: true, index: true },
     { name: "locale", type: "select", options: ["fa", "en", "ar-ae"], required: true, index: true },
+    { name: "contactName", type: "text", index: true, admin: { readOnly: true } },
+    { name: "contactPhone", type: "text", index: true, admin: { readOnly: true } },
+    { name: "contactEmail", type: "email", index: true, admin: { readOnly: true } },
+    { name: "company", type: "text", index: true, admin: { readOnly: true } },
+    { name: "requestType", type: "text", admin: { readOnly: true } },
     { name: "data", type: "json", required: true },
     { name: "status", type: "select", options: ["new", "contacted", "qualified", "closed"], defaultValue: "new", required: true, index: true },
+    { name: "priority", type: "select", options: ["low", "normal", "high", "urgent"], defaultValue: "normal", index: true },
+    { name: "assignedTo", type: "relationship", relationTo: "users", index: true },
+    { name: "contactedAt", type: "date", admin: { date: { pickerAppearance: "dayAndTime" } } },
     { name: "sourceURL", type: "text" },
     { name: "referrer", type: "text" },
     { name: "consentGiven", type: "checkbox", required: true },

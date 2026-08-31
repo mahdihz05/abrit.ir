@@ -20,7 +20,12 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
-  admin: { user: Users.slug, importMap: { baseDir: path.resolve(dirname) } },
+  admin: {
+    user: Users.slug,
+    importMap: { baseDir: path.resolve(dirname) },
+    meta: { titleSuffix: "– AbrIT CMS" },
+    dateFormat: "yyyy/MM/dd HH:mm",
+  },
   collections: [Users, Media, Content, Packages, Forms, FormSubmissions, SubmissionFiles, AuditLogs],
   globals: [SiteSettings, DesignSettings, Navigation, ProductCatalog],
   db: postgresAdapter({ pool: { connectionString: process.env.DATABASE_URI ?? "" } }),

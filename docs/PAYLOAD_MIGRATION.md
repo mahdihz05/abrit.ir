@@ -14,6 +14,13 @@ Set `DATABASE_URI`, `PAYLOAD_SECRET`, `NEXT_PUBLIC_SITE_URL`, `IP_HASH_SECRET` a
 
 Run the application as a persistent Node process from the standalone build. Back up PostgreSQL and `private-media/` together. Schedule `npm run retention:purge` daily. For scheduled publishing, run `npm run jobs:schedules` and `npm run jobs:run` from cron at the desired interval.
 
+Apply checked-in Payload migrations before starting a new production release:
+
+```powershell
+cd frontend
+npm run migrate
+```
+
 ## Initial migration
 
 The source SQLite database is opened with SQLite `mode=ro`; migration never writes to it.
@@ -27,6 +34,24 @@ npm run validate:migration
 ```
 
 The importer is idempotent and may be rerun. It imports settings, media, localized content and blocks, relations, navigation, pricing, forms, submissions, private files and audit events. Public seed data remains canonical for visible package-card totals; Django formulas remain canonical for calculated quotes.
+
+For a local evaluation environment, add the optional editable examples after the base seed:
+
+```powershell
+npm run seed:demo
+```
+
+This command is idempotent and adds one published block-based page at `/fa/it-readiness`, one draft article for testing autosave/version history, two media items and eight sample form submissions. Do not run it in production.
+
+## Enabled editor features
+
+- localized content for Persian, English and Arabic (UAE), including localized draft status;
+- typed Hero, rich text, feature grid, FAQ, testimonial and CTA blocks, while imported legacy blocks remain editable;
+- autosave, draft/version history, scheduled publishing and public preview links;
+- focal-point image editing and thumbnail/card/hero image sizes;
+- searchable form inbox columns with status, priority, assignment and internal notes;
+- SEO title, description, canonical, robots and Open Graph controls per page;
+- cache revalidation hooks, private submission files, retention purge and audit-log collections.
 
 ## Verification
 

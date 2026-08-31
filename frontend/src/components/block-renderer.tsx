@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RichText } from "@payloadcms/richtext-lexical/react";
 import { ui } from "@/lib/locales";
 import type { ContentBlock, ContentSummary, Locale, Package } from "@/lib/types";
 
@@ -99,10 +100,80 @@ function CallToAction({ block, locale }: Pick<Props, "block" | "locale">) {
   return <section className="section"><div className="container"><div className="cta-panel"><div><span>AbrIT</span><h2>{text(block.props.title)}</h2><p>{text(block.props.body)}</p></div><Link className="button button-light" href={text(cta.url) || `/${locale}/contact`}>{text(cta.label) || ui[locale].contact}</Link></div></div></section>;
 }
 
+function RichTextSection({ block }: Pick<Props, "block">) {
+  const body = block.props.body;
+  return (
+    <section className="section cms-rich-section">
+      <div className="container cms-narrow">
+        {text(block.props.eyebrow) && <span className="section-kicker">{text(block.props.eyebrow)}</span>}
+        <h2>{text(block.props.heading) || text(block.props.title)}</h2>
+        <div className="cms-rich-body">
+          {typeof body === "string"
+            ? <p>{body}</p>
+            : body && typeof body === "object" ? <RichText data={body as Parameters<typeof RichText>[0]["data"]} /> : null}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeatureGrid({ block, locale }: Pick<Props, "block" | "locale">) {
+  const items = Array.isArray(block.props.items) ? block.props.items.map(record) : [];
+  return (
+    <section className="section cms-feature-section">
+      <div className="container">
+        <div className="public-section-heading">
+          <span>{text(block.props.eyebrow) || "AbrIT"}</span>
+          <div><h2>{text(block.props.heading) || text(block.props.title)}</h2>{text(block.props.intro) && <p>{text(block.props.intro)}</p>}</div>
+        </div>
+        <div className="cms-feature-grid">
+          {items.map((item, index) => {
+            const url = text(item.url);
+            const card = <><span>{text(item.icon) || String(index + 1).padStart(2, "0")}</span><h3>{text(item.title)}</h3><p>{text(item.description)}</p></>;
+            return url ? <Link href={url.startsWith("/") ? url : `/${locale}/${url}`} key={`${text(item.title)}-${index}`}>{card}</Link> : <article key={`${text(item.title)}-${index}`}>{card}</article>;
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ({ block }: Pick<Props, "block">) {
+  const items = Array.isArray(block.props.items) ? block.props.items.map(record) : [];
+  return (
+    <section className="section cms-faq-section">
+      <div className="container cms-narrow">
+        <h2>{text(block.props.heading) || text(block.props.title)}</h2>
+        <div className="cms-faq-list">
+          {items.map((item, index) => <details key={`${text(item.question)}-${index}`}><summary>{text(item.question)}</summary><p>{text(item.answer)}</p></details>)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Testimonials({ block }: Pick<Props, "block">) {
+  const items = Array.isArray(block.props.items) ? block.props.items.map(record) : [];
+  return (
+    <section className="section cms-testimonial-section">
+      <div className="container">
+        <div className="section-heading"><span>“</span><h2>{text(block.props.heading) || text(block.props.title)}</h2></div>
+        <div className="cms-testimonial-grid">
+          {items.map((item, index) => <figure key={`${text(item.name)}-${index}`}><blockquote>{text(item.quote)}</blockquote><figcaption><b>{text(item.name)}</b><span>{[text(item.role), text(item.company)].filter(Boolean).join(" · ")}</span></figcaption></figure>)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function BlockRenderer(props: Props) {
   if (props.block.type === "hero") return <Hero {...props} />;
   if (props.block.type === "service_grid") return <ServiceGrid {...props} />;
   if (props.block.type === "pricing") return <Pricing {...props} />;
   if (props.block.type === "cta") return <CallToAction {...props} />;
+  if (props.block.type === "rich_text") return <RichTextSection {...props} />;
+  if (props.block.type === "feature_grid") return <FeatureGrid {...props} />;
+  if (props.block.type === "faq") return <FAQ {...props} />;
+  if (props.block.type === "testimonials") return <Testimonials {...props} />;
   return null;
 }

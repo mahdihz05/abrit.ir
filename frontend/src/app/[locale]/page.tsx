@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import config from "@payload-config";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
+import { getPayload } from "payload";
 import { BlockRenderer } from "@/components/block-renderer";
 import { isLocale } from "@/lib/locales";
 import { cms } from "@/lib/payload-cms";
@@ -18,10 +21,16 @@ export async function generateMetadata({ params }: PageProps<"/[locale]">): Prom
   };
 }
 
-export default async function HomePage({ params }: PageProps<"/[locale]">) {
+export default async function HomePage({ params, searchParams }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const [home, services, packages] = await Promise.all([cms.home(locale), cms.services(locale), cms.packages(locale)]);
+  const query = await searchParams;
+  let draft = false;
+  if (query.draft === "1") {
+    const payload = await getPayload({ config });
+    draft = Boolean((await payload.auth({ headers: await headers() })).user);
+  }
+  const [home, services, packages] = await Promise.all([cms.home(locale, draft), cms.services(locale), cms.packages(locale)]);
   if (!home) notFound();
   return <main>{home.blocks.map((block) => <BlockRenderer key={block.id} block={block} locale={locale} services={services} packages={packages} />)}</main>;
 }

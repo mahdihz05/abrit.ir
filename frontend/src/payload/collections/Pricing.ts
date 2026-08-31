@@ -3,7 +3,8 @@ import { authenticated } from "../access";
 
 export const Packages: CollectionConfig = {
   slug: "packages",
-  admin: { group: "Commerce", useAsTitle: "key", defaultColumns: ["order", "key", "name", "isActive"] },
+  labels: { singular: "Package", plural: "Pricing packages" },
+  admin: { group: "Commerce", useAsTitle: "name", defaultColumns: ["order", "name", "baseMonthlyToman", "isFeatured", "isActive"], listSearchableFields: ["name", "key", "caption"], description: "قیمت‌ها با تومان ذخیره می‌شوند؛ درصدها برحسب basis point هستند (۱۰۰ = ۱٪)." },
   access: { create: authenticated, delete: authenticated, read: () => true, update: authenticated },
   fields: [
     { name: "key", type: "text", required: true, unique: true, index: true },

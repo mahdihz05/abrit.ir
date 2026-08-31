@@ -74,7 +74,7 @@ async function migrateContent(payload: Payload, tables: Record<string, SnapshotR
       const excerpt = text(translation.excerpt);
       const layout = (blocks.get(text(translation.id)) ?? []).toSorted((left, right) => number(left.order) - number(right.order)).filter((block) => bool(block.is_active)).map((block) => ({
         blockType: "contentSection" as const,
-        sectionType: (allowedSections.has(text(block.block_type)) ? text(block.block_type) : "rich_text") as NonNullable<Content["layout"]>[number]["sectionType"],
+        sectionType: (allowedSections.has(text(block.block_type)) ? text(block.block_type) : "rich_text") as Extract<NonNullable<Content["layout"]>[number], { blockType: "contentSection" }>["sectionType"],
         variant: text(block.variant) as NonNullable<Content["layout"]>[number]["variant"], enabled: true, content: json(block.props, {}),
       }));
       const localizedData = {

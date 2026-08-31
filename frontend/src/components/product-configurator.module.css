@@ -96,7 +96,7 @@
 .selectionSummary { min-height: 76px; display: grid; grid-template-columns: 1fr .8fr .8fr 1.4fr auto; align-items: center; gap: 18px; margin-top: 22px; padding: 12px 14px 12px 22px; position: sticky; z-index: 9; bottom: 14px; color: #fff; background: rgba(9,20,45,.96); border: 1px solid #203b68; border-radius: 15px; box-shadow: 0 22px 55px rgba(4,16,42,.25); backdrop-filter: blur(14px); }
 .selectionSummary div { min-width: 0; }
 .selectionSummary small, .selectionSummary b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.selectionSummary small { color: #8298bc; font-size: 10px; }
+.selectionSummary small { color: #b7c8df; font-size: 10px; }
 .selectionSummary b { margin-top: 4px; color: #e4edfb; font-size: 12.5px; }
 .selectionSummary a, .compactSummary a { min-height: 47px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-inline: 15px; color: #fff; background: var(--product-blue); border-radius: 9px; font-size: 12px; font-weight: 850; }
 
@@ -123,19 +123,19 @@
 .quickTabs .quickTabActive > small, .quickTabs .quickTabActive b { color: #fff; }
 .quickTabs .quickTabActive em { color: #c9ddff; }
 .quickTabs .quickTabActive > i { color: #2864d3; background: #fff; }
-.infrastructurePanel { min-height: 570px; margin-top: 12px; padding: 25px 28px 38px; position: relative; overflow: hidden; color: #c4d1e6; background: radial-gradient(circle at 50% 45%,rgba(37,86,177,.21),transparent 42%),#09142d; border: 1px solid #1e3158; border-radius: 25px; box-shadow: 0 45px 85px -57px rgba(4,18,48,.9); }
+.infrastructurePanel { min-height: 570px; margin-top: 12px; padding: 25px 28px 38px; position: relative; overflow: hidden; color: #dbe6f5; background: radial-gradient(circle at 50% 45%,rgba(37,86,177,.25),transparent 42%),#09142d; border: 1px solid #29436d; border-radius: 25px; box-shadow: 0 45px 85px -57px rgba(4,18,48,.9); }
 .infrastructurePanel::before { content: ""; position: absolute; inset: 0; opacity: .18; background-image: linear-gradient(#5776ad 1px,transparent 1px),linear-gradient(90deg,#5776ad 1px,transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(circle,#000,transparent 76%); }
 .infrastructureTopline { display: flex; align-items: center; gap: 14px; position: relative; z-index: 3; padding-bottom: 20px; border-bottom: 1px solid #1e3153; }
-.infrastructureTopline span { color: #7396cf; font: 800 9px/1 var(--font-latin); letter-spacing: .09em; }
+.infrastructureTopline span { color: #a9c1e8; font: 800 9px/1 var(--font-latin); letter-spacing: .09em; }
 .infrastructureTopline b { margin-inline-start: auto; color: #fff; font-size: 13px; }
 .infrastructureTopline > i { width: 7px; height: 7px; border-radius: 50%; background: #3ed198; box-shadow: 0 0 0 5px rgba(62,209,152,.1); }
 .infrastructureMap { max-width: 980px; display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 32px 18px; margin: 58px auto 0; position: relative; z-index: 2; }
-.infrastructureNode { min-height: 106px; display: flex; align-items: center; flex-direction: column; justify-content: center; padding: 12px 8px; position: relative; color: #536682; background: rgba(12,29,59,.72); border: 1px solid #1c3154; border-radius: 14px; opacity: .58; transition: color .25s,border-color .25s,background .25s,opacity .25s,transform .25s; }
+.infrastructureNode { min-height: 106px; display: flex; align-items: center; flex-direction: column; justify-content: center; padding: 12px 8px; position: relative; color: #b8c8dc; background: rgba(15,34,67,.9); border: 1px solid #345078; border-radius: 14px; opacity: .82; transition: color .25s,border-color .25s,background .25s,opacity .25s,transform .25s; }
 .infrastructureNode > span { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 11px; background: #111f3a; }
 .infrastructureNode svg { width: 21px; height: 21px; }
 .infrastructureNode b { max-width: 130px; margin-top: 9px; overflow: hidden; font-size: 11.5px; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
 .infrastructureNode > i { width: 6px; height: 6px; position: absolute; inset-block-start: 9px; inset-inline-end: 9px; border-radius: 50%; background: #42536f; }
-.infrastructureNodeActive { color: #bcd4ff; background: linear-gradient(145deg,rgba(26,57,112,.92),rgba(14,34,69,.92)); border-color: #315ca8; opacity: 1; transform: translateY(-2px); }
+.infrastructureNodeActive { color: #eef5ff; background: linear-gradient(145deg,rgba(35,72,137,.96),rgba(17,42,83,.96)); border-color: #5d86cf; opacity: 1; transform: translateY(-2px); }
 .infrastructureNodeActive > span { color: #83b2ff; background: #172d56; }
 .infrastructureNodeActive > i { background: #47d49c; }
 .infrastructureNode[data-node="internet"] { grid-column: 3/5; }
@@ -194,11 +194,11 @@ html[dir="ltr"] .accordions details > div { padding: 0 22px 25px 68px; }
 .compactSummary { padding: 25px; position: sticky; top: 84px; color: #fff; background: #09162f; border: 1px solid #1e3158; border-radius: 19px; }
 .compactSummary > small { color: #7facf8; font-size: 11px; font-weight: 850; }
 .compactSummary h3 { margin-top: 17px; font-size: 31px; }
-.compactSummary > p { margin-top: 6px; color: #8fa6c8; font-size: 12px; line-height: 1.8; }
+.compactSummary > p { margin-top: 6px; color: #becde2; font-size: 12px; line-height: 1.8; }
 .compactSummary > .extraUserControl { margin-top: 18px; }
 .summaryPrice { margin-top: 20px; padding-top: 18px; border-top: 1px solid #294064; }
 .summaryPrice span, .summaryPrice strong, .summaryPrice em, .summaryPrice b { display: block; }
-.summaryPrice span { color: #8ea0ba; font-size: 11px; }
+.summaryPrice span { color: #b6c5da; font-size: 11px; }
 .summaryPrice strong { direction: ltr; margin-top: 8px; font: 850 25px/1 var(--font-vazirmatn), Vazirmatn, Tahoma, sans-serif; text-align: start; }
 .summaryPrice em { margin-top: 5px; color: #75a6f5; font-size: 10.5px; font-style: normal; }
 .summaryPrice b { margin-top: 8px; color: #f0ce8b; font-size: 14px; line-height: 1.7; }
@@ -261,7 +261,7 @@ html[dir="ltr"] .accordions details > div { padding: 0 22px 25px 68px; }
   .mobileSummary { min-height: 62px; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; position: fixed; z-index: 24; inset-inline: 9px; bottom: 8px; padding: 8px 9px 8px 13px; color: #fff; background: rgba(9,22,47,.95); border: 1px solid #29436d; border-radius: 14px; box-shadow: 0 18px 45px rgba(3,13,34,.32); backdrop-filter: blur(14px); }
   .mobileSummary div { min-width: 0; }
   .mobileSummary small, .mobileSummary b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .mobileSummary small { color: #8eabd6; font-size: 10.5px; }
+  .mobileSummary small { color: #bed0ea; font-size: 10.5px; }
   .mobileSummary b { margin-top: 4px; font-size: 12.5px; }
   .mobileSummary a { min-height: 42px; display: flex; align-items: center; gap: 9px; padding-inline: 11px; color: #fff; background: var(--product-blue); border-radius: 9px; font-size: 11.5px; font-weight: 850; white-space: nowrap; }
 }

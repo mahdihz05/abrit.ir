@@ -3,7 +3,8 @@ import { authenticated } from "../access";
 
 export const Media: CollectionConfig = {
   slug: "media",
-  admin: { group: "Content", useAsTitle: "filename" },
+  labels: { singular: "Media", plural: "Media library" },
+  admin: { group: "Content", useAsTitle: "title", defaultColumns: ["filename", "title", "isPublic", "updatedAt"], listSearchableFields: ["filename", "title", "alt"] },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -13,7 +14,12 @@ export const Media: CollectionConfig = {
   upload: {
     staticDir: "media",
     mimeTypes: ["image/*", "application/pdf"],
-    imageSizes: [{ name: "card", width: 960, height: 640, position: "centre" }],
+    focalPoint: true,
+    imageSizes: [
+      { name: "thumbnail", width: 400, height: 300, position: "centre", withoutEnlargement: true },
+      { name: "card", width: 960, height: 640, position: "centre", withoutEnlargement: true },
+      { name: "hero", width: 1920, height: 1080, position: "centre", withoutEnlargement: true },
+    ],
   },
   fields: [
     { name: "legacyID", type: "text", unique: true, index: true, admin: { hidden: true } },

@@ -196,7 +196,23 @@ export interface Media {
   focalX?: number | null;
   focalY?: number | null;
   sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
     card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    hero?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -207,60 +223,192 @@ export interface Media {
   };
 }
 /**
+ * صفحه‌ها، سرویس‌ها، راهکارها و مطالب سایت در هر سه زبان
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "content".
  */
 export interface Content {
   id: number;
+  /**
+   * شناسهٔ فنی ثابت؛ پس از انتشار تغییر ندهید.
+   */
   key: string;
   kind: 'page' | 'service' | 'solution' | 'knowledge' | 'news';
-  parent?: (number | null) | Content;
   templateKey: string;
   isActive?: boolean | null;
   title: string;
-  slug: string;
-  /**
-   * Leave empty only for the locale home page.
-   */
-  path?: string | null;
   excerpt?: string | null;
-  searchText?: string | null;
-  translationStatus?: ('missing' | 'draft' | 'translated' | 'reviewed' | 'outdated') | null;
-  workflowStatus?: ('draft' | 'review' | 'scheduled' | 'published' | 'archived') | null;
-  legacyPublishedAt?: string | null;
   layout?:
-    | {
-        sectionType:
-          | 'hero'
-          | 'rich_text'
-          | 'service_grid'
-          | 'solution_grid'
-          | 'pricing'
-          | 'feature_grid'
-          | 'logo_cloud'
-          | 'testimonials'
-          | 'faq'
-          | 'cta';
-        variant?:
-          | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
-          | null;
-        enabled?: boolean | null;
-        /**
-         * Structured section properties. HTML is not accepted as a content source.
-         */
-        content:
-          | {
+    | (
+        | {
+            enabled?: boolean | null;
+            variant?:
+              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
+              | null;
+            eyebrow?: string | null;
+            title: string;
+            /**
+             * بخشی از عنوان که با رنگ تأکیدی نمایش داده می‌شود.
+             */
+            highlight?: string | null;
+            body: string;
+            primaryCTA: {
+              label: string;
+              url: string;
+              openInNewTab?: boolean | null;
+            };
+            secondaryCTA: {
+              label: string;
+              url: string;
+              openInNewTab?: boolean | null;
+            };
+            points?:
+              | {
+                  text: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            enabled?: boolean | null;
+            variant?:
+              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
+              | null;
+            eyebrow?: string | null;
+            heading: string;
+            body: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
               [k: string]: unknown;
-            }
-          | unknown[]
-          | string
-          | number
-          | boolean
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'contentSection';
-      }[]
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
+          }
+        | {
+            enabled?: boolean | null;
+            variant?:
+              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
+              | null;
+            eyebrow?: string | null;
+            heading: string;
+            intro?: string | null;
+            items?:
+              | {
+                  /**
+                   * یک نام کوتاه مانند cloud یا shield
+                   */
+                  icon?: string | null;
+                  title: string;
+                  description: string;
+                  url?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'featureGrid';
+          }
+        | {
+            enabled?: boolean | null;
+            variant?:
+              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
+              | null;
+            heading: string;
+            items?:
+              | {
+                  question: string;
+                  answer: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faq';
+          }
+        | {
+            enabled?: boolean | null;
+            variant?:
+              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
+              | null;
+            heading: string;
+            items?:
+              | {
+                  quote: string;
+                  name: string;
+                  role?: string | null;
+                  company?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'testimonials';
+          }
+        | {
+            enabled?: boolean | null;
+            variant?:
+              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
+              | null;
+            eyebrow?: string | null;
+            title: string;
+            body?: string | null;
+            primaryCTA: {
+              label: string;
+              url: string;
+              openInNewTab?: boolean | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
+          }
+        | {
+            enabled?: boolean | null;
+            variant?:
+              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
+              | null;
+            sectionType:
+              | 'hero'
+              | 'rich_text'
+              | 'service_grid'
+              | 'solution_grid'
+              | 'pricing'
+              | 'feature_grid'
+              | 'logo_cloud'
+              | 'testimonials'
+              | 'faq'
+              | 'cta';
+            /**
+             * برای داده‌های مهاجرت‌یافته است. برای محتوای جدید از بلوک‌های آماده استفاده کنید.
+             */
+            content:
+              | {
+                  [k: string]: unknown;
+                }
+              | unknown[]
+              | string
+              | number
+              | boolean
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contentSection';
+          }
+      )[]
     | null;
   capabilities?:
     | {
@@ -275,6 +423,12 @@ export interface Content {
         id?: string | null;
       }[]
     | null;
+  slug: string;
+  /**
+   * بدون / ابتدایی؛ فقط صفحهٔ خانه خالی است.
+   */
+  path?: string | null;
+  parent?: (number | null) | Content;
   relatedContent?: (number | Content)[] | null;
   seo?: {
     title?: string | null;
@@ -286,11 +440,17 @@ export interface Content {
     ogDescription?: string | null;
     ogImage?: (number | null) | Media;
   };
+  searchText?: string | null;
+  translationStatus?: ('missing' | 'draft' | 'translated' | 'reviewed' | 'outdated') | null;
+  workflowStatus?: ('draft' | 'review' | 'scheduled' | 'published' | 'archived') | null;
+  legacyPublishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * قیمت‌ها با تومان ذخیره می‌شوند؛ درصدها برحسب basis point هستند (۱۰۰ = ۱٪).
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "packages".
  */
@@ -402,6 +562,8 @@ export interface Form {
   createdAt: string;
 }
 /**
+ * صندوق ورودی درخواست‌های سایت؛ دادهٔ خام نیز برای حفظ کامل پاسخ‌ها نگهداری می‌شود.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
  */
@@ -410,6 +572,11 @@ export interface FormSubmission {
   legacyID?: string | null;
   form: number | Form;
   locale: 'fa' | 'en' | 'ar-ae';
+  contactName?: string | null;
+  contactPhone?: string | null;
+  contactEmail?: string | null;
+  company?: string | null;
+  requestType?: string | null;
   data:
     | {
         [k: string]: unknown;
@@ -420,6 +587,9 @@ export interface FormSubmission {
     | boolean
     | null;
   status: 'new' | 'contacted' | 'qualified' | 'closed';
+  priority?: ('low' | 'normal' | 'high' | 'urgent') | null;
+  assignedTo?: (number | null) | User;
+  contactedAt?: string | null;
   sourceURL?: string | null;
   referrer?: string | null;
   consentGiven: boolean;
@@ -725,7 +895,27 @@ export interface MediaSelect<T extends boolean = true> {
   sizes?:
     | T
     | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
         card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        hero?:
           | T
           | {
               url?: T;
@@ -744,26 +934,134 @@ export interface MediaSelect<T extends boolean = true> {
 export interface ContentSelect<T extends boolean = true> {
   key?: T;
   kind?: T;
-  parent?: T;
   templateKey?: T;
   isActive?: T;
   title?: T;
-  slug?: T;
-  path?: T;
   excerpt?: T;
-  searchText?: T;
-  translationStatus?: T;
-  workflowStatus?: T;
-  legacyPublishedAt?: T;
   layout?:
     | T
     | {
+        hero?:
+          | T
+          | {
+              enabled?: T;
+              variant?: T;
+              eyebrow?: T;
+              title?: T;
+              highlight?: T;
+              body?: T;
+              primaryCTA?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    openInNewTab?: T;
+                  };
+              secondaryCTA?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    openInNewTab?: T;
+                  };
+              points?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        richText?:
+          | T
+          | {
+              enabled?: T;
+              variant?: T;
+              eyebrow?: T;
+              heading?: T;
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+        featureGrid?:
+          | T
+          | {
+              enabled?: T;
+              variant?: T;
+              eyebrow?: T;
+              heading?: T;
+              intro?: T;
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              enabled?: T;
+              variant?: T;
+              heading?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        testimonials?:
+          | T
+          | {
+              enabled?: T;
+              variant?: T;
+              heading?: T;
+              items?:
+                | T
+                | {
+                    quote?: T;
+                    name?: T;
+                    role?: T;
+                    company?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              enabled?: T;
+              variant?: T;
+              eyebrow?: T;
+              title?: T;
+              body?: T;
+              primaryCTA?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    openInNewTab?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         contentSection?:
           | T
           | {
-              sectionType?: T;
-              variant?: T;
               enabled?: T;
+              variant?: T;
+              sectionType?: T;
               content?: T;
               id?: T;
               blockName?: T;
@@ -782,6 +1080,9 @@ export interface ContentSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  slug?: T;
+  path?: T;
+  parent?: T;
   relatedContent?: T;
   seo?:
     | T
@@ -795,6 +1096,10 @@ export interface ContentSelect<T extends boolean = true> {
         ogDescription?: T;
         ogImage?: T;
       };
+  searchText?: T;
+  translationStatus?: T;
+  workflowStatus?: T;
+  legacyPublishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -888,8 +1193,16 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
   legacyID?: T;
   form?: T;
   locale?: T;
+  contactName?: T;
+  contactPhone?: T;
+  contactEmail?: T;
+  company?: T;
+  requestType?: T;
   data?: T;
   status?: T;
+  priority?: T;
+  assignedTo?: T;
+  contactedAt?: T;
   sourceURL?: T;
   referrer?: T;
   consentGiven?: T;

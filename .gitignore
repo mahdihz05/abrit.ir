@@ -16,6 +16,7 @@ frontend/.next/
 frontend/out/
 frontend/tmp/
 frontend/private-media/
+frontend/media/
 artifacts/
 *.log
 .DS_Store
