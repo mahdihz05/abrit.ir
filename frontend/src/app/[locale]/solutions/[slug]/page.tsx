@@ -1,25 +1,23 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ContentDetail } from "@/components/content-detail";
-import { isLocale } from "@/lib/locales";
-import { cms } from "@/lib/payload-cms";
+import { PublicDetail } from "@/components/public-detail";
+import { isLocale, locales } from "@/lib/locales";
+import { getSolution, solutions } from "@/lib/public-content";
 import { routeMetadata } from "@/lib/seo";
 
-const labels = {
-  fa: { label: "راهکار", back: "بازگشت به راهکارها", assessment: "درخواست ارزیابی IT" }, en: { label: "Solution", back: "Back to solutions", assessment: "Request IT assessment" }, "ar-ae": { label: "الحل", back: "العودة إلى الحلول", assessment: "طلب تقييم تقنية المعلومات" },
-} as const;
+export function generateStaticParams() { return locales.flatMap((locale) => solutions.map(({ slug }) => ({ locale, slug }))); }
 
 export async function generateMetadata({ params }: PageProps<"/[locale]/solutions/[slug]">): Promise<Metadata> {
   const { locale, slug } = await params;
   if (!isLocale(locale)) return {};
-  const item = await cms.content(locale, `solutions/${slug}`);
-  return item ? routeMetadata(locale, `solutions/${slug}`, item.seo.title, item.seo.description) : {};
+  const item = getSolution(slug);
+  return item ? routeMetadata(locale, `solutions/${slug}`, item.title[locale], item.excerpt[locale]) : {};
 }
 
 export default async function SolutionPage({ params }: PageProps<"/[locale]/solutions/[slug]">) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
-  const item = await cms.content(locale, `solutions/${slug}`);
+  const item = getSolution(slug);
   if (!item) notFound();
-  return <ContentDetail locale={locale} content={item} label={labels[locale].label} backLabel={labels[locale].back} assessmentLabel={labels[locale].assessment} />;
+  return <PublicDetail locale={locale} item={item} kind="solution" />;
 }

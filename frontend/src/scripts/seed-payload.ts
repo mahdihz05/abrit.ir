@@ -5,13 +5,14 @@ import { contractTerms, featureGroupLabels, managementLevels, productPackages } 
 import { localizedPackages, pageCopy, services, solutions, staticNavigation, staticSettings } from "@/lib/public-content";
 import { normalizeSearchText } from "@/lib/search-normalization";
 import { internalCopy } from "@/lib/internal-copy";
+import { independentPageCopy, independentServices } from "@/lib/independent-services";
 import type { Locale } from "@/lib/types";
 import type { Content, Form } from "@/payload-types";
 
 const locales: Locale[] = ["fa", "en", "ar-ae"];
 
 type LocalizedPage = Record<Locale, { title: string; heading?: string; excerpt: string; topics?: string[]; eyebrow?: string; pills?: string[] }>;
-type ContentSeed = { key: string; kind: Content["kind"]; path: string; slug: string; templateKey: string; translations: LocalizedPage };
+type ContentSeed = { key: string; kind: Content["kind"]; path: string; slug: string; templateKey: string; translations: LocalizedPage; referenceData?: Record<string, unknown> };
 
 const pages: ContentSeed[] = [
   {
@@ -76,9 +77,34 @@ for (const item of solutions) pages.push({
   key: `solution-${item.slug}`, kind: "solution", path: `solutions/${item.slug}`, slug: item.slug, templateKey: "solution",
   translations: Object.fromEntries(locales.map((locale) => [locale, { title: item.title[locale], excerpt: item.excerpt[locale] }])) as LocalizedPage,
 });
+pages.push({
+  key: "independent-services",
+  kind: "page",
+  path: "independent-services",
+  slug: "independent-services",
+  templateKey: "independent-services",
+  referenceData: { copy: independentPageCopy, services: independentServices },
+  translations: Object.fromEntries(locales.map((locale) => [locale, {
+    title: independentPageCopy.title[locale],
+    excerpt: independentPageCopy.intro[locale],
+  }])) as LocalizedPage,
+});
+for (const item of independentServices) pages.push({
+  key: `independent-service-${item.slug}`,
+  kind: "service",
+  path: `independent-services/${item.slug}`,
+  slug: item.slug,
+  templateKey: "independent-service",
+  referenceData: { service: item },
+  translations: Object.fromEntries(locales.map((locale) => [locale, {
+    title: item.title[locale],
+    excerpt: item.heroBody[locale],
+  }])) as LocalizedPage,
+});
 
-function layoutFor(page: LocalizedPage[Locale]) {
-  return [{ blockType: "contentSection" as const, sectionType: "rich_text" as const, variant: "default" as const, enabled: true, content: { heading: page.heading ?? page.title, eyebrow: page.eyebrow ?? "", topics: page.topics ?? [], pills: page.pills ?? [] } }];
+function layoutFor(page: LocalizedPage[Locale], referenceData?: Record<string, unknown>): NonNullable<Content["layout"]> {
+  const content = referenceData ?? { heading: page.heading ?? page.title, eyebrow: page.eyebrow ?? "", topics: page.topics ?? [], pills: page.pills ?? [] };
+  return [{ blockType: "contentSection", sectionType: "rich_text", variant: "default", enabled: true, content: JSON.parse(JSON.stringify(content)) }];
 }
 
 function homeLayout(locale: Locale, page: LocalizedPage[Locale]) {
@@ -103,7 +129,7 @@ async function upsertContent(payload: Payload, seed: ContentSeed) {
     const localizedData = {
       title: translated.title, slug: seed.slug, path: seed.path, excerpt: translated.excerpt,
       translationStatus: "reviewed" as const, workflowStatus: "published" as const, searchText: normalizeSearchText(`${translated.title} ${translated.excerpt}`),
-      layout: seed.key === "home" ? homeLayout(locale, translated) : layoutFor(translated), seo: { title: translated.title.slice(0, 70), description: translated.excerpt.slice(0, 170), robotsIndex: true, robotsFollow: true },
+      layout: seed.key === "home" ? homeLayout(locale, translated) : layoutFor(translated, seed.referenceData), seo: { title: translated.title.slice(0, 70), description: translated.excerpt.slice(0, 170), robotsIndex: true, robotsFollow: true },
       _status: "published" as const,
     };
     if (!id) {

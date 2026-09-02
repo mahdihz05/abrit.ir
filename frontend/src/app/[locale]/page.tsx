@@ -1,36 +1,44 @@
 import type { Metadata } from "next";
-import config from "@payload-config";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { getPayload } from "payload";
-import { BlockRenderer } from "@/components/block-renderer";
-import { isLocale } from "@/lib/locales";
-import { cms } from "@/lib/payload-cms";
+import { ReferenceHomepage } from "@/components/reference-homepage";
+import { isLocale, localeMeta } from "@/lib/locales";
+import { extractReferenceBody, readReferenceHomepage } from "@/lib/reference-homepage";
+import type { Locale } from "@/lib/types";
+
+const seo: Record<Locale, { title: string; description: string }> = {
+  fa: {
+    title: "Abrit | مدیریت یکپارچه فناوری اطلاعات",
+    description: "ابریت؛ خدمات مدیریت‌شده فناوری اطلاعات، امنیت، شبکه، بکاپ، مانیتورینگ، فضای کار سازمانی و اتوماسیون.",
+  },
+  en: {
+    title: "Abrit | Managed IT & IT as a Service",
+    description: "Managed IT, security, networking, backup, monitoring, digital workplace and automation services from Abrit.",
+  },
+  "ar-ae": {
+    title: "Abrit | خدمات تقنية المعلومات المُدارة",
+    description: "خدمات تقنية المعلومات المُدارة والأمن والشبكات والنسخ الاحتياطي والمراقبة والأتمتة من Abrit.",
+  },
+};
 
 export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const home = await cms.home(locale);
-  if (!home) return {};
+  const content = seo[locale];
   return {
-    title: { absolute: home.seo.title },
-    description: home.seo.description,
-    alternates: { canonical: home.url, languages: Object.fromEntries(home.alternates.map((item) => [item.locale === "ar-ae" ? "ar-AE" : item.locale, item.url])) },
-    robots: { index: home.seo.robots.index, follow: home.seo.robots.follow },
-    openGraph: { title: home.seo.open_graph.title, description: home.seo.open_graph.description, images: home.seo.open_graph.image ? [home.seo.open_graph.image] : undefined },
+    title: { absolute: content.title },
+    description: content.description,
+    alternates: {
+      canonical: `/${locale}`,
+      languages: { fa: "/fa", en: "/en", "ar-AE": "/ar-ae", "x-default": "/fa" },
+    },
   };
 }
 
-export default async function HomePage({ params, searchParams }: PageProps<"/[locale]">) {
+export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const query = await searchParams;
-  let draft = false;
-  if (query.draft === "1") {
-    const payload = await getPayload({ config });
-    draft = Boolean((await payload.auth({ headers: await headers() })).user);
-  }
-  const [home, services, packages] = await Promise.all([cms.home(locale, draft), cms.services(locale), cms.packages(locale)]);
-  if (!home) notFound();
-  return <main>{home.blocks.map((block) => <BlockRenderer key={block.id} block={block} locale={locale} services={services} packages={packages} />)}</main>;
+
+  const body = extractReferenceBody(await readReferenceHomepage());
+  const direction = localeMeta[locale].dir;
+  return <ReferenceHomepage body={body} direction={direction} locale={locale} />;
 }

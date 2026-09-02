@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="ابریت؛ خدمات مدیریت‌شده فناوری اطلاعات، امنیت، شبکه، بکاپ، مانیتورینگ، فضای کار سازمانی و اتوماسیون." id="meta" name="description"/>
+<meta content="#f4f8ff" name="theme-color"/>
+<title>Abrit | مدیریت یکپارچه فناوری اطلاعات</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700;800&amp;family=Vazirmatn:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+:root{--blue:#2f6bff;--blue2:#5d93ff;--ink:#0b1020;--body:#566173;--muted:#8b95a7;--line:#e6eaf1;--soft:#f5f8fc;--sky:#f4f8ff;--dark:#0c1127;--r:20px;--c:min(1240px,calc(100% - 72px));--sh:0 25px 60px -40px rgba(15,35,80,.4)}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:"Vazirmatn",sans-serif;background:#e9edf3;color:var(--ink);-webkit-font-smoothing:antialiased}html[lang=en] body{font-family:"Inter",sans-serif}html[lang=ar] body{font-family:"IBM Plex Sans Arabic",sans-serif}a{text-decoration:none;color:inherit}button,input{font:inherit}button{border:0}img,svg{display:block}.page{max-width:1480px;margin:auto;background:#fff;overflow:hidden}.container{width:var(--c);margin:auto}.section{padding:100px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:42px}.center{text-align:center;max-width:830px;margin:0 auto 44px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--blue);font-size:11px;font-weight:800;margin-bottom:13px}.eyebrow:before{content:"";width:20px;height:2px;background:var(--blue)}h1,h2,h3{letter-spacing:-.035em}html[lang=ar] h1,html[lang=ar] h2,html[lang=ar] h3{letter-spacing:0}h2{font-size:clamp(31px,4vw,48px);line-height:1.2}.lead{color:var(--body);font-size:14px;line-height:1.95;margin-top:14px;max-width:730px}.center .lead{margin:14px auto 0}.btn{min-height:46px;padding:0 19px;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:800;transition:.2s}.btn:hover{transform:translateY(-2px)}.primary{background:var(--blue);color:#fff;box-shadow:0 12px 25px -15px var(--blue)}.outline{border:1px solid var(--line);background:#fff}.textlink{color:var(--blue);font-size:12px;font-weight:800}.reveal{opacity:0;transform:translateY(20px);transition:.7s ease}.reveal.on{opacity:1;transform:none}
+.hero-shell{position:relative;isolation:isolate;background:var(--sky);overflow:hidden;border-bottom:1px solid var(--line)}.hero-shell:before{content:"";position:absolute;inset:0;z-index:-2;background-image:linear-gradient(rgba(47,107,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(47,107,255,.05) 1px,transparent 1px);background-size:46px 46px;mask-image:linear-gradient(#000,transparent 90%)}.hero-shell:after{content:"";position:absolute;width:720px;height:720px;border-radius:50%;right:-180px;top:-270px;z-index:-1;background:radial-gradient(circle,rgba(47,107,255,.16),transparent 68%)}.topbar{height:84px;display:grid;grid-template-columns:auto 1fr auto;gap:30px;align-items:center}.brand{display:flex;align-items:center;gap:10px}.mark{width:34px;height:34px;border-radius:10px;background:var(--blue);position:relative;box-shadow:0 9px 22px -11px var(--blue)}.mark:before,.mark:after{content:"";position:absolute;background:#fff;border-radius:2px;top:8px;width:6px}.mark:before{height:18px;left:9px;transform:skew(-12deg)}.mark:after{height:13px;right:9px;opacity:.72;transform:skew(-12deg)}.brand b{font:800 18px "Inter";letter-spacing:.14em}.nav{display:flex;justify-content:center;gap:24px;font-size:11px;font-weight:700;color:#3f4a60}.nav a{padding:32px 0}.actions{display:flex;align-items:center;gap:8px}.icon,.langbtn{height:38px;border:1px solid var(--line);background:rgba(255,255,255,.76);border-radius:9px;cursor:pointer}.icon{width:39px;display:grid;place-items:center}.icon svg{width:16px}.language{position:relative}.langbtn{padding:0 10px;font-size:10px;font-weight:800}.langmenu{position:absolute;top:44px;inset-inline-end:0;width:165px;padding:6px;background:#fff;border:1px solid var(--line);border-radius:11px;box-shadow:var(--sh);opacity:0;visibility:hidden;transform:translateY(5px);transition:.2s;z-index:30}.language.open .langmenu{opacity:1;visibility:visible;transform:none}.langmenu button{width:100%;background:transparent;text-align:start;padding:9px;border-radius:7px;cursor:pointer;font-size:10px}.langmenu button:hover,.langmenu button.active{background:var(--sky);color:var(--blue)}
+.hero{min-height:690px;display:grid;grid-template-columns:1fr 1fr;gap:58px;align-items:center;padding:55px 0 78px}.herocopy{min-height:430px;display:flex;flex-direction:column;justify-content:center}.kicker{width:max-content;max-width:100%;padding:6px 10px;border:1px solid #dfe6f1;background:rgba(255,255,255,.78);border-radius:999px;font-size:10px;font-weight:800;color:#566279;margin-bottom:23px}.herocopy h1{font-size:clamp(45px,5vw,68px);line-height:1.13;font-weight:800}.herocopy h1 em{font-style:normal;color:var(--blue)}.herocopy p{font-size:14px;line-height:2;color:var(--body);margin-top:22px;max-width:650px}.heroactions{display:flex;gap:9px;flex-wrap:wrap;margin-top:27px}.heropoints{display:flex;gap:16px;flex-wrap:wrap;margin-top:23px;font-size:9px;color:#657186}.heropoints span:before{content:"✓";color:var(--blue);font-weight:900;margin-inline-end:6px}.dots{display:flex;gap:6px;margin-top:25px}.dots button{width:25px;height:4px;background:#d6deeb;border-radius:99px;cursor:pointer}.dots button.active{width:46px;background:var(--blue)}.swap{animation:swap .5s ease}@keyframes swap{from{opacity:.2;transform:translateY(9px)}to{opacity:1;transform:none}}.herovis{height:525px;position:relative;perspective:1100px}.orbit{position:absolute;inset:24px 3px 8px;border:1px solid #dfe5ef;border-radius:50%;animation:orb 26s linear infinite}.orbit:before{content:"";position:absolute;width:10px;height:10px;border-radius:50%;background:var(--blue);right:50px;top:70px;box-shadow:0 0 0 8px rgba(47,107,255,.1)}@keyframes orb{to{transform:rotate(360deg)}}.console{position:absolute;inset:50px 8px 24px 45px;border:1px solid #dfe5ef;border-radius:22px;background:rgba(255,255,255,.95);box-shadow:0 35px 80px -48px rgba(10,30,80,.5);overflow:hidden;transform:rotateY(-4deg) rotateX(2deg)}html[dir=rtl] .console{inset:50px 45px 24px 8px;transform:rotateY(4deg) rotateX(2deg)}.cbar{height:47px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:8px}.live{color:#149c64}.live:before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:#18a66d;margin-inline-end:5px}.cbody{padding:17px}.ctitle{display:flex;justify-content:space-between;font-size:10px;margin-bottom:12px}.ctitle span{font-size:7px;color:var(--muted)}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.metric{padding:10px;border:1px solid var(--line);border-radius:10px;background:#fbfcff}.metric small{display:block;color:var(--muted);font-size:7px;margin-bottom:5px}.metric strong{font-size:14px}.chart{height:145px;border:1px solid var(--line);border-radius:11px;margin-top:9px;padding:8px;position:relative;overflow:hidden}.chart:before{content:"";position:absolute;inset:10px;background:repeating-linear-gradient(to bottom,transparent 0 30px,#edf1f6 31px)}.chart svg{position:relative;width:100%;height:100%}.line{fill:none;stroke:var(--blue);stroke-width:2.4;stroke-dasharray:600;stroke-dashoffset:600;animation:draw 2.2s ease forwards}.fill{fill:url(#g);opacity:.16}@keyframes draw{to{stroke-dashoffset:0}}.cbottom{display:grid;grid-template-columns:1.25fr .75fr;gap:8px;margin-top:9px}.events,.health{border:1px solid var(--line);border-radius:10px;padding:9px}.event{display:flex;justify-content:space-between;padding:4px 0;font-size:7px;color:#6c788d}.event b{color:#263149;font-size:7px}.ring{width:50px;height:50px;border-radius:50%;background:conic-gradient(var(--blue) 0 94%,#e9eef5 94%);margin:auto;display:grid;place-items:center;position:relative}.ring:after{content:"";position:absolute;width:37px;height:37px;border-radius:50%;background:#fff}.ring b{position:relative;z-index:1;font-size:9px}.health small{display:block;text-align:center;color:var(--muted);font-size:7px;margin-top:5px}.chip{position:absolute;z-index:4;padding:9px 11px;border:1px solid var(--line);background:#fff;border-radius:10px;box-shadow:0 15px 30px -20px rgba(15,35,80,.45);animation:float 4s ease-in-out infinite}.chip b{display:block;font-size:8px}.chip small{font-size:7px;color:var(--muted)}.ch1{top:115px;inset-inline-start:0}.ch2{top:82px;inset-inline-end:0;animation-delay:-1.2s}.ch3{bottom:58px;inset-inline-end:4px;animation-delay:-2.2s}@keyframes float{50%{transform:translateY(-7px)}}
+.statement{padding:0}.statementbox{min-height:430px;border-radius:25px;overflow:hidden;background:var(--dark);color:#fff;display:grid;grid-template-columns:.95fr 1.05fr}.stmtimg{position:relative;min-height:430px}.stmtimg img{width:100%;height:100%;object-fit:cover;filter:saturate(.65)}.stmtimg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--dark))}html[dir=rtl] .stmtimg:after{background:linear-gradient(270deg,transparent,var(--dark))}.stmtcopy{padding:60px;display:flex;flex-direction:column;justify-content:center}.stmtcopy .eyebrow{color:#8fb0ff}.stmtcopy h2{color:#fff}.stmtcopy p{color:#bdc7db;font-size:13px;line-height:2;margin-top:17px}
+.outcomes{background:#fff}.outgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.out{padding:22px 16px;border-top:2px solid var(--line);min-height:120px;transition:.2s}.out:hover{border-color:var(--blue);background:linear-gradient(#f7faff,#fff)}.out span{font:700 9px "Inter";color:var(--blue);display:block;margin-bottom:19px}.out b{font-size:12px;line-height:1.7}
+.services{background:linear-gradient(#fff,var(--soft))}.servicegrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.service{min-height:245px;padding:21px;border:1px solid var(--line);border-radius:17px;background:#fff;position:relative;transition:.23s;overflow:hidden}.service:hover{transform:translateY(-5px);border-color:#cdd9fb;box-shadow:0 24px 45px -33px rgba(15,35,80,.45)}.service .ico{width:42px;height:42px;border-radius:12px;background:#f4f7fe;color:var(--blue);display:grid;place-items:center;margin-bottom:28px;font:800 11px "Inter"}.service h3{font-size:14px;margin-bottom:8px}.service p{font-size:10px;line-height:1.8;color:var(--body)}.service a{position:absolute;bottom:18px;inset-inline-start:21px;font-size:9px;color:var(--blue);font-weight:800}
+.solutions{background:#fff}.mind{max-width:1040px;height:630px;margin:auto;position:relative}.mind svg{position:absolute;inset:0;width:100%;height:100%}.path{fill:none;stroke:#d8e1f1;stroke-width:2;stroke-dasharray:7 8}.centerNode,.node{position:absolute;border:1px solid var(--line);border-radius:17px;background:#fff;box-shadow:0 20px 45px -35px rgba(15,35,80,.5)}.centerNode{width:285px;min-height:180px;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--dark);color:#fff;padding:26px;z-index:2}.centerNode b{font-size:20px}.centerNode p{font-size:9px;color:#aebbd4;line-height:1.7;margin-top:8px}.node{width:255px;min-height:140px;padding:18px;z-index:2;transition:.2s}.node:hover{transform:translateY(-4px);border-color:#b9caff}.node span{font:800 9px "Inter";color:var(--blue)}.node h3{font-size:13px;margin:9px 0 6px}.node p{font-size:9px;line-height:1.65;color:var(--body)}.n1{left:0;top:35px}.n2{right:0;top:35px}.n3{left:0;bottom:35px}.n4{right:0;bottom:35px}.n5{left:50%;top:0;transform:translateX(-50%)}.n6{left:50%;bottom:0;transform:translateX(-50%)}.n5:hover,.n6:hover{transform:translateX(-50%) translateY(-4px)}html[dir=rtl] .n1{left:auto;right:0}html[dir=rtl] .n2{right:auto;left:0}html[dir=rtl] .n3{left:auto;right:0}html[dir=rtl] .n4{right:auto;left:0}
+.process{background:var(--soft)}.processgrid{display:grid;grid-template-columns:repeat(4,1fr);position:relative}.processgrid:before{content:"";position:absolute;top:37px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,#dce4f0,var(--blue),#dce4f0)}.step{text-align:center;padding:0 18px;position:relative}.num{width:74px;height:74px;border-radius:50%;margin:0 auto 22px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;font:800 16px "Inter";color:var(--blue);position:relative;z-index:2}.step h3{font-size:14px;margin-bottom:8px}.step p{font-size:9px;line-height:1.75;color:var(--body)}
+.tech{background:#fff}.techgrid{display:grid;grid-template-columns:.85fr 1.15fr;gap:50px;align-items:center}.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:22px}.tags span{font:600 8px "Inter";padding:7px 9px;border:1px solid var(--line);border-radius:999px;color:#556176}.radar{min-height:480px;border-radius:23px;background:#0b1023;position:relative;overflow:hidden;border:1px solid #17203d}.radar:before{content:"";position:absolute;inset:0;background:url("https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?auto=format&fit=crop&q=72&w=1400") center/cover;opacity:.14}.radar svg{position:absolute;width:min(88%,430px);left:50%;top:50%;transform:translate(-50%,-50%)}.rg{fill:none;stroke:#263151}.ra{stroke:#263151}.rf{fill:rgba(47,107,255,.18);stroke:#5a90ff;stroke-width:2}.rp{fill:#66a0ff}
+.pricing{background:var(--soft)}.packages{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.pkg{min-height:355px;border:1px solid var(--line);border-radius:17px;background:#fff;padding:19px;display:flex;flex-direction:column;position:relative;transition:.2s}.pkg:hover{transform:translateY(-4px);box-shadow:var(--sh)}.pkg.featured{border-color:#a7bdff}.badge{position:absolute;top:14px;inset-inline-end:14px;font-size:7px;font-weight:800;color:var(--blue);background:#edf3ff;padding:5px 7px;border-radius:999px}.pkg small{font:700 8px "Inter";color:var(--muted)}.pkg h3{font-size:16px;margin:8px 0 16px}.price{font:800 20px "Inter";letter-spacing:-.04em}.pricecap{font-size:8px;color:var(--muted);margin-top:3px}.quota{margin:16px 0;border-top:1px solid var(--line);padding-top:14px;display:grid;gap:7px}.quota li{list-style:none;display:flex;justify-content:space-between;gap:7px;font-size:8px;color:var(--body)}.quota b{font-size:8px;color:var(--ink)}.pkg .btn{margin-top:auto;min-height:38px;font-size:9px}
+.hub{background:#fff}.hubgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.hubcard{border:1px solid var(--line);border-radius:18px;overflow:hidden}.hubvis{height:180px;background:var(--dark);position:relative;overflow:hidden}.hubvis.photo img{width:100%;height:100%;object-fit:cover;filter:saturate(.7)}.hubvis.pattern:before{content:"";position:absolute;inset:0;background-image:radial-gradient(var(--blue) 1px,transparent 1px);background-size:18px 18px;opacity:.32}.hubvis.pattern:after{content:"";position:absolute;width:180px;height:180px;border:1px solid #2a355b;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 35px rgba(47,107,255,.035),0 0 0 72px rgba(47,107,255,.025)}.hubcopy{padding:20px}.hubcopy h3{font-size:16px;margin-bottom:7px}.hubcopy p{font-size:9px;line-height:1.75;color:var(--body)}
+.cta{padding:18px 0 88px}.ctabox{border-radius:25px;background:var(--blue);color:#fff;padding:55px;display:flex;justify-content:space-between;align-items:center;gap:35px;position:relative;overflow:hidden}.ctabox:before{content:"";position:absolute;width:390px;height:390px;border-radius:50%;border:1px solid rgba(255,255,255,.17);right:-100px;top:-230px}html[dir=rtl] .ctabox:before{right:auto;left:-100px}.ctabox h2{color:#fff}.ctabox p{font-size:11px;line-height:1.9;opacity:.82;margin-top:10px;max-width:720px}.white{background:#fff;color:#10204a}.darkoutline{border:1px solid rgba(255,255,255,.25);color:#fff}.ctaact{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1}
+footer{background:var(--dark);color:#fff;padding:58px 0 27px}.footergrid{display:grid;grid-template-columns:1.35fr repeat(3,1fr);gap:35px}.footabout p{font-size:9px;line-height:1.8;color:#94a2bf;margin:14px 0}.portal{display:inline-flex;border:1px solid #202a4c;padding:8px 10px;border-radius:8px;color:#bcc7dc;font-size:8px}footer h4{font-size:10px;margin-bottom:14px}.flinks{display:grid;gap:8px}.flinks a{font-size:8px;color:#94a2bf}.footbottom{margin-top:40px;padding-top:19px;border-top:1px solid #1d2748;color:#71809f;font-size:8px;display:flex;justify-content:space-between}
+.searchov{display:none;position:fixed;inset:0;background:rgba(5,10,24,.6);backdrop-filter:blur(6px);z-index:100;padding:80px 18px}.searchov.open{display:block}.searchbox{width:min(680px,100%);margin:auto;background:#fff;border-radius:18px;padding:15px}.searchrow{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:11px;padding:0 12px}.searchrow input{height:47px;flex:1;border:0;outline:0}.close{width:32px;height:32px;border-radius:8px;background:#f1f4f8;cursor:pointer}.results{max-height:420px;overflow:auto;margin-top:8px}.res{display:block;padding:11px;border-radius:9px}.res:hover{background:var(--soft)}.res b{display:block;font-size:10px}.res small{color:var(--muted);font-size:8px}
+@media(max-width:1160px){:root{--c:min(100% - 46px,1010px)}.nav{gap:15px}.servicegrid{grid-template-columns:repeat(3,1fr)}.packages{grid-template-columns:repeat(3,1fr)}.mind{height:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.mind svg{display:none}.centerNode,.node{position:static;width:auto;min-height:145px;transform:none!important}.centerNode{grid-column:1/-1}}
+@media(max-width:820px){:root{--c:calc(100% - 32px)}.section{padding:76px 0}.topbar{height:70px;grid-template-columns:auto 1fr}.nav{display:none}.actions{justify-self:end}.actions>.btn{display:none}.hero{grid-template-columns:1fr;gap:10px;padding:43px 0 60px}.herovis{width:min(620px,100%);height:450px;margin:auto}.statementbox{grid-template-columns:1fr}.stmtimg{min-height:290px}.stmtimg:after{background:linear-gradient(to bottom,transparent,var(--dark))!important}.stmtcopy{padding:38px 28px}.outgrid,.processgrid{grid-template-columns:repeat(2,1fr)}.processgrid{gap:36px 0}.processgrid:before{display:none}.servicegrid,.packages{grid-template-columns:repeat(2,1fr)}.techgrid{grid-template-columns:1fr}.hubgrid{grid-template-columns:1fr}.ctabox{padding:42px 28px;align-items:flex-start;flex-direction:column}.footergrid{grid-template-columns:1fr 1fr}.footabout{grid-column:1/-1}}
+@media(max-width:520px){.section-head{display:block}.section-head .textlink{display:inline-block;margin-top:18px}.herocopy{min-height:480px}.herocopy h1{font-size:39px}.herovis{height:390px}.orbit{display:none}.console{inset:38px 2px 18px 15px!important;transform:none!important}.metrics{grid-template-columns:1fr 1fr}.metric:nth-child(3){display:none}.chart{height:128px}.ch1{display:none}.outgrid,.servicegrid,.packages,.processgrid,.mind,.footergrid{grid-template-columns:1fr}.centerNode{grid-column:auto}.radar{min-height:380px}.footabout{grid-column:auto}.footbottom{flex-direction:column;gap:10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+
+.navitem{position:relative;padding:0}.navitem>a{display:flex;align-items:center;gap:5px}.mega{position:absolute;top:70px;inset-inline-start:50%;transform:translateX(-50%) translateY(7px);width:650px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:5px;box-shadow:0 28px 65px -35px rgba(15,35,80,.45);opacity:0;visibility:hidden;pointer-events:none;transition:.18s;z-index:25}.navitem:hover .mega{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0)}html[dir=rtl] .mega{transform:translateX(50%) translateY(7px)}html[dir=rtl] .navitem:hover .mega{transform:translateX(50%) translateY(0)}.mega a{padding:9px!important;border-radius:9px}.mega a:hover{background:var(--soft)}.mega b{display:block;font-size:10px;margin-bottom:3px}.mega small{display:block;font-size:8px;line-height:1.5;color:var(--muted)}
+
+/* ===== Enhanced V2: readability, mega menu, responsive nav, richer visual sections ===== */
+:root{--c:min(1280px,calc(100% - 80px));--sh-lg:0 32px 78px -42px rgba(13,33,78,.38)}
+body{font-size:16px}.section{padding:112px 0}.eyebrow{font-size:12.5px;line-height:1.4;letter-spacing:.015em}.lead{font-size:16px;line-height:1.95}.btn{font-size:13.5px;min-height:48px}.textlink{font-size:13px}.nav{font-size:13px;gap:22px}.nav a{padding:31px 0}.kicker{font-size:12px;padding:7px 12px}.herocopy p{font-size:16px;line-height:2}.heropoints{font-size:12px;gap:20px}.cbar{font-size:10px}.ctitle{font-size:11px}.ctitle span{font-size:10px}.metric small{font-size:10px;line-height:1.45}.metric strong{font-size:17px}.event,.event b{font-size:9.5px}.health small{font-size:9px}.ring b{font-size:10px}.chip b{font-size:10px}.chip small{font-size:9px}.stmtcopy p{font-size:15px}.out span{font-size:11px}.out b{font-size:14px;line-height:1.65}.service{min-height:285px;padding:24px}.ico{width:48px;height:48px;font-size:12px}.service h3{font-size:16px}.service p{font-size:13px;line-height:1.85}.service a{font-size:11.5px}.centerNode p,.node p{font-size:12px}.node h3{font-size:14px}.node span{font-size:10px}.step h3{font-size:15px}.step p{font-size:12.5px;line-height:1.8}.tags span{font-size:10.5px;padding:8px 10px}.pkg small{font-size:10px}.pkg h3{font-size:17px}.price{font-size:22px}.pricecap{font-size:10px}.quota li,.quota b{font-size:10.5px}.pkg .btn{font-size:11px}.hubcopy h3{font-size:17px}.hubcopy p{font-size:12.5px}.ctabox p{font-size:13.5px}.footabout p{font-size:11px}footer h4{font-size:12px}.flinks a{font-size:10.5px}.portal{font-size:10px}.footbottom{font-size:9.5px}
+
+/* Desktop mega menu */
+.navitem{position:relative}.navitem>a{gap:7px}.mega{top:73px;width:min(940px,78vw);padding:18px;grid-template-columns:minmax(0,1.42fr) minmax(250px,.72fr);gap:18px;border-radius:20px;box-shadow:0 34px 85px -38px rgba(10,27,66,.48);overflow:hidden}.mega-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;align-content:start}.mega-list a{padding:13px!important;border:1px solid transparent;border-radius:11px}.mega-list a:hover{background:#f6f9ff;border-color:#e2e9f7}.mega-list b{font-size:12px;margin-bottom:4px}.mega-list small{font-size:10.5px;line-height:1.65}.mega-media{min-height:300px;border-radius:14px;overflow:hidden;position:relative;background:var(--dark)}.mega-media img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;filter:saturate(.72) contrast(1.05)}.mega-media:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(9,15,34,.91),rgba(9,15,34,.06) 70%)}.mega-caption{position:absolute;z-index:2;inset:auto 18px 17px;color:#fff}.mega-caption span{font-size:9px;letter-spacing:.08em;color:#92b0ff;font-weight:800}.mega-caption b{font-size:18px;margin-top:7px;display:block;line-height:1.4}.mega-caption p{font-size:10.5px;color:#c2cde1;line-height:1.7;margin-top:5px}
+
+/* Flag selector */
+.langbtn{height:42px;min-width:92px;padding:0 10px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:11px}.flag-svg{width:24px;height:24px;border-radius:50%;box-shadow:0 0 0 1px rgba(20,35,65,.12);overflow:hidden;flex:0 0 auto}.lang-chevron{font-size:10px;color:var(--muted)}.langmenu{width:210px;padding:8px;border-radius:14px;top:49px}.langmenu button{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:9px;padding:10px 11px;font-size:12px}.langmenu button small{font:700 9px "Inter";color:var(--muted)}
+
+/* Mobile nav */
+.mobiletoggle{display:none;flex-direction:column;gap:4px}.mobiletoggle span{width:17px;height:1.5px;background:#344057;border-radius:2px}.mobileNav,.mobileBackdrop{display:none}.mobileNav{position:fixed;z-index:120;top:0;bottom:0;inset-inline-end:0;width:min(420px,92vw);background:#fff;box-shadow:0 0 80px -28px rgba(4,13,34,.55);padding:20px;overflow:auto;transform:translateX(110%);transition:transform .28s cubic-bezier(.2,.7,.2,1)}html[dir=rtl] .mobileNav{transform:translateX(-110%)}.mobileNav.open{transform:none!important}.mobileBackdrop{position:fixed;z-index:119;inset:0;background:rgba(6,12,29,.5);backdrop-filter:blur(3px)}.mobileBackdrop.open{display:block}.mobileNavTop{display:flex;align-items:center;justify-content:space-between;padding-bottom:17px;border-bottom:1px solid var(--line)}.mobileClose{width:38px;height:38px;border-radius:10px;background:var(--soft);font-size:22px;cursor:pointer}.mobileNavBody{padding:15px 0}.mobile-group{border-bottom:1px solid var(--line)}.mobile-group>button,.mobile-direct{width:100%;background:none;padding:15px 3px;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:750;text-align:start}.mobile-sub{display:none;padding:0 0 13px}.mobile-group.open .mobile-sub{display:grid}.mobile-sub a{padding:10px 11px;border-radius:9px;font-size:12px;color:var(--body)}.mobile-sub a:hover{background:var(--soft);color:var(--ink)}.mobileCta{width:100%;margin-top:16px}
+
+/* Operations bento */
+.operations{background:linear-gradient(180deg,#fff 0,#f7f9fd 100%)}.ops-live{display:flex;align-items:center;gap:7px;font-size:11px;color:#68758b}.ops-live i,.map-live i,.as-sec i{width:7px;height:7px;border-radius:50%;background:#20b676;box-shadow:0 0 0 5px rgba(32,182,118,.1)}.ops-bento{display:grid;grid-template-columns:1.25fr .75fr .75fr;grid-template-rows:245px 245px;gap:14px}.ops-card{border:1px solid var(--line);background:#fff;border-radius:19px;padding:23px;position:relative;overflow:hidden;box-shadow:0 18px 45px -42px rgba(18,42,90,.45)}.ops-card.dark{grid-row:1/3;background:var(--dark);border-color:#171f3e;color:#fff}.ops-card h3{font-size:17px}.ops-card p{font-size:12.5px;line-height:1.8;color:var(--body);margin-top:8px}.ops-card.dark p{color:#9eabc4}.ops-card .mini-label{font:700 9px "Inter";letter-spacing:.08em;color:var(--blue);margin-bottom:20px}.ops-card.dark .mini-label{color:#86a8ff}.ops-console{position:absolute;left:22px;right:22px;bottom:22px;height:300px;border:1px solid #253054;background:#0f1730;border-radius:14px;padding:15px}.ops-console-top{display:flex;justify-content:space-between;font-size:10px;color:#8795b3}.ops-console-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.ops-console-metrics div{border:1px solid #263153;background:#111a35;border-radius:9px;padding:11px}.ops-console-metrics small{font-size:9px;color:#7584a4;display:block}.ops-console-metrics b{font:700 17px "Inter";margin-top:6px;display:block}.ops-wave{height:105px;margin-top:10px;position:relative;border-bottom:1px solid #263153;background:repeating-linear-gradient(to bottom,transparent 0 25px,#202b4a 26px)}.ops-wave svg{position:absolute;inset:0;width:100%;height:100%}.ops-wave path{fill:none;stroke:#5790ff;stroke-width:2.2;filter:drop-shadow(0 4px 4px rgba(47,107,255,.2))}.ops-checks{display:grid;gap:8px;margin-top:10px}.ops-check{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:10px}.ops-check span{font-size:11px;color:var(--body)}.ops-check b{font-size:10px;color:#179b65}
+
+/* Iran network */
+.network-section{background:#fff}.network-layout{display:grid;grid-template-columns:.78fr 1.22fr;gap:54px;align-items:center}.network-features{display:grid;gap:10px;margin-top:26px}.network-feature{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}.network-feature i{width:31px;height:31px;border-radius:9px;background:#eef4ff;color:var(--blue);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:11px;flex:0 0 auto}.network-feature b{font-size:13px;display:block}.network-feature p{font-size:11.5px;line-height:1.7;color:var(--body);margin-top:3px}.iran-network{background:#0b1023;border:1px solid #192342;border-radius:23px;overflow:hidden;color:#fff;box-shadow:0 28px 70px -45px rgba(7,18,48,.6)}.map-top{height:58px;padding:0 19px;border-bottom:1px solid #1d2747;display:flex;align-items:center;justify-content:space-between}.map-top b{font:700 10px "Inter";letter-spacing:.06em}.map-top span{display:block;font-size:9px;color:#6f80a4;margin-top:3px}.map-live,.as-sec{display:flex!important;align-items:center;gap:7px!important;color:#72d8a8!important;font:700 8px "Inter"!important}.iran-canvas{position:relative;height:460px;direction:ltr;background:radial-gradient(circle at 55% 42%,rgba(47,107,255,.08),transparent 42%)}.iran-canvas:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#273458 1px,transparent 1px);background-size:22px 22px;opacity:.38}.iran-canvas svg{position:absolute;inset:0;width:100%;height:100%}.iran-outline{fill:rgba(28,39,70,.4);stroke:#354568;stroke-width:1.3}.net-line{fill:none;stroke:#3f72d9;stroke-width:1.6;stroke-dasharray:6 6;opacity:.75}.net-line.faint{opacity:.25}.packet circle{fill:#8db5ff;filter:drop-shadow(0 0 5px #4a82ff)}.packet.p2 circle{fill:#56d2dd}.packet.p3 circle{fill:#7ae0aa}.city-node{position:absolute;transform:translate(-50%,-50%);border:0;background:transparent;color:#fff;text-align:left;display:grid;grid-template-columns:14px auto;grid-template-rows:auto auto;column-gap:6px;cursor:default}.city-node i{width:10px;height:10px;border-radius:50%;background:#6b9aff;box-shadow:0 0 0 6px rgba(62,116,230,.14),0 0 14px rgba(62,116,230,.6);grid-row:1/3;align-self:center}.city-node b{font-size:10.5px;white-space:nowrap}.city-node small{font:700 7px "Inter";color:#7282a7}.tehran{left:50%;top:37.9%}.mashhad{left:69.7%;top:35.1%}.tabriz{left:27.1%;top:29.3%}.isfahan{left:49%;top:56.7%}.shiraz{left:42.9%;top:75.8%}.ahvaz{left:26.3%;top:65.1%}.bandar{left:57.3%;top:82.3%}.tehran i{background:#fff;box-shadow:0 0 0 6px rgba(47,107,255,.35),0 0 22px #2f6bff}.map-bottom{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #1d2747}.map-stat{padding:14px 17px;border-inline-end:1px solid #1d2747}.map-stat:last-child{border:0}.map-stat span{font-size:8.5px;color:#7180a0;display:block}.map-stat b{font:700 14px "Inter";display:block;margin-top:4px}
+
+/* Assurance */
+.assurance{background:var(--soft)}.assurance-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:55px;align-items:center}.assurance-console{min-height:470px;background:#0c1127;border-radius:22px;border:1px solid #18213f;padding:18px;color:#fff;overflow:hidden;position:relative}.assurance-console:after{content:"";position:absolute;width:330px;height:330px;right:-130px;bottom:-160px;border-radius:50%;background:radial-gradient(circle,rgba(47,107,255,.2),transparent 68%)}.as-head{height:34px;border-bottom:1px solid #202a49;display:flex;justify-content:space-between;align-items:flex-start;font:700 9px "Inter";letter-spacing:.04em;color:#8796b5}.as-main{display:grid;grid-template-columns:.8fr 1.2fr;gap:14px;margin-top:15px}.as-score,.as-bars{border:1px solid #202a49;background:#0f1730;border-radius:13px;padding:16px}.as-score>span{font-size:9px;color:#7180a2}.as-score strong{font:800 53px "Inter";display:block;margin:19px 0 4px;letter-spacing:-.06em}.as-score strong span{font-size:18px;color:#6c98ff}.as-score small{font-size:9px;color:#7f8dab}.as-bars{display:grid;gap:12px}.as-bars div>span{font-size:9px;color:#8794b0}.as-bars i{height:6px;background:#202b4d;border-radius:99px;display:block;margin-top:5px;overflow:hidden}.as-bars i:after{content:"";display:block;height:100%;width:var(--w);background:linear-gradient(90deg,#2f6bff,#70a1ff);border-radius:inherit}.as-events{display:grid;gap:7px;margin-top:13px}.as-event{border:1px solid #202a49;border-radius:9px;padding:10px 11px;display:grid;grid-template-columns:80px 1fr auto;gap:10px;align-items:center;font-size:9px;color:#7685a6}.as-event b{color:#afbcda;font-size:9px}.as-event em{font-style:normal;color:#72d8a8;font-size:8px}.assurance-points{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:24px}.assurance-point{border:1px solid var(--line);background:#fff;border-radius:12px;padding:14px}.assurance-point b{font-size:12px}.assurance-point p{font-size:10.5px;line-height:1.65;color:var(--body);margin-top:4px}
+
+/* Use cases */
+.usecases{background:#fff}.use-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.use-card{min-height:290px;border:1px solid var(--line);border-radius:18px;padding:23px;background:#fff;position:relative;overflow:hidden;transition:.22s}.use-card:hover{transform:translateY(-5px);box-shadow:0 25px 48px -38px rgba(10,34,82,.42);border-color:#cfdcff}.use-card:before{content:"";position:absolute;width:150px;height:150px;border-radius:42px;right:-75px;top:-80px;background:linear-gradient(135deg,rgba(47,107,255,.08),transparent);transform:rotate(20deg)}html[dir=rtl] .use-card:before{right:auto;left:-75px}.use-index{font:800 10px "Inter";color:var(--blue)}.use-card h3{font-size:17px;margin:50px 0 9px}.use-card p{font-size:12px;line-height:1.8;color:var(--body)}.use-tags{display:flex;gap:5px;flex-wrap:wrap;position:absolute;left:23px;right:23px;bottom:20px}.use-tags span{font-size:9px;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:5px 7px;color:#667287}
+
+/* FAQ */
+.faq{background:linear-gradient(180deg,#f7f9fc,#fff)}.faq-layout{display:grid;grid-template-columns:.72fr 1.28fr;gap:60px;align-items:start}.faq-copy{position:sticky;top:30px}.faq-copy .btn{margin-top:23px}.faq-list{display:grid;gap:9px}.faq-item{border:1px solid var(--line);border-radius:13px;background:#fff;overflow:hidden}.faq-q{width:100%;background:#fff;padding:17px 18px;display:flex;justify-content:space-between;gap:20px;text-align:start;font-size:13px;font-weight:750;cursor:pointer}.faq-q span:last-child{font-size:18px;color:var(--blue);transition:transform .2s}.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease}.faq-a>div{overflow:hidden}.faq-a p{padding:0 18px 17px;color:var(--body);font-size:12px;line-height:1.85}.faq-item.open .faq-a{grid-template-rows:1fr}.faq-item.open .faq-q span:last-child{transform:rotate(45deg)}
+
+/* Improved hover/reveal but cheap */
+.reveal{transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}.service,.pkg,.use-card,.ops-card{will-change:transform}.service:hover,.pkg:hover,.use-card:hover{will-change:auto}
+
+@media(max-width:1180px){:root{--c:min(100% - 48px,1040px)}.nav{gap:13px;font-size:12px}.navitem:nth-last-child(-n+1){display:none}.mega{width:min(860px,88vw)}.ops-bento{grid-template-columns:1fr 1fr;grid-template-rows:310px 235px 235px}.ops-card.dark{grid-row:1/3}.ops-card:last-child{grid-column:2}.network-layout,.assurance-grid{grid-template-columns:1fr;gap:36px}.network-copy,.assurance-copy{max-width:760px}.iran-network{max-width:850px}.use-grid{grid-template-columns:repeat(2,1fr)}.faq-layout{grid-template-columns:.9fr 1.1fr;gap:35px}}
+@media(max-width:900px){:root{--c:calc(100% - 34px)}.nav{display:none}.mobiletoggle{display:flex}.actions>.btn{display:none}.mobileNav{display:block}.section{padding:86px 0}.hero{padding-top:38px}.servicegrid{grid-template-columns:repeat(2,1fr)}.ops-bento{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto}.ops-card.dark{grid-column:1/-1;grid-row:auto;min-height:430px}.ops-card:last-child{grid-column:auto}.network-layout{grid-template-columns:1fr}.iran-canvas{height:420px}.assurance-points{grid-template-columns:repeat(2,1fr)}.faq-layout{grid-template-columns:1fr}.faq-copy{position:static}.faq-copy{max-width:700px}}
+@media(max-width:640px){:root{--c:calc(100% - 28px)}.section{padding:72px 0}.section-head{display:block}.section-head>.ops-live,.section-head>.textlink{display:inline-flex;margin-top:18px}.topbar{height:72px}.brand b{font-size:16px}.actions{gap:6px}.langbtn{min-width:76px;padding:0 7px}.langbtn .lang-chevron{display:none}.flag-svg{width:22px;height:22px}.hero{min-height:auto;padding-bottom:54px}.herocopy{min-height:500px}.herocopy h1{font-size:clamp(38px,11vw,48px)}.herocopy p{font-size:14.5px}.heropoints{font-size:11px}.stmtcopy{padding:34px 24px}.outgrid,.servicegrid,.packages,.processgrid,.mind,.footergrid,.ops-bento,.use-grid{grid-template-columns:1fr}.ops-card.dark{grid-column:auto;min-height:455px}.ops-console{height:320px;left:16px;right:16px}.ops-console-metrics{grid-template-columns:1fr 1fr}.ops-console-metrics div:last-child{display:none}.network-feature p{font-size:11px}.iran-canvas{height:330px}.city-node b{font-size:8px}.city-node small{display:none}.city-node i{width:8px;height:8px}.map-bottom{grid-template-columns:1fr}.map-stat{border-inline-end:0;border-bottom:1px solid #1d2747}.map-stat:last-child{border-bottom:0}.assurance-console{min-height:520px}.as-main{grid-template-columns:1fr}.as-score strong{font-size:43px}.assurance-points{grid-template-columns:1fr}.use-card{min-height:250px}.faq-q{font-size:12.5px}.faq-a p{font-size:11.5px}.mega{display:none}}
+@media(prefers-reduced-motion:reduce){.net-line{stroke-dasharray:none}.packet{display:none}.mobileNav{transition:none}.faq-a{transition:none}}
+
+
+/* ==============================
+   V3 — TYPOGRAPHY, SERVICES, GLOBE
+   ============================== */
+body{font-size:16.5px}
+.nav{font-size:14px}.nav a{font-weight:700}.btn{font-size:14.5px}.langbtn{font-size:12px}.langmenu button{font-size:13px}
+.kicker{font-size:12px;padding:8px 12px}.herocopy p{font-size:16.5px;line-height:1.95}.heropoints{font-size:12.5px}.cbar{font-size:11px}.ctitle b{font-size:14px}.ctitle span{font-size:11px}
+.lead{font-size:16.5px;line-height:1.9}.eyebrow{font-size:12.5px}.stmtcopy p{font-size:15.5px;line-height:1.95}.out b{font-size:15px}.out span{font-size:11px}
+.ops-card h3{font-size:18px}.ops-card p{font-size:14px;line-height:1.8}.mini-label{font-size:10.5px}.ops-live{font-size:12px}
+.network-feature b{font-size:14px}.network-feature p{font-size:13px;line-height:1.75}.network-feature i{font-size:10px}
+.node h3{font-size:15px}.node p{font-size:12.5px;line-height:1.75}.centerNode b{font-size:22px}.centerNode p{font-size:12.5px;line-height:1.75}.step h3{font-size:16px}.step p{font-size:12.5px;line-height:1.8}.tags span{font-size:10.5px}
+.pkg small{font-size:10.5px}.pkg h3{font-size:18px}.price{font-size:22px}.pricecap{font-size:11px}.quota li,.quota b{font-size:11.5px}.pkg .btn{font-size:12px}
+.hubcopy span{font-size:11px}.hubcopy h3{font-size:18px}.hubcopy p{font-size:13px;line-height:1.8}.use-card p{font-size:13.5px}.use-tags span{font-size:10.5px}.faq-q{font-size:15px}.faq-a p{font-size:13.5px}.flinks a,.footabout p,.portal{font-size:12px}.footbottom{font-size:11px}
+.mega{width:min(980px,92vw);padding:20px}.mega-list{gap:7px}.mega-list a{padding:13px!important}.mega-list b{font-size:13px}.mega-list small{font-size:11.5px;line-height:1.55}.mega-caption b{font-size:18px}.mega-caption p{font-size:12px;line-height:1.7}
+
+/* Hero: source-derived model instead of fake live telemetry */
+.model-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:11px}.model-metrics>div{border:1px solid var(--line);background:#fbfcff;border-radius:11px;padding:12px}.model-metrics span{display:block;color:var(--blue);font:800 9px "Inter";margin-bottom:7px}.model-metrics b{display:block;font-size:13px}.model-metrics small{display:block;color:var(--muted);font-size:9.5px;margin-top:4px}.model-flow{min-height:132px;border:1px solid var(--line);border-radius:12px;padding:22px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;background:linear-gradient(180deg,#fff,#f8faff)}.model-flow>span{color:#a9b7cc;font-size:15px}.flow-item{display:grid;place-items:center;text-align:center;gap:8px}.flow-item i{width:13px;height:13px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 7px rgba(47,107,255,.08)}.flow-item b{font-size:10.5px}.source-bottom .event{font-size:9.5px;padding:6px 0}.source-bottom .event b{font-size:9.5px}.ring-model{background:conic-gradient(var(--blue) 0 72%,#e9eef5 72%)}.ring-model b{font-size:10px}.health small{font-size:9.5px}.chip b{font-size:10px}.chip small{font-size:9px}
+
+/* Services: icon-led bento hierarchy */
+.servicegrid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.service{grid-column:span 3;min-height:285px;padding:24px;border-radius:20px;display:flex;flex-direction:column;background:linear-gradient(180deg,#fff,#fbfcff)}.service.service-large{grid-column:span 6;min-height:310px}.service:before{content:"";position:absolute;inset:auto -80px -105px auto;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(47,107,255,.11),transparent 68%);opacity:.55}.service-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:34px;position:relative;z-index:1}.service .ico{width:54px;height:54px;margin:0;border-radius:15px;background:#f1f6ff;border:1px solid #dfe8fa}.service .ico svg{width:25px;height:25px}.service-index{font:800 10px "Inter";color:#9aa6ba;letter-spacing:.08em}.service-content{position:relative;z-index:1}.service h3{font-size:18px;margin-bottom:10px}.service p{font-size:13.5px;line-height:1.8;padding-bottom:44px}.service a{position:absolute;bottom:22px;inset-inline-start:24px;inset-inline-end:24px;font-size:12px;display:flex;align-items:center;justify-content:space-between;color:var(--blue);font-weight:800;z-index:1}.service a b{width:29px;height:29px;border-radius:9px;background:#edf3ff;display:grid;place-items:center}.service-large h3{font-size:21px}.service-large p{max-width:620px;font-size:14px}.service-large:after{content:"";position:absolute;right:28px;top:78px;width:130px;height:130px;background-image:radial-gradient(#b9caff 1.2px,transparent 1.2px);background-size:12px 12px;opacity:.42}html[dir=rtl] .service-large:after{right:auto;left:28px}
+
+/* Operations — qualitative source-derived layers */
+.ops-layer-visual{position:absolute;left:26px;right:26px;bottom:26px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.ops-layer-pill{border:1px solid #243054;background:#101a38;border-radius:11px;padding:11px 12px;display:flex;align-items:center;gap:10px}.ops-layer-pill span{font:800 9px "Inter";color:#6f96ff}.ops-layer-pill b{font-size:11px;color:#dbe5f8}.ops-card-mark{position:absolute;bottom:20px;inset-inline-end:20px;width:46px;height:46px;border-radius:13px;background:#f2f6ff;color:var(--blue);display:grid;place-items:center}.ops-card-mark svg{width:22px;height:22px}
+
+/* Global globe — conceptual multi-site model, no fake locations */
+.global-network{background:#0b1023;border:1px solid #18213f;border-radius:25px;min-height:650px;overflow:hidden;position:relative;color:#fff}.global-network:after{content:"";position:absolute;inset:auto -140px -180px auto;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(47,107,255,.22),transparent 68%);pointer-events:none}.global-top{height:68px;border-bottom:1px solid #1d2748;padding:0 22px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:3}.global-top b{display:block;font:700 11px "Inter";letter-spacing:.06em}.global-top span{font-size:11px;color:#8f9cba;display:block;margin-top:5px}.global-badge{border:1px solid #29375f!important;color:#9db7ff!important;background:#111a36;padding:7px 10px;border-radius:999px;font-weight:800!important;margin:0!important}.globe-stage{height:455px;position:relative;display:grid;place-items:center;perspective:1000px}.globe-shell{width:min(390px,68vw);aspect-ratio:1;border-radius:50%;position:relative;overflow:hidden;border:1px solid #2b3960;background:radial-gradient(circle at 35% 28%,#19366d 0,#0e1b3b 32%,#090f21 72%);box-shadow:inset -45px -28px 65px rgba(0,0,0,.48),0 0 85px rgba(47,107,255,.15)}.globe-map-belt{position:absolute;left:0;top:18%;width:200%;height:64%;display:flex;animation:globeSpin 30s linear infinite;opacity:.3;filter:brightness(0) invert(1) sepia(.1) saturate(.4) hue-rotate(180deg)}.globe-map-belt img{width:50%;height:100%;object-fit:fill;flex:0 0 50%}@keyframes globeSpin{to{transform:translateX(-50%)}}html[dir=rtl] .globe-map-belt{animation-direction:reverse}.globe-shade{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 28%,transparent 0 38%,rgba(4,7,18,.18) 58%,rgba(2,5,14,.76) 100%);box-shadow:inset 24px 0 45px rgba(76,140,255,.08);z-index:4;pointer-events:none}.globe-meridian,.globe-latitude{position:absolute;border:1px solid rgba(116,151,225,.18);z-index:2;pointer-events:none}.globe-meridian{inset:7% 29%;border-radius:50%}.globe-meridian.m2{inset:7% 15%}.globe-meridian.m3{inset:7% 42%}.globe-latitude{left:7%;right:7%;height:34%;border-radius:50%}.globe-latitude.l1{top:14%}.globe-latitude.l2{top:33%}.globe-latitude.l3{top:52%}.coverage-point{position:absolute;width:9px;height:9px;border-radius:50%;background:#7aa4ff;box-shadow:0 0 0 6px rgba(88,139,255,.08),0 0 14px #2f6bff;z-index:5;animation:coveragePulse 2.8s ease-in-out infinite}.cp1{left:25%;top:34%}.cp2{left:58%;top:27%;animation-delay:-.6s}.cp3{left:72%;top:48%;animation-delay:-1.2s}.cp4{left:43%;top:58%;animation-delay:-1.8s}.cp5{left:22%;top:61%;animation-delay:-2.2s}.cp6{left:61%;top:70%;animation-delay:-.9s}@keyframes coveragePulse{50%{box-shadow:0 0 0 11px rgba(88,139,255,0),0 0 20px #2f6bff}}.coverage-arcs{position:absolute;inset:0;width:100%;height:100%;z-index:3}.coverage-arcs path{fill:none;stroke:rgba(103,151,255,.3);stroke-width:1.2;stroke-dasharray:6 7;animation:dashMove 8s linear infinite}@keyframes dashMove{to{stroke-dashoffset:-100}}.orbital-ring{position:absolute;border:1px solid rgba(78,119,205,.16);border-radius:50%;width:470px;height:155px;transform:rotate(-16deg);animation:orbitFloat 10s ease-in-out infinite}.ring-b{transform:rotate(48deg);width:440px;height:120px;animation-delay:-4s}@keyframes orbitFloat{50%{opacity:.45;transform:rotate(-10deg) scale(1.025)}}.coverage-source-note{margin:0 24px 16px;padding:13px 15px;border:1px solid #202d50;border-radius:12px;background:#0e1731;color:#91a0bd;font-size:11.5px;line-height:1.7;position:relative;z-index:3}.coverage-packages{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 24px 24px;position:relative;z-index:3}.coverage-package{border-top:1px solid #253256;padding-top:11px}.coverage-package small{display:block;color:#6f7f9f;font:700 9px "Inter";margin-bottom:5px}.coverage-package b{font-size:12px;color:#d6e0f3}
+
+/* Real package SLA visual instead of invented health percentages */
+.sla-console{min-height:520px}.sla-panel{padding:22px}.sla-caption{font-size:13px;line-height:1.8;color:#aab7cf;margin-bottom:18px}.sla-list{display:grid;gap:8px}.sla-row{grid-template-columns:44px 1fr auto!important;padding:12px 13px!important}.sla-row span{font:800 10px "Inter";color:#7182a7}.sla-row b{font-size:12px!important;color:#e7edf8!important}.sla-row em{font-size:11px!important;color:#8fb0ff!important;font-style:normal;text-align:end}.sla-note{margin-top:16px;border-top:1px solid #243054;padding-top:15px;color:#8796b4;font-size:11.5px;line-height:1.75}
+
+@media(max-width:1180px){.servicegrid{grid-template-columns:repeat(2,1fr)}.service,.service.service-large{grid-column:auto}.service-large:after{display:none}.global-network{max-width:860px}.globe-stage{height:430px}}
+@media(max-width:900px){body{font-size:15.5px}.nav{font-size:13px}.herocopy p,.lead{font-size:15.5px}.servicegrid{grid-template-columns:repeat(2,1fr)}.service{min-height:270px}.global-network{min-height:620px}.globe-stage{height:415px}.coverage-source-note{font-size:11.5px}.coverage-packages{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.kicker{font-size:11.5px}.herocopy p{font-size:15px}.heropoints{font-size:12px}.model-metrics{grid-template-columns:1fr 1fr}.model-metrics>div:nth-child(3){display:none}.model-flow{padding:15px 9px}.model-flow>span{font-size:12px}.flow-item b{font-size:9px}.servicegrid{grid-template-columns:1fr}.service,.service.service-large{min-height:260px}.service h3,.service-large h3{font-size:19px}.service p,.service-large p{font-size:14px}.ops-layer-visual{grid-template-columns:1fr 1fr}.global-network{min-height:590px}.global-top{height:auto;min-height:72px;padding:14px 16px}.globe-stage{height:350px}.globe-shell{width:min(315px,82vw)}.orbital-ring{width:345px;height:110px}.coverage-source-note,.coverage-packages{margin-inline:16px}.coverage-packages{grid-template-columns:1fr}.coverage-package{display:flex;align-items:center;justify-content:space-between}.sla-row{grid-template-columns:36px 1fr!important}.sla-row em{grid-column:2;text-align:start;margin-top:4px}.mega-list b{font-size:14px}.mega-list small{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.globe-map-belt,.coverage-point,.coverage-arcs path,.orbital-ring{animation:none!important}}
+
+/* =========================================================
+   SAFE GLOBE VISUAL UPGRADE
+   CSS-only override. No DOM or JavaScript changes.
+   ========================================================= */
+.global-network{
+  background:
+    radial-gradient(circle at 17% 14%, rgba(47,107,255,.16), transparent 26%),
+    radial-gradient(circle at 83% 18%, rgba(62,194,219,.08), transparent 22%),
+    linear-gradient(180deg,#091022 0%,#0b1228 100%);
+}
+.global-network:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(113,143,205,.055) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(113,143,205,.055) 1px,transparent 1px);
+  background-size:36px 36px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.7),transparent 90%);
+  z-index:0;
+}
+.global-top{position:relative;z-index:8}
+
+.globe-stage{
+  height:475px;
+  perspective:1200px;
+  isolation:isolate;
+}
+.globe-stage:before{
+  content:"";
+  position:absolute;
+  width:560px;
+  height:560px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(47,107,255,.12),transparent 63%);
+  filter:blur(7px);
+  pointer-events:none;
+}
+.globe-stage:after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:150px;
+  border:1px solid rgba(106,143,226,.14);
+  border-radius:50%;
+  transform:rotate(16deg);
+  animation:safeOrbit 11s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes safeOrbit{
+  50%{transform:rotate(10deg) scale(1.025);opacity:.48}
+}
+
+.globe-shell{
+  width:min(425px,70vw);
+  border-color:rgba(114,151,231,.34);
+  background:
+    radial-gradient(circle at 31% 24%,#2657ae 0,#173870 21%,#0e2148 43%,#091329 68%,#060b18 100%);
+  box-shadow:
+    inset -58px -38px 90px rgba(0,0,0,.58),
+    inset 22px 8px 42px rgba(99,151,255,.11),
+    0 0 0 1px rgba(142,173,243,.04),
+    0 0 110px rgba(47,107,255,.12);
+}
+.globe-shell:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 31% 27%,rgba(255,255,255,.08),transparent 24%),
+    radial-gradient(circle at 44% 44%,transparent 0 52%,rgba(54,105,211,.06) 66%,transparent 78%);
+  z-index:4;
+  pointer-events:none;
+}
+.globe-shell:after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:50%;
+  background:linear-gradient(90deg,transparent 0 52%,rgba(2,5,14,.15) 67%,rgba(2,5,14,.48) 100%);
+  box-shadow:inset 0 0 0 1px rgba(174,199,255,.07);
+  z-index:4;
+  pointer-events:none;
+}
+html[dir="rtl"] .globe-shell:after{
+  background:linear-gradient(270deg,transparent 0 52%,rgba(2,5,14,.15) 67%,rgba(2,5,14,.48) 100%);
+}
+
+.globe-map-belt{
+  top:17%;
+  height:66%;
+  opacity:.42;
+  animation-duration:38s;
+  mix-blend-mode:screen;
+  filter:brightness(0) invert(1) sepia(.12) saturate(.48) hue-rotate(181deg);
+}
+.globe-map-belt:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    repeating-linear-gradient(7deg,transparent 0 13px,rgba(255,255,255,.025) 14px 15px);
+  pointer-events:none;
+}
+
+.globe-shade{
+  background:
+    radial-gradient(circle at 32% 27%,transparent 0 35%,rgba(4,8,22,.08) 51%,rgba(2,5,14,.68) 100%);
+  box-shadow:
+    inset 28px 0 50px rgba(76,140,255,.07),
+    inset -28px -12px 55px rgba(0,0,0,.18);
+  z-index:7;
+}
+
+.globe-meridian,.globe-latitude{
+  border-color:rgba(136,169,238,.17);
+  z-index:3;
+}
+.globe-meridian.m2,.globe-latitude.l2{opacity:.72}
+.globe-meridian.m3,.globe-latitude.l3{opacity:.5}
+
+.coverage-point{
+  width:10px;
+  height:10px;
+  background:#c1d4ff;
+  border:1px solid rgba(255,255,255,.55);
+  box-shadow:0 0 0 7px rgba(88,139,255,.075),0 0 20px rgba(47,107,255,.86);
+  z-index:6;
+}
+.coverage-point:after{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border:1px solid rgba(126,168,255,.21);
+  border-radius:50%;
+  animation:safePointRing 2.8s ease-out infinite;
+}
+@keyframes safePointRing{
+  70%,100%{transform:scale(1.4);opacity:0}
+}
+.coverage-arcs{z-index:5}
+.coverage-arcs path{
+  stroke:rgba(125,167,255,.43);
+  stroke-width:1.45;
+  stroke-linecap:round;
+  filter:drop-shadow(0 0 4px rgba(47,107,255,.28));
+}
+
+.orbital-ring{
+  border-color:rgba(96,134,220,.13);
+  width:500px;
+  height:155px;
+}
+.ring-b{
+  width:455px;
+  height:120px;
+  border-color:rgba(65,191,218,.08);
+}
+
+.coverage-source-note{
+  background:rgba(13,23,49,.88);
+  border-color:#233055;
+  color:#9cabc8;
+  backdrop-filter:blur(8px);
+}
+.coverage-package{
+  border-top-color:#29375f;
+}
+.coverage-package small{font-size:10px}
+.coverage-package b{font-size:13px}
+
+@media(max-width:900px){
+  .globe-stage{height:425px}
+  .globe-shell{width:min(370px,76vw)}
+}
+@media(max-width:640px){
+  .globe-stage{height:345px}
+  .globe-shell{width:min(305px,82vw)}
+  .globe-stage:after{width:350px;height:105px}
+  .orbital-ring{width:345px;height:108px}
+  .ring-b{width:325px;height:90px}
+}
+@media(prefers-reduced-motion:reduce){
+  .globe-stage:after,.coverage-point:after{animation:none!important}
+}
+
+
+/* ===== Brand / contact update ===== */
+.mark{display:none!important}
+.brand-main,.brand-footer{gap:12px}
+.brand-badge{display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 10px;box-shadow:0 16px 36px -28px rgba(15,35,80,.34)}
+.brand-badge img{display:block;height:38px;width:auto;max-width:180px;object-fit:contain}
+.brand-meta{display:flex;flex-direction:column;gap:2px}
+.brand-meta b{font:800 18px/1.1 "Inter",sans-serif;letter-spacing:.03em}
+.brand-meta small{font-size:10px;color:#6f7b92;line-height:1.45;font-weight:700}
+footer .brand-badge{background:#fff}
+footer .brand-meta b,footer .brand-meta small{color:#fff}
+footer .brand-meta small{color:#a7b4d2}
+.footer-contact{display:grid;gap:8px;margin:16px 0 14px}
+.footer-contact-item{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid #202a4c;background:rgba(255,255,255,.03);border-radius:10px;padding:10px 12px}
+.footer-contact-item strong{font-size:12px;color:#f2f6ff}
+.footer-contact-item span{font-size:10px;color:#98a6c1}
+.contactRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.contactPill{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.82);box-shadow:0 14px 32px -28px rgba(15,35,80,.28)}
+.contactIcon{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#edf3ff;color:var(--blue);font-size:14px;font-weight:900;flex:0 0 28px}
+.contactPill strong{display:block;font-size:12px;line-height:1.3}
+.contactPill small{display:block;font-size:10px;color:#7b879c;line-height:1.3}
+@media(max-width:820px){.brand-badge img{height:34px;max-width:150px}.brand-meta small{display:none}}
+@media(max-width:640px){.brand-badge{padding:5px 8px}.brand-badge img{height:30px;max-width:128px}.brand-meta b{font-size:14px}.contactRow{gap:8px}.contactPill{width:100%}}
+
+/* ===== Hero globe replacement ===== */
+.herovis{display:flex;align-items:center;justify-content:center;min-height:530px}
+.hero-globe-card{position:relative;width:min(100%,560px);min-height:500px;padding:18px;border:1px solid #dbe5f6;border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(246,249,255,.96));box-shadow:0 36px 88px -50px rgba(15,35,80,.38);overflow:hidden}
+.hero-globe-card:before{content:"";position:absolute;inset:-80px auto auto -60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(47,107,255,.12),transparent 68%)}
+.hero-globe-card:after{content:"";position:absolute;inset:auto -80px -90px auto;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(47,195,217,.10),transparent 70%)}
+.hero-globe-header,.hero-globe-footer{position:relative;z-index:2}
+.hero-globe-header{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:4px 4px 0}
+.hero-globe-header b{display:block;font:800 12px/1.2 "Inter",sans-serif;letter-spacing:.08em;color:#314260}
+.hero-globe-header span{display:block;margin-top:6px;font-size:11px;line-height:1.6;color:#7d899f;max-width:280px}
+.hero-globe-chip{padding:8px 10px;border-radius:999px;background:#edf3ff;border:1px solid #dbe6fb;color:var(--blue);font-size:10px;font-weight:800;white-space:nowrap}
+.hero-globe-wrap{position:relative;height:360px;display:grid;place-items:center;overflow:hidden}
+.hero-globe-wrap:before{content:"";position:absolute;width:470px;height:470px;border-radius:50%;background:radial-gradient(circle,rgba(46,117,255,.28) 0,rgba(43,94,207,.18) 28%,rgba(22,41,94,.08) 48%,transparent 72%);filter:blur(22px)}
+.hero-globe-core{position:relative;width:min(360px,72vw);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;animation:heroGlobeFloat 7s ease-in-out infinite}
+.hero-globe-core img{width:100%;height:100%;object-fit:cover;border-radius:50%;box-shadow:0 24px 65px -35px rgba(10,20,55,.45), inset 0 0 0 1px rgba(255,255,255,.12)}
+.hero-globe-core:before{content:"";position:absolute;inset:-10px;border-radius:50%;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.18),transparent 30%,transparent 58%,rgba(34,88,198,.08) 74%,transparent 100%);pointer-events:none}
+.hero-globe-core:after{content:"";position:absolute;inset:-2px;border-radius:50%;box-shadow:inset -46px -26px 50px rgba(0,0,0,.22), inset 18px 8px 28px rgba(255,255,255,.06);pointer-events:none}
+.hero-globe-orbit{position:absolute;border:1px solid rgba(90,127,211,.18);border-radius:50%;pointer-events:none}
+.hero-globe-orbit.orbit-a{width:420px;height:140px;transform:rotate(-16deg);animation:heroOrbitA 11s ease-in-out infinite}
+.hero-globe-orbit.orbit-b{width:390px;height:110px;transform:rotate(44deg);animation:heroOrbitB 12s ease-in-out infinite -4s}
+.hero-node{position:absolute;width:10px;height:10px;border-radius:50%;background:#cfe0ff;border:1px solid rgba(255,255,255,.7);box-shadow:0 0 0 7px rgba(88,139,255,.08),0 0 18px rgba(47,107,255,.8);animation:heroPulse 3s ease-in-out infinite}
+.hero-node:after{content:"";position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(121,169,255,.18);animation:heroRing 3s ease-out infinite}
+.hero-node.n1{left:18%;top:28%} .hero-node.n2{left:41%;top:15%;animation-delay:-.35s} .hero-node.n3{left:73%;top:26%;animation-delay:-.7s}
+.hero-node.n4{left:77%;top:56%;animation-delay:-1.05s} .hero-node.n5{left:54%;top:72%;animation-delay:-1.4s} .hero-node.n6{left:24%;top:65%;animation-delay:-1.75s}
+.hero-float-card{position:absolute;z-index:3;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border:1px solid #dce6f8;border-radius:16px;padding:11px 13px;box-shadow:0 20px 42px -30px rgba(15,35,80,.34);max-width:210px}
+.hero-float-card b{display:block;font-size:11px;color:#203250;margin-bottom:5px}
+.hero-float-card small{display:block;font-size:10px;line-height:1.55;color:#6f7c94}
+.fc-1{top:38px;left:4px;animation:heroCardFloat 7s ease-in-out infinite}
+.fc-2{right:2px;bottom:56px;animation:heroCardFloat 7s ease-in-out infinite -2.8s}
+.hero-arc-svg{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.hero-arc-svg path{fill:none;stroke:rgba(120,162,255,.45);stroke-width:1.5;stroke-dasharray:8 8;stroke-linecap:round;animation:heroDash 10s linear infinite;filter:drop-shadow(0 0 4px rgba(47,107,255,.25))}
+.hero-globe-footer{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.hero-kpi{border:1px solid #dce6f8;border-radius:16px;background:rgba(255,255,255,.72);padding:12px 12px 13px}
+.hero-kpi strong{display:block;font:800 15px/1 "Inter",sans-serif;color:#1f3150;margin-bottom:7px}
+.hero-kpi span{display:block;font-size:11px;line-height:1.55;color:#72809a}
+@keyframes heroGlobeFloat{50%{transform:translateY(-6px)}}
+@keyframes heroOrbitA{50%{transform:rotate(-9deg) scale(1.02)}}
+@keyframes heroOrbitB{50%{transform:rotate(38deg) scale(.99)}}
+@keyframes heroPulse{50%{box-shadow:0 0 0 12px rgba(88,139,255,0),0 0 22px rgba(47,107,255,.92)}}
+@keyframes heroRing{70%,100%{transform:scale(1.42);opacity:0}}
+@keyframes heroCardFloat{50%{transform:translateY(-6px)}}
+@keyframes heroDash{to{stroke-dashoffset:-110}}
+@media(max-width:820px){.herovis{min-height:480px}.hero-globe-card{width:min(620px,100%);min-height:470px}.hero-globe-wrap{height:320px}.hero-float-card{max-width:180px}}
+@media(max-width:640px){.hero-globe-card{padding:14px;min-height:450px;border-radius:24px}.hero-globe-header{display:block}.hero-globe-chip{display:inline-flex;margin-top:10px}.hero-globe-wrap{height:290px}.hero-globe-core{width:min(290px,82vw)}.hero-globe-orbit.orbit-a{width:330px;height:110px}.hero-globe-orbit.orbit-b{width:305px;height:90px}.fc-1,.fc-2{position:relative;top:auto;left:auto;right:auto;bottom:auto;max-width:none;margin-top:10px}.hero-globe-footer{grid-template-columns:1fr}}
+
+/* =========================================================
+   ABRIT FINAL POLISH — brand, globe, footer, accessibility
+   ========================================================= */
+.brand-badge-abrit{
+  min-width:76px;
+  height:48px;
+  padding:5px 9px!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  overflow:hidden;
+}
+.brand-badge-abrit img{
+  width:108px!important;
+  height:auto!important;
+  max-height:38px!important;
+  max-width:108px!important;
+  object-fit:contain!important;
+}
+.brand-meta b{letter-spacing:.015em}
+footer .brand-badge-abrit{border-color:#263154;box-shadow:none}
+footer .brand-meta b{color:#fff}
+footer .brand-meta small{color:#92a0bd}
+
+/* Rotating Earth in hero */
+.hero-globe-core{
+  overflow:hidden;
+  isolation:isolate;
+  background:#071126;
+  border:1px solid rgba(77,118,205,.22);
+  box-shadow:0 28px 72px -35px rgba(7,25,70,.55),0 0 70px rgba(47,107,255,.12);
+}
+.hero-earth-belt{
+  position:absolute;
+  left:0;
+  top:0;
+  width:400%;
+  height:100%;
+  display:flex;
+  z-index:1;
+  will-change:transform;
+  animation:abritEarthSpin 28s linear infinite;
+}
+.hero-earth-belt img{
+  width:50%;
+  height:100%;
+  flex:0 0 50%;
+  object-fit:fill;
+  filter:grayscale(1) sepia(.52) hue-rotate(166deg) saturate(4.2) contrast(1.24) brightness(.52);
+  user-select:none;
+  pointer-events:none;
+}
+.hero-earth-atmosphere{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  z-index:4;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 28% 24%,rgba(187,225,255,.24),transparent 18%),
+    radial-gradient(circle at 50% 50%,transparent 0 56%,rgba(17,49,110,.18) 72%,rgba(2,8,20,.78) 100%);
+  box-shadow:inset 18px 10px 30px rgba(112,185,255,.16),inset -58px -34px 72px rgba(0,0,0,.58),0 0 34px rgba(55,133,255,.12);
+}
+.hero-globe-core:before{
+  z-index:7;
+  inset:0;
+  background:radial-gradient(circle at 30% 26%,rgba(112,198,255,.08) 0 14%,transparent 26%,transparent 52%,rgba(23,88,212,.12) 68%,transparent 82%);
+}
+.hero-globe-core:after{
+  z-index:8;
+  inset:0;
+  box-shadow:inset -54px -34px 60px rgba(0,0,0,.38),0 0 0 1px rgba(116,176,255,.14),0 0 40px rgba(46,117,255,.15);
+}
+.hero-node{z-index:6}
+.hero-node.n1{left:18%;top:28%}
+.hero-node.n2{left:41%;top:15%;animation-delay:-.35s}
+.hero-node.n3{left:73%;top:26%;animation-delay:-.7s}
+.hero-node.n4{left:77%;top:56%;animation-delay:-1.05s}
+.hero-node.n5{left:54%;top:72%;animation-delay:-1.4s}
+.hero-node.n6{left:24%;top:65%;animation-delay:-1.75s}
+.hero-cyber-ring{position:absolute;inset:12%;border-radius:50%;border:1px solid rgba(97,171,255,.16);box-shadow:0 0 18px rgba(58,128,255,.16),inset 0 0 16px rgba(58,128,255,.08);pointer-events:none;z-index:6}.hero-cyber-ring.r2{inset:22%;border-color:rgba(84,206,255,.16);transform:rotate(18deg)}
+@keyframes abritEarthSpin{to{transform:translateX(-50%)}}
+
+/* Keep solution-node geometry independent from hero globe */
+.mind .node.n1{left:0;right:auto;top:35px}
+.mind .node.n2{right:0;left:auto;top:35px}
+.mind .node.n3{left:0;right:auto;bottom:35px;top:auto}
+.mind .node.n4{right:0;left:auto;bottom:35px;top:auto}
+.mind .node.n5{left:50%;top:0;right:auto;bottom:auto;transform:translateX(-50%)}
+.mind .node.n6{left:50%;bottom:0;top:auto;right:auto;transform:translateX(-50%)}
+html[dir=rtl] .mind .node.n1{left:auto;right:0}
+html[dir=rtl] .mind .node.n2{right:auto;left:0}
+html[dir=rtl] .mind .node.n3{left:auto;right:0}
+html[dir=rtl] .mind .node.n4{right:auto;left:0}
+.mind .node.n5:hover,.mind .node.n6:hover{transform:translateX(-50%) translateY(-4px)}
+
+/* Real rotating texture in the multi-site section */
+.globe-shell{
+  background:#071126!important;
+  border-color:#2b3960!important;
+  box-shadow:inset -48px -30px 68px rgba(0,0,0,.5),0 0 88px rgba(47,107,255,.16)!important;
+}
+.globe-map-belt{
+  display:flex!important;
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  width:400%!important;
+  height:100%!important;
+  opacity:.88!important;
+  filter:saturate(.92) contrast(1.05) brightness(.82)!important;
+  z-index:1!important;
+  animation:abritGlobeSpin 32s linear infinite!important;
+  will-change:transform;
+}
+.globe-map-belt img{
+  width:50%!important;
+  height:100%!important;
+  flex:0 0 50%!important;
+  object-fit:fill!important;
+  user-select:none;
+  pointer-events:none;
+}
+@keyframes abritGlobeSpin{to{transform:translateX(-50%)}}
+html[dir=rtl] .globe-map-belt{animation-direction:normal!important}
+.globe-meridian,.globe-latitude{z-index:3!important;border-color:rgba(146,179,240,.15)!important}
+.coverage-arcs{z-index:4!important}
+.coverage-arcs path{stroke:rgba(132,174,255,.38)!important}
+.coverage-point{z-index:6!important;background:#d6e5ff!important}
+.globe-shade{
+  z-index:5!important;
+  background:radial-gradient(circle at 31% 25%,transparent 0 38%,rgba(4,7,18,.14) 57%,rgba(2,5,14,.7) 100%)!important;
+}
+
+/* Footer contact belongs here, not in the hero */
+footer#contact .footabout{min-width:0}
+.footer-contact{display:grid;gap:9px;margin:17px 0 14px}
+.footer-contact-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:10px 12px;
+  border:1px solid #202b4d;
+  border-radius:10px;
+  background:#0f1730;
+}
+.footer-contact-item a,.footer-contact-item strong{
+  color:#e4ecfb;
+  font-size:12px;
+  font-weight:750;
+  white-space:nowrap;
+}
+.footer-contact-item a:hover{color:#8fb0ff}
+.footer-contact-item span{color:#7181a1;font-size:10px}
+.portal[role="note"]{cursor:default;user-select:none}
+.footbottom #legalText{white-space:normal}
+
+/* Minor finish */
+.hero-globe-header b{color:#203250}
+.hero-globe-chip{box-shadow:0 8px 22px -18px rgba(47,107,255,.8)}
+.hero-globe-card{transform:translateZ(0)}
+.hero-kpi{transition:transform .2s ease,border-color .2s ease}
+.hero-kpi:hover{transform:translateY(-2px);border-color:#c9d9f8}
+
+/* Interactive operations model */
+.ops-bento{grid-template-columns:1.42fr .72fr .72fr;grid-template-rows:255px 255px}
+.ops-card.dark{padding:28px;background:radial-gradient(circle at 18% 10%,rgba(47,107,255,.11),transparent 34%),var(--dark)}
+.ops-tab-panel{min-height:175px;padding:6px 2px 24px}
+.ops-tab-panel.is-switching{animation:opsTabIn .28s ease both}
+.ops-tab-eyebrow{display:block;margin-bottom:12px;color:#6f96ff;font:800 10px/1.4 "Inter";letter-spacing:.08em}
+.ops-card.dark .ops-tab-panel h3{font-size:21px;line-height:1.45}
+.ops-card.dark .ops-tab-panel p{max-width:520px;font-size:14px;line-height:1.95}
+.ops-layer-visual{left:28px;right:28px;bottom:28px}
+.ops-layer-pill{width:100%;min-height:48px;justify-content:space-between;color:inherit;text-align:start;cursor:pointer;transition:border-color .18s ease,background-color .18s ease,transform .18s ease,box-shadow .18s ease}
+.ops-layer-pill:hover{border-color:#39538e;background:#142044;transform:translateY(-1px)}
+.ops-layer-pill.active{border-color:#4e7ce6;background:linear-gradient(135deg,#182957,#132044);box-shadow:inset 0 0 0 1px rgba(111,150,255,.13),0 10px 24px -18px rgba(47,107,255,.85)}
+.ops-layer-pill.active span{color:#9ab8ff}
+.ops-layer-pill.active b{color:#fff}
+.ops-layer-pill:focus-visible{outline:3px solid rgba(111,150,255,.38);outline-offset:2px}
+@keyframes opsTabIn{from{opacity:.3;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+@media(max-width:1180px){
+  .ops-bento{grid-template-columns:1fr 1fr;grid-template-rows:310px 245px 245px}
+  .mind .node.n1,.mind .node.n2,.mind .node.n3,.mind .node.n4,.mind .node.n5,.mind .node.n6{
+    position:static!important;transform:none!important;
+  }
+}
+@media(max-width:900px){
+  .ops-bento{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .ops-card.dark{grid-column:1/-1;grid-row:auto;min-height:510px}
+}
+@media(max-width:640px){
+  .ops-bento{grid-template-columns:1fr}
+  .ops-card.dark{grid-column:auto;min-height:535px;padding:24px 20px}
+  .ops-layer-visual{left:20px;right:20px;bottom:22px}
+  .ops-tab-panel{min-height:190px}
+  .ops-card.dark .ops-tab-panel h3{font-size:19px}
+  .ops-card.dark .ops-tab-panel p{font-size:13px}
+  .brand-badge-abrit{min-width:62px;height:42px;padding:4px 6px!important}
+  .brand-badge-abrit img{width:88px!important;max-width:88px!important;max-height:31px!important}
+  .hero-globe-card{min-height:0!important;padding:14px}
+  .hero-globe-wrap{height:292px!important}
+  .hero-globe-core{width:min(286px,78vw)!important}
+  .hero-float-card{display:none!important}
+  .hero-globe-footer{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px}
+  .hero-kpi{padding:10px 8px}
+  .hero-kpi strong{font-size:12px}
+  .hero-kpi span{font-size:9.5px}
+  .footer-contact-item{align-items:flex-start;flex-direction:column;gap:4px}
+}
+@media(prefers-reduced-motion:reduce){
+  .ops-tab-panel.is-switching{animation:none}
+  .hero-earth-belt,.globe-map-belt,.hero-globe-core,.hero-globe-orbit,.hero-node,.hero-node:after,.hero-float-card,.hero-arc-svg path,.coverage-point,.coverage-arcs path,.orbital-ring{
+    animation:none!important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="hero-shell" id="home">
+<div class="container">
+<div class="topbar">
+<a aria-label="Abrit" class="brand brand-main" href="#home">
+<span class="brand-badge brand-badge-abrit"><img alt="Abrit" height="45" src="/abrit-reference-brand.png" width="126"/></span>
+<span class="brand-meta"><b>Abrit</b><small class="brand-tagline">Managed IT &amp; IT as a Service</small></span>
+</a>
+<nav class="nav" id="nav"></nav>
+<div class="actions">
+<button aria-label="Search" class="icon" id="searchOpen"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></button>
+<div class="language" id="language">
+<button aria-expanded="false" aria-haspopup="true" class="langbtn" id="langbtn"><span class="flag-slot"></span><span>FA</span><span class="lang-chevron">⌄</span></button>
+<div class="langmenu" role="menu">
+<button class="active" data-lang="fa" role="menuitem"><span class="flag-slot"></span><span>فارسی</span><small>FA</small></button>
+<button data-lang="en" role="menuitem"><span class="flag-slot"></span><span>English</span><small>EN</small></button>
+<button data-lang="ar" role="menuitem"><span class="flag-slot"></span><span>العربية</span><small>UAE</small></button>
+</div>
+</div>
+<a class="btn primary" href="#assessment" id="navcta"></a>
+<button aria-expanded="false" aria-label="Menu" class="icon mobiletoggle" id="mobileToggle"><span></span><span></span><span></span></button>
+</div>
+</div>
+<div aria-hidden="true" class="mobileNav" id="mobileNav">
+<div class="mobileNavTop"><a aria-label="Abrit" class="brand brand-main" href="#home">
+<span class="brand-badge brand-badge-abrit"><img alt="Abrit" height="45" src="/abrit-reference-brand.png" width="126"/></span>
+<span class="brand-meta"><b>Abrit</b><small class="brand-tagline">Managed IT &amp; IT as a Service</small></span>
+</a><button aria-label="Close" class="mobileClose" id="mobileClose">×</button></div>
+<div class="mobileNavBody" id="mobileNavBody"></div>
+<a class="btn primary mobileCta" href="#assessment" id="mobileCta"></a>
+</div>
+<div class="mobileBackdrop" id="mobileBackdrop"></div>
+<div class="hero">
+<div class="herocopy reveal" id="herocopy">
+<div class="kicker" id="hk"></div>
+<h1 id="hh"></h1>
+<p id="hp"></p>
+<div class="heroactions"><a class="btn primary" href="#assessment" id="ha"></a><a class="btn outline" href="#services" id="hb"></a></div>
+<div class="heropoints" id="hpoints"></div>
+<div class="dots"><button aria-label="نمایش اسلاید 1" class="active" data-slide="0"></button><button aria-label="نمایش اسلاید 2" data-slide="1"></button></div>
+</div>
+<div class="herovis reveal">
+<div aria-label="نمای مفهومی مدیریت ارتباطات و سرویس‌های چندسایتی ابریت" class="hero-globe-card">
+<div class="hero-globe-header">
+<div><b id="heroGlobeTitle">ABRIT · MULTI-SITE OPERATIONS</b><span id="heroGlobeSubtitle">نمای مفهومی از مدیریت یکپارچه ارتباطات، سرویس‌ها و شعب</span></div>
+<div class="hero-globe-chip" id="heroGlobeChip">Managed Network</div>
+</div>
+<div class="hero-globe-wrap">
+<div class="hero-globe-orbit orbit-a"></div>
+<div class="hero-globe-orbit orbit-b"></div>
+<div class="hero-globe-core"><span aria-hidden="true" class="hero-cyber-ring"></span><span aria-hidden="true" class="hero-cyber-ring r2"></span><div aria-hidden="true" class="hero-earth-belt"><img alt="" decoding="async" draggable="false" src="/abrit-reference-globe.jpg"/><img alt="" decoding="async" draggable="false" src="/abrit-reference-globe.jpg"/></div><div aria-hidden="true" class="hero-earth-atmosphere"></div>
+<span class="hero-node n1"></span>
+<span class="hero-node n2"></span>
+<span class="hero-node n3"></span>
+<span class="hero-node n4"></span>
+<span class="hero-node n5"></span>
+<span class="hero-node n6"></span>
+</div>
+<div class="hero-float-card fc-1"><b id="heroCard1Title">دید یکپارچه چندسایتی</b><small id="heroCard1Text">یک نمای عملیاتی برای شعب، سرویس‌ها و زیرساخت</small></div>
+<div class="hero-float-card fc-2"><b id="heroCard2Title">ارتباط امن و کنترل‌شده</b><small id="heroCard2Text">اتصال کاربران، شعب و سرویس‌ها در یک مدل مدیریت‌شده</small></div>
+<svg aria-hidden="true" class="hero-arc-svg" viewbox="0 0 560 420">
+<defs>
+<path d="M130 240 Q240 96 358 116 T452 205" id="heroRouteA"></path>
+<path d="M128 262 Q252 226 365 262 T445 305" id="heroRouteB"></path>
+<path d="M185 130 Q280 82 380 170" id="heroRouteC"></path>
+</defs>
+<use href="#heroRouteA"></use><use href="#heroRouteB"></use><use href="#heroRouteC"></use>
+<g class="hero-network-node" transform="translate(126 240)"><circle r="5"></circle><text x="10" y="3">OFFICE</text></g>
+<g class="hero-network-node" transform="translate(184 130)"><circle r="5"></circle><text x="10" y="3">BRANCH</text></g>
+<g class="hero-network-node" transform="translate(282 182)"><circle r="7"></circle><text x="11" y="3">ABRIT CORE</text></g>
+<g class="hero-network-node" transform="translate(357 116)"><circle r="5"></circle><text x="10" y="3">FIREWALL</text></g>
+<g class="hero-network-node" transform="translate(452 205)"><circle r="5"></circle><text x="-48" y="-10">CLOUD</text></g>
+<g class="hero-network-node" transform="translate(445 305)"><circle r="5"></circle><text x="-66" y="16">DATACENTER</text></g>
+<g class="hero-network-node" transform="translate(380 170)"><circle r="5"></circle><text x="10" y="15">MONITORING</text></g>
+<circle class="hero-network-packet" r="3"><animateMotion dur="6.5s" repeatCount="indefinite"><mpath href="#heroRouteA"></mpath></animateMotion></circle>
+<circle class="hero-network-packet" r="3"><animateMotion begin="-2.5s" dur="7.5s" repeatCount="indefinite"><mpath href="#heroRouteB"></mpath></animateMotion></circle>
+<circle class="hero-network-packet" r="2.5"><animateMotion begin="-4s" dur="8s" repeatCount="indefinite"><mpath href="#heroRouteC"></mpath></animateMotion></circle>
+</svg>
+</div>
+<div class="hero-globe-footer">
+<div class="hero-kpi"><strong id="heroKpi1Value">Managed</strong><span id="heroKpi1Text">مدیریت متمرکز</span></div>
+<div class="hero-kpi"><strong id="heroKpi2Value">Multi-Site</strong><span id="heroKpi2Text">دید عملیاتی چندسایتی</span></div>
+<div class="hero-kpi"><strong id="heroKpi3Value">Secure</strong><span id="heroKpi3Text">شبکه، بکاپ و تداوم خدمت</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<section class="statement">
+<div class="container"><div class="statementbox reveal">
+<div class="stmtimg"><img alt="Managed IT teamwork" decoding="async" loading="lazy" src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&amp;fit=crop&amp;q=76&amp;w=1400"/></div>
+<div class="stmtcopy"><span class="eyebrow" id="stmtEy"></span><h2 id="stmtT"></h2><p id="stmtP"></p></div>
+</div></div>
+</section>
+<section class="section operations" id="operations">
+<div class="container">
+<div class="section-head reveal"><div><span class="eyebrow" id="opsEy"></span><h2 id="opsT"></h2><p class="lead" id="opsP"></p></div><span class="ops-live"><i></i><span id="opsLive"></span></span></div>
+<div class="ops-bento" id="opsBento"></div>
+</div>
+</section>
+<section class="section outcomes" id="approach">
+<div class="container"><div class="center reveal"><span class="eyebrow">ABRIT MANAGED MODEL</span><h2 id="outT"></h2></div><div class="outgrid" id="outgrid"></div></div>
+</section>
+<section class="section services" id="services">
+<div class="container">
+<div class="section-head reveal"><div><span class="eyebrow">MANAGED IT SERVICES</span><h2 id="servT"></h2><p class="lead" id="servP"></p></div><a class="textlink" href="#assessment" id="viewAllServices">مشاهده همه خدمات →</a></div>
+<div class="servicegrid" id="servicegrid"></div>
+</div>
+</section>
+<section class="section network-section" id="network">
+<div class="container network-layout">
+<div class="network-copy reveal">
+<span class="eyebrow" id="netEy"></span>
+<h2 id="netT"></h2>
+<p class="lead" id="netP"></p>
+<div class="network-features" id="netFeatures"></div>
+</div>
+<div aria-label="نمای مفهومی توپولوژی شبکه سازمانی ابریت" class="iran-network reveal">
+<div class="map-top">
+<div><b>ABRIT · ENTERPRISE NETWORK VIEW</b><span id="mapStatus"></span></div>
+<span class="map-live">● NETWORK</span>
+</div>
+<div aria-hidden="true" class="iran-canvas">
+<svg viewBox="0 0 800 520">
+<defs>
+<path id="net-a" d="M400 197 Q510 168 558 183"></path>
+<path id="net-b" d="M400 197 Q305 150 217 152"></path>
+<path id="net-c" d="M400 197 Q420 250 392 295"></path>
+<path id="net-d" d="M392 295 Q352 350 343 394"></path>
+<path id="net-e" d="M392 295 Q282 330 210 338"></path>
+<path id="net-f" d="M392 295 Q470 360 458 428"></path>
+</defs>
+<path class="net-line" d="M400 197 Q510 168 558 183"></path>
+<path class="net-line" d="M400 197 Q305 150 217 152"></path>
+<path class="net-line" d="M400 197 Q420 250 392 295"></path>
+<path class="net-line faint" d="M392 295 Q352 350 343 394"></path>
+<path class="net-line faint" d="M392 295 Q282 330 210 338"></path>
+<path class="net-line faint" d="M392 295 Q470 360 458 428"></path>
+<g class="packet p1"><circle r="4"><animateMotion dur="6s" repeatCount="indefinite" rotate="auto"><mpath href="#net-a"/></animateMotion></circle></g>
+<g class="packet p2"><circle r="4"><animateMotion dur="7s" repeatCount="indefinite" rotate="auto"><mpath href="#net-b"/></animateMotion></circle></g>
+<g class="packet p3"><circle r="4"><animateMotion dur="6.5s" repeatCount="indefinite" rotate="auto"><mpath href="#net-c"/></animateMotion></circle></g>
+<g class="packet p1"><circle r="3.5"><animateMotion dur="8s" repeatCount="indefinite" rotate="auto"><mpath href="#net-d"/></animateMotion></circle></g>
+<g class="packet p2"><circle r="3.5"><animateMotion dur="8.5s" repeatCount="indefinite" rotate="auto"><mpath href="#net-e"/></animateMotion></circle></g>
+<g class="packet p3"><circle r="3.5"><animateMotion dur="7.2s" repeatCount="indefinite" rotate="auto"><mpath href="#net-f"/></animateMotion></circle></g>
+</svg>
+<div class="city-node tehran"><i></i><b>Core Network</b><small>Primary Gateway</small></div>
+<div class="city-node mashhad"><i></i><b>Branch Office</b><small>Managed Site</small></div>
+<div class="city-node tabriz"><i></i><b>Firewall Edge</b><small>Secure Access</small></div>
+<div class="city-node isfahan"><i></i><b>Access Layer</b><small>Switch Stack</small></div>
+<div class="city-node shiraz"><i></i><b>Backup Node</b><small>Recovery Path</small></div>
+<div class="city-node ahvaz"><i></i><b>VPN Gateway</b><small>Remote Connectivity</small></div>
+<div class="city-node bandar"><i></i><b>Monitoring</b><small>24/7 Visibility</small></div>
+</div>
+<div class="coverage-source-note" id="coverageNote"></div>
+<div class="coverage-packages" id="coveragePackages"></div>
+<div class="map-bottom">
+<div class="map-stat"><span>MANAGED NODES</span><b>24+</b></div>
+<div class="map-stat"><span>SECURE LINKS</span><b>VPN · MPLS</b></div>
+<div class="map-stat"><span>MONITORING</span><b>24/7</b></div>
+</div>
+</div>
+</div>
+</section>
+<section class="section solutions" id="solutions">
+<div class="container">
+<div class="center reveal"><span class="eyebrow">BUSINESS SOLUTIONS</span><h2 id="solT"></h2><p class="lead" id="solP"></p></div>
+<div class="mind reveal">
+<svg aria-hidden="true" viewbox="0 0 1040 630"><path class="path" d="M520 315C335 300 320 115 190 105"></path><path class="path" d="M520 315C705 300 720 115 850 105"></path><path class="path" d="M520 315C335 330 320 515 190 525"></path><path class="path" d="M520 315C705 330 720 515 850 525"></path><path class="path" d="M520 315V70"></path><path class="path" d="M520 315V560"></path></svg>
+<div class="centerNode"><b id="centerT"></b><p id="centerP"></p></div><div id="nodes"></div>
+</div>
+</div>
+</section>
+<section class="section process" id="process">
+<div class="container"><div class="center reveal"><span class="eyebrow">ASSESS → DESIGN → OPERATE</span><h2 id="procT"></h2></div><div class="processgrid" id="processgrid"></div></div>
+</section>
+<section class="section assurance" id="assurance">
+<div class="container assurance-grid">
+<div class="assurance-console sla-console reveal">
+<div class="as-head"><span>ABRIT · SLA &amp; SUPPORT MODEL</span><span class="as-sec">MSP</span></div>
+<div class="sla-panel">
+<p class="sla-caption" id="assuranceScoreText"></p>
+<div class="as-events sla-list" id="assuranceEvents"></div>
+<div class="sla-note" id="slaNote"></div>
+</div>
+</div>
+<div class="assurance-copy reveal"><span class="eyebrow" id="assuranceEy"></span><h2 id="assuranceT"></h2><p class="lead" id="assuranceP"></p><div class="assurance-points" id="assurancePoints"></div></div>
+</div>
+</section>
+<section class="section tech" id="technology">
+<div class="container techgrid">
+<div class="reveal"><span class="eyebrow">TECHNOLOGY &amp; PLATFORMS</span><h2 id="techT"></h2><p class="lead" id="techP"></p><div class="tags" id="tags"></div></div>
+<div class="radar reveal">
+<svg aria-label="Technology radar" viewbox="0 0 440 420"><g transform="translate(220 210)">
+<polygon class="rg" points="0,-165 143,-82 143,82 0,165 -143,82 -143,-82"></polygon><polygon class="rg" points="0,-125 108,-62 108,62 0,125 -108,62 -108,-62"></polygon><polygon class="rg" points="0,-85 74,-42 74,42 0,85 -74,42 -74,-42"></polygon>
+<line class="ra" x1="0" x2="0" y1="0" y2="-165"></line><line class="ra" x1="0" x2="143" y1="0" y2="-82"></line><line class="ra" x1="0" x2="143" y1="0" y2="82"></line><line class="ra" x1="0" x2="0" y1="0" y2="165"></line><line class="ra" x1="0" x2="-143" y1="0" y2="82"></line><line class="ra" x1="0" x2="-143" y1="0" y2="-82"></line>
+<polygon class="rf" points="0,-145 119,-69 126,72 0,129 -115,66 -126,-72"></polygon>
+<circle class="rp" cx="0" cy="-145" r="4"></circle><circle class="rp" cx="119" cy="-69" r="4"></circle><circle class="rp" cx="126" cy="72" r="4"></circle><circle class="rp" cx="0" cy="129" r="4"></circle><circle class="rp" cx="-115" cy="66" r="4"></circle><circle class="rp" cx="-126" cy="-72" r="4"></circle>
+</g></svg>
+</div>
+</div>
+</section>
+<section class="section pricing" id="pricing">
+<div class="container"><div class="section-head reveal"><div><span class="eyebrow">MSP PACKAGES · 1405 / 2026</span><h2 id="priceT"></h2><p class="lead" id="priceP"></p></div><a class="textlink" href="#assessment" id="comparePlans">مقایسه و انتخاب →</a></div><div class="packages" id="packages"></div></div>
+</section>
+<section class="section usecases" id="usecases">
+<div class="container">
+<div class="center reveal"><span class="eyebrow" id="useEy"></span><h2 id="useT"></h2><p class="lead" id="useP"></p></div>
+<div class="use-grid" id="useGrid"></div>
+</div>
+</section>
+<section class="section hub" id="resources">
+<div class="container"><div class="section-head reveal"><div><span class="eyebrow">KNOWLEDGE · MEDIA · FORMS</span><h2 id="hubT"></h2></div></div><div class="hubgrid" id="hubgrid"></div></div>
+</section>
+<section class="section faq" id="faq">
+<div class="container faq-layout">
+<div class="faq-copy reveal"><span class="eyebrow" id="faqEy"></span><h2 id="faqT"></h2><p class="lead" id="faqP"></p><a class="btn outline" href="#assessment" id="faqCta"></a></div>
+<div class="faq-list" id="faqList"></div>
+</div>
+</section>
+<section class="cta" id="assessment">
+<div class="container"><div class="ctabox reveal"><div><span class="eyebrow" style="color:#dbe6ff">IT ASSESSMENT</span><h2 id="finalT"></h2><p id="finalP"></p></div><div class="ctaact"><a class="btn white" href="#homepage-lead-form" id="finalA"></a><a class="btn darkoutline" href="#services" id="finalB"></a></div></div><div id="homepage-lead-form"></div></div>
+</section>
+<footer id="contact">
+<div class="container">
+<div class="footergrid">
+<div class="footabout">
+<a aria-label="Abrit" class="brand brand-footer" href="#home">
+<span class="brand-badge brand-badge-abrit"><img alt="Abrit" height="45" src="/abrit-reference-brand.png" width="126"/></span>
+<span class="brand-meta"><b>Abrit</b><small class="brand-tagline">Managed IT &amp; IT as a Service</small></span>
+</a>
+<p id="footerIntro">مدیریت یکپارچه فناوری اطلاعات، زیرساخت، امنیت و خدمات ابری برای کسب‌وکارها و سازمان‌ها.</p>
+<div class="footer-contact"><div class="footer-contact-item"><a dir="ltr" href="tel:05131881000">05131881000</a><span id="footerPhoneLabel">تلفن</span></div><div class="footer-contact-item"><strong id="footerAddressValue">ایران، مشهد</strong><span id="footerAddressLabel">آدرس</span></div></div>
+<span class="portal" id="portal" role="note"></span>
+</div>
+<div><h4 id="foot1"></h4><div class="flinks" id="fl1"></div></div>
+<div><h4 id="foot2"></h4><div class="flinks" id="fl2"></div></div>
+<div><h4 id="foot3"></h4><div class="flinks" id="fl3"></div></div>
+</div>
+<div class="footbottom"><span id="copy"></span><span id="legalText">حریم خصوصی · شرایط استفاده · امنیت</span></div>
+</div>
+</footer>
+</div>
+<div class="searchov" id="searchov"><div class="searchbox"><div class="searchrow"><input aria-label="جست‌وجوی سایت" autocomplete="off" id="searchInput"/><button class="close" id="close">×</button></div><div class="results" id="results"></div></div></div>
+<script>
+const DATA={"fa":{"code":"FA","lang":"fa","dir":"rtl","locale":"فارسی","meta":"ابریت؛ خدمات مدیریت‌شده فناوری اطلاعات، امنیت، شبکه، بکاپ، مانیتورینگ، فضای کار سازمانی و اتوماسیون.","nav":["خدمات","راهکارها","تعرفه‌ها","دانش و منابع","اخبار و رسانه","درباره ابریت"],"search":"جست‌وجو","cta_nav":"درخواست ارزیابی IT","hero":[{"k":"یک شریک برای تمام مسیر فناوری اطلاعات شما","h":"فناوری اطلاعات شرکت شما، <em>یکپارچه</em> و تحت مدیریت","p":"ابریت فناوری اطلاعات سازمان شما را از مجموعه‌ای پراکنده از سیستم‌ها، کاربران و سرویس‌ها، به یک زیرساخت یکپارچه، امن، پایدار و پاسخ‌گو تبدیل می‌کند. از مدیریت کاربران و شبکه تا پشتیبانی، امنیت، بکاپ، مانیتورینگ و اتوماسیون؛ همه‌چیز در قالب یک سرویس مدیریت‌شده و متناسب با نیاز کسب‌وکار شما.","a":"درخواست ارزیابی IT","b":"مشاهده خدمات","points":["مدیریت یکپارچه","پایش و پاسخ‌گویی","امنیت و بکاپ"]},{"k":"تفاوت Abrit","h":"بیشتر از پشتیبانی؛ <em>مدیریت فناوری اطلاعات</em>","p":"مدل Abrit بر حل موردی مشکلات متکی نیست. هدف این است که IT سازمان قابل مشاهده، مستند، قابل کنترل و قابل توسعه باشد. Monitoring، Ticketing، Documentation، Backup، Security و Automation در کنار پشتیبانی فنی قرار می‌گیرند تا فناوری اطلاعات به یک سرویس مدیریتی واقعی تبدیل شود.","a":"شناخت مدل مدیریت","b":"راهکارهای ابریت","points":["یکپارچگی به‌جای پراکندگی","پیشگیری به‌جای واکنش صرف","اتوماسیون به‌جای کار تکراری"]}],"console":["نمای مدیریت فناوری اطلاعات","Endpointهای تحت مدیریت","سلامت سرویس‌ها","هشدارهای باز","سلامت زیرساخت","مدیریت از راه دور","بکاپ و بازیابی","شبکه و امنیت"],"statement":["Managed IT · IT as a Service","IT نباید دغدغه هر روز کسب‌وکار شما باشد","فناوری اطلاعات امروز بخشی از دارایی و زیرساخت حیاتی هر کسب‌وکار است؛ دارایی‌ای که نقش مستقیمی در پایداری، امنیت و رشد سازمان دارد. ابریت با ارائه خدمات Managed IT و IT as a Service، مسئولیت مدیریت یکپارچه فناوری اطلاعات سازمان را بر عهده می‌گیرد؛ از زیرساخت و کاربران تا امنیت، بکاپ، مانیتورینگ و پشتیبانی. ما IT را به‌عنوان بخشی ارزشمند از کسب‌وکار شما مدیریت می‌کنیم؛ منظم، پیشگیرانه و با اطمینان."],"outcomes":["مدیریت یکپارچه فناوری اطلاعات","پیشگیری از مشکلات IT","امنیت و پایداری زیرساخت","پشتیبانی و پاسخ‌گویی مستمر","توسعه ساختاریافته IT"],"services_title":"هرآنچه برای مدیریت حرفه‌ای IT نیاز دارید","services_intro":"ابریت مجموعه‌ای از خدمات فناوری اطلاعات سازمانی را در یک مدل یکپارچه ارائه می‌کند؛ از زیرساخت و امنیت تا مدیریت کاربران، پشتیبانی و اتوماسیون.","services":[["مدیریت IT","پشتیبانی کاربران، مدیریت سیستم‌ها، رسیدگی ساختاریافته به درخواست‌ها و مدیریت مستمر زیرساخت فناوری اطلاعات."],["Workspace","فضای کار سازمانی برای فایل‌ها، اشتراک‌گذاری، همکاری تیمی، Office Online و دسترسی کنترل‌شده به اطلاعات."],["شبکه و امنیت","طراحی و مدیریت شبکه، Firewall، VPN، Segmentation، ارتباط شعب و دسترسی امن به سرویس‌های سازمان."],["هویت و دسترسی","مدیریت متمرکز کاربران، Active Directory، LDAP، SSO و دسترسی مبتنی بر نقش و گروه."],["بکاپ و بازیابی","پشتیبان‌گیری از داده‌ها و سرویس‌های حیاتی، سیاست نگهداری اطلاعات و برنامه‌ریزی برای بازیابی و تداوم کسب‌وکار."],["مانیتورینگ","پایش شبکه، سرورها و سرویس‌ها با هدف شناسایی اختلال، بررسی ظرفیت و ایجاد فرایند منظم Alert تا Resolution."],["ERP و اتوماسیون","راهکارهای ERP، CRM، فروش، منابع سازمانی و اتوماسیون فرایندها بر بستر Odoo Enterprise."],["تلفن سازمانی","راهکارهای VoIP، مرکز تلفن، داخلی‌ها، IVR، ارتباط شعب و مدیریت ارتباطات صوتی سازمان."],["مدیریت از راه دور","مدیریت متمرکز Endpointها، Remote Support، Inventory، Monitoring و اجرای عملیات مدیریتی روی سیستم‌ها."],["اتوماسیون IT","خودکارسازی Workflowها، اعلان‌ها، Integrationها و فرایندهای تکراری برای افزایش سرعت و کاهش عملیات دستی."]],"solutions_title":"راهکارهایی برای چالش‌های واقعی کسب‌وکار","solutions_intro":"هر سازمان شرایط و اولویت‌های متفاوتی دارد. در ابریت، راهکار از انتخاب ابزار شروع نمی‌شود؛ ابتدا وضعیت فعلی، نیازها و ریسک‌های کسب‌وکار بررسی می‌شوند و سپس ترکیب مناسبی از خدمات و فناوری برای آن طراحی می‌شود.","solutions":[["مدیریت یکپارچه IT","شبکه، کاربران، امنیت، بکاپ، مانیتورینگ و پشتیبانی در یک ساختار هماهنگ."],["برون‌سپاری IT","دسترسی به مجموعه‌ای از تخصص‌های فناوری اطلاعات، بدون نیاز به ایجاد و مدیریت یک تیم کامل IT در داخل سازمان."],["امنیت و تداوم","کنترل دسترسی، امنیت زیرساخت، بکاپ، مانیتورینگ و برنامه بازیابی برای کاهش ریسک و حفظ تداوم فعالیت."],["مدیریت شعب و دفاتر","ارتباط امن و قابل مدیریت میان دفتر مرکزی، شعب، کاربران و سرویس‌های سازمانی."],["محیط کار سازمانی","دسترسی کنترل‌شده به فایل‌ها، ابزارهای همکاری، Office Online و منابع کاری."],["اتوماسیون فرایندها","اتصال سیستم‌ها و خودکارسازی کارهای تکراری برای کاهش عملیات دستی، افزایش سرعت و مقیاس‌پذیری."]],"process_title":"از شناخت وضعیت امروز تا مدیریت و بهبود مستمر","process":[["ارزیابی","وضعیت شبکه، کاربران، سرورها، Storage، Backup، امنیت، Endpointها، Monitoring و فرایند پشتیبانی بررسی می‌شود."],["طراحی","معماری هدف، مدل دسترسی، برنامه امنیت، Backup، Monitoring و مسیر مهاجرت متناسب با شرایط سازمان طراحی می‌شود."],["اجرا","تغییرات به‌صورت مرحله‌ای، قابل تست و با درنظرگرفتن Backup، Rollback و حداقل اختلال اجرا می‌شوند."],["مدیریت و بهبود","سرویس‌ها به‌صورت مستمر پایش و مدیریت می‌شوند و بر اساس رخدادها، ظرفیت، ریسک‌ها و نیازهای جدید سازمان بهبود پیدا می‌کنند."]],"tech_title":"انتخاب فناوری بر اساس نیاز، نه نام ابزار","tech_intro":"در معماری‌های Abrit، فناوری بر اساس پایداری، امنیت، قابلیت پشتیبانی، Integration، Automation، مقیاس‌پذیری و هزینه عملیاتی انتخاب می‌شود.","pricing_title":"از پایه تا سازمانی؛ ظرفیت و SLA قابل پیش‌بینی","pricing_intro":"پکیج‌های فعلی AbrIT بر مبنای مدل MSP و پیش‌پرداخت ۳، ۶ و ۱۲ ماهه تعریف شده‌اند. این مقادیر نسخه اولیه ۱۴۰۵ هستند و در CMS نهایی قابل ویرایش خواهند بود.","labels":{"month":"تومان / ماه","users":"User","endpoints":"Endpoint","server":"Server/VM","site":"Site","sla":"SLA اولیه","plan":"مشاهده و تنظیم پکیج","rec":"پیشنهاد AbrIT"},"packages":[["Essential","پایه","12,950,000","5","6","0","1","حداکثر ۸ ساعت کاری"],["Standard","استاندارد","19,500,000","10","12","1","1","حداکثر ۴ ساعت کاری"],["Professional","حرفه‌ای","32,900,000","15","20","2","2","حداکثر ۲ ساعت کاری"],["Business","سازمانی","52,900,000","25","35","4","3","حداکثر ۱ ساعت کاری"],["Enterprise","سازمانی پلاس","79,900,000","40","60","8","5","P1 حداکثر ۳۰ دقیقه"]],"hub_title":"دانش، رسانه و درخواست‌ها؛ همه در یک مسیر مشخص","hub":[["دانش و منابع","راهنماها، دانشنامه و منابع فنی برای تصمیم‌گیری بهتر درباره زیرساخت، امنیت و مدیریت فناوری اطلاعات."],["اخبار و رسانه","خبرها، اطلاعیه‌ها، ویدئوها، تصاویر و محتوای رسانه‌ای Abrit در یک ساختار یکپارچه."],["فرم‌ها و درخواست‌ها","فرم‌های ارزیابی، مشاوره و درخواست خدمات؛ با ثبت پاسخ‌ها در پنل مدیریت."]],"final":["نیاز به یک نگاه دقیق‌تر به وضعیت IT سازمانتان دارید؟","از زیرساخت و امنیت تا کاربران، بکاپ و مانیتورینگ؛ نقطه شروع، شناخت درست وضعیت فعلی است.","درخواست ارزیابی IT","مشاهده خدمات"],"footer":["خدمات","راهکارها","ابریت","پرتال مشتریان Abrit","© Abrit — کلیه حقوق محفوظ است."]},"en":{"code":"EN","lang":"en","dir":"ltr","locale":"English","meta":"Abrit delivers managed IT, network, security, backup, monitoring, workplace and automation services.","nav":["Services","Solutions","Pricing","Knowledge & Resources","News & Media","About Abrit"],"search":"Search","cta_nav":"Request IT Assessment","hero":[{"k":"One partner across your entire IT journey","h":"Your company IT, <em>unified</em> and managed","p":"Abrit turns a fragmented mix of systems, users and services into an integrated, secure, stable and responsive IT environment. From user and network management to support, security, backup, monitoring and automation, everything is delivered through a managed service aligned with your business needs.","a":"Request IT Assessment","b":"Explore Services","points":["Unified management","Monitoring & response","Security & backup"]},{"k":"The Abrit difference","h":"Beyond support: <em>managed information technology</em>","p":"Abrit is not built around fixing isolated incidents. The goal is to make organizational IT visible, documented, controllable and ready to evolve. Monitoring, Ticketing, Documentation, Backup, Security and Automation work alongside technical support to turn IT into a real managed service.","a":"Discover the Model","b":"Explore Solutions","points":["Integration over fragmentation","Prevention over reaction","Automation over repetitive work"]}],"console":["Managed IT overview","Managed endpoints","Service health","Open alerts","Infrastructure health","Remote management","Backup & recovery","Network & security"],"statement":["Managed IT · IT as a Service","IT should not be a daily business concern","Information technology is now a critical business asset and infrastructure layer, directly affecting resilience, security and growth. Through Managed IT and IT as a Service, Abrit takes responsibility for unified IT management across infrastructure, users, security, backup, monitoring and support. We manage IT as a valuable part of your business: structured, proactive and dependable."],"outcomes":["Unified IT management","Prevent IT problems","Infrastructure security & resilience","Continuous support & response","Structured IT development"],"services_title":"Everything you need to manage IT professionally","services_intro":"Abrit delivers enterprise IT capabilities through one integrated managed model, from infrastructure and security to user management, support and automation.","services":[["Managed IT","User support, systems management, structured request handling and continuous management of your IT infrastructure."],["Digital Workspace","Organizational files, sharing, team collaboration, Online Office and controlled access to information."],["Network & Security","Network design and management, Firewall, VPN, segmentation, branch connectivity and secure service access."],["Identity & Access","Centralized user management, Active Directory, LDAP, SSO and role- or group-based access."],["Backup & Recovery","Protection of critical data and services, retention policies, recovery planning and business continuity."],["Monitoring","Network, server and service monitoring to identify incidents, track capacity and manage alert-to-resolution."],["ERP & Automation","ERP, CRM, sales, enterprise resources and process automation based on Odoo Enterprise."],["Business Telephony","VoIP, PBX, extensions, IVR, branch connectivity and managed organizational voice communications."],["Remote Management","Centralized endpoint management, Remote Support, Inventory, Monitoring and remote administration."],["IT Automation","Automating workflows, notifications, integrations and repetitive processes to reduce manual work and increase speed."]],"solutions_title":"Solutions built around real business challenges","solutions_intro":"Every organization has different conditions and priorities. At Abrit, a solution does not start with selecting a tool. We first assess the current environment, business needs and risks, then design the right combination of services and technology.","solutions":[["Integrated IT Management","Bring networks, users, security, backup, monitoring and support into one coordinated structure."],["IT Outsourcing","Access multiple IT disciplines without building and managing a complete internal IT team."],["Security & Continuity","Combine access controls, infrastructure security, backup, monitoring and recovery planning to reduce risk."],["Branch & Office Management","Create secure, manageable connectivity between headquarters, branches, users and organizational services."],["Digital Workplace","Controlled access to files, collaboration tools, Online Office and work resources."],["Process Automation","Connect systems and automate repetitive work to reduce manual operations and create scalable processes."]],"process_title":"From understanding today to continuous management and improvement","process":[["Assess","Review network, users, servers, storage, backup, security, endpoints, monitoring and support."],["Design","Define target architecture, access model, security plan, backup, monitoring and migration path."],["Implement","Deliver changes in testable stages with backup, rollback planning and minimum disruption."],["Manage & Improve","Continuously manage services and improve them based on incidents, capacity, risk and new requirements."]],"tech_title":"Technology selected for the need — not for the logo","tech_intro":"In Abrit architectures, technology is selected based on reliability, security, supportability, integration, automation, scalability and operational cost.","pricing_title":"From essential to enterprise, with predictable capacity and SLA","pricing_intro":"AbrIT's current MSP packages use 3-, 6- and 12-month prepaid terms. The figures below reflect the initial 1405/2026 package document and will become CMS-managed data.","labels":{"month":"Toman / month","users":"Users","endpoints":"Endpoints","server":"Server/VM","site":"Sites","sla":"Initial SLA","plan":"Configure package","rec":"Abrit recommendation"},"packages":[["Essential","Essential","12,950,000","5","6","0","1","Up to 8 business hours"],["Standard","Standard","19,500,000","10","12","1","1","Up to 4 business hours"],["Professional","Professional","32,900,000","15","20","2","2","Up to 2 business hours"],["Business","Business","52,900,000","25","35","4","3","Up to 1 business hour"],["Enterprise","Enterprise","79,900,000","40","60","8","5","P1 up to 30 minutes"]],"hub_title":"Knowledge, media and requests — in one clear path","hub":[["Knowledge & Resources","Guides, knowledge articles and technical resources for better infrastructure, security and IT-management decisions."],["News & Media","Company news, announcements, videos, images and media content in one publishing structure."],["Forms & Requests","Assessment, consultation and service-request forms, with submissions stored in the administration panel."]],"final":["Need a closer look at your organization's IT environment?","From infrastructure and security to users, backup and monitoring, the right starting point is a clear understanding of your current state.","Request IT Assessment","Explore Services"],"footer":["Services","Solutions","Abrit","Abrit Customer Portal","© Abrit — All rights reserved."]},"ar":{"code":"AR","lang":"ar","dir":"rtl","locale":"العربية (الإمارات)","meta":"تقدم Abrit خدمات تقنية المعلومات المُدارة والشبكات والأمن والنسخ الاحتياطي والمراقبة وبيئة العمل والأتمتة.","nav":["الخدمات","الحلول","الأسعار","المعرفة والموارد","الأخبار والإعلام","عن Abrit"],"search":"بحث","cta_nav":"طلب تقييم تقنية المعلومات","hero":[{"k":"شريك واحد في كامل رحلة تقنية المعلومات","h":"تقنية المعلومات في شركتك، <em>موحّدة</em> وتحت الإدارة","p":"تحوّل Abrit بيئة تقنية المعلومات من مجموعة متفرقة من الأنظمة والمستخدمين والخدمات إلى بنية متكاملة وآمنة ومستقرة وسريعة الاستجابة. من إدارة المستخدمين والشبكات إلى الدعم والأمن والنسخ الاحتياطي والمراقبة والأتمتة، تُقدَّم جميعها ضمن خدمة مُدارة تتوافق مع احتياجات أعمالك.","a":"طلب تقييم تقنية المعلومات","b":"استعراض الخدمات","points":["إدارة متكاملة","مراقبة واستجابة","أمن ونسخ احتياطي"]},{"k":"ما يميز Abrit","h":"أكثر من الدعم؛ <em>إدارة حقيقية لتقنية المعلومات</em>","p":"لا يعتمد نموذج Abrit على معالجة المشكلات بصورة منفصلة. الهدف هو جعل تقنية المعلومات في المؤسسة واضحة وموثقة وقابلة للتحكم والتطوير. تعمل المراقبة والتذاكر والتوثيق والنسخ الاحتياطي والأمن والأتمتة إلى جانب الدعم الفني لتحويل تقنية المعلومات إلى خدمة مُدارة فعلية.","a":"تعرّف إلى نموذج الإدارة","b":"استعراض الحلول","points":["التكامل بدل التشتت","الوقاية بدل رد الفعل","الأتمتة بدل العمل المتكرر"]}],"console":["نظرة على إدارة تقنية المعلومات","الأجهزة الطرفية المُدارة","سلامة الخدمات","التنبيهات المفتوحة","سلامة البنية التحتية","الإدارة عن بُعد","النسخ والاستعادة","الشبكات والأمن"],"statement":["Managed IT · IT as a Service","لا ينبغي أن تكون تقنية المعلومات هماً يومياً لأعمالك","أصبحت تقنية المعلومات اليوم أصلاً وبنية أساسية حيوية لكل شركة، ولها تأثير مباشر في الاستقرار والأمن والنمو. من خلال Managed IT وIT as a Service، تتولى Abrit مسؤولية الإدارة المتكاملة لتقنية المعلومات، من البنية التحتية والمستخدمين إلى الأمن والنسخ الاحتياطي والمراقبة والدعم. نحن ندير تقنية المعلومات كجزء قيّم من أعمالك؛ بصورة منظمة واستباقية وموثوقة."],"outcomes":["إدارة متكاملة لتقنية المعلومات","الوقاية من مشكلات تقنية المعلومات","أمن واستقرار البنية التحتية","دعم واستجابة مستمران","تطوير منظم لتقنية المعلومات"],"services_title":"كل ما تحتاجه لإدارة تقنية المعلومات باحتراف","services_intro":"تقدم Abrit مجموعة من خدمات تقنية المعلومات المؤسسية ضمن نموذج متكامل، من البنية التحتية والأمن إلى إدارة المستخدمين والدعم والأتمتة.","services":[["إدارة تقنية المعلومات","دعم المستخدمين وإدارة الأنظمة ومعالجة الطلبات بصورة منظمة والإدارة المستمرة للبنية التحتية."],["بيئة العمل الرقمية","ملفات المؤسسة والمشاركة والتعاون بين الفرق وOffice Online والوصول المنضبط إلى المعلومات."],["الشبكات والأمن","تصميم الشبكات وإدارتها، Firewall وVPN وSegmentation وربط الفروع والوصول الآمن للخدمات."],["الهوية والوصول","إدارة مركزية للمستخدمين عبر Active Directory وLDAP وSSO وصلاحيات حسب الدور والمجموعة."],["النسخ الاحتياطي والاستعادة","نسخ البيانات والخدمات الحيوية، سياسات الاحتفاظ، والتخطيط للاستعادة واستمرارية الأعمال."],["المراقبة","مراقبة الشبكات والخوادم والخدمات لاكتشاف الأعطال ومتابعة السعة وبناء مسار من التنبيه إلى المعالجة."],["ERP والأتمتة","حلول ERP وCRM والمبيعات وموارد المؤسسة وأتمتة العمليات بالاعتماد على Odoo Enterprise."],["الاتصالات الهاتفية المؤسسية","VoIP ومقسم الهاتف والامتدادات وIVR وربط الفروع وإدارة الاتصالات الصوتية."],["الإدارة عن بُعد","إدارة مركزية للأجهزة الطرفية وRemote Support وInventory وMonitoring وتنفيذ المهام الإدارية."],["أتمتة تقنية المعلومات","أتمتة سير العمل والإشعارات والتكاملات والعمليات المتكررة لزيادة السرعة وتقليل العمل اليدوي."]],"solutions_title":"حلول لتحديات الأعمال الحقيقية","solutions_intro":"لكل مؤسسة ظروف وأولويات مختلفة. في Abrit لا يبدأ الحل باختيار الأداة؛ بل نقيم الوضع الحالي واحتياجات الأعمال والمخاطر أولاً، ثم نصمم المزيج المناسب من الخدمات والتقنيات.","solutions":[["الإدارة المتكاملة لتقنية المعلومات","جمع الشبكات والمستخدمين والأمن والنسخ والمراقبة والدعم ضمن هيكل منسق."],["الاستعانة بمصادر خارجية","الوصول إلى خبرات متعددة في تقنية المعلومات دون إنشاء وإدارة فريق داخلي كامل."],["الأمن والاستمرارية","دمج ضوابط الوصول وأمن البنية والنسخ والمراقبة وخطة الاستعادة لتقليل المخاطر."],["إدارة الفروع والمكاتب","إنشاء اتصال آمن وقابل للإدارة بين المقر والفروع والمستخدمين وخدمات المؤسسة."],["بيئة العمل الرقمية","وصول منضبط للملفات وأدوات التعاون وOffice Online وموارد العمل."],["أتمتة العمليات","ربط الأنظمة وأتمتة الأعمال المتكررة لتقليل العمليات اليدوية وزيادة السرعة والقابلية للتوسع."]],"process_title":"من فهم الوضع الحالي إلى الإدارة والتحسين المستمر","process":[["التقييم","مراجعة الشبكات والمستخدمين والخوادم والتخزين والنسخ الاحتياطي والأمن والأجهزة الطرفية والمراقبة والدعم."],["التصميم","تصميم البنية المستهدفة ونموذج الوصول وخطة الأمن والنسخ والمراقبة ومسار الانتقال."],["التنفيذ","تنفيذ التغييرات على مراحل قابلة للاختبار مع Backup وRollback وأقل قدر ممكن من الانقطاع."],["الإدارة والتحسين","مراقبة الخدمات وإدارتها بصورة مستمرة وتحسينها وفق الحوادث والسعة والمخاطر والاحتياجات الجديدة."]],"tech_title":"اختيار التقنية وفق الحاجة، لا وفق اسم الأداة","tech_intro":"في معماريات Abrit يتم اختيار التقنية بناءً على الاعتمادية والأمن وقابلية الدعم والتكامل والأتمتة وقابلية التوسع وتكلفة التشغيل.","pricing_title":"من الباقة الأساسية إلى المؤسسات، بسعة وSLA واضحين","pricing_intro":"تعتمد باقات AbrIT الحالية على نموذج MSP والدفع المسبق لمدة 3 أو 6 أو 12 شهراً. الأرقام أدناه هي النسخة الأولية لعام 1405/2026 وستصبح قابلة للإدارة عبر نظام CMS.","labels":{"month":"تومان / شهرياً","users":"المستخدمون","endpoints":"الأجهزة الطرفية","server":"Server/VM","site":"المواقع","sla":"SLA الأولي","plan":"تخصيص الباقة","rec":"اختيار Abrit"},"packages":[["Essential","الأساسية","12,950,000","5","6","0","1","حتى 8 ساعات عمل"],["Standard","القياسية","19,500,000","10","12","1","1","حتى 4 ساعات عمل"],["Professional","الاحترافية","32,900,000","15","20","2","2","حتى ساعتَي عمل"],["Business","الأعمال","52,900,000","25","35","4","3","حتى ساعة عمل واحدة"],["Enterprise","المؤسسات","79,900,000","40","60","8","5","P1 حتى 30 دقيقة"]],"hub_title":"المعرفة والإعلام والطلبات ضمن مسار واضح","hub":[["المعرفة والموارد","أدلة ومقالات وموارد تقنية تساعد على اتخاذ قرارات أفضل حول البنية التحتية والأمن وإدارة تقنية المعلومات."],["الأخبار والإعلام","أخبار الشركة والإعلانات والفيديو والصور والمحتوى الإعلامي ضمن نظام نشر منظم."],["النماذج والطلبات","نماذج التقييم والاستشارة وطلب الخدمة مع حفظ الردود مباشرة في لوحة الإدارة."]],"final":["هل تحتاج إلى نظرة أدق على وضع تقنية المعلومات في مؤسستك؟","من البنية التحتية والأمن إلى المستخدمين والنسخ الاحتياطي والمراقبة، نقطة البداية الصحيحة هي فهم الوضع الحالي بوضوح.","طلب تقييم تقنية المعلومات","استعراض الخدمات"],"footer":["الخدمات","الحلول","Abrit","بوابة عملاء Abrit","© Abrit — جميع الحقوق محفوظة."]}},EXTRA={"fa":{"ops":{"ey":"OPERATIONS · VISIBILITY · CONTROL","t":"یک نمای مدیریتی از IT؛ به‌جای ده‌ها ابزار و پیگیری پراکنده","p":"مدیریت حرفه‌ای فقط رفع خرابی نیست. وضعیت Endpointها، بکاپ، مانیتورینگ، رخدادها، مستندات و درخواست‌ها باید در یک مدل عملیاتی قابل مشاهده و پیگیری باشند.","live":"مدل عملیاتی مدیریت‌شده","cards":[["مرکز عملیات یکپارچه","پایش مستمر وضعیت سرویس‌ها، رخدادها و سلامت زیرساخت در یک نمای مدیریتی."],["Ticketing ساختاریافته","درخواست‌ها و رخدادها از مسیر مشخص ثبت، اولویت‌بندی و پیگیری می‌شوند."],["Backup قابل بررسی","وضعیت Jobها، خطاها و تست‌های بازیابی به‌صورت منظم بررسی می‌شوند."],["مستندسازی زنده","اطلاعات زیرساخت، دسترسی‌ها، تغییرات و دانش فنی از حالت شفاهی خارج می‌شوند."],["Automation","کارهای تکراری و اعلان‌های قابل خودکارسازی به Workflow تبدیل می‌شوند."]]},"network":{"ey":"GLOBAL MULTI-SITE MANAGEMENT","t":"پوشش و مدیریت چندسایتی؛ با یک نمای جهانی از ارتباطات سازمان","p":"برای سازمان‌های چندسایتی، ارتباط امن میان دفتر مرکزی، شعب، کاربران و سرویس‌ها باید قابل مشاهده، پایش و مدیریت باشد. این کره یک نمایش مفهومی از همان مدل مدیریت چندسایتی است.","features":[["VPN و ارتباط امن","اتصال Site-to-Site و دسترسی کنترل‌شده میان نقاط سازمان."],["پایش متمرکز","مشاهده Availability و وضعیت ارتباط بدون بررسی دستی هر شعبه."],["مدیریت تغییر","تغییرات شبکه و دسترسی‌ها با فرایند مشخص و مستند انجام می‌شوند."]],"cities":[],"status":"نمای مفهومی مدیریت چندسایتی در مقیاس جهانی","stats":[]},"assurance":{"ey":"SECURITY · BACKUP · CONTINUITY","t":"پایداری سرویس نتیجه یک فرایند است، نه شانس","p":"کنترل دسترسی، Firewall، Backup، Monitoring و مستندسازی باید کنار هم باشند تا ریسک عملیاتی کاهش پیدا کند و بازیابی سرویس‌ها قابل برنامه‌ریزی باشد.","scoreLabel":"Service posture","scoreText":"نمونه نمای سلامت عملیاتی","points":[["امنیت لایه‌ای","کنترل شبکه، دسترسی و Endpoint در کنار هم."],["Backup & Restore","پایش بکاپ و برنامه تست بازیابی برای سرویس‌های حساس."],["Monitoring","Alert معنادار و فرایند مشخص برای بررسی رخداد."],["Change Control","تغییرات مهم با سابقه و امکان پیگیری انجام می‌شوند."]],"events":[]},"use":{"ey":"WHO IT FITS","t":"برای سازمان‌هایی که IT را زیرساخت رشد می‌بینند، نه یک هزینه اضطراری","p":"مدل Managed IT زمانی ارزش بیشتری ایجاد می‌کند که سازمان به پایداری، استانداردسازی و قابلیت توسعه نیاز داشته باشد.","cards":[["شرکت‌های کوچک و متوسط","بدون ساخت تیم IT کامل، به مجموعه‌ای از تخصص‌ها و فرایندهای مدیریتی دسترسی پیدا کنید.",["SME","Managed IT"]],["سازمان‌های چندشعبه‌ای","شبکه، ارتباط شعب، VPN، کاربران و سرویس‌ها را در یک مدل هماهنگ مدیریت کنید.",["Multi-site","Network"]],["تیم‌های در حال رشد","زیرساختی بسازید که با افزایش کاربران، سرویس‌ها و نیازهای امنیتی قابل توسعه باشد.",["Growth","Scale"]],["کسب‌وکارهای سرویس‌محور","برای سرویس‌های حیاتی، بکاپ، مانیتورینگ و پاسخ‌گویی ساختاریافته داشته باشید.",["Continuity","Support"]]]},"faq":{"ey":"FAQ","t":"چند سؤال متداول قبل از شروع همکاری","p":"پاسخ‌های اولیه برای شناخت مدل همکاری؛ جزئیات نهایی بر اساس Assessment و قرارداد مشخص می‌شوند.","cta":"درخواست ارزیابی IT","items":[["Managed IT چه تفاوتی با پشتیبانی موردی دارد؟","در پشتیبانی موردی تمرکز روی رفع یک مشکل است؛ در Managed IT علاوه بر پشتیبانی، مانیتورینگ، امنیت، بکاپ، مستندسازی و مدیریت مستمر زیرساخت هم در یک چارچوب قرار می‌گیرند."],["آیا لازم است تمام زیرساخت فعلی تغییر کند؟","خیر. نقطه شروع ارزیابی وضعیت موجود است. سپس تغییرات بر اساس ریسک، اولویت و نیاز واقعی سازمان مرحله‌بندی می‌شوند."],["آیا خدمات برای چند شعبه قابل ارائه است؟","بله. در پکیج‌ها و راهکارهای بالاتر، مدیریت چند Site، VPN، تجهیزات شبکه و مانیتورینگ متمرکز در نظر گرفته شده است."],["خرید پکیج در همین سایت انجام می‌شود؟","در نسخه فعلی سایت، انتخاب و تنظیم پکیج در سایت انجام می‌شود و مرحله خرید نهایی به WHMCS هدایت خواهد شد."],["آیا محتوای سایت و فرم‌ها بعداً توسط مدیر قابل تغییر است؟","بله. معماری CMS برای مدیریت صفحات، خدمات، فرم‌ها، تعرفه‌ها، دانشنامه و رسانه در نظر گرفته شده است."]]},"mega":{"services":{"title":"خدمات مدیریت‌شده IT","text":"از Help Desk تا امنیت، بکاپ و اتوماسیون در یک مدل یکپارچه.","img":"https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=72&w=900"},"solutions":{"title":"راهکار بر اساس نیاز کسب‌وکار","text":"ابتدا وضعیت و ریسک را می‌سنجیم؛ سپس فناوری و سرویس مناسب انتخاب می‌شود.","img":"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=72&w=900"},"resources":{"title":"دانش و منابع","text":"محتوای فنی، راهنما و آموزش برای تصمیم‌های بهتر در فناوری اطلاعات.","img":"https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&q=72&w=900"},"media":{"title":"اخبار و رسانه Abrit","text":"خبرها، اطلاعیه‌ها، ویدئوها و محتوای رسانه‌ای شرکت.","img":"https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=72&w=900"}}},"en":{"ops":{"ey":"OPERATIONS · VISIBILITY · CONTROL","t":"One operational view of IT — instead of scattered tools and follow-ups","p":"Professional management is more than fixing incidents. Endpoints, backup, monitoring, requests, documentation and operational events should be visible and traceable in one operating model.","live":"Live service operations","cards":[["Unified operations view","Monitor service health, incidents and infrastructure status from a management-oriented view."],["Structured ticketing","Requests and incidents follow a clear path for intake, priority and follow-up."],["Verifiable backup","Backup jobs, failures and restore checks are reviewed on a recurring basis."],["Living documentation","Infrastructure, access, changes and operational knowledge move beyond verbal dependency."],["Automation","Repeatable tasks and notifications become workflows where automation makes sense."]]},"network":{"ey":"GLOBAL MULTI-SITE MANAGEMENT","t":"Global multi-site management from one operational view","p":"For multi-site organizations, secure connectivity between headquarters, branches, users and services should be observable, monitored and manageable. This globe visualizes that multi-site operating model conceptually.","features":[["Secure connectivity","Site-to-Site VPN and controlled access between organizational locations."],["Central monitoring","Track availability and connectivity without checking each site manually."],["Change management","Network and access changes follow a defined and documented process."]],"cities":[],"status":"Conceptual global multi-site management view","stats":[]},"assurance":{"ey":"SECURITY · BACKUP · CONTINUITY","t":"Service resilience is a process, not a matter of luck","p":"Access control, firewall, backup, monitoring and documentation work together to reduce operational risk and make recovery more predictable.","scoreLabel":"Service posture","scoreText":"Illustrative operational health","points":[["Layered security","Network, access and endpoint controls working together."],["Backup & Restore","Backup monitoring plus planned restore checks for critical services."],["Monitoring","Meaningful alerts with a defined incident review process."],["Change Control","Important changes remain traceable and reviewable."]],"events":[]},"use":{"ey":"WHO IT FITS","t":"For organizations that treat IT as growth infrastructure — not an emergency expense","p":"Managed IT creates more value when resilience, standardization and scalability matter to the business.","cards":[["Small & mid-size companies","Access multiple IT disciplines and management processes without building a complete internal department.",["SME","Managed IT"]],["Multi-branch organizations","Manage networks, VPN, users, connectivity and services through a coordinated operating model.",["Multi-site","Network"]],["Growing teams","Build an environment that can evolve as users, services and security requirements increase.",["Growth","Scale"]],["Service-driven businesses","Put structured backup, monitoring and response around business-critical services.",["Continuity","Support"]]]},"faq":{"ey":"FAQ","t":"Common questions before starting","p":"Initial answers to clarify the engagement model. Final scope is defined through assessment and contract.","cta":"Request IT Assessment","items":[["How is Managed IT different from break/fix support?","Break/fix support focuses on a single problem. Managed IT combines support with monitoring, security, backup, documentation and ongoing infrastructure management."],["Do we need to replace our entire current environment?","No. We begin by assessing the existing environment, then prioritize changes based on business risk, urgency and actual need."],["Can the service cover multiple branches?","Yes. Higher service levels include multi-site management, VPN, network devices and centralized monitoring."],["Is package checkout completed on this website?","The website will handle package selection and configuration, while final checkout is redirected to WHMCS."],["Can administrators change site content and forms later?","Yes. The CMS architecture covers pages, services, forms, pricing, knowledge content and media management."]]},"mega":{"services":{"title":"Managed IT Services","text":"From help desk to security, backup and automation in one coordinated model.","img":"https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=72&w=900"},"solutions":{"title":"Solutions built around business needs","text":"We assess the current state and risk first, then choose the right technology and service model.","img":"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=72&w=900"},"resources":{"title":"Knowledge & Resources","text":"Technical content, guides and education for better IT decisions.","img":"https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&q=72&w=900"},"media":{"title":"Abrit News & Media","text":"Company news, announcements, video and media content.","img":"https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=72&w=900"}}},"ar":{"ops":{"ey":"OPERATIONS · VISIBILITY · CONTROL","t":"رؤية تشغيلية واحدة لتقنية المعلومات بدلاً من الأدوات والمتابعات المتفرقة","p":"الإدارة الاحترافية لا تعني إصلاح الأعطال فقط. يجب أن تكون الأجهزة والنسخ الاحتياطي والمراقبة والطلبات والتوثيق والأحداث التشغيلية واضحة وقابلة للمتابعة ضمن نموذج واحد.","live":"تشغيل الخدمات بصورة مباشرة","cards":[["مركز عمليات موحّد","مراقبة صحة الخدمات والحوادث وحالة البنية التحتية ضمن رؤية إدارية واحدة."],["نظام تذاكر منظم","تُسجل الطلبات والحوادث وتُرتب أولوياتها وتُتابع عبر مسار واضح."],["نسخ احتياطي قابل للتحقق","تتم مراجعة مهام النسخ والأخطاء واختبارات الاستعادة بصورة دورية."],["توثيق مستمر","تنتقل معلومات البنية والصلاحيات والتغييرات والمعرفة من الاعتماد الشفهي إلى التوثيق."],["الأتمتة","تحويل الأعمال والإشعارات المتكررة إلى مسارات آلية عندما يكون ذلك مناسباً."]]},"network":{"ey":"GLOBAL MULTI-SITE MANAGEMENT","t":"إدارة متعددة المواقع ضمن رؤية عالمية موحّدة","p":"في المؤسسات متعددة المواقع يجب أن يكون الاتصال الآمن بين المقر والفروع والمستخدمين والخدمات قابلاً للرؤية والمراقبة والإدارة. يعرض هذا المجسّم ذلك النموذج بصورة مفاهيمية.","features":[["اتصال آمن","Site-to-Site VPN ووصول مضبوط بين مواقع المؤسسة."],["مراقبة مركزية","متابعة التوفر والاتصال دون فحص كل فرع يدوياً."],["إدارة التغيير","تنفيذ تغييرات الشبكة والصلاحيات وفق عملية واضحة وموثقة."]],"cities":[],"status":"عرض مفاهيمي عالمي للإدارة متعددة المواقع","stats":[]},"assurance":{"ey":"SECURITY · BACKUP · CONTINUITY","t":"استمرارية الخدمة نتيجة عملية منهجية، وليست صدفة","p":"تعمل ضوابط الوصول والجدار الناري والنسخ الاحتياطي والمراقبة والتوثيق معاً لتقليل المخاطر التشغيلية وجعل الاستعادة أكثر قابلية للتخطيط.","scoreLabel":"Service posture","scoreText":"مثال لصحة التشغيل","points":[["أمن متعدد الطبقات","ضوابط الشبكة والوصول والأجهزة الطرفية تعمل معاً."],["Backup & Restore","مراقبة النسخ واختبارات استعادة مخططة للخدمات الحساسة."],["Monitoring","تنبيهات ذات معنى مع عملية واضحة لمراجعة الحوادث."],["Change Control","تبقى التغييرات المهمة قابلة للتتبع والمراجعة."]],"events":[]},"use":{"ey":"WHO IT FITS","t":"للمؤسسات التي ترى تقنية المعلومات بنية للنمو، لا تكلفة طارئة","p":"تزداد قيمة Managed IT عندما تكون الاستمرارية والتوحيد وقابلية التوسع متطلبات حقيقية للأعمال.","cards":[["الشركات الصغيرة والمتوسطة","الوصول إلى خبرات وعمليات إدارة متعددة دون إنشاء قسم داخلي كامل.",["SME","Managed IT"]],["المؤسسات متعددة الفروع","إدارة الشبكات وVPN والمستخدمين والاتصال والخدمات ضمن نموذج منسق.",["Multi-site","Network"]],["الفرق سريعة النمو","بناء بيئة تتطور مع زيادة المستخدمين والخدمات ومتطلبات الأمن.",["Growth","Scale"]],["الأعمال المعتمدة على الخدمات","إضافة نسخ احتياطي ومراقبة واستجابة منظمة حول الخدمات الحيوية.",["Continuity","Support"]]]},"faq":{"ey":"FAQ","t":"أسئلة شائعة قبل البدء","p":"إجابات أولية لفهم نموذج التعاون؛ ويُحدد النطاق النهائي بعد التقييم والعقد.","cta":"طلب تقييم تقنية المعلومات","items":[["ما الفرق بين Managed IT والدعم عند حدوث مشكلة؟","الدعم التقليدي يركز على مشكلة واحدة، بينما يجمع Managed IT الدعم مع المراقبة والأمن والنسخ والتوثيق والإدارة المستمرة للبنية."],["هل يجب استبدال كامل البنية الحالية؟","لا. نبدأ بتقييم البيئة الحالية ثم نرتب التغييرات وفق المخاطر والأولوية والحاجة الفعلية."],["هل يمكن تغطية عدة فروع؟","نعم. تتضمن المستويات الأعلى إدارة عدة مواقع وVPN وأجهزة الشبكة والمراقبة المركزية."],["هل يتم الدفع النهائي داخل هذا الموقع؟","سيتم اختيار الباقة وإعدادها في الموقع، بينما تنتقل عملية الشراء النهائية إلى WHMCS."],["هل يمكن للمدير تعديل المحتوى والنماذج لاحقاً؟","نعم. بنية CMS تشمل الصفحات والخدمات والنماذج والأسعار والمعرفة والإعلام."]]},"mega":{"services":{"title":"خدمات تقنية المعلومات المُدارة","text":"من الدعم إلى الأمن والنسخ والأتمتة ضمن نموذج متكامل.","img":"https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=72&w=900"},"solutions":{"title":"حلول مبنية على احتياجات الأعمال","text":"نقيّم الوضع والمخاطر أولاً، ثم نختار التقنية ونموذج الخدمة المناسبين.","img":"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=72&w=900"},"resources":{"title":"المعرفة والموارد","text":"محتوى تقني وأدلة ومواد تعليمية لاتخاذ قرارات أفضل.","img":"https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&q=72&w=900"},"media":{"title":"أخبار وإعلام Abrit","text":"أخبار الشركة والإعلانات والفيديو والمحتوى الإعلامي.","img":"https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&q=72&w=900"}}}},TECH=["Proxmox", "Microsoft Active Directory", "pfSense", "TrueNAS", "Nextcloud", "OnlyOffice", "Odoo Enterprise", "NetXMS", "TacticalRMM", "GLPI", "n8n", "Cloudflare", "WireGuard"];
+const PACKAGE_RESPONSE_TIMES={
+  fa:["حداکثر ۳ ساعت کاری","حداکثر ۱ ساعت کاری","حداکثر ۳۰ دقیقه","حداکثر ۱۵ دقیقه","به‌صورت لحظه‌ای"],
+  en:["Up to 3 business hours","Up to 1 business hour","Up to 30 minutes","Up to 15 minutes","Immediate response"],
+  ar:["حتى 3 ساعات عمل","حتى ساعة عمل واحدة","حتى 30 دقيقة","حتى 15 دقيقة","استجابة فورية"]
+};
+Object.entries(PACKAGE_RESPONSE_TIMES).forEach(([locale,responseTimes])=>{
+  DATA[locale].packages.forEach((packageItem,index)=>{packageItem[7]=responseTimes[index]});
+});
+const FA_TERM_REPLACEMENTS=[
+  [/\bIT as a Service\b/g,"فناوری اطلاعات به‌عنوان سرویس"],
+  [/\bManaged IT\b/g,"خدمات مدیریت‌شده فناوری اطلاعات"],
+  [/\bIT\b/g,"فناوری اطلاعات"],
+  [/Endpointهای/g,"دستگاه‌های کاربری"],[/Endpointها/g,"دستگاه‌های کاربری"],[/\bEndpoint\b/g,"دستگاه کاربری"],
+  [/\bWorkspace\b/g,"فضای کار سازمانی"],[/\bFirewall\b/g,"دیواره آتش"],[/\bSegmentation\b/g,"تفکیک شبکه"],
+  [/ERP و اتوماسیون/g,"برنامه‌ریزی منابع سازمانی و اتوماسیون"],[/ERP، CRM/g,"برنامه‌ریزی منابع سازمانی، مدیریت ارتباط با مشتری"],
+  [/\bVoIP\b/g,"تلفن اینترنتی"],[/\bIVR\b/g,"پاسخ‌گوی صوتی"],[/\bOffice Online\b/g,"آفیس آنلاین"],
+  [/\bRemote Support\b/g,"پشتیبانی از راه دور"],[/\bInventory\b/g,"فهرست دارایی‌ها"],
+  [/\bBackup & Restore\b/g,"پشتیبان‌گیری و بازیابی"],[/\bBackup\b/g,"پشتیبان‌گیری"],
+  [/\bMonitoring\b/g,"پایش"],[/\bTicketing\b/g,"سامانه درخواست‌ها"],[/\bDocumentation\b/g,"مستندسازی"],
+  [/\bAutomation\b/g,"خودکارسازی"],[/\bSecurity\b/g,"امنیت"],[/\bChange Control\b/g,"کنترل تغییرات"],
+  [/Workflowها/g,"گردش‌های کاری"],[/\bWorkflow\b/g,"گردش کار"],[/Integrationها/g,"یکپارچه‌سازی‌ها"],
+  [/\bIntegration\b/g,"یکپارچه‌سازی"],[/\bAvailability\b/g,"دسترس‌پذیری"],
+  [/\bAlert\b/g,"هشدار"],[/\bResolution\b/g,"رفع مشکل"],[/\bStorage\b/g,"فضای ذخیره‌سازی"],[/\bRollback\b/g,"بازگشت به وضعیت پیشین"],
+  [/\bSite-to-Site\b/g,"ارتباط مستقیم میان سایت‌ها"],[/\bMulti-site\b/g,"چندسایتی"],[/\bSite\b/g,"سایت"],
+  [/Jobها/g,"وظایف"],[/\bAssessment\b/g,"ارزیابی"],[/\bHelp Desk\b/g,"میز خدمت"],
+  [/Incidentهای/g,"رخدادهای"],[/\bIncident\b/g,"رخداد"],[/\bCritical\b/g,"بحرانی"],
+  [/\bService posture\b/g,"وضعیت خدمت"],[/\bCMS\b/g,"سامانه مدیریت محتوا"],[/\bMSP\b/g,"خدمات مدیریت‌شده"],[/\bSLA\b/g,"سطح خدمت"],
+  [/\bSME\b/g,"کسب‌وکار کوچک و متوسط"],[/\bNetwork\b/g,"شبکه"],[/\bGrowth\b/g,"رشد"],[/\bScale\b/g,"توسعه‌پذیری"],[/\bContinuity\b/g,"تداوم"],[/\bSupport\b/g,"پشتیبانی"],[/\bFAQ\b/g,"پرسش‌های متداول"]
+];
+function localizePersianValue(value){
+  if(typeof value==="string")return FA_TERM_REPLACEMENTS.reduce((copy,[pattern,replacement])=>copy.replace(pattern,replacement),value);
+  if(Array.isArray(value)){value.forEach((item,index)=>{value[index]=localizePersianValue(item)});return value}
+  if(value&&typeof value==="object")Object.keys(value).forEach(key=>{value[key]=localizePersianValue(value[key])});
+  return value;
+}
+localizePersianValue(DATA.fa);localizePersianValue(EXTRA.fa);
+DATA.fa.packages.forEach((packageItem,index)=>{packageItem[0]=["سطح یک","سطح دو","سطح سه","سطح چهار","سطح پنج"][index]});
+Object.assign(DATA.fa.labels,{users:"کاربر",endpoints:"دستگاه",server:"سرور / ماشین مجازی",site:"سایت",sla:"سطح خدمت اولیه"});
+Object.assign(EXTRA.fa.ops,{ey:"عملیات · شفافیت · کنترل"});
+Object.assign(EXTRA.fa.network,{ey:"مدیریت جهانی شبکه چندسایتی"});
+Object.assign(EXTRA.fa.assurance,{ey:"امنیت · پشتیبان‌گیری · تداوم"});
+Object.assign(EXTRA.fa.use,{ey:"مناسب چه سازمان‌هایی است"});
+let lang="fa",slide=0,timer;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const icons=[
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m8 10 2.2 2.2L16 7"/></svg>`,
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h7l2 2h9v10H3z"/><path d="M8 14h8M12 11v6"/></svg>`,
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M12 7v5M12 12 6 17M12 12l6 5"/><path d="M9 12h6"/></svg>`,
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-4 2.7-7 6-7 2.1 0 3.9 1.2 5 3"/><rect x="14" y="12" width="7" height="7" rx="2"/><path d="M16 12V10a1.5 1.5 0 0 1 3 0v2"/></svg>`,
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3 1.1 0 2.1-.1 3-.3"/><path d="m16 18 2 2 4-5"/></svg>`,
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l2-6 4 12 2-6h6"/><path d="M3 20h18"/></svg>`,
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M17.5 14v7M14 17.5h7"/></svg>`,
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-3 2c1.5 3 3 4.5 6 6l2-3 5 2v4c0 1-1 2-2 2C10 22 2 14 2 5c0-1 1-1 3-1Z"/><path d="M15 4c2 1 4 3 5 5"/></svg>`,
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m8 11 2-2 2 2 4-4"/></svg>`,
+`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 7h5V3l5 5-5 5V9H7a3 3 0 0 0-3 3"/><path d="M17 17h-5v4l-5-5 5-5v4h5a3 3 0 0 0 3-3"/></svg>`
+];
+function setTxt(id,v,html=false){let e=$("#"+id);if(e) html?e.innerHTML=v:e.textContent=v}
+function flagSVG(k){if(k==="fa")return `<svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><clipPath id="cfa"><circle cx="18" cy="18" r="18"/></clipPath><g clip-path="url(#cfa)"><rect width="36" height="12" fill="#239f40"/><rect y="12" width="36" height="12" fill="#fff"/><rect y="24" width="36" height="12" fill="#da0000"/><circle cx="18" cy="18" r="3.2" fill="#da0000" opacity=".8"/></g></svg>`;if(k==="ar")return `<svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><clipPath id="car"><circle cx="18" cy="18" r="18"/></clipPath><g clip-path="url(#car)"><rect width="36" height="36" fill="#fff"/><rect x="0" y="0" width="9" height="36" fill="#ff0000"/><rect x="9" y="0" width="27" height="12" fill="#00732f"/><rect x="9" y="24" width="27" height="12" fill="#000"/></g></svg>`;return `<svg class="flag-svg" viewBox="0 0 36 36" aria-hidden="true"><clipPath id="cen"><circle cx="18" cy="18" r="18"/></clipPath><g clip-path="url(#cen)"><rect width="36" height="36" fill="#1b4aa5"/><path d="M0 4l32 32M32 0L0 32" stroke="#fff" stroke-width="7"/><path d="M0 4l32 32M32 0L0 32" stroke="#e33" stroke-width="3"/><path d="M18 0v36M0 18h36" stroke="#fff" stroke-width="10"/><path d="M18 0v36M0 18h36" stroke="#d22" stroke-width="5"/></g></svg>`}
+function renderNav(t){
+  let locale={fa:"fa",en:"en",ar:"ar-ae"}[lang],base=`/${locale}`,e=EXTRA[lang];
+  let serviceSlugs=["managed-it","digital-workspace","network-security","identity-access","backup-recovery","monitoring","erp-automation","business-telephony"];
+  let solutionSlugs=["integrated-it-management","it-outsourcing","security-continuity","branch-management","digital-workplace","process-automation"];
+  let contentMenu=lang==="fa"?{
+    label:"دانش و رسانه",
+    items:[["وبلاگ","مقالات، خبرها و تازه‌های ابریت."],["دانش و منابع","راهنماها و منابع کاربردی مدیریت فناوری اطلاعات."]]
+  }:lang==="ar"?{
+    label:"المعرفة والإعلام",
+    items:[["المدونة","مقالات وأخبار ومستجدات Abrit."],["المعرفة والموارد","أدلة وموارد عملية لإدارة تقنية المعلومات."]]
+  }:{
+    label:"Knowledge & Media",
+    items:[["Blog","Articles, news and updates from Abrit."],["Knowledge & Resources","Practical guides and resources for IT management."]]
+  };
+  let navItems=[
+    {label:t.nav[0],href:`${base}/services`,mega:[t.services.slice(0,8),e.mega.services,serviceSlugs.map(slug=>`${base}/services/${slug}`)]},
+    {label:t.nav[1],href:`${base}/solutions`,mega:[t.solutions,e.mega.solutions,solutionSlugs.map(slug=>`${base}/solutions/${slug}`)]},
+    {label:t.nav[2],href:`${base}/pricing`},
+    {label:contentMenu.label,href:`${base}/knowledge`,mega:[contentMenu.items,e.mega.resources,[`${base}/news`,`${base}/knowledge`]]},
+    {label:t.nav[5],href:`${base}/about`}
+  ];
+  $("#nav").innerHTML=navItems.map(item=>item.mega?`<div class="navitem"><a href="${item.href}">${item.label}<span>⌄</span></a><div class="mega"><div class="mega-list">${item.mega[0].map((entry,index)=>`<a href="${item.mega[2][index]||item.href}"><b>${entry[0]}</b><small>${entry[1]}</small></a>`).join("")}</div><div class="mega-media"><img src="${item.mega[1].img}" alt="" loading="lazy" decoding="async"><div class="mega-caption"><span>ABRIT</span><b>${item.mega[1].title}</b><p>${item.mega[1].text}</p></div></div></div></div>`:`<a href="${item.href}">${item.label}</a>`).join("");
+  $("#mobileNavBody").innerHTML=navItems.map(item=>item.mega?`<div class="mobile-group"><button type="button"><span>${item.label}</span><span>＋</span></button><div class="mobile-sub">${item.mega[0].map((entry,index)=>`<a href="${item.mega[2][index]||item.href}">${entry[0]}</a>`).join("")}</div></div>`:`<a class="mobile-direct" href="${item.href}">${item.label}<span>→</span></a>`).join("");
+  $("#navcta").href=`${base}/contact`;$("#mobileCta").href=`${base}/contact`;$("#mobileCta").textContent=t.cta_nav;
+  $$('.mobile-group>button').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));$$('#mobileNav a').forEach(a=>a.onclick=closeMobile)
+}
+function renderHero(t,anim=true){let h=t.hero[slide],box=$("#herocopy");if(anim){box.classList.remove("swap");void box.offsetWidth;box.classList.add("swap")}setTxt("hk",h.k);setTxt("hh",h.h,true);setTxt("hp",h.p);setTxt("ha",h.a);setTxt("hb",h.b);$("#hpoints").innerHTML=h.points.map(x=>`<span>${x}</span>`).join("");$$(".dots button").forEach((b,i)=>b.classList.toggle("active",i===slide))}
+function renderConsole(t){let c=t.console;setTxt("ct",c[0]);setTxt("m1",c[1]);setTxt("m2",c[2]);setTxt("m3",c[3]);setTxt("health",c[4]);setTxt("ch1",c[5]);setTxt("ch2",c[6]);setTxt("ch3",c[7])}
+let activeOpsLayer=0;
+function getOpsLayers(cards){
+  let security=lang==="fa"?["امنیت و کنترل دسترسی","کنترل‌های امنیتی، دسترسی‌ها، دستگاه‌های کاربری و رخدادهای مهم به‌صورت متمرکز بررسی و پیگیری می‌شوند."]:lang==="ar"?["الأمن والتحكم في الوصول","تتم مراجعة الضوابط الأمنية والصلاحيات والأجهزة الطرفية والأحداث المهمة ومتابعتها بصورة مركزية."]:["Security & access control","Security controls, access, endpoints and important events are reviewed and followed up from one operational view."];
+  let labels=lang==="fa"?["پایش","سامانه درخواست‌ها","مستندسازی","پشتیبان‌گیری","امنیت","خودکارسازی"]:["Monitoring","Ticketing","Documentation","Backup","Security","Automation"];
+  return [[labels[0],cards[0][0],cards[0][1]],[labels[1],cards[1][0],cards[1][1]],[labels[2],cards[3][0],cards[3][1]],[labels[3],cards[2][0],cards[2][1]],[labels[4],security[0],security[1]],[labels[5],cards[4][0],cards[4][1]]];
+}
+function setOpsLayer(index,focus=false){
+  let tabs=$$("#opsBento .ops-layer-pill");if(!tabs.length)return;
+  activeOpsLayer=(index+tabs.length)%tabs.length;
+  let layer=getOpsLayers(EXTRA[lang].ops.cards)[activeOpsLayer],panel=$("#ops-layer-panel");
+  setTxt("opsTabEyebrow",`0${activeOpsLayer+1} · ${layer[0]}`);setTxt("opsTabTitle",layer[1]);setTxt("opsTabDescription",layer[2]);
+  tabs.forEach((tab,i)=>{let selected=i===activeOpsLayer;tab.classList.toggle("active",selected);tab.setAttribute("aria-selected",selected?"true":"false");tab.tabIndex=selected?0:-1});
+  panel.setAttribute("aria-labelledby",`ops-tab-${activeOpsLayer}`);panel.classList.remove("is-switching");void panel.offsetWidth;panel.classList.add("is-switching");
+  if(focus)tabs[activeOpsLayer].focus();
+}
+function renderExtra(t){
+  let e=EXTRA[lang];
+  setTxt("opsEy",e.ops.ey);setTxt("opsT",e.ops.t);setTxt("opsP",e.ops.p);setTxt("opsLive",e.ops.live);
+  let cards=e.ops.cards;
+  let layers=getOpsLayers(cards);
+  let tablistLabel=lang==="fa"?"لایه‌های مدل عملیاتی فناوری اطلاعات":lang==="ar"?"طبقات نموذج تشغيل تقنية المعلومات":"Managed IT operating layers";
+  let operatingModelLabel=lang==="fa"?"مدل عملیاتی فناوری اطلاعات مدیریت‌شده":lang==="ar"?"نموذج تشغيل تقنية المعلومات المُدارة":"MANAGED IT OPERATING MODEL";
+  $("#opsBento").innerHTML=`<article class="ops-card dark reveal"><div class="mini-label">${operatingModelLabel}</div><div class="ops-tab-panel" id="ops-layer-panel" role="tabpanel" aria-live="polite"><span class="ops-tab-eyebrow" id="opsTabEyebrow"></span><h3 id="opsTabTitle"></h3><p id="opsTabDescription"></p></div><div class="ops-layer-visual" role="tablist" aria-label="${tablistLabel}">${layers.map((x,i)=>`<button class="ops-layer-pill" id="ops-tab-${i}" type="button" role="tab" aria-controls="ops-layer-panel" data-ops-layer="${i}"><span>0${i+1}</span><b>${x[0]}</b></button>`).join("")}</div></article>`+cards.slice(1).map((c,i)=>`<article class="ops-card reveal"><div class="mini-label">0${i+2}</div><h3>${c[0]}</h3><p>${c[1]}</p><div class="ops-card-mark">${i%2===0?icons[(i+4)%icons.length]:icons[(i+6)%icons.length]}</div></article>`).join("");
+  setOpsLayer(activeOpsLayer);
+
+  setTxt("netEy",e.network.ey);setTxt("netT",e.network.t);setTxt("netP",e.network.p);setTxt("mapStatus",e.network.status);
+  $("#netFeatures").innerHTML=e.network.features.map((f,i)=>`<div class="network-feature"><i>0${i+1}</i><div><b>${f[0]}</b><p>${f[1]}</p></div></div>`).join("");
+  setTxt("coverageNote",lang==="fa"?"این تصویر یک نمایش مفهومی از توپولوژی شبکه و مدیریت ارتباطات سازمانی است؛ نه نقشه دقیق پیاده‌سازی یا اعلام نقاط حضور فیزیکی ابریت. جزئیات واقعی از طریق سامانه مدیریت محتوا و طراحی نهایی پروژه تعیین می‌شوند.":lang==="ar"?"هذا العنصر المرئي عرضٌ مفاهيمي لطوبولوجيا الشبكة وإدارة الاتصالات المؤسسية، وليس خريطة تنفيذية دقيقة أو إعلاناً عن مواقع فعلية لـ Abrit. تُحدَّد التفاصيل الواقعية عبر نظام CMS والتصميم النهائي للمشروع.":"This visual is a conceptual enterprise-network topology view, not an exact deployment map or a claim of physical Abrit locations. Real implementation details will be defined through the CMS and the final project design.");
+  let p=t.packages;
+  $("#coveragePackages").innerHTML=[2,3,4].map(i=>`<div class="coverage-package"><small>${p[i][0]}</small><b>${p[i][6]} ${t.labels.site}</b></div>`).join("");
+
+  setTxt("assuranceEy",e.assurance.ey);setTxt("assuranceT",e.assurance.t);setTxt("assuranceP",e.assurance.p);setTxt("assuranceScoreText",lang==="fa"?"زمان‌های زیر، تعهد شروع رسیدگی در پکیج‌های فعلی AbrIT هستند؛ نه زمان تضمینی رفع کامل رخداد.":lang==="ar"?"الأزمنة أدناه هي التزام بدء المعالجة في باقات AbrIT الحالية، وليست زمناً مضموناً للحل الكامل.":"The times below are the initial-response commitments in AbrIT's current packages, not guaranteed full-resolution times.");
+  $("#assurancePoints").innerHTML=e.assurance.points.map(x=>`<div class="assurance-point"><b>${x[0]}</b><p>${x[1]}</p></div>`).join("");
+  $("#assuranceEvents").innerHTML=t.packages.map((x,i)=>`<div class="as-event sla-row"><span>0${i+1}</span><b>${x[1]} · ${x[0]}</b><em>${x[7]}</em></div>`).join("");
+  setTxt("slaNote",lang==="fa"?"پوشش ۲۴×۷ در پکیج سازمانی پلاس فقط برای رخدادهای بحرانی سطح یک است؛ میز خدمت عادی در ساعات کاری انجام می‌شود.":lang==="ar"?"خدمة 24×7 في باقة Enterprise مخصصة فقط للحوادث الحرجة P1، بينما يعمل Help Desk العادي خلال ساعات العمل.":"24×7 coverage in Enterprise applies only to Critical (P1) incidents; normal Help Desk requests remain within business hours.");
+
+  setTxt("useEy",e.use.ey);setTxt("useT",e.use.t);setTxt("useP",e.use.p);$("#useGrid").innerHTML=e.use.cards.map((c,i)=>`<article class="use-card reveal"><span class="use-index">0${i+1}</span><h3>${c[0]}</h3><p>${c[1]}</p><div class="use-tags">${c[2].map(x=>`<span>${x}</span>`).join("")}</div></article>`).join("");
+  setTxt("faqEy",e.faq.ey);setTxt("faqT",e.faq.t);setTxt("faqP",e.faq.p);setTxt("faqCta",e.faq.cta);$("#faqList").innerHTML=e.faq.items.map((x,i)=>`<article class="faq-item reveal ${i===0?'open':''}"><button class="faq-q" type="button"><span>${x[0]}</span><span>＋</span></button><div class="faq-a"><div><p>${x[1]}</p></div></div></article>`).join("");$$('.faq-q').forEach(b=>b.onclick=()=>b.parentElement.classList.toggle('open'));
+}
+
+const GLOBE_UI={
+  fa:{
+    heroTitle:"عملیات چندسایتی ابریت",
+    heroSubtitle:"نمای مفهومی از مدیریت یکپارچه ارتباطات، سرویس‌ها و شعب",
+    heroChip:"شبکه مدیریت‌شده",
+    cards:[
+      ["دید یکپارچه چندسایتی","یک نمای عملیاتی برای شعب، سرویس‌ها و زیرساخت"],
+      ["ارتباط امن و کنترل‌شده","اتصال کاربران، شعب و سرویس‌ها در یک مدل مدیریت‌شده"]
+    ],
+    kpis:[["مدیریت‌شده","مدیریت متمرکز"],["چندسایتی","دید عملیاتی چندسایتی"],["امن","شبکه، پشتیبان‌گیری و تداوم خدمت"]],
+    phone:"تلفن",addressLabel:"آدرس",address:"ایران، مشهد",
+    footerIntro:"مدیریت یکپارچه فناوری اطلاعات، زیرساخت، امنیت و خدمات ابری برای کسب‌وکارها و سازمان‌ها.",
+    legal:"حریم خصوصی · شرایط استفاده · امنیت",
+    tagline:"فناوری اطلاعات مدیریت‌شده · فناوری اطلاعات به‌عنوان سرویس",
+    search:"جست‌وجوی سایت"
+  },
+  en:{
+    heroTitle:"ABRIT · MULTI-SITE OPERATIONS",
+    heroSubtitle:"A conceptual view of unified connectivity, services and branch operations",
+    heroChip:"Managed Network",
+    cards:[
+      ["Unified multi-site visibility","One operational view across branches, services and infrastructure"],
+      ["Secure, controlled connectivity","Connect users, branches and services through a managed model"]
+    ],
+    kpis:[["Managed","Centralized operations"],["Multi-Site","Cross-site visibility"],["Secure","Network, backup & continuity"]],
+    phone:"Phone",addressLabel:"Address",address:"Mashhad, Iran",
+    footerIntro:"Unified IT, infrastructure, security and cloud services for businesses and organizations.",
+    legal:"Privacy · Terms · Security",
+    tagline:"Managed IT & IT as a Service",
+    search:"Site search"
+  },
+  ar:{
+    heroTitle:"ABRIT · MULTI-SITE OPERATIONS",
+    heroSubtitle:"تصور مفاهيمي لإدارة الاتصالات والخدمات والفروع بشكل موحّد",
+    heroChip:"شبكة مُدارة",
+    cards:[
+      ["رؤية موحّدة لعدة مواقع","واجهة تشغيلية واحدة للفروع والخدمات والبنية التحتية"],
+      ["اتصال آمن ومحكوم","ربط المستخدمين والفروع والخدمات ضمن نموذج مُدار"]
+    ],
+    kpis:[["Managed","إدارة مركزية"],["Multi-Site","رؤية تشغيلية متعددة المواقع"],["Secure","الشبكة والنسخ الاحتياطي والاستمرارية"]],
+    phone:"الهاتف",addressLabel:"العنوان",address:"مشهد، إيران",
+    footerIntro:"إدارة موحّدة لتقنية المعلومات والبنية التحتية والأمن والخدمات السحابية للشركات والمؤسسات.",
+    legal:"الخصوصية · الشروط · الأمان",
+    tagline:"Managed IT & IT as a Service",
+    search:"بحث الموقع"
+  }
+};
+function renderStaticUi(t){
+  let fa=t.lang==="fa";
+  let sectionLabels=fa?["مدل مدیریت‌شده ابریت","خدمات مدیریت‌شده فناوری اطلاعات","راهکارهای کسب‌وکار","ارزیابی ← طراحی ← اجرا","فناوری‌ها و پلتفرم‌ها","پکیج‌های خدمات مدیریت‌شده · ۱۴۰۵ / ۲۰۲۶","دانش · رسانه · فرم‌ها","ارزیابی فناوری اطلاعات"]:["ABRIT MANAGED MODEL","MANAGED IT SERVICES","BUSINESS SOLUTIONS","ASSESS → DESIGN → OPERATE","TECHNOLOGY & PLATFORMS","MSP PACKAGES · 1405 / 2026","KNOWLEDGE · MEDIA · FORMS","IT ASSESSMENT"];
+  [".outcomes .eyebrow",".services .eyebrow",".solutions .eyebrow",".process .eyebrow",".tech .eyebrow",".pricing .eyebrow",".hub .eyebrow",".cta .eyebrow"].forEach((selector,index)=>{let element=$(selector);if(element)element.textContent=sectionLabels[index]});
+  let heroNodes=fa?["دفتر","شعبه","هسته ابریت","دیواره آتش","ابر","مرکز داده","پایش"]:["OFFICE","BRANCH","ABRIT CORE","FIREWALL","CLOUD","DATACENTER","MONITORING"];
+  $$(".hero-network-node text").forEach((element,index)=>{element.textContent=heroNodes[index]});
+  let mapNodes=fa?[["شبکه مرکزی","درگاه اصلی"],["دفتر شعبه","سایت مدیریت‌شده"],["لبه امنیت","دسترسی امن"],["لایه دسترسی","مجموعه سوئیچ‌ها"],["گره پشتیبان","مسیر بازیابی"],["درگاه وی‌پی‌ان","ارتباط از راه دور"],["پایش","دید ۲۴/۷"]]:[["Core Network","Primary Gateway"],["Branch Office","Managed Site"],["Firewall Edge","Secure Access"],["Access Layer","Switch Stack"],["Backup Node","Recovery Path"],["VPN Gateway","Remote Connectivity"],["Monitoring","24/7 Visibility"]];
+  $$(".city-node").forEach((element,index)=>{let copy=mapNodes[index];if(copy){element.querySelector("b").textContent=copy[0];element.querySelector("small").textContent=copy[1]}});
+  let mapTitle=$(".map-top b"),mapLive=$(".map-live"),mapStats=$$(".map-stat span"),mapValues=$$(".map-stat b"),assuranceHead=$$(".as-head > span");
+  if(mapTitle)mapTitle.textContent=fa?"ابریت · نمای شبکه سازمانی":"ABRIT · ENTERPRISE NETWORK VIEW";
+  if(mapLive)mapLive.textContent=fa?"● شبکه":"● NETWORK";
+  (fa?["گره‌های مدیریت‌شده","پیوندهای امن","پایش"]:["MANAGED NODES","SECURE LINKS","MONITORING"]).forEach((copy,index)=>{if(mapStats[index])mapStats[index].textContent=copy});
+  if(mapValues[1])mapValues[1].textContent=fa?"ارتباطات امن اختصاصی":"VPN · MPLS";
+  if(assuranceHead[0])assuranceHead[0].textContent=fa?"ابریت · مدل سطح خدمت و پشتیبانی":"ABRIT · SLA & SUPPORT MODEL";
+  if(assuranceHead[1])assuranceHead[1].textContent=fa?"خدمات مدیریت‌شده":"MSP";
+}
+function renderBrandUI(t){
+  const u=GLOBE_UI[t.lang]||GLOBE_UI.fa;
+  renderStaticUi(t);
+  setTxt("heroGlobeTitle",u.heroTitle);setTxt("heroGlobeSubtitle",u.heroSubtitle);setTxt("heroGlobeChip",u.heroChip);
+  u.cards.forEach((x,i)=>{setTxt(`heroCard${i+1}Title`,x[0]);setTxt(`heroCard${i+1}Text`,x[1])});
+  u.kpis.forEach((x,i)=>{setTxt(`heroKpi${i+1}Value`,x[0]);setTxt(`heroKpi${i+1}Text`,x[1])});
+  setTxt("footerPhoneLabel",u.phone);setTxt("footerAddressLabel",u.addressLabel);setTxt("footerAddressValue",u.address);
+  setTxt("footerIntro",u.footerIntro);setTxt("legalText",u.legal);
+  $$(".brand-tagline").forEach(x=>x.textContent=u.tagline);
+  setTxt("viewAllServices",t.lang==="fa"?"مشاهده همه خدمات →":t.lang==="ar"?"عرض جميع الخدمات ←":"VIEW ALL →");setTxt("comparePlans",t.lang==="fa"?"مقایسه و انتخاب →":t.lang==="ar"?"المقارنة والاختيار ←":"COMPARE →");const si=$("#searchInput");if(si)si.setAttribute("aria-label",u.search);
+}
+
+function render(t){renderBrandUI(t);
+setTxt("searchLabel",t.search);setTxt("navcta",t.cta_nav);setTxt("stmtEy",t.statement[0]);setTxt("stmtT",t.statement[1]);setTxt("stmtP",t.statement[2]);
+setTxt("outT",t.dir==="ltr"?"From fragmented systems to unified IT management":"از سیستم‌های پراکنده تا مدیریت یکپارچه فناوری اطلاعات");
+if(t.lang==="ar") setTxt("outT","من الأنظمة المتفرقة إلى إدارة متكاملة لتقنية المعلومات");
+$("#outgrid").innerHTML=t.outcomes.map((x,i)=>`<div class="out reveal"><span>0${i+1}</span><b>${x}</b></div>`).join("");
+setTxt("servT",t.services_title);setTxt("servP",t.services_intro);
+$("#servicegrid").innerHTML=t.services.map((s,i)=>`<article class="service ${i<2?"service-large":""} reveal"><div class="service-top"><div class="ico">${icons[i]}</div><span class="service-index">${String(i+1).padStart(2,"0")}</span></div><div class="service-content"><h3>${s[0]}</h3><p>${s[1]}</p></div><a href="#assessment"><span>${t.lang==="fa"?"مشاهده خدمت":t.lang==="ar"?"استعراض الخدمة":"Explore service"}</span><b>↗</b></a></article>`).join("");
+setTxt("solT",t.solutions_title);setTxt("solP",t.solutions_intro);
+$("#nodes").innerHTML=t.solutions.map((s,i)=>`<article class="node n${i+1}"><span>0${i+1}</span><h3>${s[0]}</h3><p>${s[1]}</p></article>`).join("");
+setTxt("centerT",t.lang==="fa"?"نیاز کسب‌وکار در مرکز تصمیم":t.lang==="ar"?"احتياجات الأعمال في مركز القرار":"Business needs at the center");
+setTxt("centerP",t.lang==="fa"?"ابزار بعد از شناخت وضعیت، ریسک و اولویت انتخاب می‌شود؛ نه برعکس.":t.lang==="ar"?"يأتي اختيار التقنية بعد فهم الوضع والمخاطر والأولويات، وليس قبل ذلك.":"Technology comes after understanding the current state, risks and priorities — not before.");
+setTxt("procT",t.process_title);$("#processgrid").innerHTML=t.process.map((s,i)=>`<article class="step reveal"><div class="num">0${i+1}</div><h3>${s[0]}</h3><p>${s[1]}</p></article>`).join("");
+setTxt("techT",t.tech_title);setTxt("techP",t.tech_intro);$("#tags").innerHTML=TECH.map(x=>`<span>${x}</span>`).join("");
+setTxt("priceT",t.pricing_title);setTxt("priceP",t.pricing_intro);
+$("#packages").innerHTML=t.packages.map((p,i)=>`<article class="pkg ${i===2?"featured":""} reveal">${i===2?`<span class="badge">${t.labels.rec}</span>`:""}<small>${p[0]}</small><h3>${p[1]}</h3><div class="price">${p[2]}</div><div class="pricecap">${t.labels.month}</div><ul class="quota"><li><span>${t.labels.users}</span><b>${p[3]}</b></li><li><span>${t.labels.endpoints}</span><b>${p[4]}</b></li><li><span>${t.labels.server}</span><b>${p[5]}</b></li><li><span>${t.labels.site}</span><b>${p[6]}</b></li><li><span>${t.labels.sla}</span><b>${p[7]}</b></li></ul><a class="btn ${i===2?"primary":"outline"}" href="#assessment">${t.labels.plan}</a></article>`).join("");
+setTxt("hubT",t.hub_title);$("#hubgrid").innerHTML=t.hub.map((h,i)=>`<article class="hubcard reveal"><div class="hubvis ${i===1?"photo":"pattern"}">${i===1?'<img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=78&w=1200" alt="">':""}</div><div class="hubcopy"><h3>${h[0]}</h3><p>${h[1]}</p></div></article>`).join("");
+setTxt("finalT",t.final[0]);setTxt("finalP",t.final[1]);setTxt("finalA",t.final[2]);setTxt("finalB",t.final[3]);
+setTxt("foot1",t.footer[0]);setTxt("foot2",t.footer[1]);setTxt("foot3",t.footer[2]);setTxt("portal",t.footer[3]);setTxt("copy",t.footer[4]);
+$("#fl1").innerHTML=t.services.slice(0,6).map(x=>`<a href="#services">${x[0]}</a>`).join("");$("#fl2").innerHTML=t.solutions.map(x=>`<a href="#solutions">${x[0]}</a>`).join("");const companyLabels=(t.lang==="fa"?["درباره ابریت","وبلاگ","دانش و منابع","اخبار و رسانه","تماس با ما"]:t.lang==="ar"?["عن Abrit","المدونة","المعرفة والموارد","الأخبار والإعلام","اتصل بنا"]:["About Abrit","Blog","Knowledge & Resources","News & Media","Contact Us"]);const companyHrefs=["#home","#resources","#resources","#resources","#contact"];$("#fl3").innerHTML=companyLabels.map((x,i)=>`<a href="${companyHrefs[i]}">${x}</a>`).join("");
+renderExtra(t);renderNav(t);renderHero(t,false);renderConsole(t);observe();
+}
+function setLang(k){lang=k;let t=DATA[k];document.documentElement.lang=t.lang;document.documentElement.dir=t.dir;document.title=k==="fa"?"Abrit | مدیریت یکپارچه فناوری اطلاعات":k==="ar"?"Abrit | خدمات تقنية المعلومات المُدارة":"Abrit | Managed IT & IT as a Service";$("#meta").content=t.meta;$("#langbtn").innerHTML=`<span class="flag-slot">${flagSVG(k)}</span><span>${t.code}</span><span class="lang-chevron">⌄</span>`;$$(`.langmenu button`).forEach(b=>{let slot=b.querySelector(`.flag-slot`);if(slot)slot.innerHTML=flagSVG(b.dataset.lang)});$("#searchInput").placeholder=t.search+"…";$$(".langmenu button").forEach(b=>b.classList.toggle("active",b.dataset.lang===k));slide=0;render(t);clearInterval(timer);timer=setInterval(()=>{slide=(slide+1)%2;renderHero(DATA[lang])},7000)}
+function observe(){let io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}}),{threshold:.1});$$(".reveal:not(.on)").forEach(x=>io.observe(x))}
+function index(t){return [...t.services.map(x=>[x[0],x[1],"#services"]),...t.solutions.map(x=>[x[0],x[1],"#solutions"]),...t.packages.map(x=>[x[1],x[2]+" "+t.labels.month,"#pricing"]),...t.hub.map(x=>[x[0],x[1],"#resources"])]}
+function search(){let t=DATA[lang],q=$("#searchInput").value.trim().toLowerCase(),r=$("#results");if(!q){r.innerHTML="";return}let hits=index(t).filter(x=>(x[0]+" "+x[1]).toLowerCase().includes(q)).slice(0,12);r.innerHTML=hits.map(x=>`<a class="res" href="${x[2]}"><b>${x[0]}</b><small>${x[1]}</small></a>`).join("")}
+$("#langbtn").onclick=()=>{let o=$("#language").classList.toggle("open");$("#langbtn").setAttribute("aria-expanded",o?"true":"false")};$$(".langmenu button").forEach(b=>b.onclick=()=>{setLang(b.dataset.lang);$("#language").classList.remove("open");$("#langbtn").setAttribute("aria-expanded","false")});document.addEventListener("click",e=>{if(!$("#language").contains(e.target))$("#language").classList.remove("open")});
+$$(".dots button").forEach(b=>b.onclick=()=>{slide=+b.dataset.slide;renderHero(DATA[lang]);});
+$("#opsBento").addEventListener("click",e=>{let tab=e.target.closest(".ops-layer-pill");if(tab)setOpsLayer(+tab.dataset.opsLayer)});
+$("#opsBento").addEventListener("keydown",e=>{let tab=e.target.closest(".ops-layer-pill");if(!tab)return;let keys=["ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Home","End"];if(!keys.includes(e.key))return;e.preventDefault();let current=+tab.dataset.opsLayer,next=current,rtl=document.documentElement.dir==="rtl";if(e.key==="Home")next=0;else if(e.key==="End")next=5;else if(e.key==="ArrowDown")next=current+1;else if(e.key==="ArrowUp")next=current-1;else if(e.key==="ArrowRight")next=current+(rtl?-1:1);else next=current+(rtl?1:-1);setOpsLayer(next,true)});
+$("#searchOpen").onclick=()=>{$("#searchov").classList.add("open");$("#searchInput").focus()};$("#close").onclick=()=>$("#searchov").classList.remove("open");$("#searchov").onclick=e=>{if(e.target===$("#searchov"))$("#searchov").classList.remove("open")};$("#searchInput").oninput=search;$("#results").onclick=()=>$("#searchov").classList.remove("open");document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#searchov").classList.remove("open")});
+
+function openMobile(){$("#mobileNav").classList.add("open");$("#mobileBackdrop").classList.add("open");$("#mobileNav").setAttribute("aria-hidden","false");$("#mobileToggle").setAttribute("aria-expanded","true");document.body.style.overflow="hidden"}
+function closeMobile(){$("#mobileNav").classList.remove("open");$("#mobileBackdrop").classList.remove("open");$("#mobileNav").setAttribute("aria-hidden","true");$("#mobileToggle").setAttribute("aria-expanded","false");document.body.style.overflow=""}
+$("#mobileToggle").onclick=openMobile;$("#mobileClose").onclick=closeMobile;$("#mobileBackdrop").onclick=closeMobile;
+
+setLang("fa");
+</script>
+</body>
+</html>

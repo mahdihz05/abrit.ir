@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { AmbientMotion } from "@/components/ambient-motion";
@@ -35,6 +36,22 @@ export default async function InternalLayout({ children, params }: LayoutProps<"
         <SiteHeader locale={locale} items={header} />
         {children}
         <SiteFooter locale={locale} items={footer} settings={settings} />
+        <Script id="chatwoot-widget" strategy="afterInteractive">
+          {`window.chatwootSettings = {"position":"right","type":"standard","launcherTitle":""};
+            (function(d,t) {
+              var BASE_URL="https://livechat.abrit.cloud";
+              var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+              g.src=BASE_URL+"/packs/js/sdk.js";
+              g.async = true;
+              s.parentNode.insertBefore(g,s);
+              g.onload=function(){
+                window.chatwootSDK.run({
+                  websiteToken: 'xErMqw6oizQvX8ruUhNE87U7',
+                  baseUrl: BASE_URL
+                })
+              }
+            })(document,"script");`}
+        </Script>
       </body>
     </html>
   );
