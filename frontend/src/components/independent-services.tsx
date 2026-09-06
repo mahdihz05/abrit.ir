@@ -1,13 +1,6 @@
 import type { CSSProperties } from "react";
-import {
-  independentPageCopy,
-  independentServiceExtensions,
-  independentServices,
-  type IndependentService,
-  type IndependentServiceBlock,
-} from "@/lib/independent-services";
-import { getService } from "@/lib/public-content";
-import type { Locale } from "@/lib/types";
+import type { IndependentService, IndependentServiceBlock, IndependentServicesCopy } from "@/lib/independent-services-cms";
+import type { ContentSummary, Locale } from "@/lib/types";
 import { IndependentConsultationForm } from "./independent-consultation-form";
 import styles from "./independent-services.module.css";
 
@@ -117,8 +110,7 @@ function OperatingRail({
   );
 }
 
-export function IndependentServicesListing({ locale, services = independentServices }: { locale: Locale; services?: IndependentService[] }) {
-  const copy = independentPageCopy;
+export function IndependentServicesListing({ locale, services, copy }: { locale: Locale; services: IndependentService[]; copy: IndependentServicesCopy }) {
   return (
     <main className={styles.page}>
       <section className={styles.listingHero}>
@@ -225,15 +217,16 @@ export function IndependentServicesListing({ locale, services = independentServi
 export function IndependentServiceDetail({
   locale,
   service,
-  services = independentServices,
+  services,
+  copy,
+  relatedManaged,
 }: {
   locale: Locale;
   service: IndependentService;
-  services?: IndependentService[];
+  services: IndependentService[];
+  copy: IndependentServicesCopy;
+  relatedManaged: ContentSummary | null;
 }) {
-  const copy = independentPageCopy;
-  const extension = independentServiceExtensions[service.slug];
-  const relatedManaged = getService(service.relatedManagedSlug);
   const relatedIndependent = services
     .filter((item) => item.slug !== service.slug)
     .slice(0, 3);
@@ -310,11 +303,11 @@ export function IndependentServiceDetail({
         <div className="container">
           <SectionHeading
             eyebrow={copy.deliverables[locale]}
-            title={extension.deliverablesTitle[locale]}
-            intro={extension.deliverablesBody[locale]}
+            title={service.deliverablesTitle[locale]}
+            intro={service.deliverablesBody[locale]}
           />
           <div className={styles.deliverablesGrid}>
-            {extension.deliverables.map((item, index) => (
+            {service.deliverables.map((item, index) => (
               <article
                 key={item.title.en}
                 style={{ "--card-index": index } as CSSProperties}
@@ -449,12 +442,12 @@ export function IndependentServiceDetail({
         <div className="container">
           <SectionHeading
             eyebrow={copy.managedScope[locale]}
-            title={extension.managedScopeTitle[locale]}
-            intro={extension.managedScopeBody[locale]}
+            title={service.managedScopeTitle[locale]}
+            intro={service.managedScopeBody[locale]}
             inverted
           />
           <OperatingRail
-            items={extension.managedScope}
+            items={service.managedScope}
             locale={locale}
             inverted
           />
@@ -495,10 +488,10 @@ export function IndependentServiceDetail({
         <div className="container">
           <SectionHeading
             eyebrow={copy.faq[locale]}
-            title={extension.faqTitle[locale]}
+            title={service.faqTitle[locale]}
           />
           <div className={styles.faqList}>
-            {extension.faqs.map((item, index) => (
+            {service.faqs.map((item, index) => (
               <details key={item.question.en}>
                 <summary>
                   <span>{String(index + 1).padStart(2, "0")}</span>
@@ -536,12 +529,12 @@ export function IndependentServiceDetail({
           <div className={styles.relatedGrid}>
             {relatedManaged ? (
               <a
-                href={`/${locale}/services/${relatedManaged.slug}`}
+                href={relatedManaged.url}
                 className={styles.managedCard}
               >
                 <small>{copy.related[locale]}</small>
-                <h3>{relatedManaged.title[locale]}</h3>
-                <p>{relatedManaged.excerpt[locale]}</p>
+                <h3>{relatedManaged.title}</h3>
+                <p>{relatedManaged.excerpt}</p>
               </a>
             ) : null}
             {relatedIndependent.map((item) => (

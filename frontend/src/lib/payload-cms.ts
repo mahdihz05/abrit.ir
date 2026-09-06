@@ -37,6 +37,7 @@ async function detail(document: Content, locale: Locale): Promise<ContentDetail>
   }));
   return {
     ...summary(document, locale),
+    templateKey: document.templateKey,
     blocks: (document.layout ?? []).filter((block) => block.enabled !== false).map((block, order) => {
       const value = block as unknown as Record<string, unknown>;
       const blockType = typeof value.blockType === "string" ? value.blockType : "contentSection";
@@ -83,6 +84,10 @@ async function detail(document: Content, locale: Locale): Promise<ContentDetail>
       },
     },
     alternates: alternateResults.filter((item): item is { locale: Locale; url: string } => item !== null),
+    homepageServices: (document.homepageServices ?? []).filter((item): item is Content => typeof item === "object" && item.kind === "service" && item.templateKey === "service" && item.isActive !== false && item._status === "published").map((item) => summary(item, locale)),
+    homepageSolutions: (document.homepageSolutions ?? []).filter((item): item is Content => typeof item === "object" && item.kind === "solution" && item.templateKey === "solution" && item.isActive !== false && item._status === "published").map((item) => summary(item, locale)),
+    serviceData: document.serviceData ?? null,
+    serviceListing: document.serviceListing ?? null,
   };
 }
 

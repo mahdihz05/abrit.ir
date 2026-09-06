@@ -1,7 +1,4 @@
-import {
-  independentServices,
-  type IndependentService,
-} from "@/lib/independent-services";
+import type { IndependentService } from "@/lib/independent-services-cms";
 import type { Locale } from "@/lib/types";
 import styles from "./independent-consultation-form.module.css";
 
@@ -105,11 +102,11 @@ const needTypeByService: Record<IndependentService["slug"], string> = {
 export function IndependentConsultationForm({
   locale,
   service,
-  services = independentServices,
+  services,
 }: {
   locale: Locale;
   service?: IndependentService;
-  services?: IndependentService[];
+  services: IndependentService[];
 }) {
   const text = copy[locale];
   const returnTo = service

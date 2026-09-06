@@ -1,4 +1,4 @@
-import type { ContentDetail, Locale } from "./types";
+import type { Locale } from "./types";
 
 export type LocalizedText = Record<Locale, string>;
 export type IndependentServiceBlock = {
@@ -10,7 +10,6 @@ export type IndependentServiceFaq = {
   question: LocalizedText;
   answer: LocalizedText;
 };
-
 export type IndependentServiceExtension = {
   deliverablesTitle: LocalizedText;
   deliverablesBody: LocalizedText;
@@ -2091,47 +2090,3 @@ export const independentServiceExtensions: Record<
     ],
   },
 };
-
-export function getIndependentService(slug: string) {
-  return independentServices.find((service) => service.slug === slug);
-}
-
-export function localizedIndependentServices(locale: Locale) {
-  return independentServices.map((service) => ({
-    id: `independent-${service.slug}`,
-    key: service.slug,
-    kind: "independent-service",
-    locale,
-    title: service.title[locale],
-    slug: service.slug,
-    url: `/${locale}/independent-services/${service.slug}`,
-    excerpt: service.heroBody[locale],
-  }));
-}
-
-function isIndependentService(value: unknown): value is IndependentService {
-  if (!value || typeof value !== "object") return false;
-  const candidate = value as Partial<IndependentService>;
-  return typeof candidate.slug === "string"
-    && ["backup", "cloud-storage", "workspace", "voice"].includes(candidate.slug)
-    && typeof candidate.code === "string"
-    && !!candidate.title
-    && !!candidate.heroTitle
-    && !!candidate.heroBody;
-}
-
-/** Reads the exact reference model stored in Payload's imported-content JSON block. */
-export function independentServicesFromContent(content: ContentDetail | null) {
-  const value = content?.blocks[0]?.props.services;
-  return Array.isArray(value) && value.every(isIndependentService)
-    ? value
-    : independentServices;
-}
-
-/** Reads a detail model from Payload while retaining a safe pre-seed fallback. */
-export function independentServiceFromContent(content: ContentDetail | null, slug: string) {
-  const value = content?.blocks[0]?.props.service;
-  return isIndependentService(value) && value.slug === slug
-    ? value
-    : getIndependentService(slug);
-}

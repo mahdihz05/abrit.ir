@@ -1,8 +1,118 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionConfig, Field } from "payload";
 import { publishedOrAuthenticated, authenticated } from "../access";
 import { contentBlocks } from "../blocks";
 import { revalidateContent, revalidateDeletedContent } from "../hooks/revalidate";
 import { populateSearchText } from "../hooks/search-text";
+
+const localizedText = (name: string, required = false): Field => ({ name, type: "text", localized: true, required });
+const localizedTextarea = (name: string, required = false): Field => ({ name, type: "textarea", localized: true, required });
+const cards = (name: string): Field => ({
+  name,
+  type: "array",
+  localized: true,
+  fields: [{ name: "title", type: "text", required: true }, { name: "body", type: "textarea", required: true }, { name: "tags", type: "array", fields: [{ name: "value", type: "text", required: true }] }],
+});
+
+const validateTemplateGroup = (templateKey: string, requiredFields: string[]) => (
+  value: unknown,
+  { data }: { data: unknown },
+) => {
+  const document = data as { templateKey?: string } | undefined;
+  if (document?.templateKey !== templateKey) return true;
+  if (!value || typeof value !== "object" || Array.isArray(value)) return `The ${templateKey} template data is required.`;
+  const group = value as Record<string, unknown>;
+  const missing = requiredFields.find((field) => {
+    const fieldValue = group[field];
+    return fieldValue === undefined || fieldValue === null || fieldValue === "" || (Array.isArray(fieldValue) && fieldValue.length === 0);
+  });
+  return missing ? `The ${templateKey} template requires ${missing}.` : true;
+};
+
+const independentServiceRequiredFields = [
+  "code", "category", "heroTitle", "heroBody", "pulse", "overviewTitle", "overviewBody", "contextTitle", "context",
+  "deliverablesTitle", "deliverablesBody", "deliverables", "capabilitiesTitle", "capabilities", "architectureTitle",
+  "architectureBody", "architecture", "showcaseTitle", "showcaseBody", "showcase", "processTitle", "process",
+  "technologies", "ctaTitle", "ctaBody", "managedScopeTitle", "managedScopeBody", "managedScope", "relatedManagedService",
+  "faqTitle", "faqs",
+];
+
+const independentServicesListingRequiredFields = [
+  "eyebrow", "exploreLabel", "consultLabel", "backLabel", "familyTitle", "familyBody", "familyStages", "decisionTitle",
+  "decisionBody", "decisions", "overviewLabel", "deliverablesLabel", "capabilitiesLabel", "architectureLabel", "processLabel",
+  "technologiesLabel", "comparisonLabel", "managedScopeLabel", "faqLabel", "relatedLabel", "services",
+];
+
+const independentServiceFields: Field[] = [
+  { name: "code", type: "text" },
+  localizedText("category"),
+  localizedText("heroTitle"),
+  localizedTextarea("heroBody"),
+  { name: "pulse", type: "array", localized: true, fields: [{ name: "text", type: "text", required: true }] },
+  localizedText("overviewTitle"),
+  localizedTextarea("overviewBody"),
+   localizedText("contextTitle"), cards("context"),
+   localizedText("deliverablesTitle"),
+   localizedTextarea("deliverablesBody"),
+   cards("deliverables"),
+   localizedText("capabilitiesTitle"), cards("capabilities"),
+  localizedText("architectureTitle"),
+  localizedTextarea("architectureBody"), cards("architecture"),
+  localizedText("showcaseTitle"),
+  localizedTextarea("showcaseBody"), cards("showcase"),
+  localizedText("processTitle"), cards("process"),
+  { name: "technologies", type: "array", fields: [{ name: "name", type: "text", required: true }] },
+   localizedText("ctaTitle"),
+   localizedTextarea("ctaBody"),
+   localizedText("managedScopeTitle"),
+   localizedTextarea("managedScopeBody"),
+   cards("managedScope"),
+  {
+    name: "relatedManagedService",
+    type: "relationship",
+    relationTo: "content",
+    maxDepth: 1,
+    filterOptions: { and: [{ kind: { equals: "service" } }, { templateKey: { equals: "service" } }] },
+  },
+  {
+    name: "comparison",
+    type: "group",
+    fields: [localizedTextarea("intro"), { name: "columns", type: "array", localized: true, dbName: "cols", fields: [{ name: "label", type: "text", required: true }] }, { name: "rows", type: "array", localized: true, dbName: "rows", fields: [{ name: "label", type: "text", required: true }, { name: "values", type: "array", dbName: "vals", fields: [{ name: "value", type: "text", required: true }] }] }],
+  },
+  localizedText("faqTitle"),
+  { name: "faqs", type: "array", localized: true, fields: [{ name: "question", type: "text", required: true }, { name: "answer", type: "textarea", required: true }] },
+];
+
+const independentServicesListingFields: Field[] = [
+  localizedText("eyebrow"),
+  localizedText("exploreLabel"),
+  localizedText("consultLabel"),
+  localizedText("backLabel"),
+  localizedText("familyTitle"),
+  localizedTextarea("familyBody"),
+  cards("familyStages"),
+  localizedText("decisionTitle"),
+  localizedTextarea("decisionBody"),
+  cards("decisions"),
+  localizedText("overviewLabel"),
+  localizedText("deliverablesLabel"),
+  localizedText("capabilitiesLabel"),
+  localizedText("architectureLabel"),
+  localizedText("processLabel"),
+  localizedText("technologiesLabel"),
+  localizedText("comparisonLabel"),
+  localizedText("managedScopeLabel"),
+  localizedText("faqLabel"),
+  localizedText("relatedLabel"),
+  {
+    name: "services",
+    type: "relationship",
+    relationTo: "content",
+    hasMany: true,
+    maxDepth: 1,
+    filterOptions: { and: [{ kind: { equals: "service" } }, { templateKey: { equals: "independent-service" } }] },
+    admin: { description: "ترتیب این رابطه، ترتیب نمایش کارت‌های خدمات مستقل است." },
+  },
+];
 
 export const Content: CollectionConfig = {
   slug: "content",
@@ -26,7 +136,7 @@ export const Content: CollectionConfig = {
   fields: [
     { name: "key", type: "text", required: true, unique: true, index: true, admin: { position: "sidebar", description: "شناسهٔ فنی ثابت؛ پس از انتشار تغییر ندهید." } },
     { name: "kind", type: "select", required: true, index: true, options: ["page", "service", "solution", "knowledge", "news"], admin: { position: "sidebar" } },
-    { name: "templateKey", type: "text", defaultValue: "default", required: true, admin: { position: "sidebar" } },
+    { name: "templateKey", type: "text", defaultValue: "default", required: true, admin: { position: "sidebar", description: "کلید ساختاری قالب است. مقادیر موجود را تغییر ندهید؛ خدمات مستقل از independent-service و فهرست آن از independent-services استفاده می‌کند." } },
     { name: "isActive", type: "checkbox", defaultValue: true, index: true, admin: { position: "sidebar" } },
     {
       type: "tabs",
@@ -40,6 +150,20 @@ export const Content: CollectionConfig = {
             { name: "layout", type: "blocks", localized: true, blocks: contentBlocks, admin: { initCollapsed: true } },
             { name: "capabilities", type: "array", fields: [{ name: "label", type: "text", localized: true, required: true }] },
             { name: "technologies", type: "array", fields: [{ name: "name", type: "text", required: true }, { name: "url", type: "text" }] },
+            {
+              name: "serviceData",
+              type: "group",
+              validate: validateTemplateGroup("independent-service", independentServiceRequiredFields),
+              admin: { condition: (data) => data.templateKey === "independent-service" },
+              fields: independentServiceFields,
+            },
+            {
+              name: "serviceListing",
+              type: "group",
+              validate: validateTemplateGroup("independent-services", independentServicesListingRequiredFields),
+              admin: { condition: (data) => data.templateKey === "independent-services" },
+              fields: independentServicesListingFields,
+            },
           ],
         },
         {
@@ -50,6 +174,24 @@ export const Content: CollectionConfig = {
             { name: "path", type: "text", localized: true, index: true, maxLength: 500, admin: { description: "بدون / ابتدایی؛ فقط صفحهٔ خانه خالی است." } },
             { name: "parent", type: "relationship", relationTo: "content", filterOptions: ({ id }) => ({ id: { not_equals: id } }) },
             { name: "relatedContent", type: "relationship", relationTo: "content", hasMany: true },
+            {
+              name: "homepageServices",
+              type: "relationship",
+              relationTo: "content",
+              hasMany: true,
+              maxDepth: 1,
+              filterOptions: { and: [{ kind: { equals: "service" } }, { templateKey: { equals: "service" } }] },
+              admin: { condition: (data) => data.templateKey === "home", description: "ترتیب نمایش خدمات در صفحهٔ اصلی." },
+            },
+            {
+              name: "homepageSolutions",
+              type: "relationship",
+              relationTo: "content",
+              hasMany: true,
+              maxDepth: 1,
+              filterOptions: { and: [{ kind: { equals: "solution" } }, { templateKey: { equals: "solution" } }] },
+              admin: { condition: (data) => data.templateKey === "home", description: "ترتیب نمایش راهکارها در صفحهٔ اصلی." },
+            },
           ],
         },
         {

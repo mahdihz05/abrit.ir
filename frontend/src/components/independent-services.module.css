@@ -535,6 +535,8 @@
   color: #dceaff;
 }
 .tableRegion {
+  box-sizing: border-box;
+  max-width: 100%;
   overflow: auto;
   border: 1px solid var(--service-line);
   border-radius: 18px;

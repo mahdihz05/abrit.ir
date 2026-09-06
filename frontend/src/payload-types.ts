@@ -235,6 +235,9 @@ export interface Content {
    */
   key: string;
   kind: 'page' | 'service' | 'solution' | 'knowledge' | 'news';
+  /**
+   * کلید ساختاری قالب است. مقادیر موجود را تغییر ندهید؛ خدمات مستقل از independent-service و فهرست آن از independent-services استفاده می‌کند.
+   */
   templateKey: string;
   isActive?: boolean | null;
   title: string;
@@ -423,6 +426,210 @@ export interface Content {
         id?: string | null;
       }[]
     | null;
+  serviceData?: {
+    code?: string | null;
+    category?: string | null;
+    heroTitle?: string | null;
+    heroBody?: string | null;
+    pulse?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    overviewTitle?: string | null;
+    overviewBody?: string | null;
+    contextTitle?: string | null;
+    context?:
+      | {
+          title: string;
+          body: string;
+          tags?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    deliverablesTitle?: string | null;
+    deliverablesBody?: string | null;
+    deliverables?:
+      | {
+          title: string;
+          body: string;
+          tags?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    capabilitiesTitle?: string | null;
+    capabilities?:
+      | {
+          title: string;
+          body: string;
+          tags?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    architectureTitle?: string | null;
+    architectureBody?: string | null;
+    architecture?:
+      | {
+          title: string;
+          body: string;
+          tags?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    showcaseTitle?: string | null;
+    showcaseBody?: string | null;
+    showcase?:
+      | {
+          title: string;
+          body: string;
+          tags?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    processTitle?: string | null;
+    process?:
+      | {
+          title: string;
+          body: string;
+          tags?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    technologies?:
+      | {
+          name: string;
+          id?: string | null;
+        }[]
+      | null;
+    ctaTitle?: string | null;
+    ctaBody?: string | null;
+    managedScopeTitle?: string | null;
+    managedScopeBody?: string | null;
+    managedScope?:
+      | {
+          title: string;
+          body: string;
+          tags?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    relatedManagedService?: (number | null) | Content;
+    comparison?: {
+      intro?: string | null;
+      columns?:
+        | {
+            label: string;
+            id?: string | null;
+          }[]
+        | null;
+      rows?:
+        | {
+            label: string;
+            values?:
+              | {
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+          }[]
+        | null;
+    };
+    faqTitle?: string | null;
+    faqs?:
+      | {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  serviceListing?: {
+    eyebrow?: string | null;
+    exploreLabel?: string | null;
+    consultLabel?: string | null;
+    backLabel?: string | null;
+    familyTitle?: string | null;
+    familyBody?: string | null;
+    familyStages?:
+      | {
+          title: string;
+          body: string;
+          tags?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    decisionTitle?: string | null;
+    decisionBody?: string | null;
+    decisions?:
+      | {
+          title: string;
+          body: string;
+          tags?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    overviewLabel?: string | null;
+    deliverablesLabel?: string | null;
+    capabilitiesLabel?: string | null;
+    architectureLabel?: string | null;
+    processLabel?: string | null;
+    technologiesLabel?: string | null;
+    comparisonLabel?: string | null;
+    managedScopeLabel?: string | null;
+    faqLabel?: string | null;
+    relatedLabel?: string | null;
+    /**
+     * ترتیب این رابطه، ترتیب نمایش کارت‌های خدمات مستقل است.
+     */
+    services?: (number | Content)[] | null;
+  };
   slug: string;
   /**
    * بدون / ابتدایی؛ فقط صفحهٔ خانه خالی است.
@@ -430,6 +637,14 @@ export interface Content {
   path?: string | null;
   parent?: (number | null) | Content;
   relatedContent?: (number | Content)[] | null;
+  /**
+   * ترتیب نمایش خدمات در صفحهٔ اصلی.
+   */
+  homepageServices?: (number | Content)[] | null;
+  /**
+   * ترتیب نمایش راهکارها در صفحهٔ اصلی.
+   */
+  homepageSolutions?: (number | Content)[] | null;
   seo?: {
     title?: string | null;
     description?: string | null;
@@ -1080,10 +1295,219 @@ export interface ContentSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  serviceData?:
+    | T
+    | {
+        code?: T;
+        category?: T;
+        heroTitle?: T;
+        heroBody?: T;
+        pulse?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        overviewTitle?: T;
+        overviewBody?: T;
+        contextTitle?: T;
+        context?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              tags?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        deliverablesTitle?: T;
+        deliverablesBody?: T;
+        deliverables?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              tags?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        capabilitiesTitle?: T;
+        capabilities?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              tags?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        architectureTitle?: T;
+        architectureBody?: T;
+        architecture?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              tags?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        showcaseTitle?: T;
+        showcaseBody?: T;
+        showcase?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              tags?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        processTitle?: T;
+        process?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              tags?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        technologies?:
+          | T
+          | {
+              name?: T;
+              id?: T;
+            };
+        ctaTitle?: T;
+        ctaBody?: T;
+        managedScopeTitle?: T;
+        managedScopeBody?: T;
+        managedScope?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              tags?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        relatedManagedService?: T;
+        comparison?:
+          | T
+          | {
+              intro?: T;
+              columns?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
+              rows?:
+                | T
+                | {
+                    label?: T;
+                    values?:
+                      | T
+                      | {
+                          value?: T;
+                          id?: T;
+                        };
+                    id?: T;
+                  };
+            };
+        faqTitle?: T;
+        faqs?:
+          | T
+          | {
+              question?: T;
+              answer?: T;
+              id?: T;
+            };
+      };
+  serviceListing?:
+    | T
+    | {
+        eyebrow?: T;
+        exploreLabel?: T;
+        consultLabel?: T;
+        backLabel?: T;
+        familyTitle?: T;
+        familyBody?: T;
+        familyStages?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              tags?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        decisionTitle?: T;
+        decisionBody?: T;
+        decisions?:
+          | T
+          | {
+              title?: T;
+              body?: T;
+              tags?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        overviewLabel?: T;
+        deliverablesLabel?: T;
+        capabilitiesLabel?: T;
+        architectureLabel?: T;
+        processLabel?: T;
+        technologiesLabel?: T;
+        comparisonLabel?: T;
+        managedScopeLabel?: T;
+        faqLabel?: T;
+        relatedLabel?: T;
+        services?: T;
+      };
   slug?: T;
   path?: T;
   parent?: T;
   relatedContent?: T;
+  homepageServices?: T;
+  homepageSolutions?: T;
   seo?:
     | T
     | {

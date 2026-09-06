@@ -1,3 +1,5 @@
+import type { Content } from "@/payload-types";
+
 export type Locale = "fa" | "en" | "ar-ae";
 
 export type ApiEnvelope<T> = { data: T };
@@ -47,6 +49,7 @@ export type ContentSummary = {
 };
 
 export type ContentDetail = ContentSummary & {
+  templateKey: string;
   blocks: ContentBlock[];
   seo: {
     title: string;
@@ -56,6 +59,10 @@ export type ContentDetail = ContentSummary & {
     open_graph: { title: string; description: string; image: string | null };
   };
   alternates: { locale: Locale; url: string }[];
+  homepageServices: ContentSummary[];
+  homepageSolutions: ContentSummary[];
+  serviceData: Content["serviceData"] | null;
+  serviceListing: Content["serviceListing"] | null;
 };
 
 export type Package = {

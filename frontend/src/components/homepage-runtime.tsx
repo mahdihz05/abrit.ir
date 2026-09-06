@@ -194,36 +194,6 @@ export function HomepageRuntime() {
         });
       });
 
-      const services = root.querySelector<HTMLElement>("#servicegrid");
-      if (services && !services.querySelector(":scope > .service-track")) {
-        const cards = Array.from(services.children);
-        const track = document.createElement("div");
-        const primary = document.createElement("div");
-        const duplicate = document.createElement("div");
-        track.className = "service-track";
-        primary.className = "service-set";
-        duplicate.className = "service-set";
-        duplicate.setAttribute("aria-hidden", "true");
-        duplicate.setAttribute("inert", "");
-        cards.forEach((card) => {
-          card.classList.add("on");
-          primary.appendChild(card);
-          const clone = card.cloneNode(true) as HTMLElement;
-          clone.classList.add("on");
-          duplicate.appendChild(clone);
-        });
-        track.append(primary, duplicate);
-        services.classList.add("service-rail");
-        services.appendChild(track);
-        services.dataset.cardsPerView = "3";
-        installRailControls(services, track, services, cards.length, "vertical");
-        cleanup.push(() => {
-          services.replaceChildren(...Array.from(primary.children));
-          services.classList.remove("service-rail");
-          delete services.dataset.cardsPerView;
-        });
-      }
-
       const tags = root.querySelector<HTMLElement>("#tags");
       if (tags && !tags.querySelector(":scope > .technology-track")) {
         const originalItems = Array.from(tags.children);

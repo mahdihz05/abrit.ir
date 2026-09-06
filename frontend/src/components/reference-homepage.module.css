@@ -974,6 +974,52 @@
   }
 }
 
+/* CMS cards keep the approved v5 grid; the previous rail altered its geometry. */
+.homepage :global(.hero) {
+  gap: 58px;
+  padding: 55px 0 78px;
+  background: initial;
+}
+
+.homepage :global(.herocopy) {
+  padding-inline-end: 0;
+}
+
+.homepage :global(.services) {
+  overflow: visible;
+}
+
+.homepage :global(.services)::before {
+  display: none;
+}
+
+.homepage :global(.services > .container) {
+  min-height: 0;
+  display: block;
+  direction: inherit;
+}
+
+.homepage :global(.services .section-head) {
+  display: flex;
+  max-width: none;
+  margin: 0 0 38px;
+  padding: 0;
+}
+
+.homepage :global(#nodes > a.node) {
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .homepage :global(.hero) {
+    padding-bottom: 54px;
+  }
+
+  .homepage :global(.services .section-head) {
+    display: block;
+  }
+}
+
 :global(.homepage-pointer-aura) {
   --aura-x: 50vw;
   --aura-y: 50vh;

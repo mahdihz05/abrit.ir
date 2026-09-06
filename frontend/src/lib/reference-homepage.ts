@@ -36,8 +36,12 @@ export function extractReferenceRuntime(html: string) {
       '$$(".langmenu button").forEach(b=>b.onclick=()=>{setLang(b.dataset.lang);',
       () => '$$(".langmenu button").forEach(b=>b.onclick=()=>{window.location.href={fa:"/fa",en:"/en",ar:"/ar-ae"}[b.dataset.lang];',
     )
+    .replace('document.documentElement.lang=t.lang;document.documentElement.dir=t.dir;', '')
     .replace(
       'timer=setInterval(()=>{slide=(slide+1)%2;renderHero(DATA[lang])},7000)',
       'timer=setInterval(()=>{const homepage=document.querySelector(".reference-homepage");const locale=lang==="ar"?"ar-ae":lang;if(window.__abritHomepageRuntimeToken===abritRuntimeToken&&!document.hidden&&homepage?.dataset.homepageLocale===locale&&homepage.querySelector(".hero-shell")?.classList.contains("is-in-view")){slide=(slide+1)%2;renderHero(DATA[lang])}},7000)',
-    );
+    )
+    .replace(/function renderHero\(t(?:,anim=true)?\)\{/, (signature) => `${signature}if(document.querySelector(".hero-shell")?.dataset.abritReactOwned==="hero")return;`)
+    .replace('$("#servicegrid").innerHTML=t.services.map', 'if(!$("#servicegrid")?.dataset.abritReactOwned)$("#servicegrid").innerHTML=t.services.map')
+    .replace('$("#nodes").innerHTML=t.solutions.map', 'if(!$("#nodes")?.dataset.abritReactOwned)$("#nodes").innerHTML=t.solutions.map');
 }
