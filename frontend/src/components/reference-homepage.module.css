@@ -68,6 +68,22 @@
   padding-inline-end: clamp(28px, 3vw, 48px);
 }
 
+.homepage :global(.herocopy h1) {
+  max-width: 660px;
+  font-size: clamp(40px, 4.15vw, 58px);
+  line-height: 1.23;
+  letter-spacing: -1.2px;
+}
+
+.homepage[dir="rtl"] :global(.herocopy p) {
+  max-width: 640px;
+  font-size: clamp(14.5px, 1.02vw, 16px);
+  line-height: 2.05;
+  text-align: justify;
+  text-align-last: start;
+  text-justify: inter-word;
+}
+
 .homepage :global(.hero-globe-card) {
   width: 100%;
 }
@@ -909,6 +925,21 @@
   .homepage :global(.hero) {
     padding-inline: 0;
     padding-bottom: 0;
+  }
+
+  .homepage :global(.herocopy) {
+    padding-inline-end: 0;
+  }
+
+  .homepage :global(.herocopy h1) {
+    font-size: clamp(36px, 10vw, 44px);
+    line-height: 1.28;
+    letter-spacing: -.7px;
+  }
+
+  .homepage[dir="rtl"] :global(.herocopy p) {
+    font-size: 14.5px;
+    line-height: 2;
   }
 
   .homepage :global(.technology-rail) {

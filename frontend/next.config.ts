@@ -19,6 +19,22 @@ const nextConfig: NextConfig = {
   },
   poweredByHeader: false,
   reactStrictMode: true,
+  async rewrites() {
+    const liveChatOrigin = "https://livechat.abrit.cloud";
+    return {
+      beforeFiles: [
+        { source: "/livechat/:path*", destination: `${liveChatOrigin}/:path*` },
+        { source: "/vite/:path*", destination: `${liveChatOrigin}/vite/:path*` },
+        { source: "/brand-assets/:path*", destination: `${liveChatOrigin}/brand-assets/:path*` },
+        { source: "/audio/:path*", destination: `${liveChatOrigin}/audio/:path*` },
+        { source: "/api/v1/widget/:path*", destination: `${liveChatOrigin}/api/v1/widget/:path*` },
+        { source: "/cable/:path*", destination: `${liveChatOrigin}/cable/:path*` },
+        { source: "/hc/:path*", destination: `${liveChatOrigin}/hc/:path*` },
+        { source: "/rails/active_storage/:path*", destination: `${liveChatOrigin}/rails/active_storage/:path*` },
+        { source: "/uploads/:path*", destination: `${liveChatOrigin}/uploads/:path*` },
+      ],
+    };
+  },
 };
 
 export default nextConfig;

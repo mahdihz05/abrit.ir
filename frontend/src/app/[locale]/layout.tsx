@@ -26,6 +26,7 @@ export default async function InternalLayout({ children, params }: LayoutProps<"
   const header = staticNavigation(locale);
   const footer = staticNavigation(locale);
   const meta = localeMeta[locale];
+  const chatLocale = locale === "ar-ae" ? "ar" : locale;
   return (
     <html lang={meta.lang} dir={meta.dir} className={`${vazirmatn.variable} ${inter.variable} ${ibmPlexArabic.variable}`}>
       <body className="internal-body">
@@ -35,19 +36,20 @@ export default async function InternalLayout({ children, params }: LayoutProps<"
         {children}
         <SiteFooter locale={locale} items={footer} settings={settings} />
         <Script id="chatwoot-widget" strategy="afterInteractive">
-          {`window.chatwootSettings = {"position":"right","type":"standard","launcherTitle":""};
+          {`window.chatwootSettings = {"position":"right","type":"standard","launcherTitle":"","locale":"${chatLocale}"};
             (function(d,t) {
-              var BASE_URL="https://livechat.abrit.cloud";
+              var BASE_URL=window.location.origin+"/livechat";
               var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-              g.src=BASE_URL+"/packs/js/sdk.js";
+              g.src="/vendor/chatwoot-sdk.js?v=5b1eb819";
               g.async = true;
               s.parentNode.insertBefore(g,s);
               g.onload=function(){
-                window.chatwootSDK.run({
+                if (!window.$chatwoot && window.chatwootSDK) window.chatwootSDK.run({
                   websiteToken: 'xErMqw6oizQvX8ruUhNE87U7',
                   baseUrl: BASE_URL
                 })
-              }
+              };
+              g.onerror=function(){console.error("AbrIT live chat SDK could not be loaded locally.")}
             })(document,"script");`}
         </Script>
       </body>

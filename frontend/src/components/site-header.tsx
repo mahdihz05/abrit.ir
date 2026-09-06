@@ -30,33 +30,21 @@ const productMenu: Record<
     packagesLabel: "پکیج‌های خدمات مدیریت‌شده",
     packages: [
       {
-        id: "basic",
-        title: "پکیج پایه",
-        description: "شروع مطمئن برای کسب‌وکارهای کوچک",
+        id: "startup",
+        title: "پکیج‌های پایه و مناسب استارت‌آپ‌ها",
+        description: "شروعی مطمئن برای تیم‌های نوپا و کسب‌وکارهای کوچک",
         path: "products?package=basic",
       },
       {
-        id: "standard",
-        title: "پکیج استاندارد",
-        description: "مدیریت متمرکز کاربران و دسترسی‌ها",
-        path: "products?package=standard",
-      },
-      {
-        id: "advanced",
-        title: "پکیج پیشرفته",
-        description: "ارتباط امن برای شعب و کاربران دورکار",
-        path: "products?package=advanced",
-      },
-      {
         id: "professional",
-        title: "پکیج حرفه‌ای",
-        description: "کنترل تخصصی شبکه و زیرساخت",
+        title: "پکیج‌های تخصصی و حرفه‌ای",
+        description: "مدیریت تخصصی شبکه، امنیت و زیرساخت کسب‌وکار",
         path: "products?package=professional",
       },
       {
-        id: "premium",
-        title: "پکیج ممتاز",
-        description: "مدیریت جامع و پایش مستمر فناوری اطلاعات",
+        id: "enterprise",
+        title: "پکیج‌های سازمانی و جامع",
+        description: "مدیریت یکپارچه و پایش مستمر فناوری اطلاعات سازمان",
         path: "products?package=premium",
       },
     ],
@@ -117,7 +105,7 @@ const productMenu: Record<
         path: "services/it-automation",
       },
     ],
-    independentLabel: "محصولات مستقل",
+    independentLabel: "سرویس‌های مستقل",
     independent: [
       {
         id: "independent-backup",
@@ -149,33 +137,21 @@ const productMenu: Record<
     packagesLabel: "Managed service packages",
     packages: [
       {
-        id: "basic",
-        title: "Basic",
-        description: "A confident start for small businesses",
+        id: "startup",
+        title: "Essential & startup packages",
+        description: "A confident foundation for startups and small teams",
         path: "products?package=basic",
       },
       {
-        id: "standard",
-        title: "Standard",
-        description: "Centralized user and access management",
-        path: "products?package=standard",
-      },
-      {
-        id: "advanced",
-        title: "Advanced",
-        description: "Secure connectivity for branches and remote users",
-        path: "products?package=advanced",
-      },
-      {
         id: "professional",
-        title: "Professional",
-        description: "Specialist network and infrastructure control",
+        title: "Specialist & professional packages",
+        description: "Advanced management for networks, security and infrastructure",
         path: "products?package=professional",
       },
       {
-        id: "premium",
-        title: "Premium",
-        description: "Complete IT management and monitoring",
+        id: "enterprise",
+        title: "Enterprise & comprehensive packages",
+        description: "Integrated IT operations and continuous enterprise monitoring",
         path: "products?package=premium",
       },
     ],
@@ -236,7 +212,7 @@ const productMenu: Record<
         path: "services/it-automation",
       },
     ],
-    independentLabel: "Independent products",
+    independentLabel: "Independent services",
     independent: [
       {
         id: "independent-backup",
@@ -268,33 +244,21 @@ const productMenu: Record<
     packagesLabel: "باقات الخدمات المُدارة",
     packages: [
       {
-        id: "basic",
-        title: "الباقة الأساسية",
-        description: "بداية موثوقة للشركات الصغيرة",
+        id: "startup",
+        title: "الباقات الأساسية والمناسبة للشركات الناشئة",
+        description: "أساس موثوق للشركات الناشئة والفرق الصغيرة",
         path: "products?package=basic",
       },
       {
-        id: "standard",
-        title: "الباقة القياسية",
-        description: "إدارة مركزية للمستخدمين والصلاحيات",
-        path: "products?package=standard",
-      },
-      {
-        id: "advanced",
-        title: "الباقة المتقدمة",
-        description: "اتصال آمن للفروع والمستخدمين عن بُعد",
-        path: "products?package=advanced",
-      },
-      {
         id: "professional",
-        title: "الباقة الاحترافية",
-        description: "تحكم متخصص بالشبكة والبنية التحتية",
+        title: "الباقات المتخصصة والاحترافية",
+        description: "إدارة متقدمة للشبكات والأمن والبنية التحتية",
         path: "products?package=professional",
       },
       {
-        id: "premium",
-        title: "الباقة الممتازة",
-        description: "إدارة شاملة ومراقبة مستمرة",
+        id: "enterprise",
+        title: "الباقات المؤسسية والشاملة",
+        description: "إدارة متكاملة ومراقبة مستمرة لتقنية المعلومات",
         path: "products?package=premium",
       },
     ],
@@ -355,7 +319,7 @@ const productMenu: Record<
         path: "services/it-automation",
       },
     ],
-    independentLabel: "منتجات مستقلة",
+    independentLabel: "خدمات مستقلة",
     independent: [
       {
         id: "independent-backup",
@@ -547,10 +511,10 @@ export function SiteHeader({
                       </section>
                       <section className="product-menu-section product-managed-section">
                         <div className="product-menu-heading">
-                          <span>{products.managedLabel}</span>
+                          <span>{products.independentLabel}</span>
                         </div>
-                        <div className="product-managed-grid">
-                          {products.managed.map((entry) => (
+                        <div className="product-managed-grid product-independent-grid">
+                          {products.independent.map((entry) => (
                             <Link
                               href={`/${locale}/${entry.path}`}
                               key={entry.id}
@@ -575,18 +539,6 @@ export function SiteHeader({
                           {products.independentLabel}{" "}
                           <span aria-hidden="true">←</span>
                         </a>
-                        <div>
-                          {products.independent.map((entry) => (
-                            <a
-                              href={`/${locale}/${entry.path}`}
-                              key={entry.id}
-                              onClick={() => setOpen(false)}
-                            >
-                              <b>{entry.title}</b>
-                              <small>{entry.description}</small>
-                            </a>
-                          ))}
-                        </div>
                       </div>
                     </aside>
                   </div>

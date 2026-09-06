@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored third-party code is verified by checksum and not maintained here.
+    "public/vendor/**",
   ]),
 ]);
 
