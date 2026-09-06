@@ -126,7 +126,10 @@ export const Content: CollectionConfig = {
     description: "صفحه‌ها، سرویس‌ها، راهکارها و مطالب سایت در هر سه زبان",
     preview: (document, { locale }) => {
       const localeCode = locale || "fa";
-      const path = typeof document.path === "string" ? document.path.replace(/^\/+/, "") : "";
+      const isHome = document.key === "home" || document.templateKey === "home";
+      const path = typeof document.path === "string" && document.path.trim()
+        ? document.path.replace(/^\/+|\/+$/g, "")
+        : isHome ? "" : typeof document.slug === "string" ? document.slug.replace(/^\/+|\/+$/g, "") : "";
       return `/${localeCode}${path ? `/${path}` : ""}?draft=1`;
     },
   },
@@ -171,7 +174,11 @@ export const Content: CollectionConfig = {
           description: "آدرس صفحه و ارتباط آن با محتوای دیگر",
           fields: [
             { name: "slug", type: "text", localized: true, required: true, maxLength: 180 },
-            { name: "path", type: "text", localized: true, index: true, maxLength: 500, admin: { description: "بدون / ابتدایی؛ فقط صفحهٔ خانه خالی است." } },
+            {
+              name: "path", type: "text", localized: true, index: true, maxLength: 500,
+              validate: (value: unknown, { data }: { data?: { templateKey?: unknown } }) => data?.templateKey === "home" || (typeof value === "string" && value.trim().length > 0) || "A localized path is required for every non-home document.",
+              admin: { description: "بدون / ابتدایی؛ فقط صفحهٔ خانه خالی است." },
+            },
             { name: "parent", type: "relationship", relationTo: "content", filterOptions: ({ id }) => ({ id: { not_equals: id } }) },
             { name: "relatedContent", type: "relationship", relationTo: "content", hasMany: true },
             {

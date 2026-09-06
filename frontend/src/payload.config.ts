@@ -2,6 +2,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { en } from "@payloadcms/translations/languages/en";
+import { fa } from "@payloadcms/translations/languages/fa";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { Content } from "./payload/collections/Content";
@@ -20,6 +22,10 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  i18n: {
+    fallbackLanguage: "fa",
+    supportedLanguages: { fa, en },
+  },
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
@@ -32,9 +38,9 @@ export default buildConfig({
   editor: lexicalEditor(),
   localization: {
     locales: [
-      { code: "fa", label: "فارسی", rtl: true },
-      { code: "en", label: "English" },
-      { code: "ar-ae", label: "العربية", rtl: true },
+      { code: "fa", label: { fa: "فارسی", en: "Persian" }, rtl: true },
+      { code: "en", label: { fa: "انگلیسی", en: "English" } },
+      { code: "ar-ae", label: { fa: "عربی", en: "Arabic" }, rtl: true },
     ],
     defaultLocale: "fa",
     fallback: false,

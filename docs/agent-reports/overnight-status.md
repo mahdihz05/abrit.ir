@@ -80,3 +80,15 @@ No changes to pricing, navigation, disputed titles, audit-history authority, aut
 - Completed review fix: reduced-motion diagnosis found that the extracted runtime guard targeted an obsolete Hero function signature. The guard now matches the current optional `anim` parameter, the asset version was bumped, and `artifacts/browser/homepage/report.json` records `hero_auto_rotation_stopped: true`.
 - Final state: canonical `npm run seed` was proven from a newly empty volume, the post-review `npm run check` passed, browser suites passed, `git diff --check` passed, immutable-v5 has zero diff, and final DB counts/status are healthy.
 - Do not redo: database reset or initial backup unless a new schema reset is genuinely required. Current fresh DB was created and fully seeded by the canonical `npm run seed` command.
+
+## UI/Admin/Language Hardening - 2026-09-06
+
+- Header navigation seed row identity was repaired; `fa`, `en`, and `ar-ae` labels now survive canonical reseeding.
+- Header contrast, responsive navigation scrolling, visible locale selection, and mega-menu accessibility state were hardened.
+- Clean Chrome did not reproduce an Admin hydration mismatch. Payload's expected layer style remained unchanged and no hydration, console, or page error was recorded.
+- Payload Admin native Persian/English translations are configured. Verified document states are `fa`/RTL and `en`/LTR.
+- Localized Preview/View targets and public identity-preserving language switching passed with deliberately different Persian and English paths.
+- A localized English update changed only English and left Persian unchanged. The temporary test document was deleted.
+- `npm run check` passed: lint, generated route types, TypeScript, 13 Vitest tests, and a 93-page production build.
+- Incremental migration `20260906_115746_hardening_i18n_preview` was generated and validated after the existing baseline on an isolated temporary database; both migrations applied successfully. No migration was applied to the development database or any external environment.
+- Full evidence and remaining custom-label limitation: `docs/agent-reports/ui-admin-language-hardening.md`.

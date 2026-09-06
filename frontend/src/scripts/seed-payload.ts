@@ -1,4 +1,4 @@
-import config from "@payload-config";
+import { createRequire } from "node:module";
 import { getPayload, type Payload } from "payload";
 import { managedItPackages } from "@/lib/managed-it-packages";
 import { contractTerms, featureGroupLabels, managementLevels, productPackages } from "@/lib/product-packages";
@@ -6,7 +6,10 @@ import { localizedPackages, pageCopy, services, solutions, staticNavigation, sta
 import { normalizeSearchText } from "@/lib/search-normalization";
 import { internalCopy } from "@/lib/internal-copy";
 import type { Locale } from "@/lib/types";
-import type { Content, Form } from "@/payload-types";
+import type { Content, Form, Navigation } from "@/payload-types";
+
+const { loadEnvConfig } = createRequire(import.meta.url)("@next/env") as typeof import("@next/env");
+loadEnvConfig(process.cwd());
 
 const locales: Locale[] = ["fa", "en", "ar-ae"];
 
@@ -163,14 +166,30 @@ async function seedGlobals(payload: Payload) {
     overrideAccess: true,
     data: { catalog: { packages: productPackages, contractTerms, managementLevels, featureGroupLabels } },
   });
+  let navigation = await payload.findGlobal({ slug: "navigation", locale: "fa", fallbackLocale: false, depth: 0, overrideAccess: true });
+  const preserveRowIDs = (items: NonNullable<Navigation["header"]>, existing: Navigation["header"]) =>
+    items.map((item, index) => ({
+      ...item,
+      ...(existing?.[index]?.id ? { id: existing[index].id } : {}),
+      ...(item.children ? { children: item.children.map((child, childIndex) => ({ ...child, ...(existing?.[index]?.children?.[childIndex]?.id ? { id: existing[index].children![childIndex].id } : {}) })) } : {}),
+    }));
   for (const locale of locales) {
     const settings = staticSettings(locale);
     await payload.updateGlobal({ slug: "site-settings", locale, overrideAccess: true, data: { brandName: settings.brand_name, phone: settings.phone, email: settings.email || undefined, customerPortalURL: settings.customer_portal_url, locationLabel: settings.location, address: settings.address, defaultSEOTitle: settings.seo.title, defaultSEODescription: settings.seo.description } });
-    const items = staticNavigation(locale).map((item) => ({
+    const items: NonNullable<Navigation["header"]> = staticNavigation(locale).map((item) => ({
       title: item.title, description: item.description, path: item.url.replace(new RegExp(`^/${locale}/?`), ""), enabled: true, openInNewTab: item.open_in_new_tab,
       children: item.url.endsWith("/solutions") ? solutions.map((solution) => ({ title: solution.title[locale], description: solution.excerpt[locale], path: `solutions/${solution.slug}`, enabled: true })) : [],
     }));
-    await payload.updateGlobal({ slug: "navigation", locale, overrideAccess: true, data: { header: items, footer: items, mobile: items } });
+    navigation = await payload.updateGlobal({
+      slug: "navigation",
+      locale,
+      overrideAccess: true,
+      data: {
+        header: preserveRowIDs(items, navigation.header),
+        footer: preserveRowIDs(items, navigation.footer),
+        mobile: preserveRowIDs(items, navigation.mobile),
+      },
+    });
   }
 }
 
@@ -204,6 +223,7 @@ async function seedPackages(payload: Payload) {
 
 async function main() {
   if (!process.env.DATABASE_URI || !process.env.PAYLOAD_SECRET) throw new Error("DATABASE_URI and PAYLOAD_SECRET are required.");
+  const { default: config } = await import("@payload-config");
   const payload = await getPayload({ config });
   const adminEmail = process.env.PAYLOAD_ADMIN_EMAIL;
   const adminPassword = process.env.PAYLOAD_ADMIN_PASSWORD;

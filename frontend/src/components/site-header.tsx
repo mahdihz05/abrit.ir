@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FocusEvent, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent } from "react";
 import { Brand } from "./brand";
 import { localeMeta, locales, ui } from "@/lib/locales";
 import { localizedSolutions } from "@/lib/public-content";
@@ -14,6 +14,8 @@ type ProductMenuEntry = {
   description: string;
   path: string;
 };
+
+type MegaMenuId = "products" | "solutions" | "editorial";
 
 const productMenu: Record<
   Locale,
@@ -450,6 +452,7 @@ export function SiteHeader({
   items: NavigationItem[];
 }) {
   const [open, setOpen] = useState(false);
+  const [activeMega, setActiveMega] = useState<MegaMenuId | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const labels = ui[locale];
@@ -485,6 +488,45 @@ export function SiteHeader({
     return segments.join("/") || `/${nextLocale}`;
   }
 
+  function handleLocalizedAlternate(event: MouseEvent<HTMLAnchorElement>, nextLocale: Locale) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const alternate = document.querySelector<HTMLLinkElement>(`link[rel="alternate"][hreflang="${localeMeta[nextLocale].lang}"]`);
+    if (!alternate?.href) return;
+    event.preventDefault();
+    window.location.assign(alternate.href);
+  }
+
+  function closeNavigation() {
+    setOpen(false);
+    setActiveMega(null);
+  }
+
+  function megaMenuProps(menu: MegaMenuId) {
+    return {
+      "data-mega-open": activeMega === menu ? "true" : undefined,
+      onPointerEnter: () => setActiveMega(menu),
+      onPointerLeave: () => setActiveMega((current) => current === menu ? null : current),
+      onFocus: () => setActiveMega(menu),
+      onBlur: (event: FocusEvent<HTMLDivElement>) => {
+        if (!(event.relatedTarget instanceof Node) || !event.currentTarget.contains(event.relatedTarget)) {
+          setActiveMega((current) => current === menu ? null : current);
+        }
+      },
+    };
+  }
+
+  function closeMegaMenuFromKeyboard(event: ReactKeyboardEvent<HTMLElement>) {
+    if (event.key !== "Escape") return;
+    if (activeMega) {
+      event.preventDefault();
+      event.currentTarget.querySelector<HTMLElement>("[aria-expanded=true]")?.focus();
+      setActiveMega(null);
+    } else if (open) {
+      setOpen(false);
+      document.querySelector<HTMLElement>(".menu-toggle")?.focus();
+    }
+  }
+
   return (
     <header
       className="site-header"
@@ -506,21 +548,28 @@ export function SiteHeader({
           id="site-navigation"
           className={open ? "main-nav is-open" : "main-nav"}
           aria-label={labels.navigation}
+          onKeyDown={closeMegaMenuFromKeyboard}
         >
           {items.map((item, index) => {
-            const submenu = index === 2 ? solutionItems : null;
-            if (index === 1) {
+            const isProducts = item.url === `/${locale}/products`;
+            const isSolutions = item.url === `/${locale}/solutions`;
+            const isEditorial = item.url === `/${locale}/news`;
+            const submenu = isSolutions ? solutionItems : null;
+            if (isProducts) {
               return (
-                <div className="shared-nav-item" key={item.id}>
+                <div className="shared-nav-item" key={item.id} {...megaMenuProps("products")}>
                   <Link
                     className="shared-nav-trigger"
                     href={item.url}
-                    onClick={() => setOpen(false)}
+                    aria-haspopup="true"
+                    aria-expanded={activeMega === "products"}
+                    aria-controls="products-mega-menu"
+                    onClick={closeNavigation}
                   >
                     {item.title}
                     <span aria-hidden="true">⌄</span>
                   </Link>
-                  <div className="shared-mega shared-products-mega">
+                  <div className="shared-mega shared-products-mega" id="products-mega-menu">
                     <div className="product-menu-content">
                       <section className="product-menu-section">
                         <div className="product-menu-heading">
@@ -593,18 +642,21 @@ export function SiteHeader({
                 </div>
               );
             }
-            if (index === 4) {
+            if (isEditorial) {
               return (
-                <div className="shared-nav-item" key={item.id}>
+                <div className="shared-nav-item" key={item.id} {...megaMenuProps("editorial")}>
                   <Link
                     className="shared-nav-trigger"
                     href={item.url}
-                    onClick={() => setOpen(false)}
+                    aria-haspopup="true"
+                    aria-expanded={activeMega === "editorial"}
+                    aria-controls="editorial-mega-menu"
+                    onClick={closeNavigation}
                   >
                     {item.title}
                     <span aria-hidden="true">⌄</span>
                   </Link>
-                  <div className="shared-mega shared-editorial-mega">
+                  <div className="shared-mega shared-editorial-mega" id="editorial-mega-menu">
                     <div className="shared-mega-list">
                       {editorial.entries.map((entry) => (
                         <Link
@@ -655,16 +707,19 @@ export function SiteHeader({
               ));
 
             return (
-              <div className="shared-nav-item" key={item.id}>
+              <div className="shared-nav-item" key={item.id} {...megaMenuProps("solutions")}>
                 <Link
                   className="shared-nav-trigger"
                   href={item.url}
-                  onClick={() => setOpen(false)}
+                  aria-haspopup="true"
+                  aria-expanded={activeMega === "solutions"}
+                  aria-controls="solutions-mega-menu"
+                  onClick={closeNavigation}
                 >
                   {item.title}
                   <span aria-hidden="true">⌄</span>
                 </Link>
-                <div className="shared-mega">
+                <div className="shared-mega" id="solutions-mega-menu">
                   <div className="shared-mega-list">{renderLinks(submenu)}</div>
                   <aside className="shared-mega-summary">
                     <span>ABRIT</span>
@@ -694,24 +749,28 @@ export function SiteHeader({
               <path d="m16 16 4 4" />
             </svg>
           </Link>
-          <div className="language-switcher" aria-label="Language">
-            {locales.map((item) => (
-              <Link
-                key={item}
-                href={localizedPath(item)}
-                className={item === locale ? "is-active" : ""}
-                lang={localeMeta[item].lang}
-                hrefLang={localeMeta[item].lang}
-                aria-label={localeMeta[item].label}
-                title={localeMeta[item].label}
-              >
-                <span aria-hidden="true" className="language-flag">
-                  {localeFlags[item]}
-                </span>
-                <span className="sr-only">{localeMeta[item].label}</span>
-              </Link>
-            ))}
-          </div>
+          <details className="language-switcher">
+            <summary aria-label={locale === "fa" ? "تغییر زبان" : locale === "en" ? "Change language" : "تغيير اللغة"}>
+              <span aria-hidden="true" className="language-flag">{localeFlags[locale]}</span>
+              <span>{localeMeta[locale].label}</span>
+            </summary>
+            <div className="language-menu">
+              {locales.map((item) => (
+                <Link
+                  key={item}
+                  href={localizedPath(item)}
+                  className={item === locale ? "is-active" : ""}
+                  lang={localeMeta[item].lang}
+                  hrefLang={localeMeta[item].lang}
+                  aria-current={item === locale ? "page" : undefined}
+                  onClick={(event) => handleLocalizedAlternate(event, item)}
+                >
+                  <span aria-hidden="true" className="language-flag">{localeFlags[item]}</span>
+                  <span>{localeMeta[item].label}</span>
+                </Link>
+              ))}
+            </div>
+          </details>
         </div>
       </div>
     </header>

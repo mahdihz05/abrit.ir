@@ -7,7 +7,7 @@ import { GenericPage, type PublicPageSlug } from "@/components/generic-page";
 import { BlockRenderer } from "@/components/block-renderer";
 import { isLocale } from "@/lib/locales";
 import { cms } from "@/lib/payload-cms";
-import { routeMetadata } from "@/lib/seo";
+import { contentMetadata } from "@/lib/seo";
 
 const publicPages = new Set<PublicPageSlug>(["about", "contact", "knowledge", "news"]);
 
@@ -16,13 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/[slug]">
   if (!isLocale(locale)) return {};
   const content = await cms.content(locale, slug);
   if (!content) return {};
-  if (publicPages.has(slug as PublicPageSlug)) return routeMetadata(locale, slug, content.seo.title, content.seo.description);
-  return {
-    title: { absolute: content.seo.title },
-    description: content.seo.description,
-    alternates: { canonical: content.seo.canonical_url || content.url },
-    robots: { index: content.seo.robots.index, follow: content.seo.robots.follow },
-  };
+  return contentMetadata(content);
 }
 
 export default async function GenericCmsPage({ params, searchParams }: PageProps<"/[locale]/[slug]">) {
