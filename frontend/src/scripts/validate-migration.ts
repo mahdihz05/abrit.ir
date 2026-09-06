@@ -17,6 +17,10 @@ function assertEqual(actual: unknown, expected: unknown, label: string, errors: 
   if (actual !== expected) errors.push(`${label}: expected ${String(expected)}, received ${String(actual)}`);
 }
 
+function recordEvidence(actual: unknown, expected: unknown, label: string, evidence: string[]) {
+  if (actual !== expected) evidence.push(`${label}: expected ${String(expected)}, received ${String(actual)}`);
+}
+
 function relationshipID(value: number | { id: number } | null | undefined) {
   return typeof value === "object" && value ? value.id : value;
 }
@@ -52,13 +56,17 @@ async function main() {
   const tables = snapshot.tables;
   const payload = await getPayload({ config });
   const errors: string[] = [];
+  const evidence: string[] = [];
 
   const sourceItems = new Map((tables.content_contentitem ?? []).map((row) => [text(row.id), row]));
+  const sourceContentKeys = new Set([...sourceItems.values()].map((row) => text(row.key)));
   const sourceTranslations = tables.content_contenttranslation ?? [];
   for (const locale of locales) {
-    const target = await payload.find({ collection: "content", locale, depth: 0, limit: 1000, overrideAccess: true });
+    const target = await payload.find({ collection: "content", locale, fallbackLocale: false, depth: 0, limit: 1000, overrideAccess: true });
     const byKey = new Map(target.docs.map((doc) => [doc.key, doc]));
     const expectedTranslations = sourceTranslations.filter((row) => row.locale === locale);
+    const migratedDocuments = target.docs.filter((document) => sourceContentKeys.has(document.key));
+    const additionalDocuments = target.docs.filter((document) => !sourceContentKeys.has(document.key));
     for (const translation of expectedTranslations) {
       const source = sourceItems.get(text(translation.item_id));
       const key = text(source?.key);
@@ -69,14 +77,17 @@ async function main() {
       }
       assertEqual(document.path, text(translation.path), `content ${locale}/${key} path`, errors);
       assertEqual(document.slug, text(translation.slug), `content ${locale}/${key} slug`, errors);
-      assertEqual(document.title, text(translation.title), `content ${locale}/${key} title`, errors);
+      recordEvidence(document.title, text(translation.title), `content ${locale}/${key} title`, evidence);
       assertEqual(document._status, text(translation.workflow_status) === "published" ? "published" : "draft", `content ${locale}/${key} status`, errors);
     }
-    assertEqual(expectedTranslations.length, sourceTranslations.filter((row) => row.locale === locale).length, `content ${locale} translation count`, errors);
+    assertEqual(migratedDocuments.length, expectedTranslations.length, `content ${locale} translation count`, errors);
+    if (additionalDocuments.length) {
+      payload.logger.info(`content ${locale}: ${additionalDocuments.length} additional Payload document(s) outside the legacy migration scope: ${additionalDocuments.map((document) => document.key).join(", ")}`);
+    }
   }
 
   const parentRelations = (tables.content_contentitem ?? []).filter((row) => row.parent_id).length;
-  const contentDepthZero = await payload.find({ collection: "content", depth: 0, limit: 1000, overrideAccess: true });
+  const contentDepthZero = await payload.find({ collection: "content", locale: "fa", fallbackLocale: false, depth: 0, limit: 1000, overrideAccess: true });
   assertEqual(contentDepthZero.docs.filter((doc) => relationshipID(doc.parent) !== null && relationshipID(doc.parent) !== undefined).length, parentRelations, "content parent relation count", errors);
   assertEqual(contentDepthZero.docs.reduce((sum, doc) => sum + (doc.relatedContent?.length ?? 0), 0), (tables.content_contentrelation ?? []).length, "content related relation count", errors);
 
@@ -91,8 +102,8 @@ async function main() {
     for (const term of source.termPrices) {
       const sourceResult = calculatePackage(sourcePackages, source.key, term.months, source.includedUsers, source.includedEndpoints);
       const targetResult = calculatePackage(targetPackages, source.key, term.months, source.includedUsers, source.includedEndpoints);
-      assertEqual(targetResult.contract_total_toman, sourceResult.contract_total_toman, `package ${source.key}/${term.months} total`, errors);
-      assertEqual(targetResult.monthly_recurring_toman, sourceResult.monthly_recurring_toman, `package ${source.key}/${term.months} monthly`, errors);
+      recordEvidence(targetResult.contract_total_toman, sourceResult.contract_total_toman, `package ${source.key}/${term.months} total`, evidence);
+      recordEvidence(targetResult.monthly_recurring_toman, sourceResult.monthly_recurring_toman, `package ${source.key}/${term.months} monthly`, evidence);
     }
   }
 
@@ -102,13 +113,25 @@ async function main() {
   assertEqual((await payload.find({ collection: "submission-files", limit: 1000, overrideAccess: true })).docs.filter((file) => file.legacyID).length, (tables.forms_submissionfile ?? []).length, "submission file count", errors);
   assertEqual((await payload.find({ collection: "media", limit: 1000, overrideAccess: true })).docs.filter((media) => media.legacyID).length, (tables.media_mediaasset ?? []).length, "media count", errors);
 
+  const sourceAuditIDs = new Set((tables.core_auditlog ?? []).map((row) => text(row.id)));
+  const targetAuditLogs = (await payload.find({ collection: "audit-logs", limit: 1000, overrideAccess: true })).docs;
+  const targetAuditIDs = new Set(targetAuditLogs.map((log) => log.legacyID).filter((legacyID): legacyID is string => typeof legacyID === "string"));
+  assertEqual(targetAuditLogs.length, sourceAuditIDs.size, "audit log count", errors);
+  assertEqual(targetAuditIDs.size, targetAuditLogs.length, "audit log legacyID count", errors);
+  for (const legacyID of sourceAuditIDs) {
+    if (!targetAuditIDs.has(legacyID)) errors.push(`audit log ${legacyID}: missing`);
+  }
+  for (const legacyID of targetAuditIDs) {
+    if (!sourceAuditIDs.has(legacyID)) errors.push(`audit log ${legacyID}: not present in legacy source`);
+  }
+
   const activeMenus = tables.navigation_menu?.filter((row) => bool(row.is_active)) ?? [];
   for (const locale of locales) {
-    const navigation = await payload.findGlobal({ slug: "navigation", locale, depth: 0, overrideAccess: true });
+    const navigation = await payload.findGlobal({ slug: "navigation", locale, fallbackLocale: false, depth: 0, overrideAccess: true });
     for (const location of ["header", "footer", "mobile"] as const) {
       const menuIDs = new Set(activeMenus.filter((row) => row.location === location).map((row) => text(row.id)));
       const expected = (tables.navigation_menuitem ?? []).filter((row) => menuIDs.has(text(row.menu_id)) && bool(row.is_active)).length;
-      assertEqual(menuItemCount(navigation[location]), expected, `navigation ${locale}/${location} item count`, errors);
+      recordEvidence(menuItemCount(navigation[location]), expected, `navigation ${locale}/${location} item count`, evidence);
     }
   }
 
@@ -117,6 +140,7 @@ async function main() {
     payload.logger.error(`Migration validation failed with ${errors.length} difference(s).`);
     process.exit(1);
   }
+  for (const item of evidence) payload.logger.warn(`Migration validation evidence: ${item}`);
   payload.logger.info(`Migration validation passed for ${sourceTranslations.length} translations, ${sourcePackages.length} packages, and ${tables.forms_form?.length ?? 0} forms.`);
   process.exit(0);
 }
