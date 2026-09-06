@@ -1,5 +1,6 @@
 .env
 deploy/.env.production
+/backups/
 .npmrc
 .venv/
 /node_modules/
