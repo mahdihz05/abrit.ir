@@ -12,6 +12,12 @@ COPY --chown=nextjs:nodejs frontend/.next/standalone ./
 COPY --chown=nextjs:nodejs frontend/.next/static ./frontend/.next/static
 COPY --chown=nextjs:nodejs frontend/public ./frontend/public
 
+RUN find /app/frontend/.next/node_modules -type l -print0 \
+  | while IFS= read -r -d '' link; do \
+      target="$(readlink "$link")"; \
+      ln -snf "/app/frontend/${target#*frontend/}" "$link"; \
+    done
+
 RUN mkdir -p /app/media /app/private-media \
   && chown -R nextjs:nodejs /app/media /app/private-media
 
