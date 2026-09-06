@@ -384,6 +384,32 @@ export interface Content {
             variant?:
               | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
               | null;
+            /**
+             * فرمی که در این بخش صفحه نمایش داده می‌شود.
+             */
+            form: number | Form;
+            eyebrow?: string | null;
+            /**
+             * در صورت خالی بودن، عنوان خود فرم نمایش داده می‌شود.
+             */
+            heading?: string | null;
+            /**
+             * در صورت خالی بودن، توضیح خود فرم نمایش داده می‌شود.
+             */
+            intro?: string | null;
+            /**
+             * مقدار ارسالی برای فیلدهای hidden فرم، مانند نام صفحه یا کمپین.
+             */
+            context?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'form';
+          }
+        | {
+            enabled?: boolean | null;
+            variant?:
+              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
+              | null;
             sectionType:
               | 'hero'
               | 'rich_text'
@@ -664,52 +690,6 @@ export interface Content {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * قیمت‌ها با تومان ذخیره می‌شوند؛ درصدها برحسب basis point هستند (۱۰۰ = ۱٪).
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "packages".
- */
-export interface Package {
-  id: number;
-  key: string;
-  order: number;
-  name: string;
-  caption?: string | null;
-  baseMonthlyToman: number;
-  includedUsers: number;
-  maxExtraUsers?: number | null;
-  includedEndpoints: number;
-  includedServers?: number | null;
-  includedSites?: number | null;
-  extraUserMonthlyToman?: number | null;
-  extraEndpointMonthlyToman?: number | null;
-  currency: string;
-  isFeatured?: boolean | null;
-  isActive?: boolean | null;
-  termPrices: {
-    cycle: 'monthly' | 'quarterly' | 'semiannually' | 'annually';
-    months: number;
-    totalToman: number;
-    discountBps?: number | null;
-    onboardingBps?: number | null;
-    id?: string | null;
-  }[];
-  features?:
-    | {
-        key: string;
-        label?: string | null;
-        value?: string | null;
-        included?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
-  whmcsProductId?: number | null;
-  whmcsExtraUserOptionId?: number | null;
-  whmcsExtraEndpointOptionId?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "forms".
  */
@@ -773,6 +753,52 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * قیمت‌ها با تومان ذخیره می‌شوند؛ درصدها برحسب basis point هستند (۱۰۰ = ۱٪).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "packages".
+ */
+export interface Package {
+  id: number;
+  key: string;
+  order: number;
+  name: string;
+  caption?: string | null;
+  baseMonthlyToman: number;
+  includedUsers: number;
+  maxExtraUsers?: number | null;
+  includedEndpoints: number;
+  includedServers?: number | null;
+  includedSites?: number | null;
+  extraUserMonthlyToman?: number | null;
+  extraEndpointMonthlyToman?: number | null;
+  currency: string;
+  isFeatured?: boolean | null;
+  isActive?: boolean | null;
+  termPrices: {
+    cycle: 'monthly' | 'quarterly' | 'semiannually' | 'annually';
+    months: number;
+    totalToman: number;
+    discountBps?: number | null;
+    onboardingBps?: number | null;
+    id?: string | null;
+  }[];
+  features?:
+    | {
+        key: string;
+        label?: string | null;
+        value?: string | null;
+        included?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  whmcsProductId?: number | null;
+  whmcsExtraUserOptionId?: number | null;
+  whmcsExtraEndpointOptionId?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1268,6 +1294,19 @@ export interface ContentSelect<T extends boolean = true> {
                     url?: T;
                     openInNewTab?: T;
                   };
+              id?: T;
+              blockName?: T;
+            };
+        form?:
+          | T
+          | {
+              enabled?: T;
+              variant?: T;
+              form?: T;
+              eyebrow?: T;
+              heading?: T;
+              intro?: T;
+              context?: T;
               id?: T;
               blockName?: T;
             };

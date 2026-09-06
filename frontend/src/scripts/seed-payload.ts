@@ -149,7 +149,7 @@ async function seedForms(payload: Payload) {
       const data = {
         key: definition.key, isActive: true, requiresPrivacyConsent: true, retentionMonths: 12,
         title: messages[locale].title, successMessage: messages[locale].success, consentLabel: messages[locale].consent,
-        fields: definition.fields.map((field) => ({ key: field[0], fieldType: field[1], required: field[2], minLength: field[3] ?? undefined, maxLength: field[4] ?? undefined, options: field[5] ? [...field[5]] : undefined, minValue: field[6] ?? undefined, maxValue: field[7] ?? undefined, label: field[0], enabled: true })),
+        fields: definition.fields.map((field, index) => ({ key: field[0], fieldType: field[1], required: field[2], minLength: field[3] ?? undefined, maxLength: field[4] ?? undefined, options: field[5] ? [...field[5]] : undefined, minValue: field[6] ?? undefined, maxValue: field[7] ?? undefined, label: field[0], enabled: true, ...(form?.fields?.[index]?.id ? { id: form.fields[index].id } : {}) })),
       };
       if (form) {
         form = await payload.update({ collection: "forms", id: form.id, locale, overrideAccess: true, data });

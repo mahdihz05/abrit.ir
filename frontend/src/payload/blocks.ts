@@ -129,6 +129,28 @@ export const CTABlock: Block = {
   ],
 };
 
+export const FormBlock: Block = {
+  slug: "form",
+  labels: { singular: "Form", plural: "Forms" },
+  fields: [
+    enabledField,
+    variantField,
+    {
+      name: "form",
+      type: "relationship",
+      relationTo: "forms",
+      required: true,
+      maxDepth: 1,
+      filterOptions: { isActive: { equals: true } },
+      admin: { description: "فرمی که در این بخش صفحه نمایش داده می‌شود." },
+    },
+    { name: "eyebrow", type: "text", localized: true },
+    { name: "heading", type: "text", localized: true, admin: { description: "در صورت خالی بودن، عنوان خود فرم نمایش داده می‌شود." } },
+    { name: "intro", type: "textarea", localized: true, admin: { description: "در صورت خالی بودن، توضیح خود فرم نمایش داده می‌شود." } },
+    { name: "context", type: "text", localized: true, admin: { description: "مقدار ارسالی برای فیلدهای hidden فرم، مانند نام صفحه یا کمپین." } },
+  ],
+};
+
 /** Preserves migrated content exactly while new pages use editor-friendly typed blocks. */
 export const LegacyContentSection: Block = {
   slug: "contentSection",
@@ -151,4 +173,4 @@ export const LegacyContentSection: Block = {
   ],
 };
 
-export const contentBlocks = [HeroBlock, RichTextBlock, FeatureGridBlock, FAQBlock, TestimonialBlock, CTABlock, LegacyContentSection];
+export const contentBlocks = [HeroBlock, RichTextBlock, FeatureGridBlock, FAQBlock, TestimonialBlock, CTABlock, FormBlock, LegacyContentSection];

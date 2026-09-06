@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { RichText } from "@payloadcms/richtext-lexical/react";
+import { CmsForm } from "@/components/cms-form";
 import { ui } from "@/lib/locales";
+import type { Form } from "@/payload-types";
 import type { ContentBlock, ContentSummary, Locale, Package } from "@/lib/types";
 
 type Props = { block: ContentBlock; locale: Locale; services: ContentSummary[]; packages: Package[] };
@@ -166,6 +168,14 @@ function Testimonials({ block }: Pick<Props, "block">) {
   );
 }
 
+function FormSection({ block, locale }: Pick<Props, "block" | "locale">) {
+  const form = block.props.form;
+  if (!form || typeof form !== "object" || !("key" in form)) return null;
+  const selectedForm = form as Form;
+  if (selectedForm.isActive === false) return null;
+  return <CmsForm form={selectedForm} locale={locale} eyebrow={text(block.props.eyebrow)} heading={text(block.props.heading)} intro={text(block.props.intro)} context={text(block.props.context)} compact={block.variant === "compact"} />;
+}
+
 export function BlockRenderer(props: Props) {
   if (props.block.type === "hero") return <Hero {...props} />;
   if (props.block.type === "service_grid") return <ServiceGrid {...props} />;
@@ -175,5 +185,6 @@ export function BlockRenderer(props: Props) {
   if (props.block.type === "feature_grid") return <FeatureGrid {...props} />;
   if (props.block.type === "faq") return <FAQ {...props} />;
   if (props.block.type === "testimonials") return <Testimonials {...props} />;
+  if (props.block.type === "form") return <FormSection {...props} />;
   return null;
 }

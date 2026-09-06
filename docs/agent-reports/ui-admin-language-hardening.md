@@ -55,3 +55,13 @@ Date: 2026-09-06
 
 - Payload's native Admin chrome is translated into Persian where supported. Project-defined collection, global, group, and many field labels remain the existing English/Persian mix because they are custom schema labels rather than Payload translation strings. This does not affect locale selection, RTL direction, content isolation, Preview URLs, or public rendering.
 - The local development database was previously created through Payload's development schema push and has no migration ledger entries. The validated migration chain is ready for a fresh database; an already populated target with the same ledger-less history must be backed up and reconciled/baselined before running `payload migrate`.
+
+## Page Form Block
+
+- Added a typed `Form` block to the Content layout editor. Editors can select any active document from the existing `Forms` collection and optionally override its localized eyebrow, heading, introduction, and hidden-field context.
+- Public rendering uses the selected form's localized field definitions and the existing `/api/forms/[formKey]/submissions` validation/storage flow.
+- Text, textarea, email, phone, number, select, multi-select, radio, checkbox, date, datetime, URL, and hidden fields are rendered dynamically. Forms containing file-upload fields are shown but submission is disabled because the current JSON endpoint does not accept files.
+- Common seeded field keys receive readable Persian, English, and Arabic fallback labels; custom labels configured on a Form take precedence.
+- Canonical form seeding now preserves field row IDs across locales so localized labels no longer disappear during successive locale updates.
+- Browser E2E verified a Persian page containing the selected consultation form, readable labels, a successful real submission, no console/page errors, and responsive page rendering. The temporary page and submission were deleted after the test.
+- Added and validated migration `20260906_130821_page_form_block`; the complete three-migration chain applied successfully to an isolated empty PostgreSQL database.

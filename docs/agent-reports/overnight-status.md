@@ -92,3 +92,4 @@ No changes to pricing, navigation, disputed titles, audit-history authority, aut
 - `npm run check` passed: lint, generated route types, TypeScript, 13 Vitest tests, and a 93-page production build.
 - Incremental migration `20260906_115746_hardening_i18n_preview` was generated and validated after the existing baseline on an isolated temporary database; both migrations applied successfully. No migration was applied to the development database or any external environment.
 - Full evidence and remaining custom-label limitation: `docs/agent-reports/ui-admin-language-hardening.md`.
+- Added a reusable Content `Form` block backed by active Forms relationships and a localized dynamic public renderer. Browser E2E submitted the consultation form from a temporary Persian page successfully, then removed the test page/submission. Migration `20260906_130821_page_form_block` and the full quality gate passed.
