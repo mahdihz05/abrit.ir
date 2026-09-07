@@ -15,7 +15,9 @@ docker compose -f deploy/compose.yaml exec -T postgres \
   pg_dump -U "$POSTGRES_USER" "$POSTGRES_DB" \
   | gzip -9 > "backups/postgres-${timestamp}.sql.gz"
 
-su -s /bin/sh deploy -c "cd '$repo_dir' && git fetch origin opencode-dev && git checkout opencode-dev && git pull --ff-only origin opencode-dev"
+git fetch origin opencode-dev
+git checkout opencode-dev
+git pull --ff-only origin opencode-dev
 
 docker compose -f deploy/compose.yaml up -d postgres
 docker compose -f deploy/compose.yaml --profile build run --rm builder
