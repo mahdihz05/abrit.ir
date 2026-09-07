@@ -28,6 +28,7 @@ export type IndependentService = {
   title: LocalizedText;
   category: LocalizedText;
   heroTitle: LocalizedText;
+  heroTitleAccent?: LocalizedText;
   heroBody: LocalizedText;
   pulse: LocalizedText[];
   overviewTitle: LocalizedText;
@@ -219,6 +220,11 @@ export const independentServices: IndependentService[] = [
       "اطلاعات سازمان شما، همیشه یک مسیر مطمئن برای بازگشت دارد",
       "Give critical information a dependable path back",
       "امنح معلومات مؤسستك مساراً موثوقاً للعودة",
+    ),
+    heroTitleAccent: l(
+      "همیشه یک مسیر مطمئن برای بازگشت دارد",
+      "a dependable path back",
+      "مساراً موثوقاً للعودة",
     ),
     heroBody: l(
       "ابریت Backup پشتیبان‌گیری، پایش و بازیابی اطلاعات و سرویس‌های حیاتی سازمان را به یک فرایند مدیریت‌شده و قابل بررسی تبدیل می‌کند.",

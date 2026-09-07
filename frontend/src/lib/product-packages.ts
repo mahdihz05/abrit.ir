@@ -28,9 +28,7 @@ export type ProductPackage = {
   includedUsers: number;
   maxExtraUsers: number;
   whmcs: {
-    productId: number;
     slug: string;
-    extraUserOptionId: number;
   };
   extraUserMonthlyToman: number;
   cloudGb: number;
@@ -79,7 +77,7 @@ export const productPackages: readonly ProductPackage[] = [
     audience: t("برای کسب‌وکارهای کوچک و استارتاپ‌هایی که به پشتیبانی منظم کاربران، نرم‌افزارها، شبکه داخلی و امنیت اولیه نیاز دارند.", "For small businesses and startups that need dependable user, software, local-network and baseline security support.", "للشركات الصغيرة والناشئة التي تحتاج إلى دعم موثوق للمستخدمين والبرمجيات والشبكة والأمن الأساسي."),
     includedUsers: 4,
     maxExtraUsers: 1,
-    whmcs: { productId: 7, slug: "basic", extraUserOptionId: 2 },
+    whmcs: { slug: "basic" },
     extraUserMonthlyToman: 990_000,
     cloudGb: 0,
     managedServers: 0,
@@ -108,7 +106,7 @@ export const productPackages: readonly ProductPackage[] = [
     audience: t("برای شرکت‌های کوچک که علاوه بر پشتیبانی روزمره، به مدیریت کاربران، دسترسی‌ها و نظم بیشتر در زیرساخت نیاز دارند.", "For small companies that need user, access and infrastructure management in addition to everyday support.", "للشركات الصغيرة التي تحتاج إلى إدارة المستخدمين والصلاحيات والبنية التحتية إلى جانب الدعم اليومي."),
     includedUsers: 7,
     maxExtraUsers: 2,
-    whmcs: { productId: 8, slug: "standard", extraUserOptionId: 3 },
+    whmcs: { slug: "standard" },
     extraUserMonthlyToman: 1_290_000,
     cloudGb: 5,
     managedServers: 0,
@@ -137,7 +135,7 @@ export const productPackages: readonly ProductPackage[] = [
     audience: t("برای شرکت‌های متوسط، چندشعبه‌ای یا دارای کاربران دورکار که به ارتباط امن و پایش بهتر سرویس‌ها نیاز دارند.", "For medium, multi-branch or remote-work companies that need secure connectivity and stronger service monitoring.", "للشركات المتوسطة أو متعددة الفروع أو التي لديها موظفون عن بُعد وتحتاج إلى اتصال آمن ومراقبة أفضل للخدمات."),
     includedUsers: 10,
     maxExtraUsers: 3,
-    whmcs: { productId: 9, slug: "advance", extraUserOptionId: 4 },
+    whmcs: { slug: "advance" },
     extraUserMonthlyToman: 1_690_000,
     cloudGb: 10,
     managedServers: 0,
@@ -166,7 +164,7 @@ export const productPackages: readonly ProductPackage[] = [
     audience: t("برای شرکت‌هایی با شبکه و تجهیزات حرفه‌ای‌تر که به مدیریت تخصصی زیرساخت، پایش و خدمات حضوری نیاز دارند.", "For companies with professional networks and equipment that need specialist infrastructure management, monitoring and on-site service.", "للشركات ذات الشبكات والمعدات الاحترافية التي تحتاج إلى إدارة متخصصة للبنية التحتية والمراقبة والخدمة الميدانية."),
     includedUsers: 20,
     maxExtraUsers: 5,
-    whmcs: { productId: 10, slug: "professiona1", extraUserOptionId: 5 },
+    whmcs: { slug: "professionall" },
     extraUserMonthlyToman: 2_490_000,
     cloudGb: 20,
     managedServers: 1,
@@ -195,7 +193,7 @@ export const productPackages: readonly ProductPackage[] = [
     audience: t("برای سازمان‌هایی که فناوری اطلاعات بخش حیاتی عملیات روزانه آن‌هاست و به مدیریت جامع، امنیت بیشتر و پشتیبانی اولویت‌دار نیاز دارند.", "For organizations where IT is mission-critical and requires complete management, stronger security and priority support.", "للمؤسسات التي تمثل تقنية المعلومات جزءاً حيوياً من عملياتها وتحتاج إلى إدارة شاملة وأمن أقوى ودعم ذي أولوية."),
     includedUsers: 30,
     maxExtraUsers: 7,
-    whmcs: { productId: 11, slug: "vip", extraUserOptionId: 6 },
+    whmcs: { slug: "vip" },
     extraUserMonthlyToman: 3_490_000,
     cloudGb: 40,
     managedServers: 2,
@@ -243,18 +241,6 @@ export function calculateProductPrice(product: ProductPackage, term: ContractTer
   };
 }
 
-const whmcsBillingCycles: Record<ContractTerm, string> = {
-  monthly: "monthly",
-  quarterly: "quarterly",
-  semiannual: "semiannually",
-};
-
-export function buildProductCheckoutUrl(product: ProductPackage, term: ContractTerm, extraUsers: number) {
-  const safeExtraUsers = Math.min(product.maxExtraUsers, Math.max(0, Math.trunc(extraUsers)));
-  const url = new URL("/cart.php", "https://my.abrit.ir");
-  url.searchParams.set("a", "add");
-  url.searchParams.set("pid", String(product.whmcs.productId));
-  url.searchParams.set("billingcycle", whmcsBillingCycles[term]);
-  url.searchParams.set(`configoption[${product.whmcs.extraUserOptionId}]`, String(safeExtraUsers));
-  return url.toString();
+export function buildProductCheckoutUrl(product: ProductPackage) {
+  return `https://my.abrit.ir/store/packages/${product.whmcs.slug}`;
 }

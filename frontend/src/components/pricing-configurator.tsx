@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo, useState, type CSSProperties } from "react";
 import { buildManagedItWhmcsUrl, estimateManagedItPrice, managedItCycles, managedItPackages, type ManagedItCycle } from "@/lib/managed-it-packages";
+import { createPriceFormatter } from "@/lib/pricing-currency";
 import type { Locale } from "@/lib/types";
 
 const labels = {
@@ -36,10 +36,10 @@ export function PricingConfigurator({ locale, initialPackage }: { locale: Locale
   const endpoints = selected.includedEndpoints;
   const copy = labels[locale];
   const number = useMemo(() => new Intl.NumberFormat(locale), [locale]);
+  const money = useMemo(() => createPriceFormatter(locale), [locale]);
   const stepNumber = useMemo(() => new Intl.NumberFormat(locale, { minimumIntegerDigits: 2, useGrouping: false }), [locale]);
   const estimate = estimateManagedItPrice(selected, cycle, users, endpoints);
-  const checkoutUrl = buildManagedItWhmcsUrl(selected, cycle, estimate.extraUsers, estimate.extraEndpoints);
-  const whmcsOptionsReady = estimate.extraUsers === 0 || selected.whmcs.extraUserOptionId !== null;
+  const checkoutUrl = buildManagedItWhmcsUrl(selected);
   const recommendation = managedItPackages.find((item) => item.order > selected.order && users <= item.includedUsers);
 
   function selectPackage(key: string) {
@@ -63,11 +63,10 @@ export function PricingConfigurator({ locale, initialPackage }: { locale: Locale
       </section>
       <aside className="managed-order-summary">
         <div className="managed-summary-top"><span>{copy.summaryLabel}</span><b>{stepNumber.format(3)}</b></div><h3>{selected.name[locale]}</h3><p>{selected.caption[locale]}</p>
-        <dl><div><dt>{copy.base}</dt><dd>{number.format(selected.pricing[cycle])} <small>{copy.toman}</small></dd></div><div><dt>{copy.extras}</dt><dd>{number.format(estimate.extras)} <small>{copy.toman}</small></dd></div></dl>
+        <dl><div><dt>{copy.base}</dt><dd>{money.format(selected.pricing[cycle])} <small>{money.label}</small></dd></div><div><dt>{copy.extras}</dt><dd>{money.format(estimate.extras)} <small>{money.label}</small></dd></div></dl>
         <div className="managed-extra-lines">{estimate.extraUsers === 0 ? <span>{copy.noExtra}</span> : <span>{number.format(estimate.extraUsers)} {copy.extraUser} × {number.format(estimate.months)}</span>}</div>
-        <div className="managed-total"><span>{copy.total}</span><b>{number.format(estimate.total)}</b><small>{copy.toman}</small></div><p className="managed-price-disclaimer">{copy.finalPrice}</p>
-        {checkoutUrl ? <a className="managed-checkout" href={checkoutUrl}>{copy.continue}<span aria-hidden="true">←</span></a> : <Link className="managed-checkout" href={`/${locale}/contact?package=${selected.key}`}>{copy.contact}<span aria-hidden="true">←</span></Link>}
-        {!checkoutUrl && <p className="managed-setup-note">{copy.setupPending}</p>}{checkoutUrl && !whmcsOptionsReady && estimate.extraUsers > 0 && <p className="managed-setup-note">{copy.optionPending}</p>}
+        <div className="managed-total"><span>{copy.total}</span><b>{money.format(estimate.total)}</b><small>{money.label}</small></div><p className="managed-price-disclaimer">{copy.finalPrice}</p>
+        <a className="managed-checkout" href={checkoutUrl}>{copy.continue}<span aria-hidden="true">←</span></a>
       </aside>
     </div>
   </div>;

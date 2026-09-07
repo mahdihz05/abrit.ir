@@ -595,7 +595,7 @@ footer#contact .footabout{min-width:0}
 <div class="langmenu" role="menu">
 <button class="active" data-lang="fa" role="menuitem"><span class="flag-slot"></span><span>فارسی</span><small>FA</small></button>
 <button data-lang="en" role="menuitem"><span class="flag-slot"></span><span>English</span><small>EN</small></button>
-<button data-lang="ar" role="menuitem"><span class="flag-slot"></span><span>العربية</span><small>UAE</small></button>
+<button data-lang="ar" role="menuitem"><span class="flag-slot"></span><span>العربية</span><small>AR</small></button>
 </div>
 </div>
 <a class="btn primary" href="#assessment" id="navcta"></a>
@@ -697,7 +697,7 @@ footer#contact .footabout{min-width:0}
 <p class="lead" id="netP"></p>
 <div class="network-features" id="netFeatures"></div>
 </div>
-<div aria-label="نمای مفهومی توپولوژی شبکه سازمانی ابریت" class="iran-network reveal">
+<div aria-label="نمای ارتباط امن دفتر مرکزی، شعب و کاربران سازمان" class="iran-network reveal">
 <div class="map-top">
 <div><b>ABRIT · ENTERPRISE NETWORK VIEW</b><span id="mapStatus"></span></div>
 <span class="map-live">● NETWORK</span>
@@ -782,7 +782,7 @@ footer#contact .footabout{min-width:0}
 </div>
 </section>
 <section class="section pricing" id="pricing">
-<div class="container"><div class="section-head reveal"><div><span class="eyebrow">MSP PACKAGES · 1405 / 2026</span><h2 id="priceT"></h2><p class="lead" id="priceP"></p></div><a class="textlink" href="#assessment" id="comparePlans">مقایسه و انتخاب →</a></div><div class="packages" id="packages"></div></div>
+<div class="container"><div class="section-head reveal"><div><span class="eyebrow">MSP PACKAGES · 1405 / 2026</span><h2 id="priceT"></h2><p class="lead" id="priceP"></p></div><a class="textlink" href="#assessment" id="comparePlans">مقایسه و انتخاب →</a></div><div class="pricing-period" aria-label="انتخاب دوره پرداخت"><span id="pricingPeriodLabel">دوره پرداخت</span><div id="pricingCycle"></div></div><div class="packages" id="packages"></div></div>
 </section>
 <section class="section usecases" id="usecases">
 <div class="container">
@@ -861,13 +861,28 @@ function localizePersianValue(value){
   return value;
 }
 localizePersianValue(DATA.fa);localizePersianValue(EXTRA.fa);
+DATA.fa.pricing_intro="دوره پرداخت را انتخاب کنید و مبلغ کل همان دوره را برای هر پکیج ببینید. دوره‌های سه و شش‌ماهه به‌ترتیب ۳ و ۵ درصد تخفیف دارند.";
+DATA.en.pricing_intro="Choose a billing period to see the total for each package. Three-month plans include a 3% discount and six-month plans include a 5% discount.";
+DATA.ar.pricing_intro="اختر مدة الدفع لعرض التكلفة الإجمالية لكل باقة. توفر مدة الثلاثة أشهر سعراً أقل بنسبة ثلاثة بالمئة، ومدة الستة أشهر بنسبة خمسة بالمئة.";
 DATA.fa.packages.forEach((packageItem,index)=>{packageItem[0]=["سطح یک","سطح دو","سطح سه","سطح چهار","سطح پنج"][index]});
-Object.assign(DATA.fa.labels,{users:"کاربر",endpoints:"دستگاه",server:"سرور / ماشین مجازی",site:"سایت",sla:"سطح خدمت اولیه"});
+DATA.en.packages.forEach((packageItem,index)=>{packageItem[0]=`Tier ${index+1}`});
+DATA.ar.packages.forEach((packageItem,index)=>{packageItem[0]=["المستوى الأول","المستوى الثاني","المستوى الثالث","المستوى الرابع","المستوى الخامس"][index]});
+Object.assign(DATA.fa.labels,{users:"کاربر",endpoints:"دستگاه",server:"سرور / ماشین مجازی",site:"دفتر / شعبه",sla:"سطح خدمت اولیه"});
 Object.assign(EXTRA.fa.ops,{ey:"عملیات · شفافیت · کنترل"});
-Object.assign(EXTRA.fa.network,{ey:"مدیریت جهانی شبکه چندسایتی"});
+Object.assign(EXTRA.fa.network,{
+  ey:"مدیریت ارتباط شعب و دفترها",
+  t:"وضعیت همه شعب و دفترها در یک نگاه",
+  p:"ارتباط دفتر مرکزی، شعب، کاربران دورکار و سرویس‌های سازمانی باید امن و قابل بررسی باشد. ابریت وضعیت ارتباط‌ها را یکجا نمایش می‌دهد و در صورت اختلال، مسیر بررسی و رفع مشکل را مشخص می‌کند.",
+  status:"وضعیت ارتباط دفترها در یک نگاه",
+  features:[
+    ["ارتباط امن بین دفترها","دفتر مرکزی و شعب از طریق ارتباطی امن و کنترل‌شده به هم متصل می‌شوند."],
+    ["مشاهده وضعیت در یک صفحه","وضعیت ارتباط هر شعبه بدون بررسی جداگانه قابل مشاهده است."],
+    ["تغییرات مشخص و قابل پیگیری","تغییرات شبکه ثبت می‌شوند تا علت و نتیجه هر تغییر روشن باشد."]
+  ]
+});
 Object.assign(EXTRA.fa.assurance,{ey:"امنیت · پشتیبان‌گیری · تداوم"});
 Object.assign(EXTRA.fa.use,{ey:"مناسب چه سازمان‌هایی است"});
-let lang="fa",slide=0,timer;
+let lang="fa",slide=0,timer,pricingMonths=1,selectedPackageIndex=2;
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const icons=[
 `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m8 10 2.2 2.2L16 7"/></svg>`,
@@ -938,9 +953,9 @@ function renderExtra(t){
 
   setTxt("netEy",e.network.ey);setTxt("netT",e.network.t);setTxt("netP",e.network.p);setTxt("mapStatus",e.network.status);
   $("#netFeatures").innerHTML=e.network.features.map((f,i)=>`<div class="network-feature"><i>0${i+1}</i><div><b>${f[0]}</b><p>${f[1]}</p></div></div>`).join("");
-  setTxt("coverageNote",lang==="fa"?"این تصویر یک نمایش مفهومی از توپولوژی شبکه و مدیریت ارتباطات سازمانی است؛ نه نقشه دقیق پیاده‌سازی یا اعلام نقاط حضور فیزیکی ابریت. جزئیات واقعی از طریق سامانه مدیریت محتوا و طراحی نهایی پروژه تعیین می‌شوند.":lang==="ar"?"هذا العنصر المرئي عرضٌ مفاهيمي لطوبولوجيا الشبكة وإدارة الاتصالات المؤسسية، وليس خريطة تنفيذية دقيقة أو إعلاناً عن مواقع فعلية لـ Abrit. تُحدَّد التفاصيل الواقعية عبر نظام CMS والتصميم النهائي للمشروع.":"This visual is a conceptual enterprise-network topology view, not an exact deployment map or a claim of physical Abrit locations. Real implementation details will be defined through the CMS and the final project design.");
+  setTxt("coverageNote",lang==="fa"?"در این بخش می‌بینید دفتر مرکزی، شعب، کاربران دورکار و سرویس‌های سازمان چگونه به هم متصل‌اند. چیدمان و تعداد دفترها پس از بررسی نیازهای هر سازمان مشخص می‌شود.":lang==="ar"?"يوضح هذا الرسم كيف يمكن متابعة اتصال المقر والفروع والموظفين عن بُعد وخدمات المؤسسة من مكان واحد. ويُحدَّد الترتيب المناسب وعدد المواقع بعد دراسة احتياجات المؤسسة.":"This view shows how headquarters, branches, remote staff and business services can be checked from one place. The final setup and number of locations are defined after reviewing the organization’s needs.");
   let p=t.packages;
-  $("#coveragePackages").innerHTML=[2,3,4].map(i=>`<div class="coverage-package"><small>${p[i][0]}</small><b>${p[i][6]} ${t.labels.site}</b></div>`).join("");
+  $("#coveragePackages").innerHTML=[2,3,4].map(i=>`<div class="coverage-package"><small>${p[i][1]}</small><b>${p[i][6]} ${lang==="fa"?"دفتر یا شعبه":t.labels.site}</b></div>`).join("");
 
   setTxt("assuranceEy",e.assurance.ey);setTxt("assuranceT",e.assurance.t);setTxt("assuranceP",e.assurance.p);setTxt("assuranceScoreText",lang==="fa"?"زمان‌های زیر، تعهد شروع رسیدگی در پکیج‌های فعلی AbrIT هستند؛ نه زمان تضمینی رفع کامل رخداد.":lang==="ar"?"الأزمنة أدناه هي التزام بدء المعالجة في باقات AbrIT الحالية، وليست زمناً مضموناً للحل الكامل.":"The times below are the initial-response commitments in AbrIT's current packages, not guaranteed full-resolution times.");
   $("#assurancePoints").innerHTML=e.assurance.points.map(x=>`<div class="assurance-point"><b>${x[0]}</b><p>${x[1]}</p></div>`).join("");
@@ -1004,13 +1019,13 @@ function renderStaticUi(t){
   [".outcomes .eyebrow",".services .eyebrow",".solutions .eyebrow",".process .eyebrow",".tech .eyebrow",".pricing .eyebrow",".hub .eyebrow",".cta .eyebrow"].forEach((selector,index)=>{let element=$(selector);if(element)element.textContent=sectionLabels[index]});
   let heroNodes=fa?["دفتر","شعبه","هسته ابریت","دیواره آتش","ابر","مرکز داده","پایش"]:["OFFICE","BRANCH","ABRIT CORE","FIREWALL","CLOUD","DATACENTER","MONITORING"];
   $$(".hero-network-node text").forEach((element,index)=>{element.textContent=heroNodes[index]});
-  let mapNodes=fa?[["شبکه مرکزی","درگاه اصلی"],["دفتر شعبه","سایت مدیریت‌شده"],["لبه امنیت","دسترسی امن"],["لایه دسترسی","مجموعه سوئیچ‌ها"],["گره پشتیبان","مسیر بازیابی"],["درگاه وی‌پی‌ان","ارتباط از راه دور"],["پایش","دید ۲۴/۷"]]:[["Core Network","Primary Gateway"],["Branch Office","Managed Site"],["Firewall Edge","Secure Access"],["Access Layer","Switch Stack"],["Backup Node","Recovery Path"],["VPN Gateway","Remote Connectivity"],["Monitoring","24/7 Visibility"]];
+  let mapNodes=fa?[["دفتر مرکزی","مسیر اصلی ارتباط"],["دفتر شعبه","متصل و فعال"],["امنیت شبکه","دسترسی کنترل‌شده"],["تجهیزات شبکه","ارتباط کاربران و دستگاه‌ها"],["نسخه پشتیبان","آماده برای بازیابی"],["دسترسی از راه دور","اتصال امن کارکنان"],["بررسی مداوم","شبانه‌روزی"]]:[["Core Network","Primary Gateway"],["Branch Office","Managed Site"],["Firewall Edge","Secure Access"],["Access Layer","Switch Stack"],["Backup Node","Recovery Path"],["VPN Gateway","Remote Connectivity"],["Monitoring","24/7 Visibility"]];
   $$(".city-node").forEach((element,index)=>{let copy=mapNodes[index];if(copy){element.querySelector("b").textContent=copy[0];element.querySelector("small").textContent=copy[1]}});
   let mapTitle=$(".map-top b"),mapLive=$(".map-live"),mapStats=$$(".map-stat span"),mapValues=$$(".map-stat b"),assuranceHead=$$(".as-head > span");
-  if(mapTitle)mapTitle.textContent=fa?"ابریت · نمای شبکه سازمانی":"ABRIT · ENTERPRISE NETWORK VIEW";
-  if(mapLive)mapLive.textContent=fa?"● شبکه":"● NETWORK";
-  (fa?["گره‌های مدیریت‌شده","پیوندهای امن","پایش"]:["MANAGED NODES","SECURE LINKS","MONITORING"]).forEach((copy,index)=>{if(mapStats[index])mapStats[index].textContent=copy});
-  if(mapValues[1])mapValues[1].textContent=fa?"ارتباطات امن اختصاصی":"VPN · MPLS";
+  if(mapTitle)mapTitle.textContent=fa?"ابریت · ارتباط دفترها و شعب":"ABRIT · ENTERPRISE NETWORK VIEW";
+  if(mapLive)mapLive.textContent=fa?"● ارتباط برقرار است":"● NETWORK";
+  (fa?["دستگاه‌ها و سرویس‌ها","ارتباط بین دفترها","بررسی وضعیت"]:["MANAGED NODES","SECURE LINKS","MONITORING"]).forEach((copy,index)=>{if(mapStats[index])mapStats[index].textContent=copy});
+  if(mapValues[1])mapValues[1].textContent=fa?"ارتباط امن و اختصاصی":"VPN · MPLS";
   if(assuranceHead[0])assuranceHead[0].textContent=fa?"ابریت · مدل سطح خدمت و پشتیبانی":"ABRIT · SLA & SUPPORT MODEL";
   if(assuranceHead[1])assuranceHead[1].textContent=fa?"خدمات مدیریت‌شده":"MSP";
 }
@@ -1024,6 +1039,34 @@ function renderBrandUI(t){
   setTxt("footerIntro",u.footerIntro);setTxt("legalText",u.legal);
   $$(".brand-tagline").forEach(x=>x.textContent=u.tagline);
   setTxt("viewAllServices",t.lang==="fa"?"مشاهده همه خدمات →":t.lang==="ar"?"عرض جميع الخدمات ←":"VIEW ALL →");setTxt("comparePlans",t.lang==="fa"?"مقایسه و انتخاب →":t.lang==="ar"?"المقارنة والاختيار ←":"COMPARE →");const si=$("#searchInput");if(si)si.setAttribute("aria-label",u.search);
+}
+
+const PRICING_PERIODS=[{months:1,discount:0},{months:3,discount:.03},{months:6,discount:.05}];
+const pricingRoot=document.querySelector(".reference-homepage");
+const DISPLAY_CURRENCIES={
+  fa:{label:"تومان",tomanPerUnit:1},
+  en:{label:"USD",tomanPerUnit:Number(pricingRoot?.dataset.usdToman)||221600},
+  ar:{label:"د.إ",tomanPerUnit:Number(pricingRoot?.dataset.aedToman)||60330}
+};
+function displayPriceFromToman(value,language){const currency=DISPLAY_CURRENCIES[language]||DISPLAY_CURRENCIES.fa;return Math.round(value/currency.tomanPerUnit)}
+const PERSIAN_DIGITS="۰۱۲۳۴۵۶۷۸۹",ARABIC_DIGITS="٠١٢٣٤٥٦٧٨٩";
+function westernizeDigits(value){return String(value).replace(/[۰-۹]/g,d=>PERSIAN_DIGITS.indexOf(d)).replace(/[٠-٩]/g,d=>ARABIC_DIGITS.indexOf(d))}
+function localizeDigits(value,language){let digits=language==="fa"?PERSIAN_DIGITS:language==="ar"?ARABIC_DIGITS:"0123456789";return westernizeDigits(value).replace(/\d/g,d=>digits[Number(d)])}
+function localizeNumber(value,language){return localizeDigits(value,language).replace(/,/g,language==="en"?",":"٬")}
+function renderPricing(t){
+  const language=t.lang,locale=language==="fa"?"fa-IR":language==="ar"?"ar-AE":"en-US",number=new Intl.NumberFormat(locale);
+  const copy=language==="fa"?{label:"دوره پرداخت",month:"ماه",discount:"تخفیف",percent:"٪",total:"مبلغ کل دوره",currency:DISPLAY_CURRENCIES.fa.label}:language==="ar"?{label:"مدة الدفع",month:"أشهر",discount:"خصم",percent:"٪",total:"إجمالي المدة",currency:DISPLAY_CURRENCIES.ar.label}:{label:"Billing period",month:"months",discount:"off",percent:"%",total:"Period total",currency:DISPLAY_CURRENCIES.en.label};
+  setTxt("pricingPeriodLabel",copy.label);
+  $("#pricingCycle").innerHTML=PRICING_PERIODS.map(period=>`<button type="button" data-pricing-months="${period.months}" aria-pressed="${pricingMonths===period.months}"><b>${localizeNumber(number.format(period.months),language)} ${period.months===1&&language==="en"?"month":copy.month}</b>${period.discount?`<small>${localizeNumber(number.format(period.discount*100),language)}${copy.percent} ${copy.discount}</small>`:""}</button>`).join("");
+  const period=PRICING_PERIODS.find(item=>item.months===pricingMonths)||PRICING_PERIODS[0];
+  $("#packages").innerHTML=t.packages.map((plan,i)=>{
+    const base=Number(westernizeDigits(plan[2]).replace(/[^0-9]/g,""));
+    const total=Math.round(base*period.months*(1-period.discount));
+    const periodCaption=language==="fa"?`${copy.total} · ${localizeNumber(number.format(period.months),language)} ماه`:language==="ar"?`${copy.total} · ${localizeNumber(number.format(period.months),language)} أشهر`:`${copy.total} · ${number.format(period.months)} ${period.months===1?"month":"months"}`;
+    const selected=i===selectedPackageIndex,recommended=i===2;
+    return `<article class="pkg ${selected?"featured":""} ${recommended?"recommended":""} reveal" data-package-index="${i}">${recommended?`<span class="badge">${t.labels.rec}</span>`:""}<small>${localizeDigits(plan[0],language)}</small><h3>${plan[1]}</h3><div class="price">${localizeNumber(number.format(displayPriceFromToman(total,language)),language)}</div><div class="pricecap">${periodCaption} · ${copy.currency}</div><ul class="quota"><li><span>${t.labels.users}</span><b>${localizeDigits(plan[3],language)}</b></li><li><span>${t.labels.endpoints}</span><b>${localizeDigits(plan[4],language)}</b></li><li><span>${t.labels.server}</span><b>${localizeDigits(plan[5],language)}</b></li><li><span>${t.labels.site}</span><b>${localizeDigits(plan[6],language)}</b></li><li><span>${t.labels.sla}</span><b>${localizeDigits(plan[7],language)}</b></li></ul><a class="btn ${selected?"primary":"outline"}" href="#assessment">${t.labels.plan}</a></article>`
+  }).join("");
+  observe();
 }
 
 function render(t){renderBrandUI(t);
@@ -1040,7 +1083,7 @@ setTxt("centerP",t.lang==="fa"?"ابزار بعد از شناخت وضعیت، �
 setTxt("procT",t.process_title);$("#processgrid").innerHTML=t.process.map((s,i)=>`<article class="step reveal"><div class="num">0${i+1}</div><h3>${s[0]}</h3><p>${s[1]}</p></article>`).join("");
 setTxt("techT",t.tech_title);setTxt("techP",t.tech_intro);$("#tags").innerHTML=TECH.map(x=>`<span>${x}</span>`).join("");
 setTxt("priceT",t.pricing_title);setTxt("priceP",t.pricing_intro);
-$("#packages").innerHTML=t.packages.map((p,i)=>`<article class="pkg ${i===2?"featured":""} reveal">${i===2?`<span class="badge">${t.labels.rec}</span>`:""}<small>${p[0]}</small><h3>${p[1]}</h3><div class="price">${p[2]}</div><div class="pricecap">${t.labels.month}</div><ul class="quota"><li><span>${t.labels.users}</span><b>${p[3]}</b></li><li><span>${t.labels.endpoints}</span><b>${p[4]}</b></li><li><span>${t.labels.server}</span><b>${p[5]}</b></li><li><span>${t.labels.site}</span><b>${p[6]}</b></li><li><span>${t.labels.sla}</span><b>${p[7]}</b></li></ul><a class="btn ${i===2?"primary":"outline"}" href="#assessment">${t.labels.plan}</a></article>`).join("");
+renderPricing(t);
 setTxt("hubT",t.hub_title);$("#hubgrid").innerHTML=t.hub.map((h,i)=>`<article class="hubcard reveal"><div class="hubvis ${i===1?"photo":"pattern"}">${i===1?'<img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=78&w=1200" alt="">':""}</div><div class="hubcopy"><h3>${h[0]}</h3><p>${h[1]}</p></div></article>`).join("");
 setTxt("finalT",t.final[0]);setTxt("finalP",t.final[1]);setTxt("finalA",t.final[2]);setTxt("finalB",t.final[3]);
 setTxt("foot1",t.footer[0]);setTxt("foot2",t.footer[1]);setTxt("foot3",t.footer[2]);setTxt("portal",t.footer[3]);setTxt("copy",t.footer[4]);
@@ -1053,6 +1096,8 @@ function index(t){return [...t.services.map(x=>[x[0],x[1],"#services"]),...t.sol
 function search(){let t=DATA[lang],q=$("#searchInput").value.trim().toLowerCase(),r=$("#results");if(!q){r.innerHTML="";return}let hits=index(t).filter(x=>(x[0]+" "+x[1]).toLowerCase().includes(q)).slice(0,12);r.innerHTML=hits.map(x=>`<a class="res" href="${x[2]}"><b>${x[0]}</b><small>${x[1]}</small></a>`).join("")}
 $("#langbtn").onclick=()=>{let o=$("#language").classList.toggle("open");$("#langbtn").setAttribute("aria-expanded",o?"true":"false")};$$(".langmenu button").forEach(b=>b.onclick=()=>{setLang(b.dataset.lang);$("#language").classList.remove("open");$("#langbtn").setAttribute("aria-expanded","false")});document.addEventListener("click",e=>{if(!$("#language").contains(e.target))$("#language").classList.remove("open")});
 $$(".dots button").forEach(b=>b.onclick=()=>{slide=+b.dataset.slide;renderHero(DATA[lang]);});
+$("#pricingCycle").addEventListener("click",event=>{const button=event.target.closest("button[data-pricing-months]");if(!button)return;pricingMonths=Number(button.dataset.pricingMonths);renderPricing(DATA[lang])});
+$("#packages").addEventListener("click",event=>{const card=event.target.closest(".pkg[data-package-index]");if(!card)return;selectedPackageIndex=Number(card.dataset.packageIndex);$$("#packages .pkg[data-package-index]").forEach((item,index)=>{const selected=index===selectedPackageIndex;item.classList.toggle("featured",selected);const link=item.querySelector(".btn");link?.classList.toggle("primary",selected);link?.classList.toggle("outline",!selected)})});
 $("#opsBento").addEventListener("click",e=>{let tab=e.target.closest(".ops-layer-pill");if(tab)setOpsLayer(+tab.dataset.opsLayer)});
 $("#opsBento").addEventListener("keydown",e=>{let tab=e.target.closest(".ops-layer-pill");if(!tab)return;let keys=["ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Home","End"];if(!keys.includes(e.key))return;e.preventDefault();let current=+tab.dataset.opsLayer,next=current,rtl=document.documentElement.dir==="rtl";if(e.key==="Home")next=0;else if(e.key==="End")next=5;else if(e.key==="ArrowDown")next=current+1;else if(e.key==="ArrowUp")next=current-1;else if(e.key==="ArrowRight")next=current+(rtl?-1:1);else next=current+(rtl?1:-1);setOpsLayer(next,true)});
 $("#searchOpen").onclick=()=>{$("#searchov").classList.add("open");$("#searchInput").focus()};$("#close").onclick=()=>$("#searchov").classList.remove("open");$("#searchov").onclick=e=>{if(e.target===$("#searchov"))$("#searchov").classList.remove("open")};$("#searchInput").oninput=search;$("#results").onclick=()=>$("#searchov").classList.remove("open");document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#searchov").classList.remove("open")});

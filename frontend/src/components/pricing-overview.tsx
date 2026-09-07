@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { createPriceFormatter, monthlyPriceLabel } from "@/lib/pricing-currency";
 import type { Locale, Package } from "@/lib/types";
 
 const labels = {
@@ -12,13 +13,14 @@ const extraUserCapacityByOrder = [1, 2, 3, 5, 7] as const;
 export function PricingOverview({ locale, packages }: { locale: Locale; packages: Package[] }) {
   const copy = labels[locale];
   const number = new Intl.NumberFormat(locale);
+  const money = createPriceFormatter(locale);
   return <div className="pricing-motion-layout">
     <aside className="listing-rail pricing-rail" data-motion-reveal aria-label={copy.matrix}>
       <span>{copy.rail}</span><i aria-hidden="true" /><b>{number.format(packages.length)}</b>
     </aside>
     <div className="pricing-motion-content">
     <div className="pricing-package-grid">{packages.map((item) => <article data-motion-reveal className={item.is_featured ? "is-featured" : ""} key={item.key}>
-      {item.is_featured && <small>{copy.featured}</small>}<h2>{item.name}</h2><p className="public-price"><b>{number.format(item.base_monthly_toman)}</b><span>{copy.monthly}</span></p>
+      {item.is_featured && <small>{copy.featured}</small>}<h2>{item.name}</h2><p className="public-price"><b>{money.format(item.base_monthly_toman)}</b><span>{monthlyPriceLabel(locale)}</span></p>
       <ul><li><b>{number.format(item.included_users)} {copy.to} {number.format(item.included_users + (extraUserCapacityByOrder[item.order - 1] ?? 0))}</b> {copy.users}</li><li><b>{number.format(item.included_servers)}</b> {copy.servers}</li><li><b>{number.format(item.included_sites)}</b> {copy.sites}</li></ul>
       <p className="package-sla">{item.sla}</p><Link href={`/${locale}/pricing?package=${item.key}#calculator`}>{copy.select}</Link>
     </article>)}</div>

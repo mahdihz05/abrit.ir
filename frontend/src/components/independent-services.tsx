@@ -54,6 +54,28 @@ function ServiceGlyph({ slug }: { slug: IndependentService["slug"] }) {
   );
 }
 
+function HighlightedHeroTitle({
+  title,
+  accent,
+}: {
+  title: string;
+  accent?: string;
+}) {
+  const accentStart = accent ? title.indexOf(accent) : -1;
+
+  if (!accent || accentStart < 0) {
+    return title;
+  }
+
+  return (
+    <>
+      {title.slice(0, accentStart)}
+      <span className={styles.heroTitleAccent}>{accent}</span>
+      {title.slice(accentStart + accent.length)}
+    </>
+  );
+}
+
 function SectionHeading({
   eyebrow,
   title,
@@ -241,7 +263,12 @@ export function IndependentServiceDetail({
         <div className={`container ${styles.heroGrid}`}>
           <div className={styles.heroCopy}>
             <span className={styles.eyebrow}>{service.category[locale]}</span>
-            <h1>{service.heroTitle[locale]}</h1>
+            <h1>
+              <HighlightedHeroTitle
+                title={service.heroTitle[locale]}
+                accent={service.heroTitleAccent?.[locale]}
+              />
+            </h1>
             <p>{service.heroBody[locale]}</p>
             <div className={styles.heroActions}>
               <a className={styles.primaryAction} href="#service-consultation">
@@ -293,7 +320,11 @@ export function IndependentServiceDetail({
             title={service.overviewTitle[locale]}
             intro={service.overviewBody[locale]}
           />
-          <div className={styles.contextGrid}>
+          <div
+            className={`${styles.contextGrid} ${
+              service.context.length === 4 ? styles.contextGridFour : ""
+            }`}
+          >
             {service.context.map((item) => (
               <article key={item.title.en}>
                 <h3>{item.title[locale]}</h3>

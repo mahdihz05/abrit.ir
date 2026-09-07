@@ -3,9 +3,9 @@ import type { Locale } from "./types";
 export const locales: Locale[] = ["fa", "en", "ar-ae"];
 
 export const localeMeta: Record<Locale, { lang: string; dir: "rtl" | "ltr"; label: string; short: string }> = {
-  fa: { lang: "fa", dir: "rtl", label: "فارسی", short: "فا" },
+  fa: { lang: "fa", dir: "rtl", label: "فارسی", short: "FA" },
   en: { lang: "en", dir: "ltr", label: "English", short: "EN" },
-  "ar-ae": { lang: "ar-AE", dir: "rtl", label: "العربية", short: "ع" },
+  "ar-ae": { lang: "ar-AE", dir: "rtl", label: "العربية", short: "AR" },
 };
 
 export const ui = {

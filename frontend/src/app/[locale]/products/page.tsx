@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { LeadForm } from "@/components/lead-form";
 import { ProductConfigurator } from "@/components/product-configurator";
 import styles from "@/components/product-configurator.module.css";
 import { isLocale } from "@/lib/locales";
@@ -53,5 +54,10 @@ export default async function ProductsPage({ params, searchParams }: PageProps<"
       </div>
     </section>
     <ProductConfigurator locale={locale} initialPackage={initialPackage} />
+    <section className={styles.consultationSection}>
+      <div className={styles.consultationInner}>
+        <LeadForm locale={locale} context="products-consultation" compact />
+      </div>
+    </section>
   </main>;
 }

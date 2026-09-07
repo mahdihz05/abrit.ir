@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ui } from "@/lib/locales";
+import { createPriceFormatter, monthlyPriceLabel } from "@/lib/pricing-currency";
 import type { ContentBlock, ContentSummary, Locale, Package } from "@/lib/types";
 
 type Props = { block: ContentBlock; locale: Locale; services: ContentSummary[]; packages: Package[] };
@@ -67,6 +68,7 @@ function ServiceGrid({ block, locale, services }: Props) {
 
 function Pricing({ block, locale, packages }: Props) {
   const labels = ui[locale];
+  const money = createPriceFormatter(locale);
   return (
     <section className="section pricing-section">
       <div className="container">
@@ -77,7 +79,7 @@ function Pricing({ block, locale, packages }: Props) {
             <article key={item.key} className={item.is_featured ? "package-card is-featured" : "package-card"}>
               {item.is_featured && <span className="popular">★</span>}
               <p className="package-name">{item.name}</p>
-              <div className="package-price"><b>{new Intl.NumberFormat(locale).format(item.base_monthly_toman)}</b><span>{labels.monthly}</span></div>
+              <div className="package-price"><b>{money.format(item.base_monthly_toman)}</b><span>{monthlyPriceLabel(locale)}</span></div>
               <p>{item.sla}</p>
               <ul>
                 <li><b>{item.included_users}</b> {labels.users}</li>

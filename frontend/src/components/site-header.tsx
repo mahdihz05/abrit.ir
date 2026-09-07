@@ -2,7 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+  type FocusEvent,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from "react";
 import { Brand } from "./brand";
 import { localeMeta, locales, ui } from "@/lib/locales";
 import { localizedSolutions } from "@/lib/public-content";
@@ -14,6 +19,8 @@ type ProductMenuEntry = {
   description: string;
   path: string;
 };
+
+type MegaMenuId = "products" | "solutions" | "editorial";
 
 const productMenu: Record<
   Locale,
@@ -414,18 +421,13 @@ export function SiteHeader({
   items: NavigationItem[];
 }) {
   const [open, setOpen] = useState(false);
+  const [activeMega, setActiveMega] = useState<MegaMenuId | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const labels = ui[locale];
   const solutionItems = localizedSolutions(locale);
   const products = productMenu[locale];
   const editorial = editorialMenu[locale];
-  const localeFlags: Record<Locale, string> = {
-    fa: "🇮🇷",
-    en: "🇬🇧",
-    "ar-ae": "🇦🇪",
-  };
-
   useEffect(() => {
     let frame = 0;
     const update = () => {
@@ -449,6 +451,40 @@ export function SiteHeader({
     return segments.join("/") || `/${nextLocale}`;
   }
 
+  function closeNavigation() {
+    setOpen(false);
+    setActiveMega(null);
+  }
+
+  function megaMenuProps(menu: MegaMenuId) {
+    return {
+      "data-mega-open": activeMega === menu ? "true" : undefined,
+      onPointerEnter: () => setActiveMega(menu),
+      onPointerLeave: () =>
+        setActiveMega((current) => (current === menu ? null : current)),
+      onFocus: () => setActiveMega(menu),
+      onBlur: (event: FocusEvent<HTMLDivElement>) => {
+        if (
+          !(event.relatedTarget instanceof Node) ||
+          !event.currentTarget.contains(event.relatedTarget)
+        ) {
+          setActiveMega((current) => (current === menu ? null : current));
+        }
+      },
+    };
+  }
+
+  function closeMegaMenuFromKeyboard(
+    event: ReactKeyboardEvent<HTMLElement>,
+  ) {
+    if (event.key !== "Escape" || !activeMega) return;
+    event.preventDefault();
+    const item = (event.target as HTMLElement).closest(".shared-nav-item");
+    const trigger = item?.querySelector<HTMLElement>(".shared-nav-trigger");
+    trigger?.focus();
+    setActiveMega(null);
+  }
+
   return (
     <header
       className="site-header"
@@ -470,28 +506,38 @@ export function SiteHeader({
           id="site-navigation"
           className={open ? "main-nav is-open" : "main-nav"}
           aria-label={labels.navigation}
+          onKeyDown={closeMegaMenuFromKeyboard}
         >
           {items.map((item, index) => {
             const submenu = index === 2 ? solutionItems : null;
             if (index === 1) {
               return (
-                <div className="shared-nav-item" key={item.id}>
+                <div
+                  className="shared-nav-item"
+                  key={item.id}
+                  {...megaMenuProps("products")}
+                >
                   <Link
                     className="shared-nav-trigger"
                     href={item.url}
-                    onClick={() => setOpen(false)}
+                    aria-expanded={activeMega === "products"}
+                    aria-controls="products-mega-menu"
+                    onClick={closeNavigation}
                   >
                     {item.title}
                     <span aria-hidden="true">⌄</span>
                   </Link>
-                  <div className="shared-mega shared-products-mega">
+                  <div
+                    className="shared-mega shared-products-mega"
+                    id="products-mega-menu"
+                  >
                     <div className="product-menu-content">
                       <section className="product-menu-section">
                         <div className="product-menu-heading">
                           <span>{products.packagesLabel}</span>
                           <Link
                             href={`/${locale}/products`}
-                            onClick={() => setOpen(false)}
+                            onClick={closeNavigation}
                           >
                             {ui[locale].explore} ←
                           </Link>
@@ -501,7 +547,7 @@ export function SiteHeader({
                             <Link
                               href={`/${locale}/${entry.path}`}
                               key={entry.id}
-                              onClick={() => setOpen(false)}
+                              onClick={closeNavigation}
                             >
                               <b>{entry.title}</b>
                               <small>{entry.description}</small>
@@ -518,7 +564,7 @@ export function SiteHeader({
                             <Link
                               href={`/${locale}/${entry.path}`}
                               key={entry.id}
-                              onClick={() => setOpen(false)}
+                              onClick={closeNavigation}
                             >
                               <b>{entry.title}</b>
                               <small>{entry.description}</small>
@@ -534,7 +580,7 @@ export function SiteHeader({
                       <div className="product-independent">
                         <a
                           href={`/${locale}/independent-services`}
-                          onClick={() => setOpen(false)}
+                          onClick={closeNavigation}
                         >
                           {products.independentLabel}{" "}
                           <span aria-hidden="true">←</span>
@@ -547,22 +593,31 @@ export function SiteHeader({
             }
             if (index === 4) {
               return (
-                <div className="shared-nav-item" key={item.id}>
+                <div
+                  className="shared-nav-item"
+                  key={item.id}
+                  {...megaMenuProps("editorial")}
+                >
                   <Link
                     className="shared-nav-trigger"
                     href={item.url}
-                    onClick={() => setOpen(false)}
+                    aria-expanded={activeMega === "editorial"}
+                    aria-controls="editorial-mega-menu"
+                    onClick={closeNavigation}
                   >
                     {item.title}
                     <span aria-hidden="true">⌄</span>
                   </Link>
-                  <div className="shared-mega shared-editorial-mega">
+                  <div
+                    className="shared-mega shared-editorial-mega"
+                    id="editorial-mega-menu"
+                  >
                     <div className="shared-mega-list">
                       {editorial.entries.map((entry) => (
                         <Link
                           href={`/${locale}/${entry.path}`}
                           key={entry.id}
-                          onClick={() => setOpen(false)}
+                          onClick={closeNavigation}
                         >
                           <b>{entry.title}</b>
                           <small>{entry.description}</small>
@@ -573,7 +628,7 @@ export function SiteHeader({
                       <span>ABRIT</span>
                       <b>{item.title}</b>
                       <p>{editorial.summary}</p>
-                      <Link href={item.url} onClick={() => setOpen(false)}>
+                      <Link href={item.url} onClick={closeNavigation}>
                         {ui[locale].explore} →
                       </Link>
                     </aside>
@@ -587,7 +642,7 @@ export function SiteHeader({
                   key={item.id}
                   href={item.url}
                   target={item.open_in_new_tab ? "_blank" : undefined}
-                  onClick={() => setOpen(false)}
+                  onClick={closeNavigation}
                 >
                   {item.title}
                 </Link>
@@ -599,7 +654,7 @@ export function SiteHeader({
                 <Link
                   key={entry.id}
                   href={entry.url}
-                  onClick={() => setOpen(false)}
+                  onClick={closeNavigation}
                 >
                   <b>{entry.title}</b>
                   <small>{entry.excerpt}</small>
@@ -607,16 +662,22 @@ export function SiteHeader({
               ));
 
             return (
-              <div className="shared-nav-item" key={item.id}>
+              <div
+                className="shared-nav-item"
+                key={item.id}
+                {...megaMenuProps("solutions")}
+              >
                 <Link
                   className="shared-nav-trigger"
                   href={item.url}
-                  onClick={() => setOpen(false)}
+                  aria-expanded={activeMega === "solutions"}
+                  aria-controls="solutions-mega-menu"
+                  onClick={closeNavigation}
                 >
                   {item.title}
                   <span aria-hidden="true">⌄</span>
                 </Link>
-                <div className="shared-mega">
+                <div className="shared-mega" id="solutions-mega-menu">
                   <div className="shared-mega-list">{renderLinks(submenu)}</div>
                   <aside className="shared-mega-summary">
                     <span>ABRIT</span>
@@ -624,7 +685,7 @@ export function SiteHeader({
                     <p>
                       {index === 1 ? ui[locale].packages : ui[locale].explore}
                     </p>
-                    <Link href={item.url} onClick={() => setOpen(false)}>
+                    <Link href={item.url} onClick={closeNavigation}>
                       {ui[locale].explore} →
                     </Link>
                   </aside>
@@ -658,7 +719,7 @@ export function SiteHeader({
                 title={localeMeta[item].label}
               >
                 <span aria-hidden="true" className="language-flag">
-                  {localeFlags[item]}
+                  {localeMeta[item].short}
                 </span>
                 <span className="sr-only">{localeMeta[item].label}</span>
               </Link>

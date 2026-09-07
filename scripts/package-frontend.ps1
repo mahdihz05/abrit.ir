@@ -8,9 +8,9 @@ $artifactsRoot = Join-Path $projectRoot "artifacts"
 $archivePath = Join-Path $artifactsRoot "abrit-frontend-standalone.tar.gz"
 $packageLockPath = Join-Path $frontendRoot "package-lock.json"
 
-$env:NEXT_PUBLIC_SITE_URL = "https://abrit.cloud"
-$env:NEXT_PUBLIC_API_URL = "https://abrit.cloud/cms/api/v1"
-$env:BACKEND_API_URL = "https://abrit.cloud/cms/api/v1"
+$env:NEXT_PUBLIC_SITE_URL = "https://abrit.ir"
+$env:NEXT_PUBLIC_API_URL = "https://abrit.ir/cms/api/v1"
+$env:BACKEND_API_URL = "https://abrit.ir/cms/api/v1"
 
 $resolvedFrontendRoot = (Resolve-Path -LiteralPath $frontendRoot).Path
 $resolvedStandaloneRoot = [System.IO.Path]::GetFullPath($standaloneRoot)
