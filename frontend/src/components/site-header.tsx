@@ -459,10 +459,10 @@ export function SiteHeader({
   const solutionItems = localizedSolutions(locale);
   const products = productMenu[locale];
   const editorial = editorialMenu[locale];
-  const localeFlags: Record<Locale, string> = {
-    fa: "🇮🇷",
-    en: "🇬🇧",
-    "ar-ae": "🇦🇪",
+  const localeAbbreviations: Record<Locale, string> = {
+    fa: "FA",
+    en: "EN",
+    "ar-ae": "AR",
   };
 
   useEffect(() => {
@@ -751,7 +751,7 @@ export function SiteHeader({
           </Link>
           <details className="language-switcher">
             <summary aria-label={locale === "fa" ? "تغییر زبان" : locale === "en" ? "Change language" : "تغيير اللغة"}>
-              <span aria-hidden="true" className="language-flag">{localeFlags[locale]}</span>
+              <span aria-hidden="true" className="language-flag">{localeAbbreviations[locale]}</span>
               <span>{localeMeta[locale].label}</span>
             </summary>
             <div className="language-menu">
@@ -765,7 +765,7 @@ export function SiteHeader({
                   aria-current={item === locale ? "page" : undefined}
                   onClick={(event) => handleLocalizedAlternate(event, item)}
                 >
-                  <span aria-hidden="true" className="language-flag">{localeFlags[item]}</span>
+                  <span aria-hidden="true" className="language-flag">{localeAbbreviations[item]}</span>
                   <span>{localeMeta[item].label}</span>
                 </Link>
               ))}

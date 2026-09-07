@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { HOMEPAGE_RUNTIME_URL } from "@/lib/homepage-assets";
+import { buildProductCheckoutUrl, productPackages } from "@/lib/product-packages";
 
 type PausableSvg = SVGSVGElement & {
   pauseAnimations?: () => void;
@@ -80,6 +81,16 @@ export function HomepageRuntime() {
         }
       });
       cleanup.push(() => created.forEach((element) => element.remove()));
+    };
+
+    const installPackageCheckoutLinks = () => {
+      root.querySelectorAll<HTMLAnchorElement>("#packages .pkg > a").forEach((link, index) => {
+        const product = productPackages[index];
+        if (!product) return;
+        link.href = buildProductCheckoutUrl(product, "monthly", 0);
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+      });
     };
 
     const initializeMotion = () => {
@@ -235,13 +246,14 @@ export function HomepageRuntime() {
     const onRuntimeReady = () => {
       if (contentReady()) {
         installIndependentLinks();
+        installPackageCheckoutLinks();
         initializeMotion();
       }
     };
     window.addEventListener("abrit:homepage-ready", onRuntimeReady, { once: true });
     runtime?.addEventListener("load", onRuntimeReady, { once: true });
 
-    if (contentReady()) queueMicrotask(() => { installIndependentLinks(); initializeMotion(); });
+    if (contentReady()) queueMicrotask(() => { installIndependentLinks(); installPackageCheckoutLinks(); initializeMotion(); });
     else {
       fallbackTimer = window.setTimeout(() => {
         if (disposed || contentReady()) return;
