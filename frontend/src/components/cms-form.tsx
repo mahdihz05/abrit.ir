@@ -9,9 +9,9 @@ type SubmitState = { type: "idle" | "pending" | "success" | "error"; message: st
 type FormField = NonNullable<Form["fields"]>[number];
 
 const copy = {
-  fa: { choose: "انتخاب کنید", submit: "ثبت درخواست", pending: "در حال ثبت...", error: "ثبت فرم انجام نشد. لطفاً دوباره تلاش کنید.", unsupported: "این فرم شامل بارگذاری فایل است و در بلوک صفحه قابل ارسال نیست." },
-  en: { choose: "Choose", submit: "Submit", pending: "Submitting...", error: "We could not submit the form. Please try again.", unsupported: "This form contains a file upload and cannot be submitted from a page block." },
-  "ar-ae": { choose: "اختر", submit: "إرسال", pending: "جارٍ الإرسال...", error: "تعذر إرسال النموذج. يرجى المحاولة مرة أخرى.", unsupported: "يتضمن هذا النموذج رفع ملف ولا يمكن إرساله من كتلة الصفحة." },
+  fa: { choose: "انتخاب کنید", submit: "ثبت درخواست", pending: "در حال ثبت...", error: "ثبت فرم انجام نشد. لطفاً دوباره تلاش کنید." },
+  en: { choose: "Choose", submit: "Submit", pending: "Submitting...", error: "We could not submit the form. Please try again." },
+  "ar-ae": { choose: "اختر", submit: "إرسال", pending: "جارٍ الإرسال...", error: "تعذر إرسال النموذج. يرجى المحاولة مرة أخرى." },
 } as const;
 
 const defaultFieldLabels: Record<Locale, Record<string, string>> = {
@@ -48,7 +48,6 @@ function Field({ field, context, choose, label }: { field: FormField; context: s
 export function CmsForm({ form, locale, heading, intro, eyebrow, context, compact }: { form: Form; locale: Locale; heading?: string; intro?: string; eyebrow?: string; context?: string; compact?: boolean }) {
   const labels = copy[locale];
   const fields = (form.fields ?? []).filter((field) => field.enabled !== false);
-  const hasFile = fields.some((field) => field.fieldType === "file");
   const [state, setState] = useState<SubmitState>({ type: "idle", message: "" });
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -69,8 +68,15 @@ export function CmsForm({ form, locale, heading, intro, eyebrow, context, compac
     try {
       const response = await fetch(`/api/forms/${encodeURIComponent(form.key)}/submissions`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ locale, data, consent_given: values.get("consent_given") === "yes", website: values.get("website") ?? "", source_url: window.location.href, referrer: document.referrer }),
+        headers: { Accept: "application/json" },
+        body: (() => {
+          values.set("locale", locale);
+          values.set("data", JSON.stringify(data));
+          values.set("consent_given", values.get("consent_given") === "yes" ? "true" : "false");
+          values.set("source_url", window.location.href);
+          values.set("referrer", document.referrer);
+          return values;
+        })(),
       });
       const payload = await response.json().catch(() => null) as { data?: { message?: string } } | null;
       if (!response.ok) throw new Error("submission_failed");
@@ -113,9 +119,8 @@ export function CmsForm({ form, locale, heading, intro, eyebrow, context, compac
               <label className={styles.honeypot} aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
             </div>
             {form.requiresPrivacyConsent ? <label className={styles.consent}><input name="consent_given" type="checkbox" value="yes" required /><span>{form.consentLabel}</span></label> : null}
-            {hasFile ? <p className={styles.error}>{labels.unsupported}</p> : null}
             <div className={styles.actions}>
-              <button type="submit" disabled={hasFile || state.type === "pending"}>{state.type === "pending" ? labels.pending : labels.submit}</button>
+              <button type="submit" disabled={state.type === "pending"}>{state.type === "pending" ? labels.pending : labels.submit}</button>
               <p className={state.type === "success" ? styles.success : state.type === "error" ? styles.error : ""} role="status" aria-live="polite">{state.message}</p>
             </div>
           </form>

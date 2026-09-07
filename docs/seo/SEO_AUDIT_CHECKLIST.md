@@ -1,0 +1,39 @@
+# SEO Audit Checklist
+
+- [x] Repository structure inspected
+- [x] `frontend/package.json` and `package-lock.json` inspected
+- [x] Payload and Next.js versions verified
+- [x] Payload config inspected
+- [x] Installed Payload plugins inspected
+- [x] Collections inspected
+- [x] Globals inspected
+- [x] Shared fields and Media ALT inspected
+- [x] Hooks inspected
+- [x] Access control and roles inspected
+- [x] Field-level access inspected
+- [x] Payload localization inspected
+- [x] Drafts, versions, autosave, scheduling, and preview inspected
+- [x] Frontend routes inspected
+- [x] `generateMetadata` and root metadata inspected
+- [x] Canonical, robots, Open Graph, Twitter, and alternates inspected
+- [x] Structured data inspected
+- [x] Sitemap and robots routes inspected
+- [x] Redirect and not-found source inspected
+- [x] Revalidation paths inspected
+- [x] Global SEO-term search completed
+- [x] Existing tests inventoried
+- [x] Existing non-destructive test suite run
+- [x] Main current-state audit written
+- [x] Detailed inventory written
+- [x] Canonical rendered HTML verified locally: `GET /fa/about` emitted self canonical, robots, hreflang, OG/Twitter, and Organization JSON-LD
+- [x] robots/sitemap HTTP output verified locally: both returned `200`; robots is `text/plain`, sitemap is `application/xml`
+- [x] Root redirect HTTP status verified locally: `GET /` returned `307 Location: /fa`
+- [x] 404 HTTP status verified locally: missing locale page returned `404`
+- [ ] Preview authorization and authenticated draft HTML metadata: RUNTIME VERIFICATION REQUIRED. Anonymous `GET /fa/about?draft=1` returned normal published `200`; no safe unpublished fixture or credential was available.
+- [ ] Scheduled publishing worker/runtime behavior: RUNTIME VERIFICATION REQUIRED. `payload_jobs` and `payload_jobs_log` were empty; Compose has no worker service. `npm run jobs:schedules -- --help` connected without executing a schedule.
+- [ ] Publish-to-frontend revalidation: RUNTIME VERIFICATION REQUIRED. Verifying requires a content mutation; none was performed.
+- [x] Current database duplicate localized paths/slugs checked read-only: zero non-empty duplicates per locale in `content_locales`; schema has non-unique indexes only
+- [x] Runtime commands recorded: `curl.exe` GETs for `/`, `/robots.txt`, `/sitemap.xml`, `/fa/about`, `/fa/about?draft=1`, missing path, and `/fa/testing`; read-only `docker compose exec ... psql` duplicate/status/jobs queries
+- [x] Target Page/Block SEO architecture documented
+- [x] Implementation roadmap documented
+- [x] Migration decisions documented

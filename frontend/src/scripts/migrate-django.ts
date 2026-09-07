@@ -215,7 +215,7 @@ async function migrateForms(payload: Payload, tables: Record<string, SnapshotRow
     const submission = submissionMap.get(text(source.submission_id));
     if (!submission) continue;
     const existing = await payload.find({ collection: "submission-files", limit: 1, overrideAccess: true, where: { legacyID: { equals: legacyID } } });
-    const data = { legacyID, submission, originalName: text(source.original_name), mimeType: text(source.mime_type), size: number(source.size), checksumSHA256: text(source.checksum_sha256) };
+    const data = { legacyID, submission, originalName: text(source.original_name), checksumSHA256: text(source.checksum_sha256) };
     if (existing.docs[0]) await payload.update({ collection: "submission-files", id: existing.docs[0].id, overrideAccess: true, data });
     else await payload.create({ collection: "submission-files", overrideAccess: true, filePath: path.join(privateRoot, text(source.file)), data });
   }

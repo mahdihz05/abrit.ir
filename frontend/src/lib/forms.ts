@@ -17,7 +17,7 @@ export function hashIPAddress(address: string) {
   return createHash("sha256").update(`${secret}:${address}`).digest("hex");
 }
 
-export function validateSubmission(form: Form, input: SubmissionInput) {
+export function validateSubmission(form: Form, input: SubmissionInput, uploadedFileKeys = new Set<string>()) {
   if (!form.isActive) throw new Error("inactive");
   if (input.website?.trim()) throw new Error("honeypot");
   if (form.requiresPrivacyConsent && !input.consent_given) throw new Error("consent");
@@ -28,6 +28,10 @@ export function validateSubmission(form: Form, input: SubmissionInput) {
 
   const cleaned: Record<string, boolean | string | string[]> = {};
   for (const field of configuredFields) {
+    if (field.fieldType === "file") {
+      if (field.required && !uploadedFileKeys.has(field.key)) throw new Error(`required:${field.key}`);
+      continue;
+    }
     const value = input.data[field.key];
     if (value === undefined || value === null || value === "" || (Array.isArray(value) && value.length === 0)) {
       if (field.required) throw new Error(`required:${field.key}`);

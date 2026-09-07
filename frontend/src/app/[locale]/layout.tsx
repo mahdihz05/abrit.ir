@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { SiteFooter } from "@/components/site-footer";
@@ -22,15 +23,28 @@ export function generateStaticParams() {
 export default async function InternalLayout({ children, params }: LayoutProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const [settings, header, footer] = await Promise.all([
+  const [settings, header, footer, design] = await Promise.all([
     cms.settings(locale),
     cms.navigation("header", locale),
     cms.navigation("footer", locale),
+    cms.designSettings(),
   ]);
   const meta = localeMeta[locale];
   return (
     <html lang={meta.lang} dir={meta.dir} className={`${vazirmatn.variable} ${inter.variable} ${ibmPlexArabic.variable}`}>
-      <body className="internal-body">
+      <body className="internal-body" style={{
+        "--ink": design.foreground,
+        "--muted": design.muted,
+        "--blue": design.primary,
+        "--cyan": design.accent,
+        "--pale": design.surface,
+        "--surface": design.background,
+        "--navy": design.secondary,
+        "--radius": `${design.radiusLarge}px`,
+        "--container-width": `${design.containerWidth}px`,
+        "--section-spacing": `${design.sectionSpacing}px`,
+        "--cms-motion-duration": design.motionEnabled ? "0.2s" : "0s",
+      } as CSSProperties}>
         <AmbientMotion />
         <OrganizationJsonLd settings={settings} />
         <SiteHeader locale={locale} items={header} />

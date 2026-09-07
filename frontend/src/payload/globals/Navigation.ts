@@ -1,6 +1,7 @@
 import type { Field, GlobalConfig } from "payload";
-import { authenticatedGlobal } from "../access";
+import { adminOnly } from "../access";
 import { revalidateGlobal } from "../hooks/revalidate";
+import { auditGlobalChange } from "../hooks/audit";
 
 const childFields: Field[] = [
   { name: "title", type: "text", localized: true, required: true },
@@ -21,8 +22,8 @@ const menuField = (name: string, label: string): Field => ({
 export const Navigation: GlobalConfig = {
   slug: "navigation",
   admin: { group: "Configuration" },
-  access: { read: () => true, update: authenticatedGlobal },
-  hooks: { afterChange: [revalidateGlobal] },
+  access: { read: () => true, update: adminOnly },
+  hooks: { afterChange: [revalidateGlobal, auditGlobalChange] },
   versions: { max: 25 },
   fields: [menuField("header", "Header"), menuField("footer", "Footer"), menuField("mobile", "Mobile")],
 };

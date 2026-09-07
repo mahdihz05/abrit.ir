@@ -81,7 +81,11 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    'form-submissions': {
+      files: 'submission-files';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -154,6 +158,7 @@ export interface UserAuthOperations {
 export interface User {
   id: number;
   name: string;
+  role: 'admin' | 'editor' | 'seo' | 'viewer';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -812,6 +817,11 @@ export interface FormSubmission {
   id: number;
   legacyID?: string | null;
   form: number | Form;
+  files?: {
+    docs?: (number | SubmissionFile)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   locale: 'fa' | 'en' | 'ar-ae';
   contactName?: string | null;
   contactPhone?: string | null;
@@ -851,14 +861,13 @@ export interface SubmissionFile {
   legacyID?: string | null;
   submission: number | FormSubmission;
   originalName: string;
-  size: number;
   checksumSHA256: string;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
-  mimeType: string;
+  mimeType?: string | null;
   filesize?: number | null;
   width?: number | null;
   height?: number | null;
@@ -1095,6 +1104,7 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -1655,6 +1665,7 @@ export interface FormsSelect<T extends boolean = true> {
 export interface FormSubmissionsSelect<T extends boolean = true> {
   legacyID?: T;
   form?: T;
+  files?: T;
   locale?: T;
   contactName?: T;
   contactPhone?: T;
@@ -1685,7 +1696,6 @@ export interface SubmissionFilesSelect<T extends boolean = true> {
   legacyID?: T;
   submission?: T;
   originalName?: T;
-  size?: T;
   checksumSHA256?: T;
   updatedAt?: T;
   createdAt?: T;

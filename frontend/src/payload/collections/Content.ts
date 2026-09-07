@@ -1,8 +1,9 @@
 import type { CollectionConfig, Field } from "payload";
-import { publishedOrAuthenticated, authenticated } from "../access";
+import { contentManager, contentReader, publishedOrAuthenticated } from "../access";
 import { contentBlocks } from "../blocks";
 import { revalidateContent, revalidateDeletedContent } from "../hooks/revalidate";
 import { populateSearchText } from "../hooks/search-text";
+import { auditCollectionChange, auditCollectionDelete } from "../hooks/audit";
 
 const localizedText = (name: string, required = false): Field => ({ name, type: "text", localized: true, required });
 const localizedTextarea = (name: string, required = false): Field => ({ name, type: "textarea", localized: true, required });
@@ -133,9 +134,9 @@ export const Content: CollectionConfig = {
       return `/${localeCode}${path ? `/${path}` : ""}?draft=1`;
     },
   },
-  access: { create: authenticated, delete: authenticated, read: publishedOrAuthenticated, update: authenticated, readVersions: authenticated },
+  access: { create: contentManager, delete: contentManager, read: publishedOrAuthenticated, update: contentManager, readVersions: contentReader },
   versions: { drafts: { autosave: { interval: 1500, showSaveDraftButton: true }, localizeStatus: true, schedulePublish: true }, maxPerDoc: 50 },
-  hooks: { beforeChange: [populateSearchText], afterChange: [revalidateContent], afterDelete: [revalidateDeletedContent] },
+  hooks: { beforeChange: [populateSearchText], afterChange: [revalidateContent, auditCollectionChange], afterDelete: [revalidateDeletedContent, auditCollectionDelete] },
   fields: [
     { name: "key", type: "text", required: true, unique: true, index: true, admin: { position: "sidebar", description: "شناسهٔ فنی ثابت؛ پس از انتشار تغییر ندهید." } },
     { name: "kind", type: "select", required: true, index: true, options: ["page", "service", "solution", "knowledge", "news"], admin: { position: "sidebar" } },

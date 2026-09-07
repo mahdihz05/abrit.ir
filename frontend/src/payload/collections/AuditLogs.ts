@@ -1,10 +1,10 @@
 import type { CollectionConfig } from "payload";
-import { authenticated } from "../access";
+import { adminOnly } from "../access";
 
 export const AuditLogs: CollectionConfig = {
   slug: "audit-logs",
   admin: { group: "System", useAsTitle: "action", defaultColumns: ["action", "objectType", "objectID", "actorType", "occurredAt"] },
-  access: { create: () => false, delete: () => false, read: authenticated, update: () => false },
+  access: { create: () => false, delete: () => false, read: adminOnly, update: () => false },
   fields: [
     { name: "legacyID", type: "text", unique: true, index: true, admin: { hidden: true } },
     { name: "actor", type: "relationship", relationTo: "users" },

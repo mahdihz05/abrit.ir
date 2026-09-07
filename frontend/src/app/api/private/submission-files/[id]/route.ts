@@ -8,6 +8,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const payload = await getPayload({ config });
   const authentication = await payload.auth({ headers: request.headers });
   if (!authentication.user) return NextResponse.json({ error: { code: "unauthorized", detail: "Administrator authentication is required." } }, { status: 401 });
+  if (authentication.user.role !== "admin" && authentication.user.role !== "editor") return NextResponse.json({ error: { code: "forbidden", detail: "File access is not permitted." } }, { status: 403 });
   const { id } = await params;
   const numericID = Number(id);
   if (!Number.isSafeInteger(numericID)) return NextResponse.json({ error: { code: "not_found", detail: "File not found." } }, { status: 404 });

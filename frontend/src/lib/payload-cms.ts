@@ -1,7 +1,7 @@
 import { cache } from "react";
 import config from "@payload-config";
 import { getPayload, type Where } from "payload";
-import type { Content, Media, Navigation, Package as PayloadPackage, SiteSetting } from "@/payload-types";
+import type { Content, DesignSetting, Media, Navigation, Package as PayloadPackage, SiteSetting } from "@/payload-types";
 import type { ContentDetail, ContentSummary, Locale, NavigationItem, Package, SearchResult, SiteSettings } from "./types";
 import { normalizeSearchText } from "./search-normalization";
 import type { ManagedItCycle, ManagedItPackage } from "./managed-it-packages";
@@ -170,6 +170,10 @@ export const cms = {
       seo: { title: value.defaultSEOTitle ?? value.brandName, description: value.defaultSEODescription ?? "" },
       logo_url: mediaURL(value.logo),
     };
+  }),
+  designSettings: cache(async (): Promise<Pick<DesignSetting, "primary" | "secondary" | "accent" | "background" | "surface" | "foreground" | "muted" | "radiusSmall" | "radiusMedium" | "radiusLarge" | "containerWidth" | "sectionSpacing" | "motionEnabled">> => {
+    const payload = await payloadClient();
+    return payload.findGlobal({ slug: "design-settings", depth: 0, overrideAccess: true });
   }),
   navigation: cache(async (location: "header" | "footer" | "mobile", locale: Locale) => {
     const payload = await payloadClient();

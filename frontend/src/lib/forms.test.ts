@@ -36,6 +36,12 @@ describe("validateSubmission Django parity", () => {
     expect(() => validateSubmission(form, { ...valid, website: "spam" })).toThrow("honeypot");
   });
 
+  it("requires configured file fields while allowing optional files", () => {
+    const withFile = { ...form, fields: [...form.fields ?? [], { id: "attachment", key: "attachment", fieldType: "file", required: true, label: "Attachment", enabled: true }] } as Form;
+    expect(() => validateSubmission(withFile, valid)).toThrow("required:attachment");
+    expect(validateSubmission(withFile, valid, new Set(["attachment"]))).toEqual(valid.data);
+  });
+
   it("creates stable non-reversible IP identifiers", () => {
     expect(hashIPAddress("127.0.0.1")).toBe(hashIPAddress("127.0.0.1"));
     expect(hashIPAddress("127.0.0.1")).not.toContain("127.0.0.1");

@@ -1,11 +1,13 @@
 import type { CollectionConfig } from "payload";
-import { authenticated } from "../access";
+import { adminOnly } from "../access";
+import { auditCollectionChange, auditCollectionDelete } from "../hooks/audit";
 
 export const Packages: CollectionConfig = {
   slug: "packages",
   labels: { singular: "Package", plural: "Pricing packages" },
   admin: { group: "Commerce", useAsTitle: "name", defaultColumns: ["order", "name", "baseMonthlyToman", "isFeatured", "isActive"], listSearchableFields: ["name", "key", "caption"], description: "قیمت‌ها با تومان ذخیره می‌شوند؛ درصدها برحسب basis point هستند (۱۰۰ = ۱٪)." },
-  access: { create: authenticated, delete: authenticated, read: () => true, update: authenticated },
+  access: { create: adminOnly, delete: adminOnly, read: () => true, update: adminOnly },
+  hooks: { afterChange: [auditCollectionChange], afterDelete: [auditCollectionDelete] },
   fields: [
     { name: "key", type: "text", required: true, unique: true, index: true },
     { name: "order", type: "number", required: true, unique: true, index: true, min: 1 },

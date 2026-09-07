@@ -1,13 +1,14 @@
 import type { GlobalConfig } from "payload";
-import { authenticatedGlobal } from "../access";
+import { adminOnly } from "../access";
 import { revalidateGlobal } from "../hooks/revalidate";
+import { auditGlobalChange } from "../hooks/audit";
 
 export const SiteSettings: GlobalConfig = {
   slug: "site-settings",
   label: "Site settings",
   admin: { group: "Configuration" },
-  access: { read: () => true, update: authenticatedGlobal },
-  hooks: { afterChange: [revalidateGlobal] },
+  access: { read: () => true, update: adminOnly },
+  hooks: { afterChange: [revalidateGlobal, auditGlobalChange] },
   versions: { max: 25 },
   fields: [
     { name: "brandName", type: "text", defaultValue: "AbrIT", required: true },

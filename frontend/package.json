@@ -13,6 +13,7 @@
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
     "migrate:status": "payload migrate:status",
+    "migrate:baseline": "tsx src/scripts/baseline-payload-migrations.ts",
     "seed": "tsx src/scripts/seed-payload.ts && tsx src/scripts/reconcile-independent-services.ts && tsx src/scripts/reconcile-homepage-hero.ts && tsx src/scripts/reconcile-homepage-services.ts && tsx src/scripts/reconcile-homepage-solutions.ts",
     "seed:demo": "tsx src/scripts/seed-demo.ts",
     "migrate:django": "tsx src/scripts/migrate-django.ts",
@@ -21,6 +22,7 @@
     "jobs:schedules": "payload jobs:handle-schedules",
     "jobs:run": "payload jobs:run",
     "test": "vitest run",
+    "test:integration": "vitest run src/app/api/forms/[formKey]/submissions/route.integration.test.ts",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "check": "npm run lint && npm run typecheck && npm run test && npm run build"

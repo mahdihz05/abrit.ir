@@ -21,6 +21,19 @@ cd frontend
 npm run migrate
 ```
 
+### Existing schema baseline
+
+The three historical migrations are registered with Payload. A database created before this registration must not replay them, because its tables already exist. Restore and validate a PostgreSQL backup first, then run this one-time guarded command only when the schema contains the legacy Payload tables:
+
+```powershell
+$env:PAYLOAD_MIGRATION_BASELINE_CONFIRM = "I_HAVE_VERIFIED_SCHEMA"
+npm run migrate:baseline
+npm run migrate
+npm run migrate:status
+```
+
+`migrate:baseline` records only the three checked-in historical migrations after verifying representative tables and rejecting unrecognized history. It also removes Payload's `dev` schema-push marker only after that verification, allowing forward-only migrations to run non-interactively. Normal deployments run only `npm run migrate`; never run `migrate:fresh` or `migrate:reset` against production.
+
 ## Initial migration
 
 The source SQLite database is opened with SQLite `mode=ro`; migration never writes to it.
@@ -60,6 +73,13 @@ npm run lint
 npm run typecheck
 npm test
 npm run build
+```
+
+Run the database-backed private-upload regression only against an isolated local database with `npm start` already listening on port `3000`; it creates and removes `TEST-AUDIT-` fixtures:
+
+```powershell
+$env:RUN_PAYLOAD_INTEGRATION = "1"
+npm run test:integration
 ```
 
 The repository smoke script expects a production server on port `3100`; `scripts/check.ps1` runs static, unit and build checks. Before production cutover, run `validate:migration` against a fresh PostgreSQL backup restore and verify `/admin`, form submission, pricing and all three locales.

@@ -229,7 +229,7 @@ async function main() {
   const adminPassword = process.env.PAYLOAD_ADMIN_PASSWORD;
   if (adminEmail && adminPassword) {
     const users = await payload.find({ collection: "users", limit: 1, overrideAccess: true, where: { email: { equals: adminEmail } } });
-    if (!users.docs.length) await payload.create({ collection: "users", overrideAccess: true, data: { email: adminEmail, password: adminPassword, name: "AbrIT Administrator" } });
+    if (!users.docs.length) await payload.create({ collection: "users", overrideAccess: true, draft: false, data: { email: adminEmail, password: adminPassword, name: "AbrIT Administrator", role: "admin" } });
   }
   for (const page of pages) await upsertContent(payload, page);
   await Promise.all([seedGlobals(payload), seedPackages(payload), seedForms(payload)]);

@@ -34,7 +34,7 @@ export default buildConfig({
   },
   collections: [Users, Media, Content, Packages, Forms, FormSubmissions, SubmissionFiles, AuditLogs],
   globals: [SiteSettings, DesignSettings, Navigation, ProductCatalog],
-  db: postgresAdapter({ pool: { connectionString: process.env.DATABASE_URI ?? "" } }),
+  db: postgresAdapter({ migrationDir: path.resolve(dirname, "migrations"), pool: { connectionString: process.env.DATABASE_URI ?? "" } }),
   editor: lexicalEditor(),
   localization: {
     locales: [

@@ -1,10 +1,21 @@
 import type { Access, GlobalConfig } from "payload";
+import type { User } from "@/payload-types";
 
-export const authenticated: Access = ({ req }) => Boolean(req.user);
+export type UserRole = "admin" | "editor" | "seo" | "viewer";
 
-export const authenticatedGlobal: NonNullable<GlobalConfig["access"]>["read"] = ({ req }) => Boolean(req.user);
+function hasRole(user: unknown, roles: UserRole[]) {
+  return Boolean(user && roles.includes((user as User).role as UserRole));
+}
+
+export const adminOnly: Access = ({ req }) => hasRole(req.user, ["admin"]);
+export const contentManager: Access = ({ req }) => hasRole(req.user, ["admin", "editor"]);
+export const seoManager: Access = ({ req }) => hasRole(req.user, ["admin", "editor", "seo"]);
+export const formManager: Access = ({ req }) => hasRole(req.user, ["admin", "editor"]);
+export const contentReader: Access = ({ req }) => hasRole(req.user, ["admin", "editor", "seo", "viewer"]);
+export const authenticated: Access = contentReader;
+export const authenticatedGlobal: NonNullable<GlobalConfig["access"]>["read"] = ({ req }) => contentReader({ req } as Parameters<Access>[0]);
 
 export const publishedOrAuthenticated: Access = ({ req }) => {
-  if (req.user) return true;
+  if (contentReader({ req } as Parameters<Access>[0])) return true;
   return { _status: { equals: "published" } };
 };

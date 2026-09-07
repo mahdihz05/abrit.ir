@@ -5,6 +5,7 @@ import type { CollectionBeforeValidateHook } from "payload";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const MAX_EXPANDED_SIZE = 50 * 1024 * 1024;
+const MAX_PUBLIC_MEDIA_SIZE = 20 * 1024 * 1024;
 const ALLOWED = new Map([
   ["pdf", new Set(["application/pdf", "application/octet-stream"])],
   ["docx", new Set(["application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/octet-stream", "application/zip"])],
@@ -50,8 +51,26 @@ export const validatePrivateUpload: CollectionBeforeValidateHook = async ({ data
   return {
     ...data,
     originalName: file.name,
-    mimeType: file.mimetype,
-    size: file.size,
     checksumSHA256: createHash("sha256").update(file.data).digest("hex"),
   };
+};
+
+export const validatePublicMediaUpload: CollectionBeforeValidateHook = async ({ data, req }) => {
+  const file = req.file;
+  if (!file) return data;
+  if (file.size > MAX_PUBLIC_MEDIA_SIZE) throw new Error("Media files must be 20MB or smaller.");
+
+  const declared = file.mimetype.toLowerCase();
+  const detected = await fileTypeFromBuffer(file.data);
+  const expected = new Map([
+    ["jpg", "image/jpeg"],
+    ["jpeg", "image/jpeg"],
+    ["png", "image/png"],
+    ["webp", "image/webp"],
+    ["pdf", "application/pdf"],
+  ]);
+  const extension = extensionOf(file.name);
+  const mime = expected.get(extension);
+  if (!mime || declared !== mime || detected?.mime !== mime) throw new Error("Unsupported or invalid media file.");
+  return data;
 };

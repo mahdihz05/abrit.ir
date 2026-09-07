@@ -1,12 +1,14 @@
 import type { CollectionConfig } from "payload";
-import { authenticated } from "../access";
+import { formManager } from "../access";
 import { populateSubmissionSummary } from "../hooks/submission-summary";
+import { auditCollectionChange, auditCollectionDelete } from "../hooks/audit";
 
 export const Forms: CollectionConfig = {
   slug: "forms",
   labels: { singular: "Form", plural: "Forms" },
   admin: { group: "Forms", useAsTitle: "title", defaultColumns: ["title", "key", "isActive", "updatedAt"], listSearchableFields: ["title", "key"] },
-  access: { create: authenticated, delete: authenticated, read: authenticated, update: authenticated },
+  access: { create: formManager, delete: formManager, read: formManager, update: formManager },
+  hooks: { afterChange: [auditCollectionChange], afterDelete: [auditCollectionDelete] },
   fields: [
     { name: "key", type: "text", unique: true, required: true, index: true },
     { name: "isActive", type: "checkbox", defaultValue: true },
@@ -51,11 +53,12 @@ export const FormSubmissions: CollectionConfig = {
     enableListViewSelectAPI: true,
     description: "صندوق ورودی درخواست‌های سایت؛ دادهٔ خام نیز برای حفظ کامل پاسخ‌ها نگهداری می‌شود.",
   },
-  access: { create: () => false, delete: authenticated, read: authenticated, update: authenticated },
-  hooks: { beforeValidate: [populateSubmissionSummary] },
+  access: { create: () => false, delete: formManager, read: formManager, update: formManager },
+  hooks: { beforeValidate: [populateSubmissionSummary], afterChange: [auditCollectionChange], afterDelete: [auditCollectionDelete] },
   fields: [
     { name: "legacyID", type: "text", unique: true, index: true, admin: { hidden: true } },
     { name: "form", type: "relationship", relationTo: "forms", required: true, index: true },
+    { name: "files", type: "join", collection: "submission-files", on: "submission" },
     { name: "locale", type: "select", options: ["fa", "en", "ar-ae"], required: true, index: true },
     { name: "contactName", type: "text", index: true, admin: { readOnly: true } },
     { name: "contactPhone", type: "text", index: true, admin: { readOnly: true } },
