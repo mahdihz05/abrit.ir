@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ReferenceHomepage } from "@/components/reference-homepage";
-import { isLocale, localeMeta } from "@/lib/locales";
-import { extractReferenceBody, readReferenceHomepage } from "@/lib/reference-homepage";
+import { TechorHomepage } from "@/components/techor-homepage";
+import { isLocale } from "@/lib/locales";
 import type { Locale } from "@/lib/types";
 
 const seo: Record<Locale, { title: string; description: string }> = {
@@ -38,7 +37,5 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const body = extractReferenceBody(await readReferenceHomepage());
-  const direction = localeMeta[locale].dir;
-  return <ReferenceHomepage body={body} direction={direction} locale={locale} />;
+  return <TechorHomepage locale={locale} />;
 }

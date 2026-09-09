@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withPayload } from "@payloadcms/next/withPayload";
 import path from "node:path";
 
 for (const [name, fallback] of [
@@ -16,6 +17,7 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(process.cwd(), ".."),
   outputFileTracingIncludes: {
     "/[locale]": ["../abrit-homepage-polished-v5.html"],
+    "/template-assets/[...path]": ["../techor-html-package/techor-placeholder/assets/**/*"],
   },
   poweredByHeader: false,
   reactStrictMode: true,
@@ -37,4 +39,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);

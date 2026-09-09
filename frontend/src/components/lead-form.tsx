@@ -7,7 +7,7 @@ import type { Locale } from "@/lib/types";
 type LeadFormKind = "consultation" | "quote-request";
 type SubmitState = { type: "idle" | "pending" | "success" | "error"; message: string };
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api/v1").replace(/\/$/, "");
+const API_URL = "/api";
 
 const copy = {
   fa: {
