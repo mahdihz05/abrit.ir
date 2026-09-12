@@ -3,7 +3,7 @@ doc_id: ABRIT-SEO-AUDIT
 doc_type: technical-report
 title: SEO Audit
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [seo, engineering]
 confidentiality: internal
 source_of_truth: repository

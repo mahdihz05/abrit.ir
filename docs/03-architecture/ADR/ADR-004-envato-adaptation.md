@@ -3,7 +3,7 @@ doc_id: ABRIT-ADR-004
 doc_type: adr
 title: ADR-004 Envato as visual reference only
 status: accepted
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, design]
 confidentiality: internal
 source_of_truth: repository

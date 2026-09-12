@@ -3,7 +3,7 @@ doc_id: ABRIT-SECURITY
 doc_type: technical-report
 title: Security Review
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, management]
 confidentiality: confidential
 source_of_truth: repository
@@ -23,4 +23,4 @@ related: [ABRIT-TESTS, ABRIT-OWNER-INPUT]
 - CSRF/CORS/rate-limit: framework defaults; no custom limiter → `PARTIALLY VERIFIED` (WAF/rate-limit at proxy if abuse).
 - Forms: server validation + `retention:purge` expiry; submissions API create-closed except route. `VERIFIED`.
 - Sensitive routes `/api/private/*`, `/api/revalidate` (secret), `/admin`, `/api/` robots-disallowed. `VERIFIED`.
-- Open item (P1): validator flagged a possible credential pattern in pre-existing `docs/agent-reports/phase-1-plan-aprove.md` (outside this pack, likely false positive) — owner to review/rotate if real. Pack itself contains no secrets (scan evidence above).
+- Closed scan finding: `docs/agent-reports/phase-1-plan-aprove.md` lines 304/305/321 are API-contract field examples under authentication/user endpoint headings, not credentials. They describe `csrf_token`/`password` request fields and no value was exposed in this review. `PLACEHOLDER/FALSE POSITIVE`; no rotation required. Pack itself contains no secrets (scan evidence above).

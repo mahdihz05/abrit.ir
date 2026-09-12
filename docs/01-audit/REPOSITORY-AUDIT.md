@@ -3,7 +3,7 @@ doc_id: ABRIT-REPO-AUDIT
 doc_type: current-state
 title: Repository Audit
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, operations]
 confidentiality: internal
 source_of_truth: repository

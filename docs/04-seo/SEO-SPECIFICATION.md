@@ -3,7 +3,7 @@ doc_id: ABRIT-SEO-SPEC
 doc_type: architecture
 title: SEO Specification
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [seo, engineering]
 confidentiality: internal
 source_of_truth: repository

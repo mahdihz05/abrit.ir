@@ -3,7 +3,7 @@ doc_id: ABRIT-RUNBOOK
 doc_type: runbook
 title: Deployment Runbook
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [operations, engineering]
 confidentiality: internal
 source_of_truth: repository

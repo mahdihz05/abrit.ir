@@ -3,7 +3,7 @@ doc_id: ABRIT-ENVATO-AUDIT
 doc_type: design-context
 title: Envato Template Audit
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, design]
 confidentiality: internal
 source_of_truth: repository

@@ -3,7 +3,7 @@ doc_id: ABRIT-MIGRATION-MAP
 doc_type: current-state
 title: Content Migration Map
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, seo]
 confidentiality: internal
 source_of_truth: repository
@@ -27,4 +27,6 @@ Sources: `src/scripts/seed-payload.ts`, `seed-demo.ts`, `docs/seo/SEO_MIGRATION_
 - About/Contact -> `/…/about`, `/…/contact` (live) -> same -> `content(page)` + form block -> KEEP
 - Techor template pages -> reference only (no content carried) -> targets above -> — -> MERGE (visual only)
 - Legacy pre-Payload URLs -> UNKNOWN (no legacy sitemap/logs available) -> mapped targets -> `seo-redirects` 307/308 -> NEEDS OWNER INPUT (source access, not placeholders)
-- Test key `1234` -> inventory only, not in prod sitemap -> remove from seed/inventory -> — -> REMOVE
+- Test key `1234` -> inventory only, not in prod sitemap -> remove from seed/inventory -> — -> REMOVE (all locales MISSING except fa path; no fallback)
+- Independent service/index keys (5) -> live all 3 locales -> retain localized route/title/excerpt; add optional SEO title/description only when keyword policy is approved -> `content` + resolver fallback -> IMPROVE (technical FALLBACK, human QA pending)
+- Normal content keys (25) -> live all 3 locales -> retain -> `content` -> KEEP (technical COMPLETE; human QA pending)

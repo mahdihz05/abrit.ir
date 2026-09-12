@@ -3,7 +3,7 @@ doc_id: ABRIT-ADR-001
 doc_type: adr
 title: ADR-001 Payload replaces previous backend
 status: accepted
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, management]
 confidentiality: internal
 source_of_truth: repository

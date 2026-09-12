@@ -3,7 +3,7 @@ doc_id: ABRIT-ENVATO-MAP
 doc_type: design-context
 title: Envato to Payload Mapping
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, design]
 confidentiality: internal
 source_of_truth: repository

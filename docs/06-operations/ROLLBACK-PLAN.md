@@ -3,7 +3,7 @@ doc_id: ABRIT-ROLLBACK
 doc_type: rollout-plan
 title: Rollback Plan
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [operations, engineering]
 confidentiality: internal
 source_of_truth: repository

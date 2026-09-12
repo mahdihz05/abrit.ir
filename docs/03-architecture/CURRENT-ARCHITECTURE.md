@@ -3,7 +3,7 @@ doc_id: ABRIT-ARCH
 doc_type: architecture
 title: Current Architecture
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, operations]
 confidentiality: internal
 source_of_truth: repository

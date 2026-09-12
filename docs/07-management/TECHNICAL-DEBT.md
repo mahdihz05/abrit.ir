@@ -3,7 +3,7 @@ doc_id: ABRIT-DEBT
 doc_type: technical-report
 title: Technical Debt Register
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering]
 confidentiality: internal
 source_of_truth: repository

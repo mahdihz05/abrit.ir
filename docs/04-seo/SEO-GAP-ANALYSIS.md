@@ -3,7 +3,7 @@ doc_id: ABRIT-SEO-GAPS
 doc_type: technical-report
 title: SEO Gap Analysis
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [seo, engineering]
 confidentiality: internal
 source_of_truth: repository
@@ -19,7 +19,7 @@ related: [ABRIT-SEO-AUDIT, ABRIT-SEO-SPEC, ABRIT-ROADMAP]
 - Draft/preview protection | gated + forced noindex | same | none | P3 | `seo-resolver.ts:76-90`, auth gate
 - Canonical/hreflang | implemented, prod-verified | same | none | P3 | resolver + 90-URL sitemap parity
 - Sitemap/robots/redirects core | implemented, prod-verified | same | none | P3 | live robots/sitemap fetch
-- Legacy URL import | 0 rows (inventory `redirectsRequired: 0`) | 307/308 map | data (owner) | P0 | `URL-MIGRATION-MAP.csv` — NEEDS OWNER INPUT
+- Legacy URL import | 7 archived Persian page routes discovered; 1 HIGH contact mapping | 307/308 map | runtime lacks non-localized source handling + owner export needed | P0 | `LEGACY-URL-DISCOVERY.md`, `URL-MIGRATION-MAP.csv`
 - H1 field | absent (contract Proposal) | decided + implemented | schema | P2 | `Content.ts` vs contract
 - Image/video sitemap | none | image extension | small | P2 | `seo-sitemap.ts` — NOT IMPLEMENTED
 - Per-locale sitemap split | single flat file | optional split index | small | P2 | NOT IMPLEMENTED

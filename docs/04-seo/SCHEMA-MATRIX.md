@@ -3,7 +3,7 @@ doc_id: ABRIT-SCHEMA
 doc_type: architecture
 title: Schema Matrix
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [seo, engineering]
 confidentiality: internal
 source_of_truth: repository

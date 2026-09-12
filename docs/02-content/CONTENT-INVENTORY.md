@@ -3,7 +3,7 @@ doc_id: ABRIT-CONTENT
 doc_type: current-state
 title: Content Inventory
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, seo]
 confidentiality: internal
 source_of_truth: repository

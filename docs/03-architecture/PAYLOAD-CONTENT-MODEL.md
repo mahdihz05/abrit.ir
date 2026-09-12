@@ -3,7 +3,7 @@ doc_id: ABRIT-PAYLOAD-MODEL
 doc_type: architecture
 title: Payload Content Model
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, seo]
 confidentiality: internal
 source_of_truth: repository

@@ -3,7 +3,7 @@ doc_id: ABRIT-BLOCKS
 doc_type: architecture
 title: Block Architecture
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, design]
 confidentiality: internal
 source_of_truth: repository

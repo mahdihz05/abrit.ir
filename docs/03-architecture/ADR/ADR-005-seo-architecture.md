@@ -3,7 +3,7 @@ doc_id: ABRIT-ADR-005
 doc_type: adr
 title: ADR-005 Application-owned SEO architecture
 status: accepted
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, seo]
 confidentiality: internal
 source_of_truth: repository

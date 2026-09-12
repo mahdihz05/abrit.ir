@@ -3,7 +3,7 @@ doc_id: ABRIT-RISKS
 doc_type: technical-report
 title: Risk Register
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [management, engineering]
 confidentiality: internal
 source_of_truth: repository

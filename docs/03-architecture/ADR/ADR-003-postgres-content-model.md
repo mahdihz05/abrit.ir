@@ -3,7 +3,7 @@ doc_id: ABRIT-ADR-003
 doc_type: adr
 title: ADR-003 Generic localized Content model
 status: accepted
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, seo]
 confidentiality: internal
 source_of_truth: repository

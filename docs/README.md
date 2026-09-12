@@ -3,7 +3,7 @@ doc_id: ABRIT-README
 doc_type: project-index
 title: ABRIT Documentation Portal
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [management, engineering, seo, operations, qa]
 confidentiality: internal
 source_of_truth: repository
@@ -41,6 +41,8 @@ related: [ABRIT-STATUS, ABRIT-OVERVIEW]
 - `04-seo/SEO-SPECIFICATION.md`
 - `04-seo/SEO-GAP-ANALYSIS.md`
 - `04-seo/URL-MIGRATION-MAP.csv`
+- `04-seo/LEGACY-URL-DISCOVERY.md`
+- `04-seo/REDIRECT-IMPORT-READY.csv`
 - `04-seo/SCHEMA-MATRIX.md`
 - `02-content/PAGE-INVENTORY.md`
 - `02-content/CONTENT-INVENTORY.md`
@@ -58,10 +60,10 @@ related: [ABRIT-STATUS, ABRIT-OVERVIEW]
 Unified Next.js 16 + Payload 3 + PostgreSQL 17 in one container; `/admin`, `/api/*`, `/{fa,en,ar-ae}`; custom SEO resolver + 307/308 redirects; no official Payload SEO/redirect plugins (rejected, see ADR-005).
 
 ## Verification state
-See `00-project/PROJECT-STATUS.md` for six separate metrics. Headline: lint PASS, typecheck PASS, unit 64/64 PASS (5 e2e skipped — need runtime), `migrate:status` BLOCKED (dev DB auth_failed), integration suites not run (need working DB).
+See `00-project/PROJECT-STATUS.md` for six separate metrics. Headline: lint/typecheck/build PASS, unit 64/64 PASS, core integration 2/2 PASS, SEO integration 10/10 PASS, forms integration 1/1 PASS, migrations clean. HTTP SEO E2E is 2/5 because its fixture hard-codes a starter brand/origin.
 
 ## Blockers
-Production secrets, Search Console/Analytics access, translation ownership — all in `00-project/OWNER-INPUT-REQUIRED.md`.
+Production secrets, Search Console/Analytics access, translation approval, and legacy source export — all in `00-project/OWNER-INPUT-REQUIRED.md`. Current `abrit.ir` is the temporary live site until the owner-approved end-of-Mehr migration window; no production write occurred.
 
 ## Legacy docs
 Pre-existing `docs/*.md` roots (`ARCHITECTURE.md`, `SEO.md`, `DEPLOYMENT.md`, …) and `docs/seo/`, `docs/agent-reports/` are historical references, not part of this pack. Django-era files (`IMPLEMENTATION_PLAN.md`, `IMPLEMENTATION_CHECKLIST.md`, `MILESTONES.md`) are superseded by ADR-001 and this pack.

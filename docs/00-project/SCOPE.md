@@ -3,7 +3,7 @@ doc_id: ABRIT-SCOPE
 doc_type: project-overview
 title: Scope
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [management, engineering]
 confidentiality: internal
 source_of_truth: repository

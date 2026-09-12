@@ -3,7 +3,7 @@ doc_id: ABRIT-ROADMAP
 doc_type: roadmap
 title: Implementation Roadmap
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [management, engineering]
 confidentiality: internal
 source_of_truth: repository
@@ -14,10 +14,15 @@ related: [ABRIT-STATUS, ABRIT-OWNER-INPUT, ABRIT-QA]
 
 # Implementation Roadmap (no fabricated dates; sequencing + acceptance only)
 
-## NOW (P0 — owner-blocked)
-- [ ] Legacy URL export → `seo-redirects` import. Accept: 0 chains/loops, curl 307/308. Owner: hosting access.
+## Operating context
+
+`abrit.ir` is the temporary live site. The owner intends migration to the new presentation by the end of Mehr; treat this as a target window, not a production authorization. Existing production must remain unchanged until the NOW gates pass.
+
+## NOW (P0/P1 — before cutover)
+- [ ] Implement and test an approved non-localized redirect boundary, then import only HIGH/VERIFIED mappings. Accept: `/تماس-با-ما/` → `/fa/contact` one-hop 308; 0 loops/chains. Evidence: `LEGACY-URL-DISCOVERY.md`. Owner: engineering + hosting access.
 - [ ] Secrets handover (vault) + fix local DB creds. Accept: prod boot, `/readyz` 200, `migrate:status` clean. Owner: DevOps.
 - [ ] Rollback staging drill. Accept: drill log attached to runbook. Owner: DevOps.
+- [ ] Repair SEO HTTP E2E fixture isolation (brand/origin expectation). Accept: 5/5 `test:seo:e2e` pass against dedicated/reset local DB. Owner: engineering.
 
 ## NEXT (P1)
 - [ ] ar-ae copy approval + keyword-driven titles/descriptions + H1 decision. Accept: QA plan green. Owner: content/SEO.

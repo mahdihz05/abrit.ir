@@ -3,7 +3,7 @@ doc_id: ABRIT-ADR-002
 doc_type: adr
 title: ADR-002 Unified Next.js and Payload application
 status: accepted
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, operations]
 confidentiality: internal
 source_of_truth: repository

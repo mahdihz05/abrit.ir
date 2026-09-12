@@ -3,7 +3,7 @@ doc_id: ABRIT-ARCH-TARGET
 doc_type: architecture
 title: Target Architecture
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [engineering, management]
 confidentiality: internal
 source_of_truth: repository

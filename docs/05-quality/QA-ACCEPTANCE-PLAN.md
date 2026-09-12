@@ -3,7 +3,7 @@ doc_id: ABRIT-QA
 doc_type: technical-report
 title: QA Acceptance Plan
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [qa, management]
 confidentiality: internal
 source_of_truth: repository

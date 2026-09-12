@@ -3,7 +3,7 @@ doc_id: ABRIT-STATE
 doc_type: current-state
 title: Current State Audit
 status: verified
-owner: TBD-owner
+owner: Unassigned
 audience: [management, engineering]
 confidentiality: internal
 source_of_truth: repository
@@ -25,5 +25,6 @@ related: [ABRIT-REPO-AUDIT, ABRIT-ARCH, ABRIT-STATUS]
 
 ## Executions this pass (evidence, not claims)
 - `npm run lint` PASS; `npm run typecheck` PASS (`tsc` exit 0); `npm run test` 64/64 PASS (5 e2e skipped, need runtime).
-- `migrate:status` BLOCKED (`auth_failed` vs local pg — no mutation attempted).
-- Integration/e2e/build suites NOT RUN (need DB/runtime); skill `validate_docs.py` RUN (pack frontmatter fixed; findings recorded).
+- Docker Postgres validated healthy; `migrate:status` PASS with a process-only local development URI (all 3 migrations ran).
+- `test:core:integration` PASS 2/2; `test:seo:integration` PASS 10/10; `test:integration` PASS 1/1; build PASS.
+- `test:seo:e2e` started standalone runtime but FAIL 3/5 because hard-coded expected brand/origin diverge from the existing local fixture. This is P1 test debt, not treated as a production pass.
