@@ -1,0 +1,93 @@
+Old URL,Old Locale,Current HTTP Status,Current Page Type,New URL,New Locale,Migration Action,Redirect Type,Canonical,Indexability,Content Action,Verification Status,Notes
+https://abrit.ir/fa,fa,200 (in sitemap),home,https://abrit.ir/fa,fa,KEEP — live Payload URL,—,self,index,IMPROVE (v5 sections to blocks),VERIFIED (sitemap fetch 2026-09-12),seed key home
+https://abrit.ir/fa/about,fa,200 (in sitemap),page,https://abrit.ir/fa/about,fa,KEEP,—,self,index,KEEP,VERIFIED,seed key about
+https://abrit.ir/fa/contact,fa,200 (in sitemap),page+form,https://abrit.ir/fa/contact,fa,KEEP,—,self,index,KEEP,VERIFIED,seed key contact + contact form
+https://abrit.ir/fa/services,fa,200 (in sitemap),index,https://abrit.ir/fa/services,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/managed-it,fa,200 (in sitemap),service,https://abrit.ir/fa/services/managed-it,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/digital-workspace,fa,200 (in sitemap),service,https://abrit.ir/fa/services/digital-workspace,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/network-security,fa,200 (in sitemap),service,https://abrit.ir/fa/services/network-security,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/identity-access,fa,200 (in sitemap),service,https://abrit.ir/fa/services/identity-access,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/backup-recovery,fa,200 (in sitemap),service,https://abrit.ir/fa/services/backup-recovery,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/monitoring,fa,200 (in sitemap),service,https://abrit.ir/fa/services/monitoring,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/erp-automation,fa,200 (in sitemap),service,https://abrit.ir/fa/services/erp-automation,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/business-telephony,fa,200 (in sitemap),service,https://abrit.ir/fa/services/business-telephony,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/remote-management,fa,200 (in sitemap),service,https://abrit.ir/fa/services/remote-management,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/services/it-automation,fa,200 (in sitemap),service,https://abrit.ir/fa/services/it-automation,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/solutions,fa,200 (in sitemap),index,https://abrit.ir/fa/solutions,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/solutions/integrated-it-management,fa,200 (in sitemap),solution,https://abrit.ir/fa/solutions/integrated-it-management,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/solutions/it-outsourcing,fa,200 (in sitemap),solution,https://abrit.ir/fa/solutions/it-outsourcing,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/solutions/security-continuity,fa,200 (in sitemap),solution,https://abrit.ir/fa/solutions/security-continuity,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/solutions/branch-management,fa,200 (in sitemap),solution,https://abrit.ir/fa/solutions/branch-management,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/solutions/digital-workplace,fa,200 (in sitemap),solution,https://abrit.ir/fa/solutions/digital-workplace,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/solutions/process-automation,fa,200 (in sitemap),solution,https://abrit.ir/fa/solutions/process-automation,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/independent-services,fa,200 (in sitemap),index,https://abrit.ir/fa/independent-services,fa,KEEP,—,self,index,KEEP,VERIFIED,templateKey independent-service
+https://abrit.ir/fa/independent-services/backup,fa,200 (in sitemap),service,https://abrit.ir/fa/independent-services/backup,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/independent-services/cloud-storage,fa,200 (in sitemap),service,https://abrit.ir/fa/independent-services/cloud-storage,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/independent-services/workspace,fa,200 (in sitemap),service,https://abrit.ir/fa/independent-services/workspace,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/independent-services/voice,fa,200 (in sitemap),service,https://abrit.ir/fa/independent-services/voice,fa,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/fa/products,fa,200 (in sitemap),page,https://abrit.ir/fa/products,fa,KEEP,—,self,index,NEEDS REVIEW (no pricing block),VERIFIED,—
+https://abrit.ir/fa/pricing,fa,200 (in sitemap),page,https://abrit.ir/fa/pricing,fa,KEEP,—,self,index,NEEDS REVIEW (no pricing block),VERIFIED,—
+https://abrit.ir/fa/knowledge,fa,200 (in sitemap),index,https://abrit.ir/fa/knowledge,fa,KEEP,—,self,index,KEEP,VERIFIED,kind editorial in resolver
+https://abrit.ir/fa/news,fa,200 (in sitemap),index,https://abrit.ir/fa/news,fa,KEEP,—,self,index,KEEP,VERIFIED,kind editorial in resolver
+https://abrit.ir/en,fa,200 (in sitemap),home,https://abrit.ir/en,en,KEEP — live Payload URL,—,self,index,IMPROVE (v5 sections to blocks),VERIFIED (sitemap fetch 2026-09-12),seed key home
+https://abrit.ir/en/about,en,200 (in sitemap),page,https://abrit.ir/en/about,en,KEEP,—,self,index,KEEP,VERIFIED,seed key about
+https://abrit.ir/en/contact,en,200 (in sitemap),page+form,https://abrit.ir/en/contact,en,KEEP,—,self,index,KEEP,VERIFIED,seed key contact + contact form
+https://abrit.ir/en/services,en,200 (in sitemap),index,https://abrit.ir/en/services,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/managed-it,en,200 (in sitemap),service,https://abrit.ir/en/services/managed-it,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/digital-workspace,en,200 (in sitemap),service,https://abrit.ir/en/services/digital-workspace,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/network-security,en,200 (in sitemap),service,https://abrit.ir/en/services/network-security,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/identity-access,en,200 (in sitemap),service,https://abrit.ir/en/services/identity-access,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/backup-recovery,en,200 (in sitemap),service,https://abrit.ir/en/services/backup-recovery,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/monitoring,en,200 (in sitemap),service,https://abrit.ir/en/services/monitoring,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/erp-automation,en,200 (in sitemap),service,https://abrit.ir/en/services/erp-automation,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/business-telephony,en,200 (in sitemap),service,https://abrit.ir/en/services/business-telephony,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/remote-management,en,200 (in sitemap),service,https://abrit.ir/en/services/remote-management,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/services/it-automation,en,200 (in sitemap),service,https://abrit.ir/en/services/it-automation,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/solutions,en,200 (in sitemap),index,https://abrit.ir/en/solutions,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/solutions/integrated-it-management,en,200 (in sitemap),solution,https://abrit.ir/en/solutions/integrated-it-management,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/solutions/it-outsourcing,en,200 (in sitemap),solution,https://abrit.ir/en/solutions/it-outsourcing,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/solutions/security-continuity,en,200 (in sitemap),solution,https://abrit.ir/en/solutions/security-continuity,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/solutions/branch-management,en,200 (in sitemap),solution,https://abrit.ir/en/solutions/branch-management,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/solutions/digital-workplace,en,200 (in sitemap),solution,https://abrit.ir/en/solutions/digital-workplace,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/solutions/process-automation,en,200 (in sitemap),solution,https://abrit.ir/en/solutions/process-automation,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/independent-services,en,200 (in sitemap),index,https://abrit.ir/en/independent-services,en,KEEP,—,self,index,KEEP,VERIFIED,templateKey independent-service
+https://abrit.ir/en/independent-services/backup,en,200 (in sitemap),service,https://abrit.ir/en/independent-services/backup,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/independent-services/cloud-storage,en,200 (in sitemap),service,https://abrit.ir/en/independent-services/cloud-storage,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/independent-services/workspace,en,200 (in sitemap),service,https://abrit.ir/en/independent-services/workspace,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/independent-services/voice,en,200 (in sitemap),service,https://abrit.ir/en/independent-services/voice,en,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/en/products,en,200 (in sitemap),page,https://abrit.ir/en/products,en,KEEP,—,self,index,NEEDS REVIEW (no pricing block),VERIFIED,—
+https://abrit.ir/en/pricing,en,200 (in sitemap),page,https://abrit.ir/en/pricing,en,KEEP,—,self,index,NEEDS REVIEW (no pricing block),VERIFIED,—
+https://abrit.ir/en/knowledge,en,200 (in sitemap),index,https://abrit.ir/en/knowledge,en,KEEP,—,self,index,KEEP,VERIFIED,kind editorial in resolver
+https://abrit.ir/en/news,en,200 (in sitemap),index,https://abrit.ir/en/news,en,KEEP,—,self,index,KEEP,VERIFIED,kind editorial in resolver
+https://abrit.ir/ar-ae,fa,200 (in sitemap),home,https://abrit.ir/ar-ae,ar-ae,KEEP — live Payload URL,—,self,index,IMPROVE (v5 sections to blocks),VERIFIED (sitemap fetch 2026-09-12),seed key home
+https://abrit.ir/ar-ae/about,ar-ae,200 (in sitemap),page,https://abrit.ir/ar-ae/about,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,seed key about
+https://abrit.ir/ar-ae/contact,ar-ae,200 (in sitemap),page+form,https://abrit.ir/ar-ae/contact,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,seed key contact + contact form
+https://abrit.ir/ar-ae/services,ar-ae,200 (in sitemap),index,https://abrit.ir/ar-ae/services,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/managed-it,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/managed-it,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/digital-workspace,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/digital-workspace,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/network-security,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/network-security,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/identity-access,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/identity-access,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/backup-recovery,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/backup-recovery,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/monitoring,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/monitoring,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/erp-automation,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/erp-automation,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/business-telephony,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/business-telephony,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/remote-management,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/remote-management,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/services/it-automation,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/services/it-automation,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/solutions,ar-ae,200 (in sitemap),index,https://abrit.ir/ar-ae/solutions,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/solutions/integrated-it-management,ar-ae,200 (in sitemap),solution,https://abrit.ir/ar-ae/solutions/integrated-it-management,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/solutions/it-outsourcing,ar-ae,200 (in sitemap),solution,https://abrit.ir/ar-ae/solutions/it-outsourcing,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/solutions/security-continuity,ar-ae,200 (in sitemap),solution,https://abrit.ir/ar-ae/solutions/security-continuity,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/solutions/branch-management,ar-ae,200 (in sitemap),solution,https://abrit.ir/ar-ae/solutions/branch-management,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/solutions/digital-workplace,ar-ae,200 (in sitemap),solution,https://abrit.ir/ar-ae/solutions/digital-workplace,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/solutions/process-automation,ar-ae,200 (in sitemap),solution,https://abrit.ir/ar-ae/solutions/process-automation,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/independent-services,ar-ae,200 (in sitemap),index,https://abrit.ir/ar-ae/independent-services,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,templateKey independent-service
+https://abrit.ir/ar-ae/independent-services/backup,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/independent-services/backup,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/independent-services/cloud-storage,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/independent-services/cloud-storage,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/independent-services/workspace,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/independent-services/workspace,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/independent-services/voice,ar-ae,200 (in sitemap),service,https://abrit.ir/ar-ae/independent-services/voice,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,—
+https://abrit.ir/ar-ae/products,ar-ae,200 (in sitemap),page,https://abrit.ir/ar-ae/products,ar-ae,KEEP,—,self,index,NEEDS REVIEW (no pricing block),VERIFIED,—
+https://abrit.ir/ar-ae/pricing,ar-ae,200 (in sitemap),page,https://abrit.ir/ar-ae/pricing,ar-ae,KEEP,—,self,index,NEEDS REVIEW (no pricing block),VERIFIED,—
+https://abrit.ir/ar-ae/knowledge,ar-ae,200 (in sitemap),index,https://abrit.ir/ar-ae/knowledge,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,kind editorial in resolver
+https://abrit.ir/ar-ae/news,ar-ae,200 (in sitemap),index,https://abrit.ir/ar-ae/news,ar-ae,KEEP,—,self,index,KEEP,VERIFIED,kind editorial in resolver
+(none — inventory test key),fa|en|ar-ae,NOT IN SITEMAP,test record,(remove — no target),—,REMOVE,—,noindex (never eligible),REMOVE,VERIFIED (absent from prod sitemap; invalid slug per inventory),key 1234 path testing — resolver exclusion works
+UNKNOWN (pre-Payload legacy URLs — no legacy sitemap/logs available),UNKNOWN,UNKNOWN,UNKNOWN,mapped target per key above,per locale,NEW (import to seo-redirects on discovery),307 or 308,self,index,per-row Content Action above,NEEDS OWNER INPUT,Needs legacy sitemap export or server logs (hosting/old CMS access)
