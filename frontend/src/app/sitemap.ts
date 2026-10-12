@@ -1,20 +1,19 @@
 import type { MetadataRoute } from "next";
-import { locales } from "@/lib/locales";
-import { cms } from "@/lib/payload-cms";
+import { getPayload } from "payload";
+import { unstable_cache } from "next/cache";
+import { buildSeoSitemap } from "@/lib/seo-sitemap";
+import { SEO_CACHE_VERSION, SEO_SITEMAP_TAG } from "@/lib/seo-cache";
+
+const cachedSitemap = unstable_cache(async () => {
+  const { default: config } = await import("@/payload.config");
+  return buildSeoSitemap(await getPayload({ config }));
+}, ["seo-sitemap", SEO_CACHE_VERSION], { tags: [SEO_SITEMAP_TAG] });
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const site = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://abrit.ir").replace(/\/$/, "");
-  const entries = await Promise.all(locales.map(async (locale) => {
-    const collections = await Promise.all(["page", "service", "solution", "knowledge", "news"].map((kind) => cms.collection(kind as "page", locale)));
-    const contentURLs = collections.flat().map((item) => item.url);
-    // Products and pricing are operational pages backed by Payload globals and
-    // collections rather than standalone Content documents.
-    const urls = new Set([`/${locale}/products`, `/${locale}/pricing`, ...contentURLs]);
-    return [...urls].map((path) => ({
-      url: `${site}${path}`,
-      changeFrequency: "monthly" as const,
-      priority: path === `/${locale}` ? 1 : path.includes("/services/") ? 0.8 : 0.7,
-    }));
-  }));
-  return entries.flat();
+  try {
+    return await cachedSitemap();
+  } catch (error) {
+    console.error("Unable to build SEO sitemap", error);
+    return [];
+  }
 }

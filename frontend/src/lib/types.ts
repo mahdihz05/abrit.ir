@@ -1,6 +1,5 @@
-import type { Content } from "@/payload-types";
-
-export type Locale = "fa" | "en" | "ar-ae";
+export type { Locale } from "./site-config";
+import type { Locale } from "./site-config";
 
 export type ApiEnvelope<T> = { data: T };
 
@@ -30,7 +29,7 @@ export type SiteSettings = {
 
 export type ContentBlock = {
   id: string;
-  type: "hero" | "service_grid" | "pricing" | "cta" | string;
+  type: string;
   variant: string;
   order: number;
   props: Record<string, unknown>;
@@ -59,41 +58,6 @@ export type ContentDetail = ContentSummary & {
     open_graph: { title: string; description: string; image: string | null };
   };
   alternates: { locale: Locale; url: string }[];
-  homepageServices: ContentSummary[];
-  homepageSolutions: ContentSummary[];
-  serviceData: Content["serviceData"] | null;
-  serviceListing: Content["serviceListing"] | null;
-};
-
-export type Package = {
-  key: string;
-  order: number;
-  name: string;
-  audience: string;
-  description: string;
-  base_monthly_toman: number;
-  currency: string;
-  included_users: number;
-  included_endpoints: number;
-  included_servers: number;
-  included_sites: number;
-  sla: string;
-  addon_rates: Record<string, number>;
-  is_featured: boolean;
-};
-
-export type PricingResult = {
-  currency: string;
-  package: string;
-  term_months: number;
-  users: number;
-  endpoints: number;
-  quote_required: boolean;
-  reason?: string;
-  monthly_recurring_toman: number | null;
-  contract_total_toman: number | null;
-  lines: { key: string; amount_toman: number; quantity: number }[];
-  recommended_upgrade: string | null;
 };
 
 export type SearchResult = { kind: string; title: string; summary: string; url: string };

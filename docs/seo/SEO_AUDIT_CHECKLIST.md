@@ -29,10 +29,10 @@
 - [x] robots/sitemap HTTP output verified locally: both returned `200`; robots is `text/plain`, sitemap is `application/xml`
 - [x] Root redirect HTTP status verified locally: `GET /` returned `307 Location: /fa`
 - [x] 404 HTTP status verified locally: missing locale page returned `404`
-- [ ] Preview authorization and authenticated draft HTML metadata: RUNTIME VERIFICATION REQUIRED. Anonymous `GET /fa/about?draft=1` returned normal published `200`; no safe unpublished fixture or credential was available.
-- [ ] Scheduled publishing worker/runtime behavior: RUNTIME VERIFICATION REQUIRED. `payload_jobs` and `payload_jobs_log` were empty; Compose has no worker service. `npm run jobs:schedules -- --help` connected without executing a schedule.
-- [ ] Publish-to-frontend revalidation: RUNTIME VERIFICATION REQUIRED. Verifying requires a content mutation; none was performed.
-- [x] Current database duplicate localized paths/slugs checked read-only: zero non-empty duplicates per locale in `content_locales`; schema has non-unique indexes only
+- [x] Preview authorization and authenticated draft HTML metadata verified with controlled local fixtures: anonymous draft returned `404`; authenticated draft rendered matching body/metadata with `noindex,nofollow`.
+- [x] Scheduled publishing runtime verified with a real local queued task; production Compose includes a dedicated scheduler service.
+- [x] Publish-to-frontend revalidation verified with controlled local publish, SEO edit, and path-move fixtures; fixtures were removed afterward.
+- [x] Current database duplicate localized paths/slugs checked read-only: zero non-empty duplicates per locale; migration adds a partial unique `(path, _locale)` index.
 - [x] Runtime commands recorded: `curl.exe` GETs for `/`, `/robots.txt`, `/sitemap.xml`, `/fa/about`, `/fa/about?draft=1`, missing path, and `/fa/testing`; read-only `docker compose exec ... psql` duplicate/status/jobs queries
 - [x] Target Page/Block SEO architecture documented
 - [x] Implementation roadmap documented

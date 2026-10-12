@@ -11,10 +11,10 @@ export const SiteSettings: GlobalConfig = {
   hooks: { afterChange: [revalidateGlobal, auditGlobalChange] },
   versions: { max: 25 },
   fields: [
-    { name: "brandName", type: "text", defaultValue: "AbrIT", required: true },
+    { name: "brandName", type: "text", defaultValue: "Payload CMS Starter", required: true },
     { name: "logo", type: "relationship", relationTo: "media" },
     { name: "favicon", type: "relationship", relationTo: "media" },
-    { name: "phone", type: "text", defaultValue: "05131881000" },
+    { name: "phone", type: "text" },
     { name: "email", type: "email" },
     { name: "customerPortalURL", type: "text" },
     { name: "externalCheckoutURL", type: "text" },

@@ -1,59 +1,98 @@
 import type { Metadata } from "next";
-import { localeMeta, locales } from "./locales";
-import type { ContentDetail, Locale } from "./types";
+import { cache } from "react";
+import { getPayload } from "payload";
+import { unstable_cache } from "next/cache";
+import { locales } from "./locales";
+import type { Locale } from "./types";
+import { loadSeoDocument, loadSiteSeo } from "./seo-loader";
+import { resolveSeo, type ResolvedSeo, type SeoSurface } from "./seo-resolver";
+import type { SeoDocumentInput } from "./seo-contract";
+import { seoLocaleTag, seoPageTag, SEO_CACHE_VERSION, SEO_REDIRECTS_TAG, SEO_SITE_TAG, SEO_SITEMAP_TAG } from "./seo-cache";
+import { siteURL } from "./site-config";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://abrit.ir").replace(/\/$/, "");
+const SITE_URL = siteURL();
 
-function absoluteUrl(pathOrUrl: string) {
-  return /^https?:\/\//.test(pathOrUrl) ? pathOrUrl : `${SITE_URL}${pathOrUrl.startsWith("/") ? "" : "/"}${pathOrUrl}`;
-}
-
-export function contentMetadata(content: ContentDetail): Metadata {
-  const canonical = absoluteUrl(content.seo.canonical_url || content.url);
-  const languages = Object.fromEntries(
-    content.alternates.map((alternate) => [localeMeta[alternate.locale].lang, absoluteUrl(alternate.url)]),
-  );
-  const persian = content.alternates.find((alternate) => alternate.locale === "fa");
-  if (persian) languages["x-default"] = absoluteUrl(persian.url);
-  const image = content.seo.open_graph.image;
-
+export function metadataFromResolvedSeo(seo: ResolvedSeo): Metadata {
+  const languages = { ...seo.alternates.languages, ...(seo.alternates.xDefault ? { "x-default": seo.alternates.xDefault } : {}) };
   return {
-    title: content.seo.title,
-    description: content.seo.description,
-    alternates: { canonical, languages },
-    robots: {
-      index: content.seo.robots.index,
-      follow: content.seo.robots.follow,
-      googleBot: { index: content.seo.robots.index, follow: content.seo.robots.follow },
-    },
+    title: { absolute: seo.title },
+    description: seo.description,
+    alternates: { canonical: seo.canonical, languages },
+    robots: { index: seo.robots.index, follow: seo.robots.follow, googleBot: { index: seo.robots.index, follow: seo.robots.follow } },
     openGraph: {
       type: "website",
-      url: canonical,
-      title: content.seo.open_graph.title,
-      description: content.seo.open_graph.description,
-      locale: localeMeta[content.locale].lang.replace("-", "_"),
-      alternateLocale: content.alternates.filter((item) => item.locale !== content.locale).map((item) => localeMeta[item.locale].lang.replace("-", "_")),
-      ...(image ? { images: [{ url: image, alt: content.seo.open_graph.title }] } : {}),
+      url: seo.canonical,
+      title: seo.social.title,
+      description: seo.social.description,
+      locale: seo.social.locale.replace("-", "_"),
+      alternateLocale: Object.keys(seo.alternates.languages).filter((language) => language !== seo.social.locale).map((language) => language.replace("-", "_")),
+      ...(seo.social.image ? { images: [{ url: seo.social.image.url, alt: seo.social.image.alt }] } : {}),
     },
     twitter: {
-      card: image ? "summary_large_image" : "summary",
-      title: content.seo.open_graph.title,
-      description: content.seo.open_graph.description,
-      ...(image ? { images: [image] } : {}),
+      card: seo.social.image ? "summary_large_image" : "summary",
+      title: seo.social.title,
+      description: seo.social.description,
+      ...(seo.social.image ? { images: [seo.social.image.url] } : {}),
     },
   };
 }
 
-export function routeMetadata(locale: Locale, path: string, title: string, description: string): Metadata {
-  const languages = Object.fromEntries(locales.map((item) => [localeMeta[item].lang, absoluteUrl(`/${item}/${path}`)]));
-  languages["x-default"] = absoluteUrl(`/fa/${path}`);
-  const canonical = absoluteUrl(`/${locale}/${path}`);
-  return {
-    title,
-    description,
-    alternates: { canonical, languages },
-    openGraph: { type: "website", url: canonical, title, description, locale: localeMeta[locale].lang.replace("-", "_") },
+async function resolveContentSeo(locale: Locale, path: string, preview: boolean, authorized: boolean) {
+  const { default: config } = await import("@/payload.config");
+  const payload = await getPayload({ config });
+  const loaded = await loadSeoDocument(payload, locale, path, { preview, authorized });
+  return loaded ? resolveSeo(loaded.document, loaded.site) : null;
+}
+
+const resolvedContentSeo = cache(async (locale: Locale, path: string, preview: boolean, authorized: boolean) => {
+  if (preview) return resolveContentSeo(locale, path, true, authorized);
+  return unstable_cache(
+    () => resolveContentSeo(locale, path, false, false),
+    ["resolved-seo", SEO_CACHE_VERSION, locale, path],
+    { tags: [seoPageTag(locale, path), seoLocaleTag(locale), SEO_SITE_TAG, SEO_REDIRECTS_TAG, SEO_SITEMAP_TAG] },
+  )();
+});
+
+export function resolvedSeoForPath(locale: Locale, path: string, preview = false, authorized = false) {
+  return resolvedContentSeo(locale, path, preview, authorized);
+}
+
+export async function contentSeoMetadata(locale: Locale, path: string, preview = false, authorized = false): Promise<Metadata> {
+  const resolved = await resolvedSeoForPath(locale, path, preview, authorized);
+  return resolved ? metadataFromResolvedSeo(resolved) : {};
+}
+
+export async function systemRouteMetadata(
+  locale: Locale,
+  path: string,
+  title: string,
+  description: string,
+  surface: SeoSurface,
+): Promise<Metadata> {
+  const { default: config } = await import("@/payload.config");
+  const payload = await getPayload({ config });
+  const site = await loadSiteSeo(payload, locale);
+  const translations = locales.map((candidate) => ({
+    locale: candidate,
+    path,
+    isPublished: true,
+    isActive: true,
+    isRouteValid: true,
+    hasUniquePath: true,
+  }));
+  const document: SeoDocumentInput = {
+    identity: { id: 0, key: `system:${path}`, contentType: "page", templateKey: "system", locale, slug: path, path },
+    content: { title, excerpt: description, blocks: [], h1: title },
+    seo: {
+      title: null, description: null, canonicalOverride: null, canonicalOverrideEnabled: false,
+      robotsIndex: true, robotsFollow: true, socialTitle: null, socialDescription: null, socialImage: null,
+    },
+    workflow: { status: "published", workflowStatus: "published", isActive: true, isDeleted: false, isRedirectSource: false },
+    translations,
+    preview: { enabled: false, authorized: false },
+    schema: { type: "page", breadcrumbs: [] },
   };
+  return metadataFromResolvedSeo(resolveSeo(document, site, { surface }));
 }
 
 export { SITE_URL };

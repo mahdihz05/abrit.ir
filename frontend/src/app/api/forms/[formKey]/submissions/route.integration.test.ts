@@ -6,6 +6,7 @@ const { loadEnvConfig } = createRequire(import.meta.url)("@next/env") as typeof 
 loadEnvConfig(process.cwd());
 
 const enabled = process.env.RUN_PAYLOAD_INTEGRATION === "1";
+const baseURL = process.env.FORM_E2E_BASE_URL ?? "http://127.0.0.1:3000";
 const key = `TEST-AUDIT-upload-${Date.now()}`;
 let payload: Payload;
 let formID: number;
@@ -50,7 +51,7 @@ describe.skipIf(!enabled)("form submission uploads", () => {
     missing.set("locale", "fa");
     missing.set("data", JSON.stringify({ name: "TEST-AUDIT" }));
     missing.set("consent_given", "false");
-    const missingResponse = await fetch(`http://127.0.0.1:3000/api/forms/${key}/submissions`, { method: "POST", body: missing });
+    const missingResponse = await fetch(`${baseURL}/api/forms/${key}/submissions`, { method: "POST", body: missing });
     expect(missingResponse.status).toBe(400);
 
     const body = new FormData();
@@ -58,7 +59,7 @@ describe.skipIf(!enabled)("form submission uploads", () => {
     body.set("data", JSON.stringify({ name: "TEST-AUDIT" }));
     body.set("consent_given", "false");
     body.set("attachment", new File([png], "TEST-AUDIT.png", { type: "image/png" }));
-    const response = await fetch(`http://127.0.0.1:3000/api/forms/${key}/submissions`, { method: "POST", body });
+    const response = await fetch(`${baseURL}/api/forms/${key}/submissions`, { method: "POST", body });
     const result = await response.json() as { data?: { id: number }; error?: { detail: string } };
     expect(response.status, result.error?.detail).toBe(201);
     submissionID = result.data!.id;

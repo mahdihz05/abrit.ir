@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 export default function ErrorPage({ error, retry }: { error: Error & { digest?: string }; retry: () => void }) {
-  useEffect(() => { console.error("AbrIT route error", error); }, [error]);
+  useEffect(() => { console.error("Public route error", error); }, [error]);
   return (
     <main className="internal-main">
       <section className="internal-hero state-page">

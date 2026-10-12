@@ -1,10 +1,12 @@
 import { createHash } from "node:crypto";
 import type { Form } from "@/payload-types";
+import type { Locale } from "./site-config";
+import { ipHashSecret } from "./site-config";
 
 const PHONE_PATTERN = /^[+0-9][0-9()\-\s]{6,24}$/;
 
 export type SubmissionInput = {
-  locale: "fa" | "en" | "ar-ae";
+  locale: Locale;
   data: Record<string, unknown>;
   consent_given: boolean;
   source_url?: string;
@@ -13,7 +15,7 @@ export type SubmissionInput = {
 };
 
 export function hashIPAddress(address: string) {
-  const secret = process.env.IP_HASH_SECRET || process.env.PAYLOAD_SECRET || "development-only-ip-hash";
+  const secret = ipHashSecret();
   return createHash("sha256").update(`${secret}:${address}`).digest("hex");
 }
 

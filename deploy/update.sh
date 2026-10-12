@@ -17,13 +17,14 @@ docker compose -f deploy/compose.yaml exec -T postgres \
   pg_dump -U "$POSTGRES_USER" "$POSTGRES_DB" > "$dump_file"
 gzip -9 "$dump_file"
 
-git fetch origin opencode-dev
-git checkout opencode-dev
-git pull --ff-only origin opencode-dev
+deploy_branch="${DEPLOY_BRANCH:-main}"
+git fetch origin "$deploy_branch"
+git checkout "$deploy_branch"
+git pull --ff-only origin "$deploy_branch"
 
-docker compose -f deploy/compose.yaml --profile build run --rm builder
-docker compose -f deploy/compose.yaml build web
-docker compose -f deploy/compose.yaml up -d web
+docker compose -f deploy/compose.yaml build web scheduler
+docker compose -f deploy/compose.yaml run --rm scheduler npm run migrate
+docker compose -f deploy/compose.yaml up -d web scheduler
 
 ready=0
 for _ in $(seq 1 30); do
