@@ -2,7 +2,7 @@ import config from "@payload-config";
 import { REST_DELETE, REST_GET, REST_OPTIONS, REST_PATCH, REST_POST, REST_PUT } from "@payloadcms/next/routes";
 import { NextResponse } from "next/server";
 
-const documentCollections = new Set(["content", "media", "packages", "forms", "form-submissions", "submission-files", "audit-logs"]);
+const documentCollections = new Set(["content", "media", "forms", "form-submissions", "submission-files", "audit-logs", "seo-redirects"]);
 type RouteContext = { params: Promise<{ slug?: string[] }> };
 
 function invalidDocumentID(slug: string[] | undefined) {

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { Form } from "@/payload-types";
 import { hashIPAddress, validateSubmission } from "./forms";
 
@@ -25,7 +25,7 @@ const valid = {
   consent_given: true,
 };
 
-describe("validateSubmission Django parity", () => {
+describe("generic form submission validation", () => {
   it("cleans an allowed submission", () => {
     expect(validateSubmission(form, valid)).toEqual(valid.data);
   });
@@ -43,7 +43,9 @@ describe("validateSubmission Django parity", () => {
   });
 
   it("creates stable non-reversible IP identifiers", () => {
+    vi.stubEnv("IP_HASH_SECRET", "test-only-ip-hash-secret-at-least-32-characters");
     expect(hashIPAddress("127.0.0.1")).toBe(hashIPAddress("127.0.0.1"));
     expect(hashIPAddress("127.0.0.1")).not.toContain("127.0.0.1");
+    vi.unstubAllEnvs();
   });
 });

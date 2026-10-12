@@ -70,7 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     content: Content;
-    packages: Package;
+    'seo-redirects': SeoRedirect;
     forms: Form;
     'form-submissions': FormSubmission;
     'submission-files': SubmissionFile;
@@ -90,7 +90,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     content: ContentSelect<false> | ContentSelect<true>;
-    packages: PackagesSelect<false> | PackagesSelect<true>;
+    'seo-redirects': SeoRedirectsSelect<false> | SeoRedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'submission-files': SubmissionFilesSelect<false> | SubmissionFilesSelect<true>;
@@ -104,20 +104,18 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('fa' | 'en' | 'ar-ae') | ('fa' | 'en' | 'ar-ae')[];
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'fa' | 'ar-ae') | ('en' | 'fa' | 'ar-ae')[];
   globals: {
     'site-settings': SiteSetting;
     'design-settings': DesignSetting;
     navigation: Navigation;
-    'product-catalog': ProductCatalog;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'design-settings': DesignSettingsSelect<false> | DesignSettingsSelect<true>;
     navigation: NavigationSelect<false> | NavigationSelect<true>;
-    'product-catalog': ProductCatalogSelect<false> | ProductCatalogSelect<true>;
   };
-  locale: 'fa' | 'en' | 'ar-ae';
+  locale: 'en' | 'fa' | 'ar-ae';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -228,7 +226,7 @@ export interface Media {
   };
 }
 /**
- * صفحه‌ها، سرویس‌ها، راهکارها و مطالب سایت در هر سه زبان
+ * Localized pages and editorial content rendered from reusable blocks.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "content".
@@ -236,12 +234,12 @@ export interface Media {
 export interface Content {
   id: number;
   /**
-   * شناسهٔ فنی ثابت؛ پس از انتشار تغییر ندهید.
+   * Stable technical identifier. Avoid changing it after publication.
    */
   key: string;
   kind: 'page' | 'service' | 'solution' | 'knowledge' | 'news';
   /**
-   * کلید ساختاری قالب است. مقادیر موجود را تغییر ندهید؛ خدمات مستقل از independent-service و فهرست آن از independent-services استفاده می‌کند.
+   * Optional presentation key for site-specific renderers. Generic pages use default.
    */
   templateKey: string;
   isActive?: boolean | null;
@@ -251,24 +249,22 @@ export interface Content {
     | (
         | {
             enabled?: boolean | null;
-            variant?:
-              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
-              | null;
+            variant?: ('default' | 'simple' | 'centered' | 'split' | 'cards' | 'compact') | null;
             eyebrow?: string | null;
             title: string;
             /**
-             * بخشی از عنوان که با رنگ تأکیدی نمایش داده می‌شود.
+             * Optional text within the title to emphasize.
              */
             highlight?: string | null;
             body: string;
-            primaryCTA: {
-              label: string;
-              url: string;
+            primaryCTA?: {
+              label?: string | null;
+              url?: string | null;
               openInNewTab?: boolean | null;
             };
-            secondaryCTA: {
-              label: string;
-              url: string;
+            secondaryCTA?: {
+              label?: string | null;
+              url?: string | null;
               openInNewTab?: boolean | null;
             };
             points?:
@@ -283,9 +279,7 @@ export interface Content {
           }
         | {
             enabled?: boolean | null;
-            variant?:
-              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
-              | null;
+            variant?: ('default' | 'simple' | 'centered' | 'split' | 'cards' | 'compact') | null;
             eyebrow?: string | null;
             heading: string;
             body: {
@@ -309,16 +303,14 @@ export interface Content {
           }
         | {
             enabled?: boolean | null;
-            variant?:
-              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
-              | null;
+            variant?: ('default' | 'simple' | 'centered' | 'split' | 'cards' | 'compact') | null;
             eyebrow?: string | null;
             heading: string;
             intro?: string | null;
             items?:
               | {
                   /**
-                   * یک نام کوتاه مانند cloud یا shield
+                   * A short text or icon name.
                    */
                   icon?: string | null;
                   title: string;
@@ -333,9 +325,7 @@ export interface Content {
           }
         | {
             enabled?: boolean | null;
-            variant?:
-              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
-              | null;
+            variant?: ('default' | 'simple' | 'centered' | 'split' | 'cards' | 'compact') | null;
             heading: string;
             items?:
               | {
@@ -350,9 +340,7 @@ export interface Content {
           }
         | {
             enabled?: boolean | null;
-            variant?:
-              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
-              | null;
+            variant?: ('default' | 'simple' | 'centered' | 'split' | 'cards' | 'compact') | null;
             heading: string;
             items?:
               | {
@@ -369,15 +357,13 @@ export interface Content {
           }
         | {
             enabled?: boolean | null;
-            variant?:
-              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
-              | null;
+            variant?: ('default' | 'simple' | 'centered' | 'split' | 'cards' | 'compact') | null;
             eyebrow?: string | null;
             title: string;
             body?: string | null;
-            primaryCTA: {
-              label: string;
-              url: string;
+            primaryCTA?: {
+              label?: string | null;
+              url?: string | null;
               openInNewTab?: boolean | null;
             };
             id?: string | null;
@@ -386,301 +372,61 @@ export interface Content {
           }
         | {
             enabled?: boolean | null;
-            variant?:
-              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
-              | null;
+            variant?: ('default' | 'simple' | 'centered' | 'split' | 'cards' | 'compact') | null;
             /**
-             * فرمی که در این بخش صفحه نمایش داده می‌شود.
+             * Select the active form displayed in this section.
              */
             form: number | Form;
             eyebrow?: string | null;
             /**
-             * در صورت خالی بودن، عنوان خود فرم نمایش داده می‌شود.
+             * Uses the form title when empty.
              */
             heading?: string | null;
             /**
-             * در صورت خالی بودن، توضیح خود فرم نمایش داده می‌شود.
+             * Uses the form description when empty.
              */
             intro?: string | null;
             /**
-             * مقدار ارسالی برای فیلدهای hidden فرم، مانند نام صفحه یا کمپین.
+             * Optional context submitted with the form, such as a page or campaign key.
              */
             context?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'form';
           }
-        | {
-            enabled?: boolean | null;
-            variant?:
-              | ('default' | 'simple' | 'centered' | 'split' | 'dashboard' | 'network' | 'cards' | 'bento' | 'compact')
-              | null;
-            sectionType:
-              | 'hero'
-              | 'rich_text'
-              | 'service_grid'
-              | 'solution_grid'
-              | 'pricing'
-              | 'feature_grid'
-              | 'logo_cloud'
-              | 'testimonials'
-              | 'faq'
-              | 'cta';
-            /**
-             * برای داده‌های مهاجرت‌یافته است. برای محتوای جدید از بلوک‌های آماده استفاده کنید.
-             */
-            content:
-              | {
-                  [k: string]: unknown;
-                }
-              | unknown[]
-              | string
-              | number
-              | boolean
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'contentSection';
-          }
       )[]
     | null;
-  capabilities?:
-    | {
-        label: string;
-        id?: string | null;
-      }[]
-    | null;
-  technologies?:
-    | {
-        name: string;
-        url?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  serviceData?: {
-    code?: string | null;
-    category?: string | null;
-    heroTitle?: string | null;
-    heroBody?: string | null;
-    pulse?:
-      | {
-          text: string;
-          id?: string | null;
-        }[]
-      | null;
-    overviewTitle?: string | null;
-    overviewBody?: string | null;
-    contextTitle?: string | null;
-    context?:
-      | {
-          title: string;
-          body: string;
-          tags?:
-            | {
-                value: string;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    deliverablesTitle?: string | null;
-    deliverablesBody?: string | null;
-    deliverables?:
-      | {
-          title: string;
-          body: string;
-          tags?:
-            | {
-                value: string;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    capabilitiesTitle?: string | null;
-    capabilities?:
-      | {
-          title: string;
-          body: string;
-          tags?:
-            | {
-                value: string;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    architectureTitle?: string | null;
-    architectureBody?: string | null;
-    architecture?:
-      | {
-          title: string;
-          body: string;
-          tags?:
-            | {
-                value: string;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    showcaseTitle?: string | null;
-    showcaseBody?: string | null;
-    showcase?:
-      | {
-          title: string;
-          body: string;
-          tags?:
-            | {
-                value: string;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    processTitle?: string | null;
-    process?:
-      | {
-          title: string;
-          body: string;
-          tags?:
-            | {
-                value: string;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    technologies?:
-      | {
-          name: string;
-          id?: string | null;
-        }[]
-      | null;
-    ctaTitle?: string | null;
-    ctaBody?: string | null;
-    managedScopeTitle?: string | null;
-    managedScopeBody?: string | null;
-    managedScope?:
-      | {
-          title: string;
-          body: string;
-          tags?:
-            | {
-                value: string;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    relatedManagedService?: (number | null) | Content;
-    comparison?: {
-      intro?: string | null;
-      columns?:
-        | {
-            label: string;
-            id?: string | null;
-          }[]
-        | null;
-      rows?:
-        | {
-            label: string;
-            values?:
-              | {
-                  value: string;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-          }[]
-        | null;
-    };
-    faqTitle?: string | null;
-    faqs?:
-      | {
-          question: string;
-          answer: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  serviceListing?: {
-    eyebrow?: string | null;
-    exploreLabel?: string | null;
-    consultLabel?: string | null;
-    backLabel?: string | null;
-    familyTitle?: string | null;
-    familyBody?: string | null;
-    familyStages?:
-      | {
-          title: string;
-          body: string;
-          tags?:
-            | {
-                value: string;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    decisionTitle?: string | null;
-    decisionBody?: string | null;
-    decisions?:
-      | {
-          title: string;
-          body: string;
-          tags?:
-            | {
-                value: string;
-                id?: string | null;
-              }[]
-            | null;
-          id?: string | null;
-        }[]
-      | null;
-    overviewLabel?: string | null;
-    deliverablesLabel?: string | null;
-    capabilitiesLabel?: string | null;
-    architectureLabel?: string | null;
-    processLabel?: string | null;
-    technologiesLabel?: string | null;
-    comparisonLabel?: string | null;
-    managedScopeLabel?: string | null;
-    faqLabel?: string | null;
-    relatedLabel?: string | null;
-    /**
-     * ترتیب این رابطه، ترتیب نمایش کارت‌های خدمات مستقل است.
-     */
-    services?: (number | Content)[] | null;
-  };
   slug: string;
   /**
-   * بدون / ابتدایی؛ فقط صفحهٔ خانه خالی است.
+   * Locale-relative path without a leading slash. Leave empty only for Home.
    */
   path?: string | null;
   parent?: (number | null) | Content;
   relatedContent?: (number | Content)[] | null;
-  /**
-   * ترتیب نمایش خدمات در صفحهٔ اصلی.
-   */
-  homepageServices?: (number | Content)[] | null;
-  /**
-   * ترتیب نمایش راهکارها در صفحهٔ اصلی.
-   */
-  homepageSolutions?: (number | Content)[] | null;
   seo?: {
+    /**
+     * Optional search and social title. Keep it descriptive and concise.
+     */
     title?: string | null;
+    /**
+     * Optional search description. Uses the page excerpt when empty.
+     */
     description?: string | null;
+    /**
+     * Advanced: point search engines at another authoritative URL. The page is omitted from the sitemap while an override is enabled.
+     */
     canonicalURL?: string | null;
+    /**
+     * Enable only after reviewing duplicate-content and sitemap consequences.
+     */
+    canonicalOverrideEnabled?: boolean | null;
+    /**
+     * Disable to request noindex and remove this page from the sitemap.
+     */
     robotsIndex?: boolean | null;
+    /**
+     * Disable to request that crawlers do not follow links on this page.
+     */
     robotsFollow?: boolean | null;
     ogTitle?: string | null;
     ogDescription?: string | null;
@@ -689,6 +435,9 @@ export interface Content {
   searchText?: string | null;
   translationStatus?: ('missing' | 'draft' | 'translated' | 'reviewed' | 'outdated') | null;
   workflowStatus?: ('draft' | 'review' | 'scheduled' | 'published' | 'archived') | null;
+  /**
+   * Optional source publication date for imported editorial content.
+   */
   legacyPublishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -762,53 +511,31 @@ export interface Form {
   createdAt: string;
 }
 /**
- * قیمت‌ها با تومان ذخیره می‌شوند؛ درصدها برحسب basis point هستند (۱۰۰ = ۱٪).
- *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "packages".
+ * via the `definition` "seo-redirects".
  */
-export interface Package {
+export interface SeoRedirect {
   id: number;
-  key: string;
-  order: number;
-  name: string;
-  caption?: string | null;
-  baseMonthlyToman: number;
-  includedUsers: number;
-  maxExtraUsers?: number | null;
-  includedEndpoints: number;
-  includedServers?: number | null;
-  includedSites?: number | null;
-  extraUserMonthlyToman?: number | null;
-  extraEndpointMonthlyToman?: number | null;
-  currency: string;
-  isFeatured?: boolean | null;
-  isActive?: boolean | null;
-  termPrices: {
-    cycle: 'monthly' | 'quarterly' | 'semiannually' | 'annually';
-    months: number;
-    totalToman: number;
-    discountBps?: number | null;
-    onboardingBps?: number | null;
-    id?: string | null;
-  }[];
-  features?:
-    | {
-        key: string;
-        label?: string | null;
-        value?: string | null;
-        included?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
-  whmcsProductId?: number | null;
-  whmcsExtraUserOptionId?: number | null;
-  whmcsExtraEndpointOptionId?: number | null;
+  sourceLocale: 'en' | 'fa' | 'ar-ae';
+  /**
+   * Normalized locale-relative source path.
+   */
+  sourcePath?: string | null;
+  sourceKey: string;
+  to: {
+    type: 'content' | 'url';
+    content?: (number | null) | Content;
+    locale?: ('en' | 'fa' | 'ar-ae') | null;
+    url?: string | null;
+  };
+  status: '308' | '307';
+  enabled: boolean;
+  reason?: string | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
- * صندوق ورودی درخواست‌های سایت؛ دادهٔ خام نیز برای حفظ کامل پاسخ‌ها نگهداری می‌شود.
+ * Form response inbox. Raw submitted values are retained according to the configured retention period.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "form-submissions".
@@ -822,7 +549,7 @@ export interface FormSubmission {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  locale: 'fa' | 'en' | 'ar-ae';
+  locale: 'en' | 'fa' | 'ar-ae';
   contactName?: string | null;
   contactPhone?: string | null;
   contactEmail?: string | null;
@@ -1037,8 +764,8 @@ export interface PayloadLockedDocument {
         value: number | Content;
       } | null)
     | ({
-        relationTo: 'packages';
-        value: number | Package;
+        relationTo: 'seo-redirects';
+        value: number | SeoRedirect;
       } | null)
     | ({
         relationTo: 'forms';
@@ -1320,249 +1047,18 @@ export interface ContentSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        contentSection?:
-          | T
-          | {
-              enabled?: T;
-              variant?: T;
-              sectionType?: T;
-              content?: T;
-              id?: T;
-              blockName?: T;
-            };
-      };
-  capabilities?:
-    | T
-    | {
-        label?: T;
-        id?: T;
-      };
-  technologies?:
-    | T
-    | {
-        name?: T;
-        url?: T;
-        id?: T;
-      };
-  serviceData?:
-    | T
-    | {
-        code?: T;
-        category?: T;
-        heroTitle?: T;
-        heroBody?: T;
-        pulse?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-            };
-        overviewTitle?: T;
-        overviewBody?: T;
-        contextTitle?: T;
-        context?:
-          | T
-          | {
-              title?: T;
-              body?: T;
-              tags?:
-                | T
-                | {
-                    value?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        deliverablesTitle?: T;
-        deliverablesBody?: T;
-        deliverables?:
-          | T
-          | {
-              title?: T;
-              body?: T;
-              tags?:
-                | T
-                | {
-                    value?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        capabilitiesTitle?: T;
-        capabilities?:
-          | T
-          | {
-              title?: T;
-              body?: T;
-              tags?:
-                | T
-                | {
-                    value?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        architectureTitle?: T;
-        architectureBody?: T;
-        architecture?:
-          | T
-          | {
-              title?: T;
-              body?: T;
-              tags?:
-                | T
-                | {
-                    value?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        showcaseTitle?: T;
-        showcaseBody?: T;
-        showcase?:
-          | T
-          | {
-              title?: T;
-              body?: T;
-              tags?:
-                | T
-                | {
-                    value?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        processTitle?: T;
-        process?:
-          | T
-          | {
-              title?: T;
-              body?: T;
-              tags?:
-                | T
-                | {
-                    value?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        technologies?:
-          | T
-          | {
-              name?: T;
-              id?: T;
-            };
-        ctaTitle?: T;
-        ctaBody?: T;
-        managedScopeTitle?: T;
-        managedScopeBody?: T;
-        managedScope?:
-          | T
-          | {
-              title?: T;
-              body?: T;
-              tags?:
-                | T
-                | {
-                    value?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        relatedManagedService?: T;
-        comparison?:
-          | T
-          | {
-              intro?: T;
-              columns?:
-                | T
-                | {
-                    label?: T;
-                    id?: T;
-                  };
-              rows?:
-                | T
-                | {
-                    label?: T;
-                    values?:
-                      | T
-                      | {
-                          value?: T;
-                          id?: T;
-                        };
-                    id?: T;
-                  };
-            };
-        faqTitle?: T;
-        faqs?:
-          | T
-          | {
-              question?: T;
-              answer?: T;
-              id?: T;
-            };
-      };
-  serviceListing?:
-    | T
-    | {
-        eyebrow?: T;
-        exploreLabel?: T;
-        consultLabel?: T;
-        backLabel?: T;
-        familyTitle?: T;
-        familyBody?: T;
-        familyStages?:
-          | T
-          | {
-              title?: T;
-              body?: T;
-              tags?:
-                | T
-                | {
-                    value?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        decisionTitle?: T;
-        decisionBody?: T;
-        decisions?:
-          | T
-          | {
-              title?: T;
-              body?: T;
-              tags?:
-                | T
-                | {
-                    value?: T;
-                    id?: T;
-                  };
-              id?: T;
-            };
-        overviewLabel?: T;
-        deliverablesLabel?: T;
-        capabilitiesLabel?: T;
-        architectureLabel?: T;
-        processLabel?: T;
-        technologiesLabel?: T;
-        comparisonLabel?: T;
-        managedScopeLabel?: T;
-        faqLabel?: T;
-        relatedLabel?: T;
-        services?: T;
       };
   slug?: T;
   path?: T;
   parent?: T;
   relatedContent?: T;
-  homepageServices?: T;
-  homepageSolutions?: T;
   seo?:
     | T
     | {
         title?: T;
         description?: T;
         canonicalURL?: T;
+        canonicalOverrideEnabled?: T;
         robotsIndex?: T;
         robotsFollow?: T;
         ogTitle?: T;
@@ -1579,46 +1075,23 @@ export interface ContentSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "packages_select".
+ * via the `definition` "seo-redirects_select".
  */
-export interface PackagesSelect<T extends boolean = true> {
-  key?: T;
-  order?: T;
-  name?: T;
-  caption?: T;
-  baseMonthlyToman?: T;
-  includedUsers?: T;
-  maxExtraUsers?: T;
-  includedEndpoints?: T;
-  includedServers?: T;
-  includedSites?: T;
-  extraUserMonthlyToman?: T;
-  extraEndpointMonthlyToman?: T;
-  currency?: T;
-  isFeatured?: T;
-  isActive?: T;
-  termPrices?:
+export interface SeoRedirectsSelect<T extends boolean = true> {
+  sourceLocale?: T;
+  sourcePath?: T;
+  sourceKey?: T;
+  to?:
     | T
     | {
-        cycle?: T;
-        months?: T;
-        totalToman?: T;
-        discountBps?: T;
-        onboardingBps?: T;
-        id?: T;
+        type?: T;
+        content?: T;
+        locale?: T;
+        url?: T;
       };
-  features?:
-    | T
-    | {
-        key?: T;
-        label?: T;
-        value?: T;
-        included?: T;
-        id?: T;
-      };
-  whmcsProductId?: T;
-  whmcsExtraUserOptionId?: T;
-  whmcsExtraEndpointOptionId?: T;
+  status?: T;
+  enabled?: T;
+  reason?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1943,27 +1416,6 @@ export interface Navigation {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-catalog".
- */
-export interface ProductCatalog {
-  id: number;
-  /**
-   * Existing product configurator data. Keep its keys and structure unchanged.
-   */
-  catalog:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
@@ -2076,16 +1528,6 @@ export interface NavigationSelect<T extends boolean = true> {
             };
         id?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-catalog_select".
- */
-export interface ProductCatalogSelect<T extends boolean = true> {
-  catalog?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

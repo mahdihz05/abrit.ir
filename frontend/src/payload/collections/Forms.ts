@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 import { formManager } from "../access";
 import { populateSubmissionSummary } from "../hooks/submission-summary";
 import { auditCollectionChange, auditCollectionDelete } from "../hooks/audit";
+import { localeConfig } from "@/lib/site-config";
 
 export const Forms: CollectionConfig = {
   slug: "forms",
@@ -51,7 +52,7 @@ export const FormSubmissions: CollectionConfig = {
     defaultColumns: ["contactName", "contactPhone", "company", "form", "status", "priority", "createdAt"],
     listSearchableFields: ["contactName", "contactPhone", "contactEmail", "company"],
     enableListViewSelectAPI: true,
-    description: "صندوق ورودی درخواست‌های سایت؛ دادهٔ خام نیز برای حفظ کامل پاسخ‌ها نگهداری می‌شود.",
+    description: "Form response inbox. Raw submitted values are retained according to the configured retention period.",
   },
   access: { create: () => false, delete: formManager, read: formManager, update: formManager },
   hooks: { beforeValidate: [populateSubmissionSummary], afterChange: [auditCollectionChange], afterDelete: [auditCollectionDelete] },
@@ -59,7 +60,7 @@ export const FormSubmissions: CollectionConfig = {
     { name: "legacyID", type: "text", unique: true, index: true, admin: { hidden: true } },
     { name: "form", type: "relationship", relationTo: "forms", required: true, index: true },
     { name: "files", type: "join", collection: "submission-files", on: "submission" },
-    { name: "locale", type: "select", options: ["fa", "en", "ar-ae"], required: true, index: true },
+    { name: "locale", type: "select", options: localeConfig.map(({ code, label }) => ({ value: code, label })), required: true, index: true },
     { name: "contactName", type: "text", index: true, admin: { readOnly: true } },
     { name: "contactPhone", type: "text", index: true, admin: { readOnly: true } },
     { name: "contactEmail", type: "email", index: true, admin: { readOnly: true } },

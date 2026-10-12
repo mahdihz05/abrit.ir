@@ -7,6 +7,6 @@ describe("normalizeSearchText", () => {
   });
 
   it("collapses whitespace and lowercases Latin text", () => {
-    expect(normalizeSearchText("  Managed\n   IT  ")).toBe("managed it");
+    expect(normalizeSearchText("  Example\n   Service  ")).toBe("example service");
   });
 });

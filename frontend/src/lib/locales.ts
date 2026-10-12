@@ -1,12 +1,13 @@
-import type { Locale } from "./types";
+import { localeConfig, locales, type Locale } from "./site-config";
 
-export const locales: Locale[] = ["fa", "en", "ar-ae"];
+export { defaultLocale, locales, type Locale } from "./site-config";
 
-export const localeMeta: Record<Locale, { lang: string; dir: "rtl" | "ltr"; label: string; short: string }> = {
-  fa: { lang: "fa", dir: "rtl", label: "فارسی", short: "فا" },
-  en: { lang: "en", dir: "ltr", label: "English", short: "EN" },
-  "ar-ae": { lang: "ar-AE", dir: "rtl", label: "العربية", short: "ع" },
-};
+export const localeMeta = Object.fromEntries(localeConfig.map((item) => [item.code, {
+  lang: item.languageTag,
+  dir: item.direction,
+  label: item.label,
+  short: item.shortLabel,
+}])) as Record<Locale, { lang: string; dir: "rtl" | "ltr"; label: string; short: string }>;
 
 export const ui = {
   fa: {
@@ -14,15 +15,8 @@ export const ui = {
     menu: "باز کردن منو",
     close: "بستن منو",
     navigation: "منوی اصلی",
-    explore: "جزئیات خدمت",
-    configure: "مشاهده و تنظیم",
-    monthly: "تومان / ماه",
-    users: "کاربر",
-    endpoints: "دستگاه",
-    servers: "سرور",
-    sites: "سایت",
-    packages: "پکیج‌های خدمات مدیریت‌شده",
-    contact: "درخواست ارزیابی فناوری اطلاعات",
+    explore: "مشاهده",
+    contact: "تماس",
     unavailable: "در حال حاضر امکان دریافت محتوای سایت وجود ندارد.",
     rights: "تمام حقوق محفوظ است.",
   },
@@ -31,15 +25,8 @@ export const ui = {
     menu: "Open menu",
     close: "Close menu",
     navigation: "Main navigation",
-    explore: "Explore service",
-    configure: "View and configure",
-    monthly: "Toman / month",
-    users: "users",
-    endpoints: "endpoints",
-    servers: "servers",
-    sites: "sites",
-    packages: "Managed service packages",
-    contact: "Request IT assessment",
+    explore: "Explore",
+    contact: "Contact",
     unavailable: "The site content is temporarily unavailable.",
     rights: "All rights reserved.",
   },
@@ -48,15 +35,8 @@ export const ui = {
     menu: "فتح القائمة",
     close: "إغلاق القائمة",
     navigation: "التنقل الرئيسي",
-    explore: "تفاصيل الخدمة",
-    configure: "عرض وإعداد",
-    monthly: "تومان / شهرياً",
-    users: "مستخدمين",
-    endpoints: "أجهزة",
-    servers: "خوادم",
-    sites: "مواقع",
-    packages: "باقات الخدمات المُدارة",
-    contact: "طلب تقييم تقنية المعلومات",
+    explore: "عرض",
+    contact: "اتصل بنا",
     unavailable: "محتوى الموقع غير متاح مؤقتاً.",
     rights: "جميع الحقوق محفوظة.",
   },

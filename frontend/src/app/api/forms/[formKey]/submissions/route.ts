@@ -3,9 +3,10 @@ import { getPayload } from "payload";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { hashIPAddress, validateSubmission } from "@/lib/forms";
+import { localeCodes } from "@/lib/site-config";
 
 const requestSchema = z.object({
-  locale: z.enum(["fa", "en", "ar-ae"]),
+  locale: z.enum(localeCodes),
   data: z.record(z.string(), z.unknown()),
   consent_given: z.boolean(),
   source_url: z.string().url().max(500).optional().or(z.literal("")),

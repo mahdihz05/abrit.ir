@@ -13,8 +13,8 @@ function equalSignature(expected: string, supplied: string) {
 export async function POST(request: NextRequest) {
   const secret = process.env.REVALIDATION_SECRET;
   if (!secret) return NextResponse.json({ error: "Revalidation is not configured." }, { status: 503 });
-  const timestamp = request.headers.get("x-abrit-timestamp") ?? "";
-  const supplied = request.headers.get("x-abrit-signature") ?? "";
+  const timestamp = request.headers.get("x-payload-timestamp") ?? "";
+  const supplied = request.headers.get("x-payload-signature") ?? "";
   const seconds = Number(timestamp);
   if (!Number.isFinite(seconds) || Math.abs(Date.now() / 1000 - seconds) > MAX_CLOCK_SKEW_SECONDS) {
     return NextResponse.json({ error: "Expired signature." }, { status: 401 });
