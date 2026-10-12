@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-const referencePath = path.join(process.cwd(), "..", "abrit-homepage-polished-v5.html");
+const referenceFilename = "abrit-homepage-polished-v5.html";
 
 const localHomepageAssets = [
   ["photo-1522071820081-009f0129c71c", "/media/homepage/team-collaboration.webp"],
@@ -23,7 +23,11 @@ function localizeHomepageAssets(source: string) {
 }
 
 export async function readReferenceHomepage() {
-  return readFile(referencePath, "utf8");
+  try {
+    return await readFile(path.join(process.cwd(), referenceFilename), "utf8");
+  } catch {
+    return readFile(path.join(process.cwd(), "..", referenceFilename), "utf8");
+  }
 }
 
 export function extractReferenceStyle(html: string) {
